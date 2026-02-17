@@ -1,0 +1,26 @@
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Logs
+*.log
+npm-debug.log*
+
+# Env / secrets
+.env
+.env.local
+*.pem
+
+# Local helpers
+git-add-files.bat
+
+# Images (Cyrillic filenames can make git add hang on Windows; add later one-by-one if needed)
+Images/
