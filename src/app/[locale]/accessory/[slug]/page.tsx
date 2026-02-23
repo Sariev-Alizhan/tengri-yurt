@@ -134,7 +134,7 @@ export default async function AccessoryDetailPage({
           <div className="mt-20 pt-20 border-t border-white/10">
             <h2 className="font-garamond text-white text-2xl mb-8">{t('galleryLabel')}</h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-              {accessory.photos.map((url, i) => (
+              {accessory.photos.map((url: string, i: number) => (
                 <div key={i} className="relative aspect-[4/3] overflow-hidden">
                   <Image
                     src={url}
