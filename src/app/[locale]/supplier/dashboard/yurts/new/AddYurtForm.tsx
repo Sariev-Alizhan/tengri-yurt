@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { useParams } from 'next/navigation';
+import { PhotoUploader } from '@/components/PhotoUploader';
 
 export function AddYurtForm({
   supplierId,
@@ -14,6 +15,7 @@ export function AddYurtForm({
   const locale = (params?.locale as string) || 'en';
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [photos, setPhotos] = useState<string[]>([]);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -57,7 +59,7 @@ export function AddYurtForm({
           capacity_max: capacityMax,
           production_days_min: productionDaysMin,
           production_days_max: productionDaysMax,
-          photos: [],
+          photos,
           features,
           is_available: isAvailable,
         }),
@@ -115,6 +117,14 @@ export function AddYurtForm({
           <label className="block text-sm font-medium text-white/80 mb-1 font-inter uppercase tracking-wider">{translations.productionDaysMax}</label>
           <input name="production_days_max" type="number" min={0} defaultValue={60} className="w-full border border-white/30 bg-transparent text-white px-3 py-2 font-inter placeholder:text-white/40" />
         </div>
+      </div>
+      <div>
+        <PhotoUploader
+          currentPhotos={photos}
+          onPhotosChange={setPhotos}
+          maxPhotos={10}
+          label={translations.photos}
+        />
       </div>
       <div>
         <label className="block text-sm font-medium text-white/80 mb-1 font-inter uppercase tracking-wider">{translations.features}</label>

@@ -2,6 +2,7 @@ import { createClient } from '@/utils/supabase/server'
 import { redirect } from 'next/navigation'
 import { getTranslations } from 'next-intl/server'
 import Link from 'next/link'
+import { ActionLink } from './ActionLink'
 
 export const dynamic = 'force-dynamic'
 
@@ -349,34 +350,12 @@ export default async function DashboardPage({
             { label: t('viewAllOrders'), href: `/${locale}/supplier/dashboard/orders`, icon: '◎' },
             { label: t('editProfile'), href: `/${locale}/supplier/dashboard/settings`, icon: '◉' },
           ].map(action => (
-            <Link key={action.href} href={action.href} style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: '12px',
-              padding: '16px 20px',
-              border: '1px solid rgba(168,149,120,0.15)',
-              textDecoration: 'none',
-              color: 'rgba(255,255,255,0.5)',
-              fontFamily: 'Inter, sans-serif',
-              fontSize: '12px',
-              letterSpacing: '0.05em',
-              transition: 'all 0.2s',
-              background: 'transparent',
-            }}
-            onMouseEnter={e => {
-              e.currentTarget.style.background = 'rgba(168,149,120,0.06)'
-              e.currentTarget.style.color = 'rgba(255,255,255,0.8)'
-            }}
-            onMouseLeave={e => {
-              e.currentTarget.style.background = 'transparent'
-              e.currentTarget.style.color = 'rgba(255,255,255,0.5)'
-            }}
-            >
-              <span style={{ fontFamily: 'monospace', fontSize: '16px', color: 'rgba(168,149,120,0.5)' }}>
-                {action.icon}
-              </span>
-              {action.label}
-            </Link>
+            <ActionLink
+              key={action.href}
+              href={action.href}
+              icon={action.icon}
+              label={action.label}
+            />
           ))}
         </div>
 

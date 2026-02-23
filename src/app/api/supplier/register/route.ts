@@ -12,12 +12,26 @@ export async function POST(request: Request) {
       );
     }
     const supabase = createServiceRoleClient();
+    
+    // 1. Update user metadata in auth.users (for JWT)
+    const { error: authError } = await supabase.auth.admin.updateUserById(
+      userId,
+      { 
+        user_metadata: { role: 'supplier' }
+      }
+    );
+    if (authError) {
+      console.error('Failed to update user metadata:', authError);
+    }
+    
+    // 2. Create/update profile in profiles table
     await supabase.from('profiles').upsert({
       id: userId,
       role: 'supplier',
       full_name: companyName,
     });
-    // upsert: если поставщик с этим user_id уже есть — обновляем название и описание (нет ошибки duplicate key)
+    
+    // 3. Create/update supplier record
     const { error } = await supabase.from('suppliers').upsert(
       {
         user_id: userId,

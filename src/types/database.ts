@@ -10,6 +10,8 @@ export type OrderStatus =
   | 'shipped'
   | 'delivered'
   | 'cancelled';
+export type AccessoryCategory = 'carpet' | 'furniture' | 'cover' | 'other';
+export type OrderItemType = 'yurt' | 'accessory';
 
 export interface Database {
   public: {
@@ -85,6 +87,32 @@ export interface Database {
         };
         Update: Partial<Database['public']['Tables']['yurts']['Insert']>;
       };
+      accessories: {
+        Row: {
+          id: string;
+          supplier_id: string;
+          name: string;
+          slug: string;
+          description: string | null;
+          category: AccessoryCategory;
+          price_usd: number | null;
+          price_kzt: number | null;
+          photos: string[];
+          is_available: boolean;
+          stock_quantity: number;
+          production_days_min: number;
+          production_days_max: number;
+          created_at: string;
+          updated_at: string;
+        };
+        Insert: Omit<Database['public']['Tables']['accessories']['Row'], 'id' | 'created_at' | 'updated_at'> & {
+          id?: string;
+          created_at?: string;
+          updated_at?: string;
+          photos?: string[];
+        };
+        Update: Partial<Database['public']['Tables']['accessories']['Insert']>;
+      };
       orders: {
         Row: {
           id: string;
@@ -115,6 +143,24 @@ export interface Database {
           updated_at?: string;
         };
         Update: Partial<Database['public']['Tables']['orders']['Insert']>;
+      };
+      order_items: {
+        Row: {
+          id: string;
+          order_id: string;
+          item_type: OrderItemType;
+          yurt_id: string | null;
+          accessory_id: string | null;
+          quantity: number;
+          unit_price_usd: number;
+          total_price_usd: number;
+          created_at: string;
+        };
+        Insert: Omit<Database['public']['Tables']['order_items']['Row'], 'id' | 'created_at'> & {
+          id?: string;
+          created_at?: string;
+        };
+        Update: Partial<Database['public']['Tables']['order_items']['Insert']>;
       };
     };
   };

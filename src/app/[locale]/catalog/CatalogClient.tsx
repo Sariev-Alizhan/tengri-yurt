@@ -3,6 +3,7 @@
 import { useState, useMemo } from 'react'
 import { useTranslations } from 'next-intl'
 import Link from 'next/link'
+import { formatPrice } from '@/utils/formatPrice'
 
 type Yurt = {
   id: string
@@ -19,16 +20,31 @@ type Yurt = {
   photos: string[] | null
 }
 
+type Accessory = {
+  id: string
+  name: string
+  slug: string
+  category: string
+  description: string | null
+  price_usd: number | null
+  price_kzt: number | null
+  stock_quantity: number
+  photos: string[] | null
+}
+
 export function CatalogClient({
   yurts,
+  accessories,
   locale,
 }: {
   yurts: Yurt[]
+  accessories: Accessory[]
   locale: string
 }) {
   const t = useTranslations('catalog')
   const [activeTab, setActiveTab] = useState<'yurts' | 'accessories'>('yurts')
   const [filter, setFilter] = useState<'all' | 'small' | 'medium' | 'large'>('all')
+  const [accessoryFilter, setAccessoryFilter] = useState<'all' | 'carpet' | 'furniture' | 'cover' | 'other'>('all')
   const [hoveredId, setHoveredId] = useState<string | null>(null)
 
   const filtered = useMemo(() => {
@@ -38,6 +54,11 @@ export function CatalogClient({
     if (filter === 'large') return yurts.filter(y => y.diameter_m > 7)
     return yurts
   }, [yurts, filter])
+
+  const filteredAccessories = useMemo(() => {
+    if (accessoryFilter === 'all') return accessories
+    return accessories.filter(a => a.category === accessoryFilter)
+  }, [accessories, accessoryFilter])
 
   const getPhoto = (yurt: Yurt) => {
     const first = yurt.photos?.[0]
@@ -150,18 +171,118 @@ export function CatalogClient({
         </div>
 
         {activeTab === 'accessories' ? (
-          <div style={{
-            textAlign: 'center',
-            padding: 'clamp(48px, 10vw, 120px) clamp(24px, 5vw, 48px)',
-            color: 'rgba(255,255,255,0.7)',
-            fontFamily: 'Inter, sans-serif',
-            fontSize: 'clamp(14px, 2vw, 18px)',
-          }}>
-            <p style={{ marginBottom: '16px' }}>{t('accessoriesTab')}</p>
-            <p style={{ color: 'rgba(255,255,255,0.5)', fontSize: '14px' }}>
-              {t('accessoriesPlaceholder')}
-            </p>
-          </div>
+          <>
+            {/* ─── РАЗДЕЛИТЕЛЬ ─── */}
+            <div style={{
+              width: '1px',
+              height: 'clamp(40px, 6vw, 64px)',
+              background: 'rgba(255,255,255,0.2)',
+              margin: '0 auto',
+              marginBottom: 'clamp(32px, 5vw, 56px)',
+            }} />
+
+            {/* ─── ФИЛЬТРЫ КАТЕГОРИЙ ─── */}
+            <div style={{
+              display: 'flex',
+              justifyContent: 'center',
+              gap: 'clamp(8px, 2vw, 20px)',
+              padding: '0 clamp(20px, 5vw, 48px)',
+              marginBottom: 'clamp(40px, 7vw, 80px)',
+              flexWrap: 'wrap',
+            }}>
+              {[
+                { key: 'all' as const, label: t('filterAll') },
+                { key: 'carpet' as const, label: t('categoryCarpet') },
+                { key: 'furniture' as const, label: t('categoryFurniture') },
+                { key: 'cover' as const, label: t('categoryCover') },
+                { key: 'other' as const, label: t('categoryOther') },
+              ].map(f => (
+                <button
+                  key={f.key}
+                  onClick={() => setAccessoryFilter(f.key)}
+                  type="button"
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    background: 'none',
+                    border: accessoryFilter === f.key
+                      ? '1px solid rgba(255,255,255,0.8)'
+                      : '1px solid rgba(255,255,255,0.2)',
+                    color: accessoryFilter === f.key
+                      ? 'rgba(255,255,255,0.95)'
+                      : 'rgba(255,255,255,0.45)',
+                    fontFamily: 'Inter, sans-serif',
+                    fontSize: 'clamp(9px, 1.2vw, 11px)',
+                    fontWeight: accessoryFilter === f.key ? 500 : 300,
+                    letterSpacing: '0.18em',
+                    textTransform: 'uppercase',
+                    padding: 'clamp(8px, 1.5vw, 12px) clamp(16px, 3vw, 28px)',
+                    cursor: 'pointer',
+                    transition: 'all 0.25s ease',
+                    appearance: 'none',
+                    WebkitAppearance: 'none',
+                  }}
+                >
+                  {f.label}
+                </button>
+              ))}
+            </div>
+
+            {/* ─── СЧЁТЧИК РЕЗУЛЬТАТОВ ─── */}
+            <div style={{
+              textAlign: 'center',
+              marginBottom: 'clamp(24px, 4vw, 40px)',
+              fontFamily: 'Inter, sans-serif',
+              fontSize: '11px',
+              letterSpacing: '0.2em',
+              color: 'rgba(255,255,255,0.3)',
+              textTransform: 'uppercase',
+            }}>
+              {filteredAccessories.length} {filteredAccessories.length === 1 ? 'item' : 'items'}
+            </div>
+
+            {/* ─── ГРИД КАРТОЧЕК АКСЕССУАРОВ ─── */}
+            <div style={{
+              display: 'grid',
+              gridTemplateColumns: 'repeat(auto-fill, minmax(min(340px, 100%), 1fr))',
+              gap: '1px',
+              padding: '0 clamp(16px, 4vw, 48px)',
+              maxWidth: '1600px',
+              margin: '0 auto',
+            }}>
+              {filteredAccessories.map((accessory, index) => (
+                <AccessoryCard
+                  key={accessory.id}
+                  accessory={accessory}
+                  locale={locale}
+                  photo={accessory.photos?.[0] || '/images/background.jpg'}
+                  isHovered={hoveredId === accessory.id}
+                  onHover={() => setHoveredId(accessory.id)}
+                  onLeave={() => setHoveredId(null)}
+                  index={index}
+                  t={t}
+                />
+              ))}
+            </div>
+
+            {/* Пустой каталог */}
+            {filteredAccessories.length === 0 && (
+              <div style={{
+                textAlign: 'center',
+                padding: 'clamp(60px, 10vw, 120px) 24px',
+                fontFamily: 'EB Garamond, serif',
+                fontSize: 'clamp(20px, 4vw, 32px)',
+                color: 'rgba(255,255,255,0.4)',
+                fontWeight: 400,
+              }}>
+                {t('accessoriesPlaceholder')}
+              </div>
+            )}
+
+            {/* Footer spacer */}
+            <div style={{ height: 'clamp(60px, 10vw, 120px)' }} />
+          </>
         ) : (
           <>
         {/* ─── РАЗДЕЛИТЕЛЬ ─── */}
@@ -365,7 +486,7 @@ function YurtCard({
             padding: '4px 10px',
             backdropFilter: 'blur(4px)',
           }}>
-            {t('from')} ${yurt.price_usd.toLocaleString()}
+            {t('from')} ${formatPrice(yurt.price_usd)}
           </div>
         )}
 
@@ -465,6 +586,218 @@ function YurtCard({
               fontWeight: 400,
             }}>
               {productionLabel}
+            </p>
+          </div>
+        </div>
+
+        {/* Кнопка */}
+        <div style={{
+          flexShrink: 0,
+          border: '1px solid rgba(255,255,255,0.35)',
+          color: 'rgba(255,255,255,0.8)',
+          padding: 'clamp(8px, 1.5vw, 12px) clamp(16px, 2.5vw, 24px)',
+          fontFamily: 'Inter, sans-serif',
+          fontSize: 'clamp(9px, 1.2vw, 11px)',
+          fontWeight: 500,
+          letterSpacing: '0.15em',
+          textTransform: 'uppercase',
+          whiteSpace: 'nowrap',
+          background: isHovered ? 'rgba(255,255,255,0.1)' : 'transparent',
+          transition: 'all 0.25s ease',
+        }}>
+          {t('viewDetails')}
+        </div>
+
+      </div>
+
+      {/* Hover линия снизу */}
+      <div style={{
+        position: 'absolute',
+        bottom: 0, left: 0,
+        height: '2px',
+        width: isHovered ? '100%' : '0%',
+        background: 'rgba(255,255,255,0.4)',
+        transition: 'width 0.4s ease',
+      }} />
+
+    </Link>
+  )
+}
+
+/* ─── КОМПОНЕНТ КАРТОЧКИ АКСЕССУАРА ─── */
+function AccessoryCard({
+  accessory, locale, photo, isHovered, onHover, onLeave, index, t
+}: {
+  accessory: Accessory
+  locale: string
+  photo: string
+  isHovered: boolean
+  onHover: () => void
+  onLeave: () => void
+  index: number
+  t: ReturnType<typeof useTranslations<'catalog'>>
+}) {
+  const getCategoryLabel = (category: string) => {
+    const labels: Record<string, string> = {
+      carpet: t('categoryCarpet'),
+      furniture: t('categoryFurniture'),
+      cover: t('categoryCover'),
+      other: t('categoryOther'),
+    }
+    return labels[category] || category
+  }
+
+  return (
+    <Link
+      href={`/${locale}/accessory/${accessory.slug}`}
+      onMouseEnter={onHover}
+      onMouseLeave={onLeave}
+      style={{
+        display: 'block',
+        textDecoration: 'none',
+        position: 'relative',
+        overflow: 'hidden',
+        background: isHovered
+          ? 'rgba(255,255,255,0.07)'
+          : 'rgba(0,0,0,0.25)',
+        transition: 'background 0.4s ease',
+        cursor: 'pointer',
+        animation: 'cardReveal 0.6s ease forwards',
+        animationDelay: `${index * 0.08}s`,
+        opacity: 0,
+      }}
+    >
+      {/* Фото аксессуара */}
+      <div style={{
+        position: 'relative',
+        width: '100%',
+        paddingBottom: '72%',
+        overflow: 'hidden',
+      }}>
+        <img
+          src={photo}
+          alt={accessory.name}
+          loading="lazy"
+          style={{
+            position: 'absolute',
+            inset: 0,
+            width: '100%',
+            height: '100%',
+            objectFit: 'cover',
+            transform: isHovered ? 'scale(1.06)' : 'scale(1)',
+            transition: 'transform 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94)',
+            filter: isHovered ? 'brightness(0.85)' : 'brightness(0.75)',
+          }}
+        />
+
+        {/* Номер */}
+        <div style={{
+          position: 'absolute',
+          top: '20px',
+          left: '20px',
+          fontFamily: 'Inter, sans-serif',
+          fontSize: '10px',
+          fontWeight: 500,
+          letterSpacing: '0.25em',
+          color: 'rgba(255,255,255,0.5)',
+          textTransform: 'uppercase',
+        }}>
+          {String(index + 1).padStart(2, '0')}
+        </div>
+
+        {/* Цена — верхний правый */}
+        {(accessory.price_usd || accessory.price_kzt) && (
+          <div style={{
+            position: 'absolute',
+            top: '20px',
+            right: '20px',
+            fontFamily: 'EB Garamond, serif',
+            fontSize: 'clamp(14px, 2vw, 18px)',
+            color: 'rgba(255,255,255,0.85)',
+            fontWeight: 400,
+            letterSpacing: '0.05em',
+            background: 'rgba(0,0,0,0.35)',
+            padding: '4px 10px',
+            backdropFilter: 'blur(4px)',
+          }}>
+            {accessory.price_usd ? `$${accessory.price_usd}` : `${accessory.price_kzt?.toLocaleString()} ₸`}
+          </div>
+        )}
+
+        {/* Градиент снизу */}
+        <div style={{
+          position: 'absolute',
+          bottom: 0, left: 0, right: 0,
+          height: '60%',
+          background: 'linear-gradient(to top, rgba(0,0,0,0.75) 0%, transparent 100%)',
+        }} />
+
+        {/* Название на фото */}
+        <div style={{
+          position: 'absolute',
+          bottom: '24px',
+          left: '24px',
+          right: '24px',
+        }}>
+          <h2 style={{
+            fontFamily: 'EB Garamond, serif',
+            fontSize: 'clamp(22px, 3.5vw, 34px)',
+            color: 'rgba(255,255,255,0.95)',
+            fontWeight: 400,
+            margin: 0,
+            lineHeight: 1.1,
+            letterSpacing: '-0.01em',
+          }}>
+            {accessory.name}
+          </h2>
+          <p style={{
+            fontFamily: 'Inter, sans-serif',
+            fontSize: 'clamp(10px, 1.3vw, 12px)',
+            color: 'rgba(255,255,255,0.5)',
+            letterSpacing: '0.15em',
+            textTransform: 'uppercase',
+            marginTop: '6px',
+          }}>
+            {getCategoryLabel(accessory.category)}
+          </p>
+        </div>
+      </div>
+
+      {/* ─── НИЖНЯЯ ЧАСТЬ КАРТОЧКИ ─── */}
+      <div style={{
+        padding: 'clamp(20px, 3vw, 32px)',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        gap: '16px',
+        borderTop: '1px solid rgba(255,255,255,0.08)',
+      }}>
+
+        {/* Характеристики */}
+        <div style={{
+          display: 'flex',
+          gap: 'clamp(16px, 3vw, 32px)',
+          flexWrap: 'wrap',
+        }}>
+          {/* Наличие */}
+          <div>
+            <p style={{
+              fontFamily: 'Inter, sans-serif',
+              fontSize: '9px',
+              letterSpacing: '0.2em',
+              textTransform: 'uppercase',
+              color: 'rgba(255,255,255,0.3)',
+              marginBottom: '4px',
+            }}>
+              Stock
+            </p>
+            <p style={{
+              fontFamily: 'EB Garamond, serif',
+              fontSize: 'clamp(16px, 2vw, 22px)',
+              color: 'rgba(255,255,255,0.85)',
+              fontWeight: 400,
+            }}>
+              {accessory.stock_quantity > 0 ? `${accessory.stock_quantity}` : 'On order'}
             </p>
           </div>
         </div>

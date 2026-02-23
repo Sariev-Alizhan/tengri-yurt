@@ -105,22 +105,22 @@ CREATE POLICY "Users can update own profile" ON profiles
 CREATE POLICY "Users can insert own profile" ON profiles
   FOR INSERT WITH CHECK (auth.uid() = id);
 
--- Admins can read all profiles
+-- Admins can read all profiles (using JWT metadata to avoid recursion)
 CREATE POLICY "Admins can read all profiles" ON profiles
   FOR SELECT USING (
-    EXISTS (SELECT 1 FROM profiles p WHERE p.id = auth.uid() AND p.role = 'admin')
+    (auth.jwt() -> 'user_metadata' ->> 'role') = 'admin'
   );
 
 -- Suppliers: public read approved suppliers; own row for supplier; admin full
 CREATE POLICY "Anyone can read approved suppliers" ON suppliers
   FOR SELECT USING (is_approved = TRUE OR user_id = auth.uid() OR
-    EXISTS (SELECT 1 FROM profiles p WHERE p.id = auth.uid() AND p.role = 'admin'));
+    (auth.jwt() -> 'user_metadata' ->> 'role') = 'admin');
 CREATE POLICY "Supplier can update own row" ON suppliers
   FOR UPDATE USING (user_id = auth.uid());
 CREATE POLICY "User can insert supplier (pending approval)" ON suppliers
   FOR INSERT WITH CHECK (user_id = auth.uid());
 CREATE POLICY "Admins can update any supplier" ON suppliers
-  FOR UPDATE USING (EXISTS (SELECT 1 FROM profiles p WHERE p.id = auth.uid() AND p.role = 'admin'));
+  FOR UPDATE USING ((auth.jwt() -> 'user_metadata' ->> 'role') = 'admin');
 
 -- Supplier delivery times: supplier manages own; admin read
 CREATE POLICY "Supplier can manage own delivery times" ON supplier_delivery_times
@@ -130,7 +130,7 @@ CREATE POLICY "Supplier can manage own delivery times" ON supplier_delivery_time
 CREATE POLICY "Admins and supplier read delivery times" ON supplier_delivery_times
   FOR SELECT USING (
     EXISTS (SELECT 1 FROM suppliers s WHERE s.id = supplier_id AND (s.user_id = auth.uid() OR s.is_approved = TRUE))
-    OR EXISTS (SELECT 1 FROM profiles p WHERE p.id = auth.uid() AND p.role = 'admin')
+    OR (auth.jwt() -> 'user_metadata' ->> 'role') = 'admin'
   );
 
 -- Yurts: buyers read is_available=true; supplier CRUD own; admin full
@@ -138,7 +138,7 @@ CREATE POLICY "Public can read available yurts" ON yurts
   FOR SELECT USING (
     is_available = TRUE
     OR EXISTS (SELECT 1 FROM suppliers s WHERE s.id = yurts.supplier_id AND s.user_id = auth.uid())
-    OR EXISTS (SELECT 1 FROM profiles p WHERE p.id = auth.uid() AND p.role = 'admin')
+    OR (auth.jwt() -> 'user_metadata' ->> 'role') = 'admin'
   );
 CREATE POLICY "Supplier can insert own yurts" ON yurts
   FOR INSERT WITH CHECK (
@@ -153,14 +153,14 @@ CREATE POLICY "Supplier can delete own yurts" ON yurts
     EXISTS (SELECT 1 FROM suppliers s WHERE s.id = yurts.supplier_id AND s.user_id = auth.uid())
   );
 CREATE POLICY "Admins can do anything on yurts" ON yurts
-  FOR ALL USING (EXISTS (SELECT 1 FROM profiles p WHERE p.id = auth.uid() AND p.role = 'admin'));
+  FOR ALL USING ((auth.jwt() -> 'user_metadata' ->> 'role') = 'admin');
 
 -- Orders: buyer read/insert own; supplier read/update status for own; admin full
 CREATE POLICY "Buyers can read own orders" ON orders
   FOR SELECT USING (
     buyer_id = auth.uid()
     OR EXISTS (SELECT 1 FROM suppliers s WHERE s.id = orders.supplier_id AND s.user_id = auth.uid())
-    OR EXISTS (SELECT 1 FROM profiles p WHERE p.id = auth.uid() AND p.role = 'admin')
+    OR (auth.jwt() -> 'user_metadata' ->> 'role') = 'admin'
   );
 CREATE POLICY "Buyers can insert orders" ON orders
   FOR INSERT WITH CHECK (buyer_id = auth.uid() OR buyer_id IS NULL);
@@ -169,7 +169,7 @@ CREATE POLICY "Supplier can update status of own orders" ON orders
     EXISTS (SELECT 1 FROM suppliers s WHERE s.id = orders.supplier_id AND s.user_id = auth.uid())
   );
 CREATE POLICY "Admins can update any order" ON orders
-  FOR UPDATE USING (EXISTS (SELECT 1 FROM profiles p WHERE p.id = auth.uid() AND p.role = 'admin'));
+  FOR UPDATE USING ((auth.jwt() -> 'user_metadata' ->> 'role') = 'admin');
 
 -- Storage bucket for yurt photos (run in Supabase Dashboard or via API)
 -- INSERT INTO storage.buckets (id, name, public) VALUES ('yurt-photos', 'yurt-photos', true);

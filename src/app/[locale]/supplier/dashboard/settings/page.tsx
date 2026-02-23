@@ -1,6 +1,7 @@
 import { getTranslations, getLocale } from 'next-intl/server';
 import { redirect } from 'next/navigation';
 import { createClient } from '@/utils/supabase/server';
+import { ProfileForm } from './ProfileForm';
 
 export default async function SupplierSettingsPage() {
   const t = await getTranslations('supplier');
@@ -12,19 +13,37 @@ export default async function SupplierSettingsPage() {
   }
   const { data: supplier } = await supabase
     .from('suppliers')
-    .select('id')
+    .select('*')
     .eq('user_id', user.id)
     .single();
   if (!supplier) {
     redirect(`/${locale}/supplier/register`);
   }
 
+  type Supplier = {
+    id: string;
+    company_name: string;
+    description: string | null;
+  };
+
+  const supplierData = supplier as Supplier;
+
   return (
-    <div className="max-w-2xl">
-      <h1 className="font-garamond text-3xl text-white mb-4">{t('settings')}</h1>
-      <p className="font-inter text-white/70">
-        {t('settingsComingSoon')}
-      </p>
-    </div>
+    <ProfileForm
+      initialData={{
+        company_name: supplierData.company_name,
+        description: supplierData.description,
+      }}
+      userEmail={user.email || ''}
+      labels={{
+        companyName: t('companyName') || 'Company Name',
+        email: t('email'),
+        description: t('description') || 'About',
+        edit: t('edit') || 'Edit',
+        save: t('save') || 'Save',
+        cancel: t('cancel') || 'Cancel',
+        saving: t('saving') || 'Saving...',
+      }}
+    />
   );
 }

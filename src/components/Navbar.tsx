@@ -245,12 +245,11 @@ function PublicNavbar() {
                 letterSpacing: '0.18em',
                 textTransform: 'uppercase',
                 color: 'rgba(255,255,255,0.38)',
-                display: isDesktop ? 'inline-block' : 'none',
+                display: isDesktop ? 'inline-flex' : 'none',
+                alignItems: 'center',
                 transition: 'color 0.2s ease',
                 whiteSpace: 'nowrap',
                 lineHeight: 1,
-                alignSelf: 'center',
-                paddingTop: 0,
               }}
               onMouseEnter={e => { e.currentTarget.style.color = 'rgba(255,255,255,0.65)' }}
               onMouseLeave={e => { e.currentTarget.style.color = 'rgba(255,255,255,0.38)' }}

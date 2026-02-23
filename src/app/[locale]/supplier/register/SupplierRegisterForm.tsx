@@ -34,7 +34,9 @@ export function SupplierRegisterForm({
 
   const isCompleteProfile = !!existingUserId;
 
-  const goToDashboard = () => {
+  const goToDashboard = async () => {
+    // Небольшая задержка, чтобы дать Supabase время обработать изменения
+    await new Promise(resolve => setTimeout(resolve, 500));
     const path = `/${locale}/supplier/dashboard`;
     window.location.href = path;
   };

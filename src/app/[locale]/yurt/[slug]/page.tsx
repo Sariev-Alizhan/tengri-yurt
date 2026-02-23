@@ -3,6 +3,7 @@ import { notFound } from 'next/navigation';
 import Image from 'next/image';
 import Link from 'next/link';
 import { createClient } from '@/utils/supabase/server';
+import { formatPrice } from '@/utils/formatPrice';
 
 export default async function YurtDetailPage({
   params,
@@ -113,7 +114,7 @@ export default async function YurtDetailPage({
             )}
             <div>
               <p className="font-garamond text-white text-2xl mb-6">
-                from ${yurt.price_usd.toLocaleString()}
+                from ${formatPrice(yurt.price_usd)}
               </p>
               <Link
                 href={`/${locale}/order/${yurt.id}`}

@@ -95,7 +95,11 @@
     "galleryLabel": "图库",
     "accessoriesTab": "配件",
     "yurtsTab": "蒙古包",
-    "accessoriesPlaceholder": "毡毯、家具、白色或透明罩套 — 可与蒙古包一起或单独订购。详情请联系我们。"
+    "accessoriesPlaceholder": "毡毯、家具、白色或透明罩套 — 可与蒙古包一起或单独订购。详情请联系我们。",
+    "categoryCarpet": "地毯",
+    "categoryFurniture": "家具",
+    "categoryCover": "罩套",
+    "categoryOther": "其他"
   },
   "order": {
     "title": "提交询价",
@@ -200,6 +204,27 @@
     "helperTitle": "快速指南",
     "helperTip1": "在「我的蒙古包」和「添加蒙古包」中添加商品，买家即可在目录中看到。",
     "helperTip2": "在「订单」中确认、发货或送达时更新订单状态。",
-    "helperTip3": "在「个人资料」（设置）中填写交货时间和联系方式。"
+    "helperTip3": "在「个人资料」（设置）中填写交货时间和联系方式。",
+    "deleteYurt": "删除",
+    "confirmDelete": "确定要删除此蒙古包吗？此操作无法撤销。",
+    "edit": "编辑",
+    "cancel": "取消",
+    "saving": "保存中...",
+    "accessories": "配件",
+    "addAccessory": "添加配件",
+    "editAccessory": "编辑配件",
+    "accessoryName": "配件名称",
+    "accessoryDescription": "配件描述",
+    "category": "类别",
+    "categoryCarpet": "毡毯",
+    "categoryFurniture": "家具",
+    "categoryCover": "罩子",
+    "categoryOther": "其他",
+    "priceKzt": "价格 (₸)",
+    "stockQuantity": "库存数量",
+    "stock": "库存",
+    "noAccessoriesYet": "暂无配件",
+    "deleteAccessory": "删除配件",
+    "confirmDeleteAccessory": "确定要删除此配件吗？此操作无法撤销。"
   }
 }

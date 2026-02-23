@@ -16,7 +16,7 @@ export default async function CatalogPage({
 
   const supplierIds = (approvedSuppliers ?? []).map((s: { id: string }) => s.id)
   if (supplierIds.length === 0) {
-    return <CatalogClient yurts={[]} locale={locale} />
+    return <CatalogClient yurts={[]} accessories={[]} locale={locale} />
   }
 
   const { data: yurts } = await supabase
@@ -30,5 +30,15 @@ export default async function CatalogPage({
     .in('supplier_id', supplierIds)
     .order('price_usd', { ascending: true })
 
-  return <CatalogClient yurts={yurts || []} locale={locale} />
+  const { data: accessories } = await supabase
+    .from('accessories')
+    .select(`
+      id, name, slug, category, description,
+      price_usd, price_kzt, stock_quantity, photos
+    `)
+    .eq('is_available', true)
+    .in('supplier_id', supplierIds)
+    .order('category', { ascending: true })
+
+  return <CatalogClient yurts={yurts || []} accessories={accessories || []} locale={locale} />
 }

@@ -12,14 +12,14 @@ export function SupplierSidebar({ supplierName, isLoggedIn = true }: { supplierN
   const pathname = usePathname()
   const t = useTranslations('supplier')
   const [collapsed, setCollapsed] = useState(false)
-  const [isMobile, setIsMobile] = useState(false)
 
   useEffect(() => {
-    const check = () => setIsMobile(window.innerWidth < 768)
-    check()
-    window.addEventListener('resize', check)
-    return () => window.removeEventListener('resize', check)
-  }, [])
+    if (collapsed) {
+      document.body.classList.add('sidebar-collapsed')
+    } else {
+      document.body.classList.remove('sidebar-collapsed')
+    }
+  }, [collapsed])
 
   const handleLogout = async () => {
     const supabase = createClient()
@@ -36,8 +36,9 @@ export function SupplierSidebar({ supplierName, isLoggedIn = true }: { supplierN
     { href: `/${locale}/supplier/dashboard/settings`, icon: '◉', label: t('profile') },
   ]
 
-  if (isMobile) {
-    return (
+  return (
+    <>
+      {/* Mobile bottom nav */}
       <nav style={{
         position: 'fixed',
         bottom: 0,
@@ -46,10 +47,12 @@ export function SupplierSidebar({ supplierName, isLoggedIn = true }: { supplierN
         zIndex: 100,
         background: '#0f0d0a',
         borderTop: '1px solid rgba(168,149,120,0.1)',
-        display: 'flex',
+        display: 'none',
         justifyContent: 'space-around',
         padding: '8px 0',
-      }}>
+      }}
+      className="mobile-nav"
+      >
         {navItems.map(item => {
           const isActive = pathname === item.href
           return (
@@ -79,62 +82,25 @@ export function SupplierSidebar({ supplierName, isLoggedIn = true }: { supplierN
           )
         })}
       </nav>
-    )
-  }
 
-  return (
-    <aside style={{
-      width: collapsed ? '64px' : '240px',
-      minHeight: '100vh',
-      background: '#0f0d0a',
-      borderRight: '1px solid rgba(168,149,120,0.12)',
-      display: 'flex',
-      flexDirection: 'column',
-      transition: 'width 0.3s ease',
-      flexShrink: 0,
-      position: 'sticky',
-      top: 0,
-      height: '100vh',
-      overflowY: 'auto',
-    }}>
-
-      <div style={{
-        padding: '28px 20px 24px',
-        borderBottom: '1px solid rgba(168,149,120,0.1)',
+      {/* Desktop sidebar */}
+      <aside style={{
+        width: collapsed ? '64px' : '240px',
+        minHeight: 'calc(100vh - 60px)',
+        background: '#0f0d0a',
+        borderRight: '1px solid rgba(168,149,120,0.12)',
         display: 'flex',
-        alignItems: 'center',
-        gap: '12px',
-      }}>
-        <img
-          src="/images/logo.png"
-          alt="Tengri Yurt"
-          style={{ width: '36px', height: '36px', objectFit: 'contain', flexShrink: 0 }}
-        />
-        {!collapsed && (
-          <div>
-            <p style={{
-              fontFamily: 'EB Garamond, serif',
-              fontSize: '16px',
-              color: 'rgba(255,255,255,0.85)',
-              fontWeight: 400,
-              margin: 0,
-              lineHeight: 1.2,
-            }}>
-              Tengri Yurt
-            </p>
-            <p style={{
-              fontFamily: 'Inter, sans-serif',
-              fontSize: '9px',
-              color: 'rgba(168,149,120,0.6)',
-              letterSpacing: '0.15em',
-              textTransform: 'uppercase',
-              margin: 0,
-            }}>
-              {t('portalTitle')}
-            </p>
-          </div>
-        )}
-      </div>
+        flexDirection: 'column',
+        transition: 'width 0.3s ease',
+        flexShrink: 0,
+        position: 'fixed',
+        top: '60px',
+        left: 0,
+        height: 'calc(100vh - 60px)',
+        overflowY: 'auto',
+      }}
+      className="desktop-sidebar"
+      >
 
       {!collapsed && (
         <div style={{
@@ -282,5 +248,25 @@ export function SupplierSidebar({ supplierName, isLoggedIn = true }: { supplierN
         </button>
       </div>
     </aside>
+
+    <style jsx>{`
+      @media (max-width: 767px) {
+        .mobile-nav {
+          display: flex !important;
+        }
+        .desktop-sidebar {
+          display: none !important;
+        }
+      }
+      @media (min-width: 768px) {
+        .mobile-nav {
+          display: none !important;
+        }
+        .desktop-sidebar {
+          display: flex !important;
+        }
+      }
+    `}</style>
+    </>
   )
 }

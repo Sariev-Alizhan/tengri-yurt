@@ -28,7 +28,7 @@ export default async function SupplierYurtsPage() {
     .order('created_at', { ascending: false });
 
   return (
-    <div className="max-w-6xl">
+    <div className="w-full">
       <div className="flex items-center justify-between mb-8">
         <h1 className="font-garamond text-3xl text-white">{t('yurts')}</h1>
         <Link

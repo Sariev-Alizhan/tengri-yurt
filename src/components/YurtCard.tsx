@@ -1,5 +1,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
+import { formatPrice } from '@/utils/formatPrice';
 
 export type YurtCardData = {
   id: string;
@@ -61,7 +62,7 @@ export function YurtCard({ yurt, viewDetailsLabel, locale = 'en', peopleLabel = 
           </p>
         )}
         <p className="font-garamond text-white mb-4">
-          from ${yurt.price_usd.toLocaleString()}
+          from ${formatPrice(yurt.price_usd)}
         </p>
         <span className="inline-block border border-white/60 text-white py-2 px-4 uppercase font-inter font-medium text-sm tracking-[0.1em] group-hover:bg-white group-hover:text-black transition-colors duration-200">
           {viewDetailsLabel}

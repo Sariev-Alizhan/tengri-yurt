@@ -28,27 +28,40 @@ export default async function SupplierDashboardLayout({
 
   return (
     <div style={{
-      display: 'flex',
       width: '100%',
       minHeight: '100vh',
       background: '#0f0d0a',
+      paddingTop: '60px',
     }}>
       <SupplierSidebar supplierName={supplierName} isLoggedIn={!!user} />
       <main
+        className="supplier-dashboard-main"
         style={{
-          flex: 1,
-          minHeight: '100vh',
+          minHeight: 'calc(100vh - 60px)',
           overflowY: 'auto',
           padding: 'clamp(24px, 4vw, 48px)',
           paddingBottom: '80px',
           background: '#12100d',
-          maxWidth: '1280px',
-          margin: '0 auto',
-          width: '100%',
+          transition: 'margin-left 0.3s ease',
         }}
       >
         {children}
       </main>
+      <style dangerouslySetInnerHTML={{__html: `
+        @media (min-width: 768px) {
+          .supplier-dashboard-main {
+            margin-left: 240px;
+          }
+          body.sidebar-collapsed .supplier-dashboard-main {
+            margin-left: 64px;
+          }
+        }
+        @media (max-width: 767px) {
+          .supplier-dashboard-main {
+            margin-left: 0;
+          }
+        }
+      `}} />
     </div>
   )
 }
