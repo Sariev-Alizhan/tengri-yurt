@@ -31,16 +31,16 @@ export default async function SupplierDashboardLayout({
       width: '100%',
       minHeight: '100vh',
       background: '#0f0d0a',
-      paddingTop: '60px',
+      paddingTop: 'max(56px, env(safe-area-inset-top))',
     }}>
       <SupplierSidebar supplierName={supplierName} isLoggedIn={!!user} />
       <main
         className="supplier-dashboard-main"
         style={{
-          minHeight: 'calc(100vh - 60px)',
+          minHeight: 'calc(100vh - 56px)',
           overflowY: 'auto',
-          padding: 'clamp(24px, 4vw, 48px)',
-          paddingBottom: '80px',
+          padding: 'clamp(20px, 4vw, 48px)',
+          paddingBottom: '88px',
           background: '#12100d',
           transition: 'margin-left 0.3s ease',
         }}

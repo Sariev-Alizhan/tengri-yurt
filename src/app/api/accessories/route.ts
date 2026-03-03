@@ -35,7 +35,8 @@ export async function GET(request: Request) {
       const historyI18n = acc.history_i18n as Record<string, string> | null;
       
       return {
-        id: acc.slug,
+        id: acc.id,
+        slug: acc.slug,
         name: nameI18n?.[locale] || acc.name,
         description: descriptionI18n?.[locale] || acc.description,
         history: historyI18n?.[locale] || '',
@@ -43,7 +44,6 @@ export async function GET(request: Request) {
         price_usd: acc.price_usd,
         category: acc.category,
         photos: acc.photos,
-        slug: acc.slug,
         // Include full i18n data for flexibility
         name_i18n: acc.name_i18n,
         description_i18n: acc.description_i18n,

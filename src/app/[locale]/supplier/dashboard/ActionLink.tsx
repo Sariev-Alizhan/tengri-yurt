@@ -15,26 +15,25 @@ export function ActionLink({
   const [isHovered, setIsHovered] = useState(false)
 
   return (
-    <Link 
-      href={href} 
+    <Link
+      href={href}
+      className="supplier-action-card"
       style={{
         display: 'flex',
         alignItems: 'center',
-        gap: '12px',
-        padding: '16px 20px',
-        border: '1px solid rgba(168,149,120,0.15)',
+        gap: '14px',
         textDecoration: 'none',
-        color: isHovered ? 'rgba(255,255,255,0.8)' : 'rgba(255,255,255,0.5)',
+        color: isHovered ? 'rgba(255,255,255,0.9)' : 'rgba(255,255,255,0.65)',
         fontFamily: 'Inter, sans-serif',
-        fontSize: '12px',
-        letterSpacing: '0.05em',
-        transition: 'all 0.2s',
-        background: isHovered ? 'rgba(168,149,120,0.06)' : 'transparent',
+        fontSize: '13px',
+        fontWeight: 500,
+        letterSpacing: '0.04em',
+        background: 'rgba(26,21,16,0.6)',
       }}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
-      <span style={{ fontFamily: 'monospace', fontSize: '16px', color: 'rgba(168,149,120,0.5)' }}>
+      <span style={{ fontFamily: 'monospace', fontSize: '18px', color: 'rgba(168,149,120,0.7)', width: '28px', textAlign: 'center' }}>
         {icon}
       </span>
       {label}

@@ -49,7 +49,7 @@ export default async function SupplierRegisterPage() {
           padding: 'clamp(32px, 5vw, 56px)',
         }}>
           <div style={{ textAlign: 'center', marginBottom: '32px', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-            <img src="/images/logo.png" alt="Tengri Yurt"
+            <img src="/images/logo_white.png" alt="Tengri Yurt"
               style={{ height: '56px', width: 'auto', marginBottom: '12px', display: 'block', marginLeft: 'auto', marginRight: 'auto' }} />
             <p style={{
               fontFamily: 'Inter, sans-serif',

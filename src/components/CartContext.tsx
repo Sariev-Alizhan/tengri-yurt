@@ -50,15 +50,28 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
 
   const addYurt = useCallback((item: Omit<CartYurtItem, 'type'> & { logistics?: LogisticsOption }) => {
     setItems((prev) => {
-      const existing = prev.find((i) => i.type === 'yurt' && i.id === item.id)
-      if (existing) {
-        return prev.map((i) =>
-          i.type === 'yurt' && i.id === item.id
-            ? { ...i, quantity: i.quantity + (item.quantity || 1), logistics: item.logistics ?? i.logistics }
-            : i
-        )
+      const hasAddons = (item.addons?.length ?? 0) > 0
+      const rowId = hasAddons ? `bundle-${Date.now()}-${Math.random().toString(36).slice(2, 9)}` : item.id
+      const yurtId = hasAddons ? item.id : undefined
+      const newItem: CartYurtItem = {
+        ...item,
+        type: 'yurt',
+        id: rowId,
+        yurtId: hasAddons ? item.id : undefined,
+        quantity: item.quantity || 1,
+        addons: item.addons ?? [],
       }
-      return [...prev, { ...item, type: 'yurt' as const, quantity: item.quantity || 1, logistics: item.logistics }]
+      if (!hasAddons) {
+        const existing = prev.find((i) => i.type === 'yurt' && i.id === item.id)
+        if (existing) {
+          return prev.map((i) =>
+            i.type === 'yurt' && i.id === item.id
+              ? { ...i, quantity: i.quantity + (item.quantity || 1), logistics: item.logistics ?? i.logistics, floorWalls: item.floorWalls ?? i.floorWalls, customInterior: item.customInterior ?? i.customInterior, note: item.note ?? i.note }
+              : i
+          )
+        }
+      }
+      return [...prev, newItem]
     })
   }, [])
 
@@ -101,8 +114,12 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
 
   const totalUsd = useMemo(() => {
     return items.reduce((sum, i) => {
-      const price = i.type === 'yurt' ? i.price_usd : (i.price_usd ?? 0)
-      return sum + price * i.quantity
+      if (i.type === 'yurt') {
+        const base = i.price_usd * i.quantity
+        const addonsTotal = (i.addons ?? []).reduce((s, a) => s + a.price_usd * a.quantity, 0)
+        return sum + base + addonsTotal * i.quantity
+      }
+      return sum + (i.price_usd ?? 0) * i.quantity
     }, 0)
   }, [items])
 

@@ -177,7 +177,7 @@ export default async function DashboardPage({
             marginBottom: '24px',
             background: 'rgba(255,180,80,0.08)',
             border: '1px solid rgba(255,180,80,0.25)',
-            borderRadius: '8px',
+            borderRadius: '12px',
             fontFamily: 'Inter, sans-serif',
             fontSize: '14px',
             color: 'rgba(255,255,255,0.85)',
@@ -186,47 +186,55 @@ export default async function DashboardPage({
           </div>
         )}
 
-        <div style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(min(200px, 100%), 1fr))',
-          gap: '1px',
-          background: 'rgba(168,149,120,0.1)',
-          marginBottom: '48px',
-          border: '1px solid rgba(168,149,120,0.1)',
-        }}>
+        <div
+          className="supplier-stat-grid"
+          style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(min(160px, 100%), 1fr))',
+            gap: '12px',
+            marginBottom: '48px',
+          }}
+        >
           {[
             { label: t('activeYurts'), value: totalYurts, icon: '⌂' },
             { label: t('totalOrdersLabel'), value: totalOrders, icon: '◎' },
             { label: t('pendingLabel'), value: pendingOrders, icon: '◐', highlight: pendingOrders > 0 },
           ].map(stat => (
-            <div key={stat.label} style={{
-              background: '#1a1510',
-              padding: 'clamp(20px, 3vw, 32px)',
-            }}>
+            <div
+              key={stat.label}
+              className="supplier-stat-card"
+              style={{
+                background: 'rgba(26,21,16,0.9)',
+                padding: 'clamp(20px, 3vw, 28px)',
+                border: '1px solid rgba(168,149,120,0.08)',
+                borderRadius: '16px',
+              }}
+            >
               <p style={{
                 fontFamily: 'monospace',
-                fontSize: '20px',
-                color: stat.highlight ? 'rgba(255,180,80,0.8)' : 'rgba(168,149,120,0.4)',
-                marginBottom: '12px',
+                fontSize: '18px',
+                color: stat.highlight ? 'rgba(255,180,80,0.85)' : 'rgba(168,149,120,0.45)',
+                marginBottom: '10px',
               }}>
                 {stat.icon}
               </p>
               <p style={{
                 fontFamily: 'EB Garamond, serif',
-                fontSize: 'clamp(32px, 6vw, 56px)',
-                color: stat.highlight ? 'rgba(255,180,80,0.9)' : 'rgba(255,255,255,0.85)',
-                fontWeight: 400,
+                fontSize: 'clamp(28px, 5vw, 48px)',
+                color: stat.highlight ? 'rgba(255,180,80,0.95)' : 'rgba(255,255,255,0.9)',
+                fontWeight: 500,
                 lineHeight: 1,
-                marginBottom: '8px',
+                marginBottom: '6px',
               }}>
                 {stat.value}
               </p>
               <p style={{
                 fontFamily: 'Inter, sans-serif',
                 fontSize: '10px',
-                letterSpacing: '0.2em',
+                letterSpacing: '0.18em',
                 textTransform: 'uppercase',
-                color: 'rgba(168,149,120,0.45)',
+                color: 'rgba(168,149,120,0.5)',
+                fontWeight: 500,
               }}>
                 {stat.label}
               </p>
@@ -264,85 +272,61 @@ export default async function DashboardPage({
           </div>
 
           {recentOrders && recentOrders.length > 0 ? (
-            <div style={{
-              border: '1px solid rgba(168,149,120,0.1)',
-              overflow: 'hidden',
-            }}>
-              {recentOrders.map((order, i) => (
-                <div key={order.id} style={{
-                  display: 'grid',
-                  gridTemplateColumns: '1fr 1fr auto auto',
-                  gap: '16px',
-                  padding: '16px 20px',
-                  borderBottom: i < recentOrders.length - 1 ? '1px solid rgba(168,149,120,0.06)' : 'none',
-                  alignItems: 'center',
-                }}>
-                  <div>
-                    <p style={{
-                      fontFamily: 'Inter, sans-serif',
-                      fontSize: '12px',
-                      color: 'rgba(255,255,255,0.7)',
-                      fontWeight: 500,
-                      marginBottom: '2px',
-                    }}>
-                      #{order.order_number}
-                    </p>
-                    <p style={{
-                      fontFamily: 'Inter, sans-serif',
-                      fontSize: '11px',
-                      color: 'rgba(168,149,120,0.5)',
-                    }}>
-                      {order.buyer_name}
-                    </p>
-                  </div>
-                  <div>
-                    <p style={{
-                      fontFamily: 'Inter, sans-serif',
-                      fontSize: '11px',
-                      color: 'rgba(255,255,255,0.5)',
-                    }}>
-                      {order.yurt?.name ?? '—'}
-                    </p>
-                    <p style={{
-                      fontFamily: 'Inter, sans-serif',
-                      fontSize: '10px',
-                      color: 'rgba(168,149,120,0.4)',
-                    }}>
-                      {order.delivery_country} · {t('qty')} {order.quantity}
-                    </p>
-                  </div>
-                  <StatusBadge label={statusLabels[order.status] || order.status} />
-                  <p style={{
-                    fontFamily: 'Inter, sans-serif',
-                    fontSize: '10px',
-                    color: 'rgba(168,149,120,0.35)',
-                    whiteSpace: 'nowrap',
+            <>
+              <div className="supplier-orders-desktop" style={{ border: '1px solid rgba(168,149,120,0.1)', borderRadius: '12px', overflow: 'hidden' }}>
+                {recentOrders.map((order, i) => (
+                  <div key={`d-${order.id}`} style={{
+                    display: 'grid',
+                    gridTemplateColumns: '1fr 1fr auto auto',
+                    gap: '16px',
+                    padding: '16px 20px',
+                    borderBottom: i < recentOrders.length - 1 ? '1px solid rgba(168,149,120,0.06)' : 'none',
+                    alignItems: 'center',
                   }}>
-                    {new Date(order.created_at).toLocaleDateString()}
-                  </p>
-                </div>
-              ))}
-            </div>
+                    <div>
+                      <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '12px', color: 'rgba(255,255,255,0.7)', fontWeight: 500, marginBottom: '2px' }}>#{order.order_number}</p>
+                      <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '11px', color: 'rgba(168,149,120,0.5)' }}>{order.buyer_name}</p>
+                    </div>
+                    <div>
+                      <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '11px', color: 'rgba(255,255,255,0.5)' }}>{order.yurt?.name ?? '—'}</p>
+                      <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '10px', color: 'rgba(168,149,120,0.4)' }}>{order.delivery_country} · {t('qty')} {order.quantity}</p>
+                    </div>
+                    <StatusBadge label={statusLabels[order.status] || order.status} />
+                    <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '10px', color: 'rgba(168,149,120,0.35)', whiteSpace: 'nowrap' }}>{new Date(order.created_at).toLocaleDateString()}</p>
+                  </div>
+                ))}
+              </div>
+              <div className="supplier-orders-mobile" style={{ display: 'none' }}>
+                {recentOrders.map((order) => (
+                  <Link key={`m-${order.id}`} href={`/${locale}/supplier/dashboard/orders`} style={{ textDecoration: 'none', color: 'inherit', display: 'block' }}>
+                    <div className="supplier-order-card" style={{ background: 'rgba(26,21,16,0.8)' }}>
+                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '8px' }}>
+                        <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '13px', fontWeight: 600, color: 'rgba(255,255,255,0.9)', margin: 0 }}>#{order.order_number}</p>
+                        <StatusBadge label={statusLabels[order.status] || order.status} />
+                      </div>
+                      <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '12px', color: 'rgba(168,149,120,0.7)', margin: '0 0 4px' }}>{order.buyer_name}</p>
+                      <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '11px', color: 'rgba(255,255,255,0.55)', margin: '0 0 2px' }}>{order.yurt?.name ?? '—'}</p>
+                      <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '10px', color: 'rgba(168,149,120,0.45)', margin: 0 }}>{order.delivery_country} · {t('qty')} {order.quantity} · {new Date(order.created_at).toLocaleDateString()}</p>
+                    </div>
+                  </Link>
+                ))}
+              </div>
+            </>
           ) : (
-            <div style={{
-              border: '1px solid rgba(168,149,120,0.1)',
-              padding: '48px',
-              textAlign: 'center',
-            }}>
-              <p style={{
-                fontFamily: 'EB Garamond, serif',
-                fontSize: '20px',
-                color: 'rgba(168,149,120,0.3)',
-              }}>
-                {t('noOrdersYet')}
-              </p>
-            </div>
+            <>
+              <div className="supplier-orders-desktop" style={{ border: '1px solid rgba(168,149,120,0.1)', borderRadius: '12px', padding: '48px', textAlign: 'center' }}>
+                <p style={{ fontFamily: 'EB Garamond, serif', fontSize: '20px', color: 'rgba(168,149,120,0.3)', margin: 0 }}>{t('noOrdersYet')}</p>
+              </div>
+              <div className="supplier-orders-mobile" style={{ display: 'none', border: '1px solid rgba(168,149,120,0.1)', borderRadius: '14px', padding: '32px', textAlign: 'center' }}>
+                <p style={{ fontFamily: 'EB Garamond, serif', fontSize: '18px', color: 'rgba(168,149,120,0.35)', margin: 0 }}>{t('noOrdersYet')}</p>
+              </div>
+            </>
           )}
         </div>
 
         <div style={{
           display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(min(200px, 100%), 1fr))',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(min(180px, 100%), 1fr))',
           gap: '12px',
         }}>
           {[
@@ -360,12 +344,11 @@ export default async function DashboardPage({
         </div>
 
         {/* Помощник / Quick guide */}
-        <section style={{
+        <section className="supplier-helper-card" style={{
           marginTop: '48px',
           padding: '24px 28px',
           background: 'rgba(168,149,120,0.06)',
           border: '1px solid rgba(168,149,120,0.12)',
-          borderRadius: '8px',
         }}>
           <h2 style={{
             fontFamily: 'Inter, sans-serif',

@@ -84,6 +84,7 @@
     "newsletterTitle": "订阅我们的动态",
     "newsletterPlaceholder": "您的邮箱",
     "subscribe": "订阅",
+    "newsletterThanks": "感谢订阅。",
     "contactWhatsApp": "WhatsApp 联系我们",
     "trustBadges": "全球配送 · 安全订购 · 哈萨克斯坦手工制作",
     "quizLink": "蒙古包小测验"
@@ -135,6 +136,7 @@
     "diameter": "直径",
     "kanat": "哈纳",
     "productionDays": "生产周期",
+    "days": "天",
     "supplierLabel": "供应商",
     "galleryLabel": "图库",
     "accessoriesTab": "配件",
@@ -176,7 +178,23 @@
     "recommendationForYurt": "推荐搭配：{pillows} 个靠垫，{korpe} 条毯子（科尔佩）。",
     "addToCartWithOptions": "加入购物车",
     "addYurtOnly": "仅蒙古包",
-    "cancel": "取消"
+    "cancel": "取消",
+    "traditionalAccessoriesTitle": "要添加传统配件吗？",
+    "traditionalAccessoriesSubtitle": "用游牧文化的正宗元素完善您的蒙古包。",
+    "historyShow": "历史",
+    "historyHide": "收起",
+    "loadingAccessories": "加载配件中...",
+    "interiorOptionsTitle": "内饰选项",
+    "floorWallsTitle": "地板与墙面",
+    "floorFelt": "毡 — 生产周期 1 个月",
+    "floorCarpolan": "卡尔波兰 — 有现货",
+    "furnitureTitle": "家具：有现货",
+    "customInterior": "独家定制内饰（按订单）",
+    "customInteriorNote": "每顶蒙古包组装周期为 1 个月。",
+    "coverCustomOrder": "白色或透明罩（按订单）",
+    "coverPaidSeparately": "另付：1,000,000 KZT",
+    "messageOptional": "留言（选填）",
+    "messagePlaceholder": "您的留言或特殊要求..."
   },
   "order": {
     "title": "提交询价",
@@ -217,7 +235,10 @@
     "remove": "删除",
     "qty": "数量",
     "yurt": "蒙古包",
-    "accessory": "配件"
+    "accessory": "配件",
+    "noImage": "—",
+    "decreaseQty": "减少数量",
+    "increaseQty": "增加数量"
   },
   "checkout": {
     "title": "结账",

@@ -1,8 +1,21 @@
 export type LogisticsOption = 'air' | 'sea'
 
+export type FloorWallsOption = 'felt' | 'carpolan'
+
+export type CartYurtAddon = {
+  id: string
+  name: string
+  slug: string
+  price_usd: number
+  price_kzt: number | null
+  quantity: number
+}
+
 export type CartYurtItem = {
   type: 'yurt'
   id: string
+  /** When this row is a bundle (yurt + addons), id is unique row id and yurtId is the yurt being ordered */
+  yurtId?: string
   name: string
   slug: string
   price_usd: number
@@ -11,6 +24,14 @@ export type CartYurtItem = {
   supplier_id: string
   /** Chosen at add-to-cart: air 3–10 days, sea 30–60 days */
   logistics?: LogisticsOption
+  /** Floor & walls: felt (1 month) or carpolan (in stock) */
+  floorWalls?: FloorWallsOption
+  /** Exclusive custom interior (on order) */
+  customInterior?: boolean
+  /** Optional message for this yurt */
+  note?: string
+  /** Add-ons (cover, pillows, korpe, bed, traditional) — one cart row = yurt + these */
+  addons?: CartYurtAddon[]
 }
 
 export type CartAccessoryItem = {

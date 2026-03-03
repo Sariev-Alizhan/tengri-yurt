@@ -6,7 +6,7 @@ import Link from 'next/link'
 import { formatPrice } from '@/utils/formatPrice'
 import { useCart } from '@/components/CartContext'
 import { PriceUsdKzt } from '@/components/PriceUsdKzt'
-import { AddYurtModal } from '@/components/AddYurtModal'
+import { AddYurtModal, type TraditionalAccessorySelected } from '@/components/AddYurtModal'
 import { COVER_OPTIONS, PILLOWS_ADDON, KORPE_ADDON, BED_ADDON } from '@/lib/yurtAddOns'
 
 export type SupplierRelation = { company_name: string } | { company_name: string }[] | null
@@ -98,66 +98,44 @@ export function CatalogClient({
     pillowsQty: number
     korpeQty: number
     bed: boolean
+    selectedTraditional: TraditionalAccessorySelected[]
+    floorWalls: 'felt' | 'carpolan'
+    customInterior: boolean
+    note: string
   }) => {
     if (!modalYurt) return
     const supplierId = modalYurt.supplier_id ?? 'default'
+    const addons: { id: string; name: string; slug: string; price_usd: number; price_kzt: number | null; quantity: number }[] = []
+    if (opts.coverId) {
+      const cover = COVER_OPTIONS.find((c) => c.id === opts.coverId)
+      if (cover) addons.push({ id: cover.id, name: t(cover.nameKey as 'coverWhite'), slug: cover.slug, price_usd: cover.price_usd, price_kzt: cover.price_kzt, quantity: 1 })
+    }
+    if (opts.pillowsQty >= PILLOWS_ADDON.minQty) {
+      addons.push({ id: PILLOWS_ADDON.id, name: t('pillows'), slug: PILLOWS_ADDON.slug, price_usd: PILLOWS_ADDON.price_usd_per_unit, price_kzt: PILLOWS_ADDON.price_kzt_per_unit, quantity: opts.pillowsQty })
+    }
+    if (opts.korpeQty >= KORPE_ADDON.minQty) {
+      addons.push({ id: KORPE_ADDON.id, name: t('korpe'), slug: KORPE_ADDON.slug, price_usd: KORPE_ADDON.price_usd_per_unit, price_kzt: KORPE_ADDON.price_kzt_per_unit, quantity: opts.korpeQty })
+    }
+    if (opts.bed) {
+      addons.push({ id: BED_ADDON.id, name: t('bed'), slug: BED_ADDON.slug, price_usd: BED_ADDON.price_usd, price_kzt: BED_ADDON.price_kzt, quantity: 1 })
+    }
+    for (const acc of opts.selectedTraditional) {
+      addons.push({ id: acc.id, name: acc.name, slug: acc.slug, price_usd: acc.price_usd, price_kzt: acc.price_kzt, quantity: 1 })
+    }
     addYurt({
       id: modalYurt.id,
-      name: modalYurt.name,
+      name: yurtNames[modalYurt.slug] || modalYurt.name,
       slug: modalYurt.slug,
       price_usd: modalYurt.price_usd,
       quantity: 1,
       photo: modalYurt.photos?.[0] ?? null,
       supplier_id: supplierId,
       logistics: opts.logistics,
+      floorWalls: opts.floorWalls,
+      customInterior: opts.customInterior,
+      note: opts.note || undefined,
+      addons: addons.length > 0 ? addons : undefined,
     })
-    if (opts.coverId) {
-      const cover = COVER_OPTIONS.find((c) => c.id === opts.coverId)
-      if (cover) {
-        addAccessory({
-          id: cover.id,
-          name: t(cover.nameKey as 'coverWhite'),
-          slug: cover.slug,
-          price_usd: null,
-          price_kzt: cover.price_kzt,
-          quantity: 1,
-          supplier_id: supplierId,
-        })
-      }
-    }
-    if (opts.pillowsQty >= PILLOWS_ADDON.minQty) {
-      addAccessory({
-        id: PILLOWS_ADDON.id,
-        name: t('pillows'),
-        slug: PILLOWS_ADDON.slug,
-        price_usd: null,
-        price_kzt: PILLOWS_ADDON.price_kzt_per_unit,
-        quantity: opts.pillowsQty,
-        supplier_id: supplierId,
-      })
-    }
-    if (opts.korpeQty >= KORPE_ADDON.minQty) {
-      addAccessory({
-        id: KORPE_ADDON.id,
-        name: t('korpe'),
-        slug: KORPE_ADDON.slug,
-        price_usd: null,
-        price_kzt: KORPE_ADDON.price_kzt_per_unit,
-        quantity: opts.korpeQty,
-        supplier_id: supplierId,
-      })
-    }
-    if (opts.bed) {
-      addAccessory({
-        id: BED_ADDON.id,
-        name: t('bed'),
-        slug: BED_ADDON.slug,
-        price_usd: null,
-        price_kzt: BED_ADDON.price_kzt,
-        quantity: 1,
-        supplier_id: supplierId,
-      })
-    }
   }
 
   return (
@@ -173,6 +151,7 @@ export function CatalogClient({
             supplier_id: modalYurt.supplier_id ?? 'default',
             photo: modalYurt.photos?.[0] ?? null,
           }}
+          locale={locale}
           onConfirm={handleAddYurtConfirm}
           onClose={() => setModalYurt(null)}
         />

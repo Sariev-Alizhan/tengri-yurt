@@ -38,22 +38,21 @@ export function SupplierSidebar({ supplierName, isLoggedIn = true }: { supplierN
 
   return (
     <>
-      {/* Mobile bottom nav — min 44px touch targets */}
-      <nav style={{
-        position: 'fixed',
-        bottom: 0,
-        left: 0,
-        right: 0,
-        zIndex: 100,
-        background: '#0f0d0a',
-        borderTop: '1px solid rgba(168,149,120,0.1)',
-        display: 'none',
-        justifyContent: 'space-around',
-        alignItems: 'stretch',
-        padding: 'clamp(8px, 2vw, 12px) clamp(4px, 1vw, 8px)',
-        paddingBottom: 'max(12px, env(safe-area-inset-bottom))',
-      }}
-      className="mobile-nav"
+      {/* Mobile bottom nav — современный вид, безопасные зоны */}
+      <nav
+        className="mobile-nav supplier-mobile-nav"
+        style={{
+          position: 'fixed',
+          bottom: 0,
+          left: 0,
+          right: 0,
+          zIndex: 100,
+          background: 'rgba(15,13,10,0.94)',
+          display: 'none',
+          justifyContent: 'space-around',
+          alignItems: 'stretch',
+          padding: '10px 6px',
+        }}
       >
         {navItems.map(item => {
           const isActive = pathname === item.href
@@ -61,27 +60,31 @@ export function SupplierSidebar({ supplierName, isLoggedIn = true }: { supplierN
             <Link
               key={item.href}
               href={item.href}
+              className={isActive ? 'supplier-nav-active' : ''}
               style={{
                 display: 'flex',
                 flexDirection: 'column',
                 alignItems: 'center',
                 justifyContent: 'center',
-                gap: '4px',
-                padding: 'clamp(10px, 2vw, 12px)',
-                minHeight: '52px',
+                gap: '6px',
+                padding: '10px 6px',
+                minHeight: '56px',
                 minWidth: '44px',
                 flex: '1 1 0',
-                maxWidth: '100px',
+                maxWidth: '88px',
                 textDecoration: 'none',
-                color: isActive ? 'rgba(168,149,120,0.9)' : 'rgba(255,255,255,0.35)',
+                color: isActive ? 'rgba(168,149,120,0.95)' : 'rgba(255,255,255,0.4)',
                 touchAction: 'manipulation',
               }}
             >
-              <span style={{ fontFamily: 'monospace', fontSize: 'clamp(16px, 4vw, 18px)' }}>{item.icon}</span>
+              <span className="supplier-nav-icon" style={{ fontFamily: 'monospace', fontSize: '14px' }}>
+                {item.icon}
+              </span>
               <span style={{
                 fontFamily: 'Inter, sans-serif',
-                fontSize: 'clamp(9px, 2vw, 10px)',
-                letterSpacing: '0.05em',
+                fontSize: '10px',
+                fontWeight: isActive ? 600 : 500,
+                letterSpacing: '0.04em',
                 textTransform: 'uppercase',
                 lineHeight: 1.1,
               }}>
@@ -95,7 +98,7 @@ export function SupplierSidebar({ supplierName, isLoggedIn = true }: { supplierN
       {/* Desktop sidebar */}
       <aside style={{
         width: collapsed ? '64px' : '240px',
-        minHeight: 'calc(100vh - 60px)',
+        minHeight: 'calc(100vh - 56px)',
         background: '#0f0d0a',
         borderRight: '1px solid rgba(168,149,120,0.12)',
         display: 'flex',
@@ -103,9 +106,9 @@ export function SupplierSidebar({ supplierName, isLoggedIn = true }: { supplierN
         transition: 'width 0.3s ease',
         flexShrink: 0,
         position: 'fixed',
-        top: '60px',
+        top: '56px',
         left: 0,
-        height: 'calc(100vh - 60px)',
+        height: 'calc(100vh - 56px)',
         overflowY: 'auto',
       }}
       className="desktop-sidebar"
@@ -260,20 +263,12 @@ export function SupplierSidebar({ supplierName, isLoggedIn = true }: { supplierN
 
     <style jsx>{`
       @media (max-width: 767px) {
-        .mobile-nav {
-          display: flex !important;
-        }
-        .desktop-sidebar {
-          display: none !important;
-        }
+        .mobile-nav { display: flex !important; }
+        .desktop-sidebar { display: none !important; }
       }
       @media (min-width: 768px) {
-        .mobile-nav {
-          display: none !important;
-        }
-        .desktop-sidebar {
-          display: flex !important;
-        }
+        .mobile-nav { display: none !important; }
+        .desktop-sidebar { display: flex !important; }
       }
     `}</style>
     </>

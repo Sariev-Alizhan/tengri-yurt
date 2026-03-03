@@ -84,6 +84,7 @@
     "newsletterTitle": "Stay in touch",
     "newsletterPlaceholder": "Your email",
     "subscribe": "Subscribe",
+    "newsletterThanks": "Thanks for subscribing.",
     "contactWhatsApp": "Contact us on WhatsApp",
     "trustBadges": "Worldwide delivery · Secure orders · Handcrafted in Kazakhstan",
     "quizLink": "Yurt Quiz"
@@ -135,6 +136,7 @@
     "diameter": "Diameter",
     "kanat": "Kanat",
     "productionDays": "Production",
+    "days": "days",
     "supplierLabel": "Supplier",
     "galleryLabel": "Gallery",
     "accessoriesTab": "Accessories",
@@ -176,7 +178,23 @@
     "recommendationForYurt": "Recommended for this yurt: {pillows} pillows, {korpe} blankets (körpe).",
     "addToCartWithOptions": "Add to cart",
     "addYurtOnly": "Add yurt only",
-    "cancel": "Cancel"
+    "cancel": "Cancel",
+    "traditionalAccessoriesTitle": "Would you like to add traditional accessories?",
+    "traditionalAccessoriesSubtitle": "Complete your yurt with authentic elements of nomadic culture.",
+    "historyShow": "History",
+    "historyHide": "Hide",
+    "loadingAccessories": "Loading accessories...",
+    "interiorOptionsTitle": "Interior options",
+    "floorWallsTitle": "Floor & walls",
+    "floorFelt": "Felt — 1 month production",
+    "floorCarpolan": "Carpolan — In stock",
+    "furnitureTitle": "Furniture: In stock",
+    "customInterior": "Exclusive custom interior (on order)",
+    "customInteriorNote": "Each yurt is assembled in 1 month.",
+    "coverCustomOrder": "White or transparent cover (custom order)",
+    "coverPaidSeparately": "Paid separately: 1,000,000 KZT",
+    "messageOptional": "Message (optional)",
+    "messagePlaceholder": "Your message or special requests..."
   },
   "order": {
     "title": "Submit Your Inquiry",
@@ -217,7 +235,10 @@
     "remove": "Remove",
     "qty": "Qty",
     "yurt": "Yurt",
-    "accessory": "Accessory"
+    "accessory": "Accessory",
+    "noImage": "—",
+    "decreaseQty": "Decrease quantity",
+    "increaseQty": "Increase quantity"
   },
   "checkout": {
     "title": "Checkout",

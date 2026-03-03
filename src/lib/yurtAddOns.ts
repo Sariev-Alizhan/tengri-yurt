@@ -27,10 +27,13 @@ export const YURT_RECOMMENDATIONS: Record<
   monumental: { pillowsMin: 50, pillowsMax: 80, korpeMin: 36, korpeMax: 50 },
 }
 
+/** ~450 KZT = 1 USD for display */
+const KZT_TO_USD = 1 / 450
+
 /** Cover options: white, silver — 1 000 000 KZT */
 export const COVER_OPTIONS = [
-  { id: 'default-white-cover', slug: 'white-cover', nameKey: 'coverWhite', price_kzt: 1_000_000 },
-  { id: 'default-silver-cover', slug: 'silver-cover', nameKey: 'coverSilver', price_kzt: 1_000_000 },
+  { id: 'default-white-cover', slug: 'white-cover', nameKey: 'coverWhite', price_kzt: 1_000_000, price_usd: Math.round(1_000_000 * KZT_TO_USD) },
+  { id: 'default-silver-cover', slug: 'silver-cover', nameKey: 'coverSilver', price_kzt: 1_000_000, price_usd: Math.round(1_000_000 * KZT_TO_USD) },
 ] as const
 
 /** Pillows: quantity 10–30, price per piece in KZT */
@@ -43,6 +46,7 @@ export const PILLOWS_ADDON = {
   minQty: 10,
   maxQty: 30,
   price_kzt_per_unit: 15_000,
+  price_usd_per_unit: Math.round(15_000 * KZT_TO_USD),
 }
 
 /** Körpe (blankets): quantity 10–30 */
@@ -55,6 +59,7 @@ export const KORPE_ADDON = {
   minQty: 10,
   maxQty: 30,
   price_kzt_per_unit: 25_000,
+  price_usd_per_unit: Math.round(25_000 * KZT_TO_USD),
 }
 
 /** Bed (one per order) */
@@ -65,6 +70,7 @@ export const BED_ADDON = {
   descriptionKey: 'bedDesc',
   historyKey: 'bedHistory',
   price_kzt: 180_000,
+  price_usd: Math.round(180_000 * KZT_TO_USD),
 }
 
 export function getRecommendationForSlug(slug: string) {

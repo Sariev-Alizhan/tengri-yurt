@@ -17,6 +17,7 @@ type Props = {
   newsletterTitle?: string;
   newsletterPlaceholder?: string;
   subscribeButton?: string;
+  newsletterThanks?: string;
   contactWhatsApp?: string;
   trustBadges?: string;
   quizLink?: string;
@@ -32,6 +33,7 @@ export function FooterSection({
   newsletterTitle,
   newsletterPlaceholder,
   subscribeButton,
+  newsletterThanks,
   contactWhatsApp,
   trustBadges,
   quizLink,
@@ -115,7 +117,7 @@ export function FooterSection({
                 {newsletterTitle}
               </p>
               {newsletterSent ? (
-                <p className="font-inter text-white/70 text-sm">Thanks for subscribing.</p>
+                <p className="font-inter text-white/70 text-sm">{newsletterThanks ?? 'Thanks for subscribing.'}</p>
               ) : (
                 <form onSubmit={handleNewsletterSubmit} className="flex flex-wrap gap-2">
                   <input

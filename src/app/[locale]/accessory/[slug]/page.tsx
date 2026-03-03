@@ -151,7 +151,7 @@ export default async function AccessoryDetailPage({
               ) : (
                 <>
                   <dt className="text-white/60 uppercase text-xs tracking-wider">{t('productionDays')}</dt>
-                  <dd>{accessory.production_days_min}–{accessory.production_days_max} days</dd>
+                  <dd>{accessory.production_days_min}–{accessory.production_days_max} {t('days')}</dd>
                 </>
               )}
               

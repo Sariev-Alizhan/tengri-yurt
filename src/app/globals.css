@@ -251,6 +251,189 @@ button, a.btn {
   animation: fadeIn 0.5s ease-out;
 }
 
+/* Страница авторизации: на мобильных только форма, без картинки справа */
+@media (max-width: 767px) {
+  .login-page-root {
+    flex-direction: column;
+  }
+  .login-form-panel {
+    max-width: 100% !important;
+  }
+  .login-right-panel {
+    display: none !important;
+  }
+}
+
+/* ——— Портала поставщика: современный мобильный дизайн ——— */
+.supplier-navbar {
+  padding-left: max(16px, env(safe-area-inset-left)) !important;
+  padding-right: max(16px, env(safe-area-inset-right)) !important;
+  min-height: 56px;
+}
+@media (max-width: 767px) {
+  .supplier-nav-sep { display: none !important; }
+  .supplier-nav-section {
+    font-size: 11px !important;
+    font-weight: 600 !important;
+    color: rgba(255,255,255,0.9) !important;
+    max-width: 120px !important;
+  }
+  .supplier-view-store-text { display: none !important; }
+}
+
+/* Нижняя навигация портала поставщика — мобильная */
+.supplier-mobile-nav {
+  padding-left: max(8px, env(safe-area-inset-left)) !important;
+  padding-right: max(8px, env(safe-area-inset-right)) !important;
+  padding-bottom: max(12px, env(safe-area-inset-bottom)) !important;
+  border-top: 1px solid rgba(168,149,120,0.12);
+  box-shadow: 0 -4px 24px rgba(0,0,0,0.2);
+  backdrop-filter: blur(12px);
+}
+.supplier-mobile-nav a {
+  border-radius: 12px;
+  transition: background 0.2s ease, color 0.2s ease, transform 0.15s ease;
+}
+.supplier-mobile-nav a:active {
+  transform: scale(0.96);
+}
+.supplier-mobile-nav a.supplier-nav-active {
+  background: rgba(168,149,120,0.15) !important;
+  color: rgba(255,255,255,0.95) !important;
+}
+.supplier-mobile-nav .supplier-nav-icon {
+  width: 24px;
+  height: 24px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  background: rgba(168,149,120,0.08);
+  transition: background 0.2s;
+}
+.supplier-mobile-nav a.supplier-nav-active .supplier-nav-icon {
+  background: rgba(168,149,120,0.35);
+}
+
+/* Карточки дашборда поставщика */
+.supplier-dashboard-main {
+  padding-left: max(16px, env(safe-area-inset-left)) !important;
+  padding-right: max(16px, env(safe-area-inset-right)) !important;
+}
+.supplier-stat-card {
+  border-radius: 16px;
+  border: 1px solid rgba(168,149,120,0.08);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.supplier-stat-card:active {
+  transform: scale(0.98);
+}
+@media (max-width: 767px) {
+  .supplier-stat-grid {
+    grid-template-columns: 1fr !important;
+    gap: 12px !important;
+    margin-bottom: 32px !important;
+  }
+  .supplier-stat-card {
+    padding: 20px 20px !important;
+  }
+}
+.supplier-order-card {
+  border-radius: 14px;
+  border: 1px solid rgba(168,149,120,0.08);
+  padding: 16px !important;
+  margin-bottom: 10px;
+  transition: background 0.2s;
+}
+.supplier-order-card:last-child { margin-bottom: 0; }
+@media (min-width: 768px) {
+  .supplier-orders-desktop { display: block !important; }
+  .supplier-orders-mobile { display: none !important; }
+}
+@media (max-width: 767px) {
+  .supplier-orders-desktop { display: none !important; }
+  .supplier-orders-mobile { display: block !important; }
+}
+.supplier-action-card {
+  border-radius: 14px;
+  border: 1px solid rgba(168,149,120,0.12);
+  padding: 18px 20px !important;
+  min-height: 56px;
+  transition: background 0.2s, transform 0.15s, border-color 0.2s;
+}
+.supplier-action-card:hover {
+  background: rgba(168,149,120,0.06) !important;
+  border-color: rgba(168,149,120,0.2) !important;
+}
+.supplier-action-card:active {
+  transform: scale(0.98);
+}
+.supplier-helper-card {
+  border-radius: 16px;
+  border: 1px solid rgba(168,149,120,0.1);
+}
+@media (max-width: 767px) {
+  .supplier-helper-card {
+    margin-top: 32px !important;
+    padding: 20px 20px !important;
+  }
+}
+
+/* ——— Фоновые эффекты: свечение и декоративные линии ——— */
+@keyframes glowPulse {
+  0%, 100% { opacity: 0.4; transform: scale(1); }
+  50% { opacity: 0.7; transform: scale(1.05); }
+}
+@keyframes glowPulseSoft {
+  0%, 100% { opacity: 0.25; }
+  50% { opacity: 0.45; }
+}
+@keyframes lineShimmer {
+  0%, 100% { opacity: 0.15; }
+  50% { opacity: 0.35; }
+}
+@keyframes lineShimmerSlow {
+  0%, 100% { opacity: 0.08; }
+  50% { opacity: 0.2; }
+}
+
+.bg-glow-orb {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  filter: blur(60px);
+  will-change: opacity, transform;
+}
+@media (max-width: 767px) {
+  .bg-glow-orb {
+    filter: blur(40px);
+  }
+}
+
+.bg-glow-line {
+  position: absolute;
+  pointer-events: none;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.06) 20%,
+    rgba(255, 255, 255, 0.12) 50%,
+    rgba(255, 255, 255, 0.06) 80%,
+    transparent 100%
+  );
+}
+.bg-glow-line-vertical {
+  background: linear-gradient(
+    180deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.05) 30%,
+    rgba(255, 255, 255, 0.1) 50%,
+    rgba(255, 255, 255, 0.05) 70%,
+    transparent 100%
+  );
+}
+
 @layer utilities {
   .text-balance {
     text-wrap: balance;

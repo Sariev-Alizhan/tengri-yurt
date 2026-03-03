@@ -61,24 +61,18 @@ export async function POST(request: Request) {
     const usedAccessoryIds = new Set<string>()
 
     for (const yurtItem of yurtItems) {
+      const yurtId = (yurtItem as { yurtId?: string }).yurtId ?? yurtItem.id
       const { data: yurt, error: yurtError } = await supabase
         .from('yurts')
         .select('id, name, supplier_id, price_usd, production_days_min, production_days_max')
-        .eq('id', yurtItem.id)
+        .eq('id', yurtId)
         .single()
 
       if (yurtError || !yurt) continue
 
       const yurtData = yurt as any
-      const accessoriesForThisSupplier = accessoryItems.filter(
-        (a) => a.supplier_id === yurtData.supplier_id
-      )
-      accessoriesForThisSupplier.forEach((a) => usedAccessoryIds.add(a.id))
-
-      const addonsLine = accessoriesForThisSupplier
-        .filter((a) => String(a.id).startsWith('addon-'))
-        .map((a) => `${a.name} × ${a.quantity}`)
-        .join(', ')
+      const addons = (yurtItem as { addons?: { id: string; name: string; quantity: number; price_usd: number }[] }).addons ?? []
+      const addonsLine = addons.map((a) => `${a.name} × ${a.quantity}`).join(', ')
       const deliveryLine = [deliveryAddress, deliveryPostalCode, deliveryNotes].filter(Boolean).join(' · ')
       const messageWithAddons =
         (message ?? '') +
@@ -88,11 +82,8 @@ export async function POST(request: Request) {
       const orderNumber = await getNextOrderNumber()
       const unitPrice = yurtData.price_usd
       const yurtTotal = unitPrice * yurtItem.quantity
-      const accessoryTotal = accessoriesForThisSupplier.reduce(
-        (sum, a) => sum + (a.price_usd ?? 0) * a.quantity,
-        0
-      )
-      const totalPrice = yurtTotal + accessoryTotal
+      const addonsTotal = addons.reduce((sum, a) => sum + a.price_usd * a.quantity, 0) * yurtItem.quantity
+      const totalPrice = yurtTotal + addonsTotal
       const estimatedProductionDays =
         (yurtData.production_days_min + yurtData.production_days_max) / 2
       const estimatedDeliveryDays = await getEstimatedDeliveryDays(
@@ -107,7 +98,7 @@ export async function POST(request: Request) {
         .from('orders')
         .insert({
           order_number: orderNumber,
-          yurt_id: yurtItem.id,
+          yurt_id: yurtId,
           supplier_id: yurtData.supplier_id,
           buyer_name: buyerName,
           buyer_email: buyerEmail,
@@ -138,7 +129,7 @@ export async function POST(request: Request) {
       const yurtOrderItem: OrderItemInsert = {
         order_id: order.id,
         item_type: 'yurt',
-        yurt_id: yurtItem.id,
+        yurt_id: yurtId,
         accessory_id: null,
         quantity: yurtItem.quantity,
         unit_price_usd: unitPrice,
@@ -146,36 +137,8 @@ export async function POST(request: Request) {
       }
       await (supabase as any).from('order_items').insert(yurtOrderItem)
 
-      if (accessoriesForThisSupplier.length > 0) {
-        const { data: accs } = await supabase
-          .from('accessories')
-          .select('id, slug, price_usd')
-          .in(
-            'id',
-            accessoriesForThisSupplier.map((a) => a.id)
-          )
-        if (accs) {
-          const accessoryOrderItems: OrderItemInsert[] = (accs as any[]).map((acc) => {
-            const cartAcc = accessoriesForThisSupplier.find((a) => a.id === acc.id)
-            const qty = cartAcc?.quantity ?? 1
-            const price = acc.price_usd || 0
-            return {
-              order_id: order.id,
-              item_type: 'accessory' as const,
-              yurt_id: null,
-              accessory_id: acc.id,
-              quantity: qty,
-              unit_price_usd: price,
-              total_price_usd: price * qty,
-            }
-          })
-          await (supabase as any).from('order_items').insert(accessoryOrderItems)
-        }
-      }
-
       orderNumbers.push(orderNumber)
       const totalDays = Math.round(estimatedProductionDays + estimatedDeliveryDays)
-      const selectedAccessories = accessoriesForThisSupplier.map((a) => a.slug)
       sendOrderInquiryConfirmation(
         buyerEmail,
         {

@@ -84,6 +84,7 @@
     "newsletterTitle": "Подпишитесь на новости",
     "newsletterPlaceholder": "Ваш email",
     "subscribe": "Подписаться",
+    "newsletterThanks": "Спасибо за подписку.",
     "contactWhatsApp": "Написать в WhatsApp",
     "trustBadges": "Доставка по миру · Безопасный заказ · Ручная работа в Казахстане",
     "quizLink": "Квиз о юрте"
@@ -135,6 +136,7 @@
     "diameter": "Диаметр",
     "kanat": "Канат",
     "productionDays": "Производство",
+    "days": "дн.",
     "supplierLabel": "Поставщик",
     "galleryLabel": "Галерея",
     "accessoriesTab": "Аксессуары",
@@ -176,7 +178,23 @@
     "recommendationForYurt": "Рекомендуем для этой юрты: {pillows} подушек, {korpe} одеял (көрпе).",
     "addToCartWithOptions": "В корзину",
     "addYurtOnly": "Только юрта",
-    "cancel": "Отмена"
+    "cancel": "Отмена",
+    "traditionalAccessoriesTitle": "Добавить традиционные аксессуары?",
+    "traditionalAccessoriesSubtitle": "Дополните юрту аутентичными элементами кочевой культуры.",
+    "historyShow": "История",
+    "historyHide": "Скрыть",
+    "loadingAccessories": "Загрузка аксессуаров...",
+    "interiorOptionsTitle": "Опции интерьера",
+    "floorWallsTitle": "Пол и стены",
+    "floorFelt": "Войлок — производство 1 месяц",
+    "floorCarpolan": "Карполан — в наличии",
+    "furnitureTitle": "Мебель: в наличии",
+    "customInterior": "Эксклюзивный индивидуальный интерьер (под заказ)",
+    "customInteriorNote": "Сборка каждой юрты — 1 месяц.",
+    "coverCustomOrder": "Белый или прозрачный чехол (под заказ)",
+    "coverPaidSeparately": "Оплачивается отдельно: 1 000 000 ₸",
+    "messageOptional": "Сообщение (необязательно)",
+    "messagePlaceholder": "Ваше сообщение или пожелания..."
   },
   "order": {
     "title": "Оставить заявку",
@@ -217,7 +235,10 @@
     "remove": "Удалить",
     "qty": "Кол-во",
     "yurt": "Юрта",
-    "accessory": "Аксессуар"
+    "accessory": "Аксессуар",
+    "noImage": "—",
+    "decreaseQty": "Уменьшить количество",
+    "increaseQty": "Увеличить количество"
   },
   "checkout": {
     "title": "Оформление заказа",

@@ -40,7 +40,7 @@ function SupplierNavbar() {
 
   return (
     <header
-      className="supplier-navbar"
+      className="supplier-navbar supplier-navbar-root"
       style={{
         position: 'fixed',
         top: 0,
@@ -70,7 +70,7 @@ function SupplierNavbar() {
         }}
       >
         <img
-          src="/images/logo.png"
+          src="/images/logo_white.png"
           alt="Tengri Yurt"
           style={{ height: 'clamp(24px, 5vw, 28px)', width: 'auto' }}
         />
@@ -271,7 +271,7 @@ function PublicNavbar() {
 
           <a href={`/${locale}`}>
             <img
-              src="/images/logo.png"
+              src="/images/logo_white.png"
               alt="Tengri Yurt"
               style={{
                 height: 'clamp(48px, 8vw, 80px)',

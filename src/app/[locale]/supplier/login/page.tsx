@@ -76,14 +76,14 @@ export default function SupplierLoginPage() {
   }
 
   return (
-    <div style={{
+    <div className="login-page-root" style={{
       minHeight: '100vh',
       display: 'flex',
       fontFamily: 'Inter, sans-serif',
     }}>
 
-      {/* ─── ЛЕВАЯ ПАНЕЛЬ — форма (поверх всего, кликабельно) ─── */}
-      <div style={{
+      {/* ─── ЛЕВАЯ ПАНЕЛЬ — форма; на мобильных на весь экран без картинки справа ─── */}
+      <div className="login-form-panel" style={{
         width: '100%',
         maxWidth: '380px',
         flexShrink: 0,
@@ -108,7 +108,7 @@ export default function SupplierLoginPage() {
           textAlign: 'center',
         }}>
           <img
-            src="/images/logo.png"
+            src="/images/logo_white.png"
             alt="Tengri Yurt"
             style={{
               height: '52px',
@@ -327,8 +327,8 @@ export default function SupplierLoginPage() {
 
       </div>
 
-      {/* ─── ПРАВАЯ ПАНЕЛЬ — фото + текст ─── */}
-      <div style={{
+      {/* ─── ПРАВАЯ ПАНЕЛЬ — фото + текст (скрыта на мобильных) ─── */}
+      <div className="login-right-panel" style={{
         flex: 1,
         position: 'relative',
         overflow: 'hidden',

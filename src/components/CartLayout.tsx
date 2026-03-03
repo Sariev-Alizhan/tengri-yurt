@@ -6,6 +6,7 @@ import Navbar from '@/components/Navbar'
 import { CartProvider } from '@/components/CartContext'
 import { ExchangeRateProvider } from '@/components/ExchangeRateContext'
 import { CookieConsent } from '@/components/CookieConsent'
+import { BackgroundEffects } from '@/components/BackgroundEffects'
 
 export function CartLayout({
   locale,
@@ -20,8 +21,9 @@ export function CartLayout({
     <CartProvider>
       <ExchangeRateProvider>
         <NextIntlClientProvider locale={locale} messages={messages}>
+          <BackgroundEffects />
           <Navbar />
-          <main className="min-h-screen overflow-x-hidden">
+          <main className="relative z-10 min-h-screen overflow-x-hidden">
             {children}
           </main>
           <CookieConsent />

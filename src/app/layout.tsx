@@ -12,9 +12,13 @@ export const metadata: Metadata = {
   title: 'Tengri Yurt | Traditional Yurts Marketplace',
   description: 'Tengri Camp — traditional yurt production. Browse, order, and receive worldwide.',
   icons: {
-    icon: '/images/logo.png',
-    shortcut: '/images/logo.png',
-    apple: '/images/logo.png',
+    icon: [
+      { url: '/images/logo_white.png', type: 'image/png', sizes: '32x32' },
+      { url: '/images/logo_white.png', type: 'image/png', sizes: '48x48' },
+      { url: '/favicon.ico', sizes: 'any' }, // для поисковиков, отдаётся logo через rewrite
+    ],
+    shortcut: '/images/logo_white.png',
+    apple: '/images/logo_white.png',
   },
 };
 

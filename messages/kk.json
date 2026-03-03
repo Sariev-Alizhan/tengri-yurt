@@ -84,6 +84,7 @@
     "newsletterTitle": "Жаңалықтарға жазылыңыз",
     "newsletterPlaceholder": "Email",
     "subscribe": "Жазылу",
+    "newsletterThanks": "Жазылғаныңызға рахмет.",
     "contactWhatsApp": "WhatsApp арқылы жазу",
     "trustBadges": "Әлемге жеткізу · Қауіпсіз тапсырыс · Қазақстанда қолдан жасалған",
     "quizLink": "Киіз үй квизі"
@@ -135,6 +136,7 @@
     "diameter": "Диаметр",
     "kanat": "Қанат",
     "productionDays": "Өндіріс",
+    "days": "күн",
     "supplierLabel": "Жеткізуші",
     "galleryLabel": "Галерея",
     "accessoriesTab": "Аксессуарлар",
@@ -176,7 +178,23 @@
     "recommendationForYurt": "Осы киіз үйге ұсынылады: {pillows} жұмсақ, {korpe} көрпе.",
     "addToCartWithOptions": "Себетке",
     "addYurtOnly": "Тек киіз үй",
-    "cancel": "Болдырмау"
+    "cancel": "Болдырмау",
+    "traditionalAccessoriesTitle": "Дәстүрлі аксессуарлар қосайық па?",
+    "traditionalAccessoriesSubtitle": "Көшпелі мәдениеттің түпнұсқа элементтерімен киіз үйіңізді толықтырыңыз.",
+    "historyShow": "Тарих",
+    "historyHide": "Жасыру",
+    "loadingAccessories": "Аксессуарлар жүктелуде...",
+    "interiorOptionsTitle": "Интерьер опциялары",
+    "floorWallsTitle": "Еден және қабырғалар",
+    "floorFelt": "Кілем — өндіріс 1 ай",
+    "floorCarpolan": "Карполан — қоймада",
+    "furnitureTitle": "Жиһаз: қоймада",
+    "customInterior": "Эксклюзивті жеке интерьер (тапсырыс бойынша)",
+    "customInteriorNote": "Әр киіз үй 1 айда жинақталады.",
+    "coverCustomOrder": "Ақ немесе мөлдір жабын (тапсырыс бойынша)",
+    "coverPaidSeparately": "Бөлек төленеді: 1 000 000 ₸",
+    "messageOptional": "Хабарлама (міндетті емес)",
+    "messagePlaceholder": "Сіздің хабарламаңыз немесе тілектеріңіз..."
   },
   "order": {
     "title": "Өтінім қалдыру",
@@ -217,7 +235,10 @@
     "remove": "Жою",
     "qty": "Саны",
     "yurt": "Киіз үй",
-    "accessory": "Аксессуар"
+    "accessory": "Аксессуар",
+    "noImage": "—",
+    "decreaseQty": "Санын азайту",
+    "increaseQty": "Санын көбейту"
   },
   "checkout": {
     "title": "Тапсырыс рәсімдеу",

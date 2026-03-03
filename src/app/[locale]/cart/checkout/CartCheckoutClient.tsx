@@ -2,15 +2,25 @@
 
 import { useState, useCallback } from 'react'
 import dynamic from 'next/dynamic'
+import { useTranslations } from 'next-intl'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { useCart } from '@/components/CartContext'
 import { isYurtItem } from '@/types/cart'
 import type { DeliveryLocation } from '@/components/DeliveryMap'
 
+function DeliveryMapLoading() {
+  const t = useTranslations('checkout')
+  return (
+    <div className="h-[280px] bg-white/5 rounded-lg flex items-center justify-center font-inter text-white/50 text-sm">
+      {t('loadingMap')}
+    </div>
+  )
+}
+
 const DeliveryMap = dynamic(
   () => import('@/components/DeliveryMap').then((m) => m.DeliveryMap),
-  { ssr: false, loading: () => <div className="h-[280px] bg-white/5 rounded-lg flex items-center justify-center font-inter text-white/50 text-sm">Loading map...</div> }
+  { ssr: false, loading: () => <DeliveryMapLoading /> }
 )
 
 export function CartCheckoutClient({

@@ -1,7 +1,6 @@
 import { getTranslations } from 'next-intl/server';
 import { notFound } from 'next/navigation';
 import Image from 'next/image';
-import Link from 'next/link';
 import { createClient } from '@/utils/supabase/server';
 import { PriceUsdKzt } from '@/components/PriceUsdKzt';
 import { YurtDetailAddToCart } from '@/components/YurtDetailAddToCart';
@@ -14,8 +13,6 @@ export default async function YurtDetailPage({
 }) {
   const { slug, locale } = await params;
   const t = await getTranslations('catalog');
-  const tNav = await getTranslations('nav');
-  const tOrder = await getTranslations('order');
   const supabase = await createClient();
   const { data: dbYurt, error } = await supabase
     .from('yurts')
@@ -74,7 +71,7 @@ export default async function YurtDetailPage({
   return (
     <div className="bg-beige min-h-screen">
       {/* Hero: full-screen image with overlay */}
-      <section className="relative h-[70vh] min-h-[400px] flex items-end">
+      <section className="relative h-[60vh] min-h-[320px] sm:min-h-[380px] md:h-[70vh] flex items-end">
         <div className="absolute inset-0 z-0">
           {mainPhoto ? (
             <Image
@@ -88,32 +85,32 @@ export default async function YurtDetailPage({
           ) : (
             <div className="absolute inset-0 bg-white/10" />
           )}
-          <div className="absolute inset-0 z-[1]" style={{ background: 'rgba(0,0,0,0.25)' }} />
+          <div className="absolute inset-0 z-[1]" style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0.15) 50%, transparent)' }} />
         </div>
-        <div className="relative z-10 w-full max-w-6xl mx-auto px-4 sm:px-6 pb-16">
-          <h1 className="font-garamond text-white text-4xl md:text-6xl">
+        <div className="relative z-10 w-full max-w-6xl mx-auto px-4 sm:px-6 pb-8 sm:pb-12 md:pb-16">
+          <h1 className="font-garamond text-white text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-medium tracking-tight drop-shadow-sm">
             {displayName}
           </h1>
         </div>
       </section>
 
       {/* Description & History */}
-      <section className="max-w-6xl mx-auto px-4 sm:px-6 py-16 md:py-24">
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
-          <div className="lg:col-span-2 space-y-10">
+      <section className="max-w-6xl mx-auto px-4 sm:px-6 py-10 sm:py-14 md:py-20 lg:py-24">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-12">
+          <div className="lg:col-span-2 space-y-6 sm:space-y-8">
             {yurt.description && (
-              <div className="rounded-lg border border-white/10 bg-white/5 p-6 md:p-8">
-                <h2 className="font-garamond text-white text-xl md:text-2xl mb-4 uppercase tracking-wider text-white/90">
+              <div className="rounded-xl border border-white/10 bg-white/5 p-5 sm:p-6 md:p-8">
+                <h2 className="font-garamond text-white text-lg sm:text-xl md:text-2xl mb-3 md:mb-4 uppercase tracking-wider text-white/90 font-medium">
                   {t('descriptionTitle')}
                 </h2>
-                <p className="font-inter text-white/80 font-light leading-relaxed whitespace-pre-wrap">
+                <p className="font-inter text-white/80 text-sm sm:text-base font-light leading-relaxed whitespace-pre-wrap">
                   {yurt.description}
                 </p>
               </div>
             )}
             {(yurt as { history?: string | null }).history && (
-              <div className="rounded-lg border border-amber-900/30 bg-amber-950/20 p-6 md:p-8">
-                <h2 className="font-garamond text-white text-xl md:text-2xl mb-4 uppercase tracking-wider text-amber-200/90">
+              <div className="rounded-xl border border-amber-900/30 bg-amber-950/20 p-5 sm:p-6 md:p-8">
+                <h2 className="font-garamond text-white text-lg sm:text-xl md:text-2xl mb-3 md:mb-4 uppercase tracking-wider text-amber-200/90 font-medium">
                   {t('historyTitle')}
                 </h2>
                 <p className="font-inter text-white/75 font-light leading-relaxed">
@@ -121,15 +118,15 @@ export default async function YurtDetailPage({
                 </p>
               </div>
             )}
-            <div className="rounded-lg border border-white/10 bg-white/5 p-6 md:p-8">
-              <h2 className="font-garamond text-white text-xl md:text-2xl mb-4 uppercase tracking-wider text-white/90">
+            <div className="rounded-xl border border-white/10 bg-white/5 p-5 sm:p-6 md:p-8">
+              <h2 className="font-garamond text-white text-lg sm:text-xl md:text-2xl mb-3 md:mb-4 uppercase tracking-wider text-white/90 font-medium">
                 {t('installationTitle')}
               </h2>
-              <p className="font-inter text-white/80 font-light leading-relaxed">
+              <p className="font-inter text-white/80 text-sm sm:text-base font-light leading-relaxed">
                 {t('installationNote')}
               </p>
             </div>
-            <dl className="grid grid-cols-1 sm:grid-cols-2 gap-4 font-inter text-white/80">
+            <dl className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 font-inter text-white/80 text-sm sm:text-base">
               {yurt.diameter_m != null && (
                 <>
                   <dt className="text-white/60 uppercase text-xs tracking-wider">{t('diameter')}</dt>
@@ -149,7 +146,7 @@ export default async function YurtDetailPage({
                 </>
               )}
               <dt className="text-white/60 uppercase text-xs tracking-wider">{t('productionDays')}</dt>
-              <dd>{yurt.production_days_min}–{yurt.production_days_max} days</dd>
+              <dd>{yurt.production_days_min}–{yurt.production_days_max} {t('days')}</dd>
               <dt className="text-white/60 uppercase text-xs tracking-wider">{t('supplierLabel')}</dt>
               <dd>{(supplier && (supplier as { company_name: string }).company_name) || t('defaultSupplier')}</dd>
             </dl>
@@ -160,11 +157,12 @@ export default async function YurtDetailPage({
                 ))}
               </ul>
             )}
-            <div className="space-y-4">
-              <p className="font-garamond text-white text-2xl">
+            <div className="mt-8 p-5 sm:p-6 rounded-xl bg-white/5 border border-white/10 space-y-4">
+              <p className="font-garamond text-white text-xl sm:text-2xl font-medium">
                 <PriceUsdKzt usd={yurt.price_usd} fromPrefix />
               </p>
               <YurtDetailAddToCart
+                locale={locale}
                 yurtId={yurt.id}
                 name={displayName}
                 slug={yurt.slug}
@@ -172,16 +170,7 @@ export default async function YurtDetailPage({
                 supplier_id={yurt.supplier_id ?? 'default'}
                 photo={mainPhoto ?? null}
                 addToCartLabel={t('addToCart')}
-                quantityLabel={tOrder('quantity')}
               />
-              {!yurt.id.startsWith('default-') && (
-                <Link
-                  href={`/${locale}/order/${yurt.id}`}
-                  className="inline-block border border-white/50 text-white/90 py-3 px-8 font-inter text-sm uppercase tracking-[0.1em] hover:bg-white/10 transition-colors duration-200"
-                >
-                  {tNav('bookNow')}
-                </Link>
-              )}
             </div>
           </div>
         </div>
