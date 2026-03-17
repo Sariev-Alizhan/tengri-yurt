@@ -58,6 +58,7 @@ export function OrdersList({
   orders,
   statusLabels,
   updateStatusLabel,
+  downloadPdfLabel = 'Download PDF',
   noOrdersLabel,
   messageLabel = 'Message',
   accessoriesLabel = 'Accessories',
@@ -65,6 +66,7 @@ export function OrdersList({
   orders: Order[];
   statusLabels: Record<string, string>;
   updateStatusLabel: string;
+  downloadPdfLabel?: string;
   noOrdersLabel: string;
   messageLabel?: string;
   accessoriesLabel?: string;
@@ -255,6 +257,34 @@ export function OrdersList({
               alignItems: 'flex-end',
               minWidth: '200px',
             }}>
+              <a
+                href={`/api/orders/pdf?orderNumber=${encodeURIComponent(order.order_number)}&type=store`}
+                download
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{
+                  fontFamily: 'Inter, sans-serif',
+                  fontSize: '11px',
+                  letterSpacing: '0.08em',
+                  textTransform: 'uppercase',
+                  color: 'rgba(168,149,120,0.85)',
+                  marginBottom: '8px',
+                  textDecoration: 'none',
+                  border: '1px solid rgba(168,149,120,0.35)',
+                  padding: '6px 12px',
+                  borderRadius: '6px',
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.background = 'rgba(168,149,120,0.12)';
+                  e.currentTarget.style.borderColor = 'rgba(168,149,120,0.5)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.background = 'transparent';
+                  e.currentTarget.style.borderColor = 'rgba(168,149,120,0.35)';
+                }}
+              >
+                {downloadPdfLabel}
+              </a>
               <p style={{
                 fontFamily: 'Inter, sans-serif',
                 fontSize: '10px',

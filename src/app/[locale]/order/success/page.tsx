@@ -24,6 +24,8 @@ export default async function OrderSuccessPage({
       translations={{
         title: t('title'),
         subtitle: t('subtitle'),
+        thankYou: t('thankYou'),
+        downloadPdf: t('downloadPdf'),
         backToCatalog: t('backToCatalog'),
         orderPlaced: tCheckout('orderPlaced'),
         orderPlacedSub: tCheckout('orderPlacedSub'),

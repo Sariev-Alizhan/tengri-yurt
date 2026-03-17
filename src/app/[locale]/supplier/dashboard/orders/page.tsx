@@ -98,6 +98,7 @@ export default async function SupplierOrdersPage() {
         orders={orders ?? []}
         statusLabels={statusLabels}
         updateStatusLabel={t('updateStatus')}
+        downloadPdfLabel={t('downloadPdf')}
         noOrdersLabel={t('noOrders')}
         messageLabel={t('messageLabel')}
         accessoriesLabel={t('accessoriesLabel') || 'Accessories'}
