@@ -58,7 +58,7 @@ export function HeroSection({ heroTitle, since, heroSubtitle, statement }: Props
 
       <div ref={bgRef} className="absolute inset-0 z-0 transition-transform duration-100 will-change-transform">
         <Image
-          src="/images/background.jpg"
+          src="/images/hero_bg.jpeg"
           alt=""
           fill
           className="object-cover scale-105"
