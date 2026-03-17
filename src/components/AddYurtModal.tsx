@@ -208,7 +208,7 @@ export function AddYurtModal({ yurt, locale, onConfirm, onClose }: Props) {
                 <span className="font-inter text-[#1a1714]/90 text-sm">{t('customInterior')}</span>
               </label>
               <p className="font-inter text-[#1a1714]/55 text-xs ml-6">{t('customInteriorNote')}</p>
-              <label className="flex items-center gap-3 cursor-pointer mt-2">
+                <label className="flex items-center gap-3 cursor-pointer mt-2">
                 <input
                   type="checkbox"
                   checked={coverId !== null}
@@ -216,9 +216,6 @@ export function AddYurtModal({ yurt, locale, onConfirm, onClose }: Props) {
                   className="accent-amber-700 rounded"
                 />
                 <span className="font-inter text-[#1a1714]/90 text-sm">{t('coverCustomOrder')}</span>
-                <span className="font-inter text-[#1a1714]/60 text-xs ml-auto">
-                  — {t('coverPaidSeparately')}
-                </span>
               </label>
               {coverId !== null && (
                 <div className="ml-6 flex gap-2">
