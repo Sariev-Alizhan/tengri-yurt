@@ -32,6 +32,7 @@ export default async function SupplierOrdersPage() {
       delivery_address,
       quantity,
       message,
+      order_options,
       total_price_usd,
       payment_status,
       status,

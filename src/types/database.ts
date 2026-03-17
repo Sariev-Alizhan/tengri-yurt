@@ -132,6 +132,8 @@ export interface Database {
           delivery_address: string | null;
           quantity: number;
           message: string | null;
+          /** Structured Interior + Logistics; when set, use for display instead of parsing message */
+          order_options: Record<string, unknown> | null;
           unit_price_usd: number;
           total_price_usd: number;
           payment_status: OrderPaymentStatus;

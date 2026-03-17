@@ -47,6 +47,12 @@ export async function GET(request: Request) {
     const accessoryNames: Record<string, string> = {};
     (accessoriesRes.data || []).forEach((a: { id: string; name: string }) => { accessoryNames[a.id] = a.name; });
 
+    type OrderOptions = {
+      interior?: { title?: string; lines?: string[] };
+      logistics?: { title?: string; lines?: string[] };
+      selectedAccessories?: string[];
+      freeMessage?: string;
+    };
     const orderRow = order as {
       order_number: string;
       buyer_name: string;
@@ -57,6 +63,7 @@ export async function GET(request: Request) {
       delivery_address: string | null;
       quantity: number;
       message: string | null;
+      order_options: OrderOptions | null;
       unit_price_usd: number;
       total_price_usd: number;
       shipping_method: string | null;
@@ -152,11 +159,34 @@ export async function GET(request: Request) {
     y -= 12;
     drawText(`Total: $${orderRow.total_price_usd.toFixed(2)}`, 50, 12, true);
 
-    if (type === 'store' && orderRow.message) {
-      y -= 16;
-      drawText('Notes (for store)', 50, 10, true);
-      const msg = orderRow.message.slice(0, 300).replace(/\n/g, ' ');
-      page.drawText(msg, { x: 50, y, size: 9, font, color: rgb(0.3, 0.3, 0.3) });
+    const opts = orderRow.order_options as OrderOptions | null | undefined;
+    if (type === 'store') {
+      if (opts && (opts.interior || opts.logistics || opts.selectedAccessories?.length || opts.freeMessage)) {
+        y -= 16;
+        const drawSection = (title: string, lines: string[]) => {
+          drawText(title, 50, 10, true);
+          y -= 4;
+          for (const line of lines) {
+            page.drawText(line.slice(0, 85), { x: 50, y, size: 9, font, color: rgb(0.25, 0.25, 0.25) });
+            y -= 11;
+          }
+          y -= 6;
+        };
+        if (opts.interior?.lines?.length) drawSection(opts.interior.title || 'Interior', opts.interior.lines);
+        if (opts.logistics?.lines?.length) drawSection(opts.logistics.title || 'Logistics', opts.logistics.lines);
+        if (opts.selectedAccessories?.length) drawSection('Selected Accessories', opts.selectedAccessories);
+        if (opts.freeMessage) {
+          drawText('Message', 50, 10, true);
+          y -= 4;
+          const msg = opts.freeMessage.slice(0, 400).replace(/\n/g, ' ');
+          page.drawText(msg, { x: 50, y, size: 9, font, color: rgb(0.3, 0.3, 0.3) });
+        }
+      } else if (orderRow.message) {
+        y -= 16;
+        drawText('Notes (for store)', 50, 10, true);
+        const msg = orderRow.message.slice(0, 300).replace(/\n/g, ' ');
+        page.drawText(msg, { x: 50, y, size: 9, font, color: rgb(0.3, 0.3, 0.3) });
+      }
     }
 
     const pdfBytes = await pdfDoc.save();

@@ -63,25 +63,36 @@ export function OrderForm({ yurtId, translations }: Props) {
     const messageText = (formData.get('message') as string)?.trim() || '';
     const qty = Number(formData.get('quantity')) || 1;
 
-    const options: string[] = [];
-    options.push(floorWalls === 'felt' ? translations.feltOption : translations.carpolanOption);
-    options.push(translations.furnitureInStock);
-    if (exclusiveCustom) options.push(translations.exclusiveCustom);
-    if (coverCustom) options.push(`${translations.coverOption} — ${translations.coverPrice}`);
-    options.push(translations.assemblyNote);
-    const optionsBlock = `[Interior]\n${options.join('\n')}`;
-    
-    const logisticsInfo = `[Logistics]\n${shippingMethod === 'air' ? translations.airShipping : translations.seaShipping}\n${translations.installationNote}`;
-    
-    let message = messageText ? `${messageText}\n\n${optionsBlock}\n\n${logisticsInfo}` : `${optionsBlock}\n\n${logisticsInfo}`;
+    const interiorLines: string[] = [];
+    interiorLines.push(floorWalls === 'felt' ? translations.feltOption : translations.carpolanOption);
+    interiorLines.push(translations.furnitureInStock);
+    if (exclusiveCustom) interiorLines.push(translations.exclusiveCustom);
+    if (coverCustom) interiorLines.push(`${translations.coverOption} — ${translations.coverPrice}`);
+    interiorLines.push(translations.assemblyNote);
 
-    if (selectedAccessories.length > 0) {
-      const accessoryNames = selectedAccessories.map(id => {
-        const acc = require('@/data/accessories').TRADITIONAL_ACCESSORIES.find((a: any) => a.id === id);
-        return acc ? acc.name[locale as 'ru' | 'en' | 'kk'] : id;
-      }).join(', ');
-      message += `\n\n[Selected Accessories]\n${accessoryNames}`;
-    }
+    const logisticsLines: string[] = [
+      shippingMethod === 'air' ? translations.airShipping : translations.seaShipping,
+      translations.installationNote,
+    ];
+
+    const accessoryNames: string[] = selectedAccessories.length > 0
+      ? selectedAccessories.map(id => {
+          const acc = require('@/data/accessories').TRADITIONAL_ACCESSORIES.find((a: any) => a.id === id);
+          return acc ? acc.name[locale as 'ru' | 'en' | 'kk'] : id;
+        })
+      : [];
+
+    const orderOptions = {
+      interior: { title: translations.interiorTitle, lines: interiorLines },
+      logistics: { title: translations.logisticsTitle, lines: logisticsLines },
+      selectedAccessories: accessoryNames.length > 0 ? accessoryNames : undefined,
+      freeMessage: messageText || undefined,
+    };
+
+    const optionsBlock = `[Interior]\n${interiorLines.join('\n')}`;
+    const logisticsInfo = `[Logistics]\n${logisticsLines.join('\n')}`;
+    let message = messageText ? `${messageText}\n\n${optionsBlock}\n\n${logisticsInfo}` : `${optionsBlock}\n\n${logisticsInfo}`;
+    if (accessoryNames.length > 0) message += `\n\n[Selected Accessories]\n${accessoryNames.join(', ')}`;
 
     if (!name || !email || !phone || !country || !city) {
       setError('Please fill all required fields.');
@@ -103,6 +114,7 @@ export function OrderForm({ yurtId, translations }: Props) {
           deliveryAddress: address,
           quantity: qty,
           message,
+          orderOptions,
           shippingMethod,
           locale,
           selectedAccessories,

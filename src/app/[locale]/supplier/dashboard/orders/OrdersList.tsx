@@ -25,6 +25,13 @@ export type OrderItem = {
   } | null;
 };
 
+export type OrderOptionsStored = {
+  interior?: { title?: string; lines?: string[] };
+  logistics?: { title?: string; lines?: string[] };
+  selectedAccessories?: string[];
+  freeMessage?: string;
+};
+
 export type Order = {
   id: string;
   order_number: string;
@@ -36,6 +43,7 @@ export type Order = {
   delivery_address: string | null;
   quantity: number;
   message: string | null;
+  order_options: OrderOptionsStored | null;
   total_price_usd: number;
   payment_status: string;
   status: string;
@@ -407,31 +415,136 @@ export function OrdersList({
             </div>
           )}
 
-          {order.message && (
+          {(order.order_options || order.message) && (
             <div style={{
               marginTop: '20px',
               paddingTop: '20px',
               borderTop: '1px solid rgba(168,149,120,0.15)',
             }}>
-              <p style={{
-                fontFamily: 'Inter, sans-serif',
-                fontSize: '11px',
-                letterSpacing: '0.1em',
-                textTransform: 'uppercase',
-                color: 'rgba(168,149,120,0.5)',
-                marginBottom: '8px',
-              }}>
-                {messageLabel}:
-              </p>
-              <p style={{
-                fontFamily: 'Inter, sans-serif',
-                fontSize: '13px',
-                color: 'rgba(255,255,255,0.7)',
-                lineHeight: 1.6,
-                fontStyle: 'italic',
-              }}>
-                {order.message}
-              </p>
+              {order.order_options ? (
+                <>
+                  {order.order_options.interior?.lines?.length ? (
+                    <div style={{ marginBottom: '16px' }}>
+                      <p style={{
+                        fontFamily: 'Inter, sans-serif',
+                        fontSize: '11px',
+                        letterSpacing: '0.1em',
+                        textTransform: 'uppercase',
+                        color: 'rgba(168,149,120,0.6)',
+                        marginBottom: '6px',
+                      }}>
+                        {order.order_options.interior.title ?? 'Interior'}
+                      </p>
+                      <ul style={{
+                        fontFamily: 'Inter, sans-serif',
+                        fontSize: '13px',
+                        color: 'rgba(255,255,255,0.8)',
+                        lineHeight: 1.6,
+                        margin: 0,
+                        paddingLeft: '18px',
+                      }}>
+                        {order.order_options.interior.lines.map((line, i) => (
+                          <li key={i}>{line}</li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+                  {order.order_options.logistics?.lines?.length ? (
+                    <div style={{ marginBottom: '16px' }}>
+                      <p style={{
+                        fontFamily: 'Inter, sans-serif',
+                        fontSize: '11px',
+                        letterSpacing: '0.1em',
+                        textTransform: 'uppercase',
+                        color: 'rgba(168,149,120,0.6)',
+                        marginBottom: '6px',
+                      }}>
+                        {order.order_options.logistics.title ?? 'Logistics'}
+                      </p>
+                      <ul style={{
+                        fontFamily: 'Inter, sans-serif',
+                        fontSize: '13px',
+                        color: 'rgba(255,255,255,0.8)',
+                        lineHeight: 1.6,
+                        margin: 0,
+                        paddingLeft: '18px',
+                      }}>
+                        {order.order_options.logistics.lines.map((line, i) => (
+                          <li key={i}>{line}</li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+                  {order.order_options.selectedAccessories?.length ? (
+                    <div style={{ marginBottom: '16px' }}>
+                      <p style={{
+                        fontFamily: 'Inter, sans-serif',
+                        fontSize: '11px',
+                        letterSpacing: '0.1em',
+                        textTransform: 'uppercase',
+                        color: 'rgba(168,149,120,0.6)',
+                        marginBottom: '6px',
+                      }}>
+                        Selected Accessories
+                      </p>
+                      <p style={{
+                        fontFamily: 'Inter, sans-serif',
+                        fontSize: '13px',
+                        color: 'rgba(255,255,255,0.8)',
+                        margin: 0,
+                      }}>
+                        {order.order_options.selectedAccessories.join(', ')}
+                      </p>
+                    </div>
+                  )}
+                  {order.order_options.freeMessage ? (
+                    <div>
+                      <p style={{
+                        fontFamily: 'Inter, sans-serif',
+                        fontSize: '11px',
+                        letterSpacing: '0.1em',
+                        textTransform: 'uppercase',
+                        color: 'rgba(168,149,120,0.6)',
+                        marginBottom: '6px',
+                      }}>
+                        {messageLabel}
+                      </p>
+                      <p style={{
+                        fontFamily: 'Inter, sans-serif',
+                        fontSize: '13px',
+                        color: 'rgba(255,255,255,0.7)',
+                        lineHeight: 1.6,
+                        fontStyle: 'italic',
+                        margin: 0,
+                      }}>
+                        {order.order_options.freeMessage}
+                      </p>
+                    </div>
+                  ) : null}
+                </>
+              ) : (
+                <>
+                  <p style={{
+                    fontFamily: 'Inter, sans-serif',
+                    fontSize: '11px',
+                    letterSpacing: '0.1em',
+                    textTransform: 'uppercase',
+                    color: 'rgba(168,149,120,0.5)',
+                    marginBottom: '8px',
+                  }}>
+                    {messageLabel}:
+                  </p>
+                  <p style={{
+                    fontFamily: 'Inter, sans-serif',
+                    fontSize: '13px',
+                    color: 'rgba(255,255,255,0.7)',
+                    lineHeight: 1.6,
+                    fontStyle: 'italic',
+                  }}>
+                    {order.message}
+                  </p>
+                </>
+              )}
             </div>
           )}
         </div>

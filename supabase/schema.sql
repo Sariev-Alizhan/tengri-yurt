@@ -68,6 +68,7 @@ CREATE TABLE orders (
   delivery_address TEXT,
   quantity INTEGER DEFAULT 1,
   message TEXT,
+  order_options JSONB DEFAULT NULL,
   unit_price_usd INTEGER NOT NULL,
   total_price_usd INTEGER NOT NULL,
   payment_status TEXT CHECK (payment_status IN ('awaiting_invoice', 'invoice_sent', 'paid', 'cancelled')) DEFAULT 'awaiting_invoice',

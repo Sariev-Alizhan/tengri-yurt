@@ -22,6 +22,7 @@ export async function POST(request: Request) {
       deliveryAddress,
       quantity = 1,
       message,
+      orderOptions,
       shippingMethod = 'air',
       locale = 'en',
       selectedAccessories = [],
@@ -60,30 +61,34 @@ export async function POST(request: Request) {
     const logisticsDaysMax = shippingMethod === 'air' ? 10 : 60;
     const totalDays = Math.round(estimatedProductionDays + estimatedDeliveryDays);
 
+    const insertPayload: Record<string, unknown> = {
+      order_number: orderNumber,
+      yurt_id: yurtId,
+      supplier_id: yurt.supplier_id,
+      buyer_name: buyerName,
+      buyer_email: buyerEmail,
+      buyer_phone: buyerPhone ?? null,
+      delivery_country: deliveryCountry,
+      delivery_city: deliveryCity ?? null,
+      delivery_address: deliveryAddress ?? null,
+      quantity: quantity || 1,
+      message: message ?? null,
+      unit_price_usd: unitPrice,
+      total_price_usd: totalPrice,
+      payment_status: 'awaiting_invoice',
+      status: 'pending',
+      estimated_production_days: Math.round(estimatedProductionDays),
+      estimated_delivery_days: estimatedDeliveryDays,
+      shipping_method: shippingMethod,
+      estimated_logistics_days_min: logisticsDaysMin,
+      estimated_logistics_days_max: logisticsDaysMax,
+    };
+    if (orderOptions != null && typeof orderOptions === 'object') {
+      insertPayload.order_options = orderOptions;
+    }
     const { data: order, error: insertError } = await (supabase as any)
       .from('orders')
-      .insert({
-        order_number: orderNumber,
-        yurt_id: yurtId,
-        supplier_id: yurt.supplier_id,
-        buyer_name: buyerName,
-        buyer_email: buyerEmail,
-        buyer_phone: buyerPhone ?? null,
-        delivery_country: deliveryCountry,
-        delivery_city: deliveryCity ?? null,
-        delivery_address: deliveryAddress ?? null,
-        quantity: quantity || 1,
-        message: message ?? null,
-        unit_price_usd: unitPrice,
-        total_price_usd: totalPrice,
-        payment_status: 'awaiting_invoice',
-        status: 'pending',
-        estimated_production_days: Math.round(estimatedProductionDays),
-        estimated_delivery_days: estimatedDeliveryDays,
-        shipping_method: shippingMethod,
-        estimated_logistics_days_min: logisticsDaysMin,
-        estimated_logistics_days_max: logisticsDaysMax,
-      })
+      .insert(insertPayload)
       .select('id')
       .single();
 
