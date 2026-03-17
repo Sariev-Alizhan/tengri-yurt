@@ -161,13 +161,14 @@ export async function GET(request: Request) {
 
     const pdfBytes = await pdfDoc.save();
     const filename = `order-${orderRow.order_number}-${type}.pdf`;
+    const body = Buffer.from(pdfBytes);
 
-    return new NextResponse(pdfBytes, {
+    return new NextResponse(body, {
       status: 200,
       headers: {
         'Content-Type': 'application/pdf',
         'Content-Disposition': `attachment; filename="${filename}"`,
-        'Content-Length': String(pdfBytes.length),
+        'Content-Length': String(body.length),
       },
     });
   } catch (err) {
