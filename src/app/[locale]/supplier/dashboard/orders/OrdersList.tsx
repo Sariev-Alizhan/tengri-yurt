@@ -43,7 +43,7 @@ export type Order = {
   delivery_address: string | null;
   quantity: number;
   message: string | null;
-  order_options: OrderOptionsStored | null;
+  order_options?: OrderOptionsStored | null;
   total_price_usd: number;
   payment_status: string;
   status: string;
@@ -116,8 +116,9 @@ export function OrdersList({
     );
   }
 
+  const listStyle = { display: 'flex', flexDirection: 'column', gap: '16px' } as const;
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+    <div style={listStyle}>
       {orders.map((order) => (
         <div
           key={order.id}
@@ -415,13 +416,13 @@ export function OrdersList({
             </div>
           )}
 
-          {(order.order_options || order.message) && (
+          {(order.order_options != null || order.message) && (
             <div style={{
               marginTop: '20px',
               paddingTop: '20px',
               borderTop: '1px solid rgba(168,149,120,0.15)',
             }}>
-              {order.order_options ? (
+              {order.order_options != null ? (
                 <>
                   {order.order_options.interior?.lines?.length ? (
                     <div style={{ marginBottom: '16px' }}>
@@ -433,7 +434,7 @@ export function OrdersList({
                         color: 'rgba(168,149,120,0.6)',
                         marginBottom: '6px',
                       }}>
-                        {order.order_options.interior.title ?? 'Interior'}
+                        {order.order_options.interior?.title ?? 'Interior'}
                       </p>
                       <ul style={{
                         fontFamily: 'Inter, sans-serif',
@@ -443,12 +444,12 @@ export function OrdersList({
                         margin: 0,
                         paddingLeft: '18px',
                       }}>
-                        {order.order_options.interior.lines.map((line, i) => (
+                        {order.order_options.interior?.lines?.map((line, i) => (
                           <li key={i}>{line}</li>
                         ))}
                       </ul>
                     </div>
-                  )}
+                  ) : null}
                   {order.order_options.logistics?.lines?.length ? (
                     <div style={{ marginBottom: '16px' }}>
                       <p style={{
@@ -459,7 +460,7 @@ export function OrdersList({
                         color: 'rgba(168,149,120,0.6)',
                         marginBottom: '6px',
                       }}>
-                        {order.order_options.logistics.title ?? 'Logistics'}
+                        {order.order_options.logistics?.title ?? 'Logistics'}
                       </p>
                       <ul style={{
                         fontFamily: 'Inter, sans-serif',
@@ -469,12 +470,12 @@ export function OrdersList({
                         margin: 0,
                         paddingLeft: '18px',
                       }}>
-                        {order.order_options.logistics.lines.map((line, i) => (
+                        {order.order_options.logistics?.lines?.map((line, i) => (
                           <li key={i}>{line}</li>
                         ))}
                       </ul>
                     </div>
-                  )}
+                  ) : null}
                   {order.order_options.selectedAccessories?.length ? (
                     <div style={{ marginBottom: '16px' }}>
                       <p style={{
@@ -496,7 +497,7 @@ export function OrdersList({
                         {order.order_options.selectedAccessories.join(', ')}
                       </p>
                     </div>
-                  )}
+                  ) : null}
                   {order.order_options.freeMessage ? (
                     <div>
                       <p style={{
