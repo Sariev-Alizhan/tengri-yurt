@@ -71,13 +71,9 @@ export async function POST(request: Request) {
       if (yurtError || !yurt) continue
 
       const yurtData = yurt as any
-      const addons = (yurtItem as { addons?: { id: string; name: string; quantity: number; price_usd: number }[] }).addons ?? []
-      const addonsLine = addons.map((a) => `${a.name} × ${a.quantity}`).join(', ')
-      const deliveryLine = [deliveryAddress, deliveryPostalCode, deliveryNotes].filter(Boolean).join(' · ')
-      const messageWithAddons =
-        (message ?? '') +
-        (deliveryLine ? `\n[Delivery]\n${deliveryLine}` : '') +
-        (addonsLine ? `\n[Add-ons]\n${addonsLine}` : '')
+      const addons = (yurtItem as { addons?: { id: string; name: string; slug: string; quantity: number; price_usd: number }[] }).addons ?? []
+      const floorWalls = (yurtItem as { floorWalls?: string }).floorWalls ?? 'felt'
+      const customInterior = (yurtItem as { customInterior?: boolean }).customInterior ?? false
 
       const orderNumber = await getNextOrderNumber()
       const unitPrice = yurtData.price_usd
@@ -94,6 +90,23 @@ export async function POST(request: Request) {
       const logisticsDaysMin = itemShipping === 'air' ? 3 : 30
       const logisticsDaysMax = itemShipping === 'air' ? 10 : 60
 
+      const orderOptions: Record<string, unknown> = {
+        interior: { floorWalls, exclusiveCustom: customInterior, coverCustom: false },
+        logistics: { method: itemShipping },
+      }
+      if (addons.length > 0) {
+        orderOptions.addons = addons.map((a) => ({
+          id: a.id, name: a.name, slug: a.slug ?? a.id, quantity: a.quantity, price_usd: a.price_usd,
+        }))
+      }
+      if (deliveryAddress || deliveryPostalCode || deliveryNotes) {
+        orderOptions.delivery = {
+          ...(deliveryAddress ? { address: deliveryAddress } : {}),
+          ...(deliveryPostalCode ? { postalCode: deliveryPostalCode } : {}),
+          ...(deliveryNotes ? { notes: deliveryNotes } : {}),
+        }
+      }
+
       const { data: order, error: insertError } = await (supabase as any)
         .from('orders')
         .insert({
@@ -107,7 +120,8 @@ export async function POST(request: Request) {
           delivery_city: deliveryCity ?? null,
           delivery_address: deliveryAddress ?? null,
           quantity: yurtItem.quantity,
-          message: messageWithAddons || null,
+          message: message || null,
+          order_options: orderOptions,
           unit_price_usd: unitPrice,
           total_price_usd: totalPrice,
           payment_status: 'awaiting_invoice',
@@ -191,8 +205,17 @@ export async function POST(request: Request) {
         0
       )
       const firstSupplierId = remainingAccessories[0].supplier_id
-      const accessoryNames = remainingAccessories.map((a) => a.name).join(', ')
-      const messageWithAccessories = `[Accessories Order]\n${accessoryNames}\n\n${message || ''}`
+      const accOrderOptions: Record<string, unknown> = {
+        logistics: { method: 'air' },
+        selectedAccessories: remainingAccessories.map((a) => a.name),
+      }
+      if (deliveryAddress || deliveryPostalCode || deliveryNotes) {
+        accOrderOptions.delivery = {
+          ...(deliveryAddress ? { address: deliveryAddress } : {}),
+          ...(deliveryPostalCode ? { postalCode: deliveryPostalCode } : {}),
+          ...(deliveryNotes ? { notes: deliveryNotes } : {}),
+        }
+      }
 
       const { data: order, error: accOrderErr } = await (supabase as any)
         .from('orders')
@@ -207,7 +230,8 @@ export async function POST(request: Request) {
           delivery_city: deliveryCity ?? null,
           delivery_address: deliveryAddress ?? null,
           quantity: remainingAccessories.reduce((s, a) => s + a.quantity, 0),
-          message: messageWithAccessories,
+          message: message || null,
+          order_options: accOrderOptions,
           unit_price_usd: totalUsd,
           total_price_usd: totalUsd,
           payment_status: 'awaiting_invoice',

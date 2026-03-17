@@ -19,6 +19,7 @@ export async function POST(request: Request) {
       deliveryAddress,
       quantity = 1,
       message,
+      orderOptions,
       shippingMethod = 'air',
       locale = 'en',
     } = body;
@@ -55,6 +56,10 @@ export async function POST(request: Request) {
     const logisticsDaysMin = shippingMethod === 'air' ? 3 : 30;
     const logisticsDaysMax = shippingMethod === 'air' ? 10 : 60;
 
+    const resolvedOptions = (orderOptions != null && typeof orderOptions === 'object')
+      ? orderOptions
+      : { logistics: { method: shippingMethod } };
+
     const { data: order, error: insertError } = await (supabase as any)
       .from('orders')
       .insert({
@@ -68,7 +73,8 @@ export async function POST(request: Request) {
         delivery_city: deliveryCity ?? null,
         delivery_address: deliveryAddress ?? null,
         quantity: quantity || 1,
-        message: message ? `[Accessory: ${accessory.name}]\n${message}` : `[Accessory: ${accessory.name}]`,
+        message: message || null,
+        order_options: resolvedOptions,
         unit_price_usd: unitPrice,
         total_price_usd: totalPrice,
         payment_status: 'awaiting_invoice',

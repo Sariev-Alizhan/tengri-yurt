@@ -1,31 +1,36 @@
 /**
- * Structured order options (Interior + Logistics) stored in orders.order_options.
- * Display-ready strings so PDF and dashboard don't need i18n.
+ * Structured order options stored in orders.order_options JSONB.
+ * `message` field stays for free-text only.
  */
-export type FloorWallsOption = 'felt' | 'carpolan';
-export type LogisticsMethod = 'air' | 'sea';
 
-/** Interior block: готовые строки для отображения (Interior) */
-export interface OrderInteriorDisplay {
-  /** Заголовок секции, напр. "Interior" / "Интерьер" */
-  title?: string;
-  /** Строки блока: войлок, в наличии, эксклюзив, чехол, сборка */
-  lines: string[];
+export interface OrderOptionsInterior {
+  floorWalls: 'felt' | 'carpolan';
+  exclusiveCustom: boolean;
+  coverCustom: boolean;
 }
 
-/** Logistics block: готовые строки для отображения (Logistics) */
-export interface OrderLogisticsDisplay {
-  /** Заголовок секции */
-  title?: string;
-  /** Строки: доставка (авиа/море), установка */
-  lines: string[];
+export interface OrderOptionsLogistics {
+  method: 'air' | 'sea';
+}
+
+export interface OrderOptionsAddon {
+  id: string;
+  name: string;
+  slug: string;
+  quantity: number;
+  price_usd: number;
+}
+
+export interface OrderOptionsDelivery {
+  address?: string;
+  postalCode?: string;
+  notes?: string;
 }
 
 export interface OrderOptions {
-  interior?: OrderInteriorDisplay;
-  logistics?: OrderLogisticsDisplay;
-  /** Названия выбранных аксессуаров для блока [Selected Accessories] */
+  interior?: OrderOptionsInterior;
+  logistics?: OrderOptionsLogistics;
+  addons?: OrderOptionsAddon[];
+  delivery?: OrderOptionsDelivery;
   selectedAccessories?: string[];
-  /** Произвольный текст от клиента */
-  freeMessage?: string;
 }

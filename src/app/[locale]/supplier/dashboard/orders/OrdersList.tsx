@@ -26,10 +26,11 @@ export type OrderItem = {
 };
 
 export type OrderOptionsStored = {
-  interior?: { title?: string; lines?: string[] };
-  logistics?: { title?: string; lines?: string[] };
+  interior?: { floorWalls?: string; exclusiveCustom?: boolean; coverCustom?: boolean };
+  logistics?: { method?: string };
+  addons?: { id: string; name: string; slug?: string; quantity: number; price_usd: number }[];
+  delivery?: { address?: string; postalCode?: string; notes?: string };
   selectedAccessories?: string[];
-  freeMessage?: string;
 };
 
 export type Order = {
@@ -53,6 +54,68 @@ export type Order = {
 };
 
 const STATUSES = ['pending', 'confirmed', 'in_production', 'ready', 'shipped', 'delivered', 'cancelled'];
+
+const sectionLabel: React.CSSProperties = {
+  fontFamily: 'Inter, sans-serif', fontSize: '11px', letterSpacing: '0.1em',
+  textTransform: 'uppercase', color: 'rgba(168,149,120,0.6)', marginBottom: '6px',
+};
+const sectionText: React.CSSProperties = {
+  fontFamily: 'Inter, sans-serif', fontSize: '13px', color: 'rgba(255,255,255,0.8)',
+  lineHeight: 1.6, margin: 0,
+};
+
+function OrderOptionsBlock({ opts, message, messageLabel }: { opts: OrderOptionsStored; message?: string | null; messageLabel: string }) {
+  return (
+    <>
+      {opts.interior && (
+        <div style={{ marginBottom: '16px' }}>
+          <p style={sectionLabel}>Interior</p>
+          <ul style={{ ...sectionText, paddingLeft: '18px' }}>
+            <li>Floor &amp; Walls: {opts.interior.floorWalls === 'carpolan' ? 'Carpolan (in stock)' : 'Felt (1 month)'}</li>
+            {opts.interior.exclusiveCustom && <li>Exclusive custom interior</li>}
+            {opts.interior.coverCustom && <li>Cover (custom order)</li>}
+          </ul>
+        </div>
+      )}
+      {opts.logistics && (
+        <div style={{ marginBottom: '16px' }}>
+          <p style={sectionLabel}>Logistics</p>
+          <p style={sectionText}>{opts.logistics.method === 'sea' ? 'Sea — 30-60 days' : 'Air — 3-10 days'}</p>
+        </div>
+      )}
+      {opts.addons && opts.addons.length > 0 && (
+        <div style={{ marginBottom: '16px' }}>
+          <p style={sectionLabel}>Add-ons</p>
+          <ul style={{ ...sectionText, paddingLeft: '18px' }}>
+            {opts.addons.map((a) => (
+              <li key={a.id}>{a.name} × {a.quantity} — ${a.price_usd}</li>
+            ))}
+          </ul>
+        </div>
+      )}
+      {opts.delivery && (
+        <div style={{ marginBottom: '16px' }}>
+          <p style={sectionLabel}>Delivery details</p>
+          <p style={sectionText}>
+            {[opts.delivery.address, opts.delivery.postalCode, opts.delivery.notes].filter(Boolean).join(' · ')}
+          </p>
+        </div>
+      )}
+      {opts.selectedAccessories && opts.selectedAccessories.length > 0 && (
+        <div style={{ marginBottom: '16px' }}>
+          <p style={sectionLabel}>Selected Accessories</p>
+          <p style={sectionText}>{opts.selectedAccessories.join(', ')}</p>
+        </div>
+      )}
+      {message && (
+        <div>
+          <p style={sectionLabel}>{messageLabel}</p>
+          <p style={{ ...sectionText, color: 'rgba(255,255,255,0.7)', fontStyle: 'italic' }}>{message}</p>
+        </div>
+      )}
+    </>
+  );
+}
 
 function getOrderProductLabel(order: Order): string {
   const yurtName = (order.yurts as { name: string } | null)?.name;
@@ -423,106 +486,7 @@ export function OrdersList({
               borderTop: '1px solid rgba(168,149,120,0.15)',
             }}>
               {order.order_options != null ? (
-                <>
-                  {order.order_options.interior?.lines?.length ? (
-                    <div style={{ marginBottom: '16px' }}>
-                      <p style={{
-                        fontFamily: 'Inter, sans-serif',
-                        fontSize: '11px',
-                        letterSpacing: '0.1em',
-                        textTransform: 'uppercase',
-                        color: 'rgba(168,149,120,0.6)',
-                        marginBottom: '6px',
-                      }}>
-                        {order.order_options.interior?.title ?? 'Interior'}
-                      </p>
-                      <ul style={{
-                        fontFamily: 'Inter, sans-serif',
-                        fontSize: '13px',
-                        color: 'rgba(255,255,255,0.8)',
-                        lineHeight: 1.6,
-                        margin: 0,
-                        paddingLeft: '18px',
-                      }}>
-                        {order.order_options.interior?.lines?.map((line, i) => (
-                          <li key={i}>{line}</li>
-                        ))}
-                      </ul>
-                    </div>
-                  ) : null}
-                  {order.order_options.logistics?.lines?.length ? (
-                    <div style={{ marginBottom: '16px' }}>
-                      <p style={{
-                        fontFamily: 'Inter, sans-serif',
-                        fontSize: '11px',
-                        letterSpacing: '0.1em',
-                        textTransform: 'uppercase',
-                        color: 'rgba(168,149,120,0.6)',
-                        marginBottom: '6px',
-                      }}>
-                        {order.order_options.logistics?.title ?? 'Logistics'}
-                      </p>
-                      <ul style={{
-                        fontFamily: 'Inter, sans-serif',
-                        fontSize: '13px',
-                        color: 'rgba(255,255,255,0.8)',
-                        lineHeight: 1.6,
-                        margin: 0,
-                        paddingLeft: '18px',
-                      }}>
-                        {order.order_options.logistics?.lines?.map((line, i) => (
-                          <li key={i}>{line}</li>
-                        ))}
-                      </ul>
-                    </div>
-                  ) : null}
-                  {order.order_options.selectedAccessories?.length ? (
-                    <div style={{ marginBottom: '16px' }}>
-                      <p style={{
-                        fontFamily: 'Inter, sans-serif',
-                        fontSize: '11px',
-                        letterSpacing: '0.1em',
-                        textTransform: 'uppercase',
-                        color: 'rgba(168,149,120,0.6)',
-                        marginBottom: '6px',
-                      }}>
-                        Selected Accessories
-                      </p>
-                      <p style={{
-                        fontFamily: 'Inter, sans-serif',
-                        fontSize: '13px',
-                        color: 'rgba(255,255,255,0.8)',
-                        margin: 0,
-                      }}>
-                        {order.order_options.selectedAccessories.join(', ')}
-                      </p>
-                    </div>
-                  ) : null}
-                  {order.order_options.freeMessage ? (
-                    <div>
-                      <p style={{
-                        fontFamily: 'Inter, sans-serif',
-                        fontSize: '11px',
-                        letterSpacing: '0.1em',
-                        textTransform: 'uppercase',
-                        color: 'rgba(168,149,120,0.6)',
-                        marginBottom: '6px',
-                      }}>
-                        {messageLabel}
-                      </p>
-                      <p style={{
-                        fontFamily: 'Inter, sans-serif',
-                        fontSize: '13px',
-                        color: 'rgba(255,255,255,0.7)',
-                        lineHeight: 1.6,
-                        fontStyle: 'italic',
-                        margin: 0,
-                      }}>
-                        {order.order_options.freeMessage}
-                      </p>
-                    </div>
-                  ) : null}
-                </>
+                <OrderOptionsBlock opts={order.order_options} message={order.message} messageLabel={messageLabel} />
               ) : (
                 <>
                   <p style={{

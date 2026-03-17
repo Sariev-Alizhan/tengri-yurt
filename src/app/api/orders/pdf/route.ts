@@ -48,10 +48,11 @@ export async function GET(request: Request) {
     (accessoriesRes.data || []).forEach((a: { id: string; name: string }) => { accessoryNames[a.id] = a.name; });
 
     type OrderOptions = {
-      interior?: { title?: string; lines?: string[] };
-      logistics?: { title?: string; lines?: string[] };
+      interior?: { floorWalls?: string; exclusiveCustom?: boolean; coverCustom?: boolean };
+      logistics?: { method?: string };
+      addons?: { id: string; name: string; quantity: number; price_usd: number }[];
+      delivery?: { address?: string; postalCode?: string; notes?: string };
       selectedAccessories?: string[];
-      freeMessage?: string;
     };
     const orderRow = order as {
       order_number: string;
@@ -161,30 +162,44 @@ export async function GET(request: Request) {
 
     const opts = orderRow.order_options as OrderOptions | null | undefined;
     if (type === 'store') {
-      if (opts && (opts.interior || opts.logistics || opts.selectedAccessories?.length || opts.freeMessage)) {
+      const drawLine = (text: string) => {
+        page.drawText(text.slice(0, 90), { x: 50, y, size: 9, font, color: rgb(0.25, 0.25, 0.25) });
+        y -= 11;
+      };
+      if (opts) {
         y -= 16;
-        const drawSection = (title: string, lines: string[]) => {
-          drawText(title, 50, 10, true);
-          y -= 4;
-          for (const line of lines) {
-            page.drawText(line.slice(0, 85), { x: 50, y, size: 9, font, color: rgb(0.25, 0.25, 0.25) });
-            y -= 11;
-          }
+        if (opts.interior) {
+          drawText('Interior', 50, 10, true); y -= 4;
+          drawLine(`Floor & Walls: ${opts.interior.floorWalls === 'carpolan' ? 'Carpolan (in stock)' : 'Felt (1 month)'}`);
+          if (opts.interior.exclusiveCustom) drawLine('Exclusive custom interior');
+          if (opts.interior.coverCustom) drawLine('Cover (custom order)');
           y -= 6;
-        };
-        if (opts.interior?.lines?.length) drawSection(opts.interior.title || 'Interior', opts.interior.lines);
-        if (opts.logistics?.lines?.length) drawSection(opts.logistics.title || 'Logistics', opts.logistics.lines);
-        if (opts.selectedAccessories?.length) drawSection('Selected Accessories', opts.selectedAccessories);
-        if (opts.freeMessage) {
-          drawText('Message', 50, 10, true);
-          y -= 4;
-          const msg = opts.freeMessage.slice(0, 400).replace(/\n/g, ' ');
-          page.drawText(msg, { x: 50, y, size: 9, font, color: rgb(0.3, 0.3, 0.3) });
         }
-      } else if (orderRow.message) {
-        y -= 16;
-        drawText('Notes (for store)', 50, 10, true);
-        const msg = orderRow.message.slice(0, 300).replace(/\n/g, ' ');
+        if (opts.logistics) {
+          drawText('Logistics', 50, 10, true); y -= 4;
+          drawLine(opts.logistics.method === 'sea' ? 'Sea — 30-60 days' : 'Air — 3-10 days');
+          y -= 6;
+        }
+        if (opts.addons?.length) {
+          drawText('Add-ons', 50, 10, true); y -= 4;
+          for (const a of opts.addons) drawLine(`${a.name} x ${a.quantity} — $${a.price_usd}`);
+          y -= 6;
+        }
+        if (opts.delivery) {
+          drawText('Delivery details', 50, 10, true); y -= 4;
+          drawLine([opts.delivery.address, opts.delivery.postalCode, opts.delivery.notes].filter(Boolean).join(' · '));
+          y -= 6;
+        }
+        if (opts.selectedAccessories?.length) {
+          drawText('Selected Accessories', 50, 10, true); y -= 4;
+          drawLine(opts.selectedAccessories.join(', '));
+          y -= 6;
+        }
+      }
+      if (orderRow.message) {
+        y -= 8;
+        drawText('Message', 50, 10, true); y -= 4;
+        const msg = orderRow.message.slice(0, 400).replace(/\n/g, ' ');
         page.drawText(msg, { x: 50, y, size: 9, font, color: rgb(0.3, 0.3, 0.3) });
       }
     }

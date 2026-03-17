@@ -32,8 +32,9 @@ export function AccessoryOrderForm({ accessoryId, translations }: Props) {
     const messageText = (formData.get('message') as string)?.trim() || '';
     const qty = Number(formData.get('quantity')) || 1;
 
-    const logisticsInfo = `[Logistics]\n${shippingMethod === 'air' ? translations.airShipping : translations.seaShipping}\n${translations.installationNote}`;
-    const fullMessage = messageText ? `${messageText}\n\n${logisticsInfo}` : logisticsInfo;
+    const orderOptions = {
+      logistics: { method: shippingMethod },
+    };
 
     if (!name || !email || !phone || !country || !city) {
       setError('Please fill all required fields.');
@@ -54,7 +55,8 @@ export function AccessoryOrderForm({ accessoryId, translations }: Props) {
           deliveryCity: city,
           deliveryAddress: address,
           quantity: qty,
-          message: fullMessage,
+          message: messageText || undefined,
+          orderOptions,
           shippingMethod,
           locale,
         }),

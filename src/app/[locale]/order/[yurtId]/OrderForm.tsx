@@ -63,36 +63,12 @@ export function OrderForm({ yurtId, translations }: Props) {
     const messageText = (formData.get('message') as string)?.trim() || '';
     const qty = Number(formData.get('quantity')) || 1;
 
-    const interiorLines: string[] = [];
-    interiorLines.push(floorWalls === 'felt' ? translations.feltOption : translations.carpolanOption);
-    interiorLines.push(translations.furnitureInStock);
-    if (exclusiveCustom) interiorLines.push(translations.exclusiveCustom);
-    if (coverCustom) interiorLines.push(`${translations.coverOption} — ${translations.coverPrice}`);
-    interiorLines.push(translations.assemblyNote);
-
-    const logisticsLines: string[] = [
-      shippingMethod === 'air' ? translations.airShipping : translations.seaShipping,
-      translations.installationNote,
-    ];
-
-    const accessoryNames: string[] = selectedAccessories.length > 0
-      ? selectedAccessories.map(id => {
-          const acc = require('@/data/accessories').TRADITIONAL_ACCESSORIES.find((a: any) => a.id === id);
-          return acc ? acc.name[locale as 'ru' | 'en' | 'kk'] : id;
-        })
-      : [];
-
     const orderOptions = {
-      interior: { title: translations.interiorTitle, lines: interiorLines },
-      logistics: { title: translations.logisticsTitle, lines: logisticsLines },
-      selectedAccessories: accessoryNames.length > 0 ? accessoryNames : undefined,
-      freeMessage: messageText || undefined,
+      interior: { floorWalls, exclusiveCustom, coverCustom },
+      logistics: { method: shippingMethod },
+      selectedAccessories: selectedAccessories.length > 0 ? selectedAccessories : undefined,
     };
-
-    const optionsBlock = `[Interior]\n${interiorLines.join('\n')}`;
-    const logisticsInfo = `[Logistics]\n${logisticsLines.join('\n')}`;
-    let message = messageText ? `${messageText}\n\n${optionsBlock}\n\n${logisticsInfo}` : `${optionsBlock}\n\n${logisticsInfo}`;
-    if (accessoryNames.length > 0) message += `\n\n[Selected Accessories]\n${accessoryNames.join(', ')}`;
+    const message = messageText || undefined;
 
     if (!name || !email || !phone || !country || !city) {
       setError('Please fill all required fields.');
