@@ -35,7 +35,6 @@ export type Accessory = {
   category: string
   description: string | null
   price_usd: number | null
-  price_kzt: number | null
   stock_quantity: number
   photos: string[] | null
   supplier_id?: string
@@ -105,22 +104,22 @@ export function CatalogClient({
   }) => {
     if (!modalYurt) return
     const supplierId = modalYurt.supplier_id ?? 'default'
-    const addons: { id: string; name: string; slug: string; price_usd: number; price_kzt: number | null; quantity: number }[] = []
+    const addons: { id: string; name: string; slug: string; price_usd: number; quantity: number }[] = []
     if (opts.coverId) {
       const cover = COVER_OPTIONS.find((c) => c.id === opts.coverId)
-      if (cover) addons.push({ id: cover.id, name: t(cover.nameKey as 'coverWhite'), slug: cover.slug, price_usd: cover.price_usd, price_kzt: cover.price_kzt, quantity: 1 })
+      if (cover) addons.push({ id: cover.id, name: t(cover.nameKey as 'coverWhite'), slug: cover.slug, price_usd: cover.price_usd, quantity: 1 })
     }
     if (opts.pillowsQty >= PILLOWS_ADDON.minQty) {
-      addons.push({ id: PILLOWS_ADDON.id, name: t('pillows'), slug: PILLOWS_ADDON.slug, price_usd: PILLOWS_ADDON.price_usd_per_unit, price_kzt: PILLOWS_ADDON.price_kzt_per_unit, quantity: opts.pillowsQty })
+      addons.push({ id: PILLOWS_ADDON.id, name: t('pillows'), slug: PILLOWS_ADDON.slug, price_usd: PILLOWS_ADDON.price_usd_per_unit, quantity: opts.pillowsQty })
     }
     if (opts.korpeQty >= KORPE_ADDON.minQty) {
-      addons.push({ id: KORPE_ADDON.id, name: t('korpe'), slug: KORPE_ADDON.slug, price_usd: KORPE_ADDON.price_usd_per_unit, price_kzt: KORPE_ADDON.price_kzt_per_unit, quantity: opts.korpeQty })
+      addons.push({ id: KORPE_ADDON.id, name: t('korpe'), slug: KORPE_ADDON.slug, price_usd: KORPE_ADDON.price_usd_per_unit, quantity: opts.korpeQty })
     }
     if (opts.bed) {
-      addons.push({ id: BED_ADDON.id, name: t('bed'), slug: BED_ADDON.slug, price_usd: BED_ADDON.price_usd, price_kzt: BED_ADDON.price_kzt, quantity: 1 })
+      addons.push({ id: BED_ADDON.id, name: t('bed'), slug: BED_ADDON.slug, price_usd: BED_ADDON.price_usd, quantity: 1 })
     }
     for (const acc of opts.selectedTraditional) {
-      addons.push({ id: acc.id, name: acc.name, slug: acc.slug, price_usd: acc.price_usd, price_kzt: acc.price_kzt, quantity: 1 })
+      addons.push({ id: acc.id, name: acc.name, slug: acc.slug, price_usd: acc.price_usd, quantity: 1 })
     }
     addYurt({
       id: modalYurt.id,
@@ -353,7 +352,7 @@ export function CatalogClient({
                   index={index}
                   t={t}
                   supplierName={getSupplierDisplayName(accessory.suppliers)}
-                  addToCart={() => addAccessory({ id: accessory.id, name: accessory.name, slug: accessory.slug, price_usd: accessory.price_usd, price_kzt: accessory.price_kzt, quantity: 1, photo: accessory.photos?.[0] ?? null, supplier_id: accessory.supplier_id ?? 'default' })}
+                  addToCart={() => addAccessory({ id: accessory.id, name: accessory.name, slug: accessory.slug, price_usd: accessory.price_usd, quantity: 1, photo: accessory.photos?.[0] ?? null, supplier_id: accessory.supplier_id ?? 'default' })}
                   addToCartLabel={t('addToCart')}
                 />
               ))}
@@ -579,7 +578,7 @@ function YurtCard({
           {String(index + 1).padStart(2, '0')}
         </div>
 
-        {/* Цена — верхний правый, USD → KZT через несколько секунд */}
+        {/* Цена — верхний правый */}
         {yurt.price_usd > 0 && (
           <div style={{
             position: 'absolute',
@@ -840,7 +839,7 @@ function AccessoryCard({
         </div>
 
         {/* Цена — верхний правый */}
-        {(accessory.price_usd || accessory.price_kzt) && (
+        {accessory.price_usd != null && accessory.price_usd > 0 && (
           <div style={{
             position: 'absolute',
             top: '16px',
@@ -855,11 +854,7 @@ function AccessoryCard({
             borderRadius: '8px',
             backdropFilter: 'blur(6px)',
           }}>
-            {accessory.price_usd != null && accessory.price_usd > 0 ? (
-              <PriceUsdKzt usd={accessory.price_usd} kzt={accessory.price_kzt ?? undefined} />
-            ) : accessory.price_kzt != null ? (
-              <span>{accessory.price_kzt.toLocaleString('ru-RU')} ₸</span>
-            ) : null}
+            <PriceUsdKzt usd={accessory.price_usd} />
           </div>
         )}
 

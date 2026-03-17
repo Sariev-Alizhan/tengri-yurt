@@ -3,7 +3,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import Image from 'next/image';
 
-// Format number consistently on server and client
 const formatNumber = (num: number): string => {
   return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 };
@@ -13,7 +12,6 @@ interface AccessoryItem {
   name: string;
   description: string;
   history: string;
-  price_kzt: number;
   price_usd: number;
   category: string;
   photos?: string[];
@@ -132,12 +130,7 @@ export function AccessoryModal({ isOpen, onClose, onProceed, locale }: Accessory
 
   const totalPrice = accessories
     .filter(acc => selectedAccessories.includes(acc.id))
-    .reduce((sum, acc) => sum + (acc.price_kzt || 0), 0);
-
-  const formatPrice = (kzt: number | null, usd: number | null) => {
-    if (!kzt || !usd) return 'Price TBD';
-    return `${formatNumber(kzt)} ₸ / $${formatNumber(usd)}`;
-  };
+    .reduce((sum, acc) => sum + (acc.price_usd || 0), 0);
 
   return (
     <div 
@@ -199,6 +192,7 @@ export function AccessoryModal({ isOpen, onClose, onProceed, locale }: Accessory
             accessories.map((accessory, index) => {
               const isSelected = selectedAccessories.includes(accessory.id);
               const isExpanded = expandedHistory === accessory.id;
+              const photo = accessory.photos?.[0];
 
               return (
                 <div
@@ -224,13 +218,23 @@ export function AccessoryModal({ isOpen, onClose, onProceed, locale }: Accessory
                       onClick={(e) => e.stopPropagation()}
                       className="mt-1 w-5 h-5 accent-white/80 cursor-pointer transition-transform duration-200 hover:scale-110"
                     />
+                    {photo && (
+                      <div className="shrink-0 w-20 h-20 md:w-24 md:h-24 rounded-md overflow-hidden">
+                        <img
+                          src={photo}
+                          alt={accessory.name}
+                          className="w-full h-full object-cover"
+                          loading="lazy"
+                        />
+                      </div>
+                    )}
                     <div className="flex-1">
                       <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-2 mb-2">
                         <h3 className="font-garamond text-white text-xl">
                           {accessory.name}
                         </h3>
                         <span className="font-inter text-white/90 text-sm md:text-base whitespace-nowrap">
-                          {formatPrice(accessory.price_kzt, accessory.price_usd)}
+                          ${formatNumber(accessory.price_usd)}
                         </span>
                       </div>
                       <p className="font-inter text-white/70 text-sm mb-3">
@@ -284,7 +288,7 @@ export function AccessoryModal({ isOpen, onClose, onProceed, locale }: Accessory
                 {t.selected}: {selectedAccessories.length}
               </span>
               <span className="font-garamond text-white text-xl">
-                {t.total}: {formatNumber(totalPrice)} ₸
+                {t.total}: ${formatNumber(totalPrice)}
               </span>
             </div>
           </div>

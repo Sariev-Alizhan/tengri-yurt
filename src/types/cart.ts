@@ -7,7 +7,6 @@ export type CartYurtAddon = {
   name: string
   slug: string
   price_usd: number
-  price_kzt: number | null
   quantity: number
 }
 
@@ -40,7 +39,6 @@ export type CartAccessoryItem = {
   name: string
   slug: string
   price_usd: number | null
-  price_kzt: number | null
   quantity: number
   photo?: string | null
   supplier_id: string

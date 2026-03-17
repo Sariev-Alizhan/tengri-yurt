@@ -20,7 +20,6 @@ export type OrderItem = {
     slug: string;
     name_i18n?: { ru: string; en: string; kk: string };
     price_usd: number | null;
-    price_kzt: number | null;
     photos: string[];
   } | null;
 };
@@ -461,16 +460,6 @@ export function OrdersList({
                         }}>
                           ${item.unit_price_usd}
                         </p>
-                        {accessory.price_kzt && (
-                          <p style={{
-                            fontFamily: 'Inter, sans-serif',
-                            fontSize: '11px',
-                            color: 'rgba(255,255,255,0.5)',
-                            marginTop: '2px',
-                          }}>
-                            {formatNumber(accessory.price_kzt)} ₸
-                          </p>
-                        )}
                       </div>
                     </div>
                   );

@@ -30,7 +30,6 @@ export type TraditionalAccessorySelected = {
   name: string
   slug: string
   price_usd: number
-  price_kzt: number
   photo?: string | null
 }
 
@@ -40,7 +39,6 @@ type ApiAccessory = {
   name: string
   description: string
   history: string
-  price_kzt: number
   price_usd: number
   photos?: string[]
 }
@@ -116,7 +114,6 @@ export function AddYurtModal({ yurt, locale, onConfirm, onClose }: Props) {
         name: a.name,
         slug: a.slug,
         price_usd: a.price_usd,
-        price_kzt: a.price_kzt,
         photo: a.photos?.[0] ?? null,
       }))
 
@@ -352,7 +349,7 @@ export function AddYurtModal({ yurt, locale, onConfirm, onClose }: Props) {
               />
               <span className="font-inter text-[#1a1714]/90 text-sm">{t('bed')}</span>
               <span className="font-inter text-[#1a1714]/55 text-xs ml-auto">
-                {BED_ADDON.price_kzt.toLocaleString('ru-RU')} ₸
+                ${BED_ADDON.price_usd}
               </span>
             </label>
           </div>
@@ -369,44 +366,57 @@ export function AddYurtModal({ yurt, locale, onConfirm, onClose }: Props) {
               <p className="font-inter text-[#1a1714]/55 text-sm">{t('loadingAccessories')}</p>
             ) : (
               <ul className="space-y-3">
-                {traditionalList.map((acc) => (
-                  <li key={acc.id} className="border-b border-[rgba(26,23,20,0.15)] last:border-0 pb-3 last:pb-0">
-                    <label className="flex items-start gap-3 cursor-pointer">
-                      <input
-                        type="checkbox"
-                        checked={selectedTraditionalIds.includes(acc.id)}
-                        onChange={() => toggleTraditional(acc.id)}
-                        className="accent-amber-700 rounded mt-1 shrink-0"
-                      />
-                      <div className="flex-1 min-w-0">
-                        <span className="font-inter text-[#1a1714]/90 text-sm">{acc.name}</span>
-                        <p className="font-inter text-[#1a1714]/55 text-xs mt-0.5">{acc.description}</p>
-                        <p className="font-inter text-amber-900/90 text-xs mt-1">
-                          {formatNumber(acc.price_kzt)} T / ${acc.price_usd}
-                        </p>
-                        {acc.history && (
-                          <div className="mt-2">
-                            <button
-                              type="button"
-                              onClick={(e) => {
-                                e.preventDefault()
-                                toggleHistory(acc.id)
-                              }}
-                              className="font-inter text-xs uppercase tracking-wider text-amber-800 hover:text-amber-900"
-                            >
-                              {expandedHistoryId === acc.id ? t('historyHide') : t('historyShow')} →
-                            </button>
-                            {expandedHistoryId === acc.id && (
-                              <p className="font-inter text-[#1a1714]/55 text-xs mt-1 leading-relaxed">
-                                {acc.history}
-                              </p>
-                            )}
+                {traditionalList.map((acc) => {
+                  const photo = acc.photos?.[0]
+                  return (
+                    <li key={acc.id} className="border-b border-[rgba(26,23,20,0.15)] last:border-0 pb-3 last:pb-0">
+                      <label className="flex items-start gap-3 cursor-pointer">
+                        <input
+                          type="checkbox"
+                          checked={selectedTraditionalIds.includes(acc.id)}
+                          onChange={() => toggleTraditional(acc.id)}
+                          className="accent-amber-700 rounded mt-1 shrink-0"
+                        />
+                        {photo && (
+                          <div className="shrink-0 w-14 h-14 rounded-md overflow-hidden">
+                            <img
+                              src={photo}
+                              alt={acc.name}
+                              className="w-full h-full object-cover"
+                              loading="lazy"
+                            />
                           </div>
                         )}
-                      </div>
-                    </label>
-                  </li>
-                ))}
+                        <div className="flex-1 min-w-0">
+                          <span className="font-inter text-[#1a1714]/90 text-sm">{acc.name}</span>
+                          <p className="font-inter text-[#1a1714]/55 text-xs mt-0.5">{acc.description}</p>
+                          <p className="font-inter text-amber-900/90 text-xs mt-1">
+                            ${acc.price_usd}
+                          </p>
+                          {acc.history && (
+                            <div className="mt-2">
+                              <button
+                                type="button"
+                                onClick={(e) => {
+                                  e.preventDefault()
+                                  toggleHistory(acc.id)
+                                }}
+                                className="font-inter text-xs uppercase tracking-wider text-amber-800 hover:text-amber-900"
+                              >
+                                {expandedHistoryId === acc.id ? t('historyHide') : t('historyShow')} →
+                              </button>
+                              {expandedHistoryId === acc.id && (
+                                <p className="font-inter text-[#1a1714]/55 text-xs mt-1 leading-relaxed">
+                                  {acc.history}
+                                </p>
+                              )}
+                            </div>
+                          )}
+                        </div>
+                      </label>
+                    </li>
+                  )
+                })}
               </ul>
             )}
           </div>

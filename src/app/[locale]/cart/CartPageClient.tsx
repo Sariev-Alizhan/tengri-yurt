@@ -75,7 +75,7 @@ export function CartPageClient({
                       <ul className="mt-2 space-y-1">
                         {item.addons!.map((a) => (
                           <li key={a.id} className="font-inter text-white/75 text-sm">
-                            {a.name} × {a.quantity} — <PriceUsdKzt usd={a.price_usd * a.quantity} compact cycleCurrency={false} />
+                            {a.name} × {a.quantity} — <PriceUsdKzt usd={a.price_usd * a.quantity} />
                           </li>
                         ))}
                       </ul>
@@ -102,7 +102,7 @@ export function CartPageClient({
                       </button>
                     </div>
                     <p className="font-garamond text-white text-lg sm:text-xl text-right min-w-[100px] sm:min-w-[120px]">
-                      <PriceUsdKzt usd={total} compact cycleCurrency={false} />
+                      <PriceUsdKzt usd={total} />
                     </p>
                     <button
                       type="button"
@@ -128,7 +128,7 @@ export function CartPageClient({
           </Link>
           <div className="flex flex-wrap items-center gap-6">
             <p className="font-inter text-white/65 uppercase text-sm tracking-wider">
-              {translations.total}: <span className="font-garamond text-white text-xl sm:text-2xl ml-2 font-medium"><PriceUsdKzt usd={totalUsd} compact cycleCurrency={false} /></span>
+              {translations.total}: <span className="font-garamond text-white text-xl sm:text-2xl ml-2 font-medium"><PriceUsdKzt usd={totalUsd} /></span>
             </p>
             <Link
               href={`/${locale}/cart/checkout`}

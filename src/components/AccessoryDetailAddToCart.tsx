@@ -8,7 +8,6 @@ type Props = {
   name: string
   slug: string
   price_usd: number | null
-  price_kzt: number | null
   supplier_id: string
   photo?: string | null
   addToCartLabel: string
@@ -20,7 +19,6 @@ export function AccessoryDetailAddToCart({
   name,
   slug,
   price_usd,
-  price_kzt,
   supplier_id,
   photo,
   addToCartLabel,
@@ -36,7 +34,6 @@ export function AccessoryDetailAddToCart({
       name,
       slug,
       price_usd,
-      price_kzt,
       quantity,
       photo: photo ?? null,
       supplier_id,

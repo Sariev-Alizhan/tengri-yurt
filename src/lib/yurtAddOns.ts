@@ -1,6 +1,6 @@
 /**
  * Add-ons and recommendations when adding a yurt to cart.
- * Covers (white/silver 1M KZT), pillows 10–30, korpe (blankets) 10–30, bed.
+ * Covers (white/silver), pillows 10–30, korpe (blankets) 10–30, bed.
  * Recommendations per yurt size: how many pillows and blankets are recommended.
  */
 
@@ -27,16 +27,11 @@ export const YURT_RECOMMENDATIONS: Record<
   monumental: { pillowsMin: 50, pillowsMax: 80, korpeMin: 36, korpeMax: 50 },
 }
 
-/** ~450 KZT = 1 USD for display */
-const KZT_TO_USD = 1 / 450
-
-/** Cover options: white, silver — 1 000 000 KZT */
 export const COVER_OPTIONS = [
-  { id: 'default-white-cover', slug: 'white-cover', nameKey: 'coverWhite', price_kzt: 1_000_000, price_usd: Math.round(1_000_000 * KZT_TO_USD) },
-  { id: 'default-silver-cover', slug: 'silver-cover', nameKey: 'coverSilver', price_kzt: 1_000_000, price_usd: Math.round(1_000_000 * KZT_TO_USD) },
+  { id: 'default-white-cover', slug: 'white-cover', nameKey: 'coverWhite', price_usd: 2222 },
+  { id: 'default-silver-cover', slug: 'silver-cover', nameKey: 'coverSilver', price_usd: 2222 },
 ] as const
 
-/** Pillows: quantity 10–30, price per piece in KZT */
 export const PILLOWS_ADDON = {
   id: 'addon-pillows',
   slug: 'pillows',
@@ -45,11 +40,9 @@ export const PILLOWS_ADDON = {
   historyKey: 'pillowsHistory',
   minQty: 10,
   maxQty: 30,
-  price_kzt_per_unit: 15_000,
-  price_usd_per_unit: Math.round(15_000 * KZT_TO_USD),
+  price_usd_per_unit: 33,
 }
 
-/** Körpe (blankets): quantity 10–30 */
 export const KORPE_ADDON = {
   id: 'addon-korpe',
   slug: 'korpe',
@@ -58,19 +51,16 @@ export const KORPE_ADDON = {
   historyKey: 'korpeHistory',
   minQty: 10,
   maxQty: 30,
-  price_kzt_per_unit: 25_000,
-  price_usd_per_unit: Math.round(25_000 * KZT_TO_USD),
+  price_usd_per_unit: 56,
 }
 
-/** Bed (one per order) */
 export const BED_ADDON = {
   id: 'addon-bed',
   slug: 'bed',
   nameKey: 'bed',
   descriptionKey: 'bedDesc',
   historyKey: 'bedHistory',
-  price_kzt: 180_000,
-  price_usd: Math.round(180_000 * KZT_TO_USD),
+  price_usd: 400,
 }
 
 export function getRecommendationForSlug(slug: string) {

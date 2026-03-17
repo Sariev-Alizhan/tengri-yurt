@@ -59,7 +59,6 @@ export default async function SupplierOrdersPage() {
         slug, 
         name_i18n,
         price_usd,
-        price_kzt,
         photos
       )
     `)

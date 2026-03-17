@@ -161,13 +161,7 @@ export default async function AccessoryDetailPage({
             <div className="space-y-4">
               <p className="font-garamond text-white text-2xl">
                 {accessory.price_usd != null && accessory.price_usd > 0 ? (
-                  <PriceUsdKzt
-                    usd={accessory.price_usd}
-                    kzt={accessory.price_kzt}
-                    compact={false}
-                  />
-                ) : accessory.price_kzt != null ? (
-                  <span>{accessory.price_kzt.toLocaleString('ru-RU')} ₸</span>
+                  <PriceUsdKzt usd={accessory.price_usd} />
                 ) : null}
               </p>
               <AccessoryDetailAddToCart
@@ -175,7 +169,6 @@ export default async function AccessoryDetailPage({
                 name={displayName}
                 slug={accessory.slug}
                 price_usd={accessory.price_usd}
-                price_kzt={accessory.price_kzt}
                 supplier_id={accessory.supplier_id ?? 'default'}
                 photo={mainPhoto ?? null}
                 addToCartLabel={t('addToCart')}
