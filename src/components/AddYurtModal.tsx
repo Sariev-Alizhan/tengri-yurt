@@ -173,28 +173,172 @@ export function AddYurtModal({ yurt, locale, onConfirm, onClose }: Props) {
   const Divider = () => <div className="border-t border-[#ede8e0] my-6" />
 
   return (
-    <div className="fixed inset-0 z-50 flex flex-col bg-[#faf9f7]">
-      {/* ── STICKY HEADER ── */}
-      <div className="shrink-0 flex items-center justify-between px-5 py-4 border-b border-[#ede8e0] bg-[#faf9f7]">
-        <div>
-          <p className="font-garamond text-[#1a1714] text-xl md:text-2xl leading-tight">{yurt.name}</p>
-          <p className="font-inter text-[#a89578] text-xs mt-0.5">{t('addYurtModalSubtitle')}</p>
+    <div className="fixed inset-0 z-50 flex items-center justify-center">
+      {/* Backdrop */}
+      <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" onClick={onClose} />
+
+      {/* ── MOBILE: full screen ── */}
+      <div className="md:hidden relative z-10 flex flex-col bg-[#faf9f7] w-full h-full">
+        {/* Mobile header */}
+        <div className="shrink-0 flex items-center justify-between px-5 py-4 border-b border-[#ede8e0] bg-[#faf9f7]">
+          <div>
+            <p className="font-garamond text-[#1a1714] text-xl leading-tight">{yurt.name}</p>
+            <p className="font-inter text-[#a89578] text-xs mt-0.5">{t('addYurtModalSubtitle')}</p>
+          </div>
+          <button type="button" onClick={onClose} className="w-10 h-10 flex items-center justify-center rounded-full hover:bg-[#ede8e0] transition-colors text-[#1a1714]/60">
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M6 18L18 6M6 6l12 12" /></svg>
+          </button>
         </div>
-        <button
-          type="button"
-          onClick={onClose}
-          className="w-10 h-10 flex items-center justify-center rounded-full hover:bg-[#ede8e0] transition-colors touch-manipulation text-[#1a1714]/60 hover:text-[#1a1714]"
-          aria-label="Close"
-        >
-          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M6 18L18 6M6 6l12 12" />
-          </svg>
-        </button>
+        <div className="flex-1 overflow-y-auto">
+          <div className="px-5 py-6 pb-4">
+            <MobileFormBody
+              t={t} rec={rec} floorWalls={floorWalls} setFloorWalls={setFloorWalls}
+              customInterior={customInterior} setCustomInterior={setCustomInterior}
+              coverId={coverId} setCoverId={setCoverId}
+              logistics={logistics} setLogistics={setLogistics}
+              pillowsQty={pillowsQty} setPillowsQty={setPillowsQty}
+              korpeQty={korpeQty} setKorpeQty={setKorpeQty}
+              bed={bed} setBed={setBed}
+              traditionalList={traditionalList} loadingTraditional={loadingTraditional}
+              selectedTraditionalIds={selectedTraditionalIds} toggleTraditional={toggleTraditional}
+              expandedId={expandedId} setExpandedId={setExpandedId}
+              note={note} setNote={setNote}
+            />
+            <div className="h-32" />
+          </div>
+        </div>
+        {/* Mobile footer */}
+        <div className="shrink-0 border-t border-[#ede8e0] bg-[#faf9f7] px-5 py-4 shadow-[0_-4px_20px_rgba(0,0,0,0.06)]">
+          <div className="flex items-baseline justify-between mb-3">
+            <span className="font-inter text-[#a89578] text-xs uppercase tracking-wider">Total</span>
+            <div className="text-right">
+              <span className="font-garamond text-[#1a1714] text-2xl">${total.toLocaleString('en-US')}</span>
+              {addonsTotal > 0 && <span className="font-inter text-[#a89578] text-xs ml-2">+ ${addonsTotal.toLocaleString('en-US')} add-ons</span>}
+            </div>
+          </div>
+          <div className="flex gap-3">
+            <button type="button" onClick={() => handleConfirm(false)} className="py-3 px-4 rounded-xl border border-[#d4c8b8] text-[#1a1714]/70 font-inter text-xs uppercase tracking-wider hover:bg-[#ede8e0] transition-colors whitespace-nowrap">{t('addYurtOnly')}</button>
+            <button type="button" onClick={() => handleConfirm(true)} className="flex-1 py-3 px-6 rounded-xl bg-[#1a1714] text-white font-inter text-sm font-medium uppercase tracking-wider hover:bg-[#2d2825] active:scale-[0.98] transition-all">{t('addToCartWithOptions')}</button>
+          </div>
+        </div>
       </div>
 
-      {/* ── SCROLLABLE BODY ── */}
-      <div className="flex-1 overflow-y-auto">
-        <div className="max-w-2xl mx-auto px-5 py-6 pb-4">
+      {/* ── DESKTOP: split modal ── */}
+      <div className="hidden md:flex relative z-10 bg-[#faf9f7] rounded-2xl shadow-2xl overflow-hidden"
+        style={{ width: 'min(960px, 94vw)', height: 'min(90vh, 860px)' }}>
+
+        {/* Close button */}
+        <button type="button" onClick={onClose}
+          className="absolute top-4 right-4 z-20 w-9 h-9 flex items-center justify-center rounded-full bg-white/80 hover:bg-white text-[#1a1714]/60 hover:text-[#1a1714] shadow transition-all">
+          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
+        </button>
+
+        {/* LEFT: photo + summary (sticky) */}
+        <div className="w-[340px] shrink-0 flex flex-col bg-[#1a1714] relative overflow-hidden">
+          {/* Yurt photo */}
+          <div className="flex-1 relative">
+            {yurt.photo ? (
+              <img src={yurt.photo} alt={yurt.name} className="absolute inset-0 w-full h-full object-cover opacity-80" />
+            ) : (
+              <div className="absolute inset-0 bg-gradient-to-b from-[#2d2825] to-[#1a1714]" />
+            )}
+            {/* Gradient overlay */}
+            <div className="absolute inset-0 bg-gradient-to-t from-[#1a1714] via-[#1a1714]/20 to-transparent" />
+          </div>
+
+          {/* Info panel at bottom */}
+          <div className="shrink-0 p-7 relative z-10">
+            <p className="font-inter text-[#a89578] text-[10px] uppercase tracking-[0.25em] mb-2">Configure your order</p>
+            <h2 className="font-garamond text-white text-3xl leading-tight mb-1">{yurt.name}</h2>
+            <p className="font-inter text-white/50 text-xs mb-6">{t('addYurtModalSubtitle')}</p>
+
+            {/* Live price */}
+            <div className="border-t border-white/10 pt-5">
+              <div className="flex justify-between items-baseline mb-2">
+                <span className="font-inter text-white/50 text-xs uppercase tracking-wider">Yurt</span>
+                <span className="font-inter text-white/80 text-sm">${yurt.price_usd.toLocaleString('en-US')}</span>
+              </div>
+              {addonsTotal > 0 && (
+                <div className="flex justify-between items-baseline mb-2">
+                  <span className="font-inter text-white/50 text-xs uppercase tracking-wider">Add-ons</span>
+                  <span className="font-inter text-white/80 text-sm">+${addonsTotal.toLocaleString('en-US')}</span>
+                </div>
+              )}
+              <div className="flex justify-between items-baseline mt-3 pt-3 border-t border-white/10">
+                <span className="font-inter text-white/60 text-xs uppercase tracking-wider">Total</span>
+                <span className="font-garamond text-white text-2xl">${total.toLocaleString('en-US')}</span>
+              </div>
+            </div>
+
+            {/* CTA buttons */}
+            <div className="mt-5 flex flex-col gap-2">
+              <button type="button" onClick={() => handleConfirm(true)}
+                className="w-full py-3.5 rounded-xl bg-[#a89578] text-white font-inter text-sm font-medium uppercase tracking-wider hover:bg-[#c0ab90] active:scale-[0.98] transition-all">
+                {t('addToCartWithOptions')}
+              </button>
+              <button type="button" onClick={() => handleConfirm(false)}
+                className="w-full py-3 rounded-xl border border-white/20 text-white/60 font-inter text-xs uppercase tracking-wider hover:border-white/40 hover:text-white/80 transition-all">
+                {t('addYurtOnly')}
+              </button>
+            </div>
+          </div>
+        </div>
+
+        {/* RIGHT: scrollable form */}
+        <div className="flex-1 overflow-y-auto">
+          <div className="px-8 py-7 pb-10">
+        <MobileFormBody
+              t={t} rec={rec} floorWalls={floorWalls} setFloorWalls={setFloorWalls}
+              customInterior={customInterior} setCustomInterior={setCustomInterior}
+              coverId={coverId} setCoverId={setCoverId}
+              logistics={logistics} setLogistics={setLogistics}
+              pillowsQty={pillowsQty} setPillowsQty={setPillowsQty}
+              korpeQty={korpeQty} setKorpeQty={setKorpeQty}
+              bed={bed} setBed={setBed}
+              traditionalList={traditionalList} loadingTraditional={loadingTraditional}
+              selectedTraditionalIds={selectedTraditionalIds} toggleTraditional={toggleTraditional}
+              expandedId={expandedId} setExpandedId={setExpandedId}
+              note={note} setNote={setNote}
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+// Shared form body used in both mobile and desktop
+function MobileFormBody({
+  t, rec, floorWalls, setFloorWalls, customInterior, setCustomInterior,
+  coverId, setCoverId, logistics, setLogistics,
+  pillowsQty, setPillowsQty, korpeQty, setKorpeQty,
+  bed, setBed, traditionalList, loadingTraditional,
+  selectedTraditionalIds, toggleTraditional, expandedId, setExpandedId,
+  note, setNote,
+}: {
+  t: ReturnType<typeof import('next-intl').useTranslations<'catalog'>>
+  rec: { pillowsMin: number; pillowsMax: number; korpeMin: number; korpeMax: number }
+  floorWalls: FloorWallsOption; setFloorWalls: (v: FloorWallsOption) => void
+  customInterior: boolean; setCustomInterior: (v: boolean) => void
+  coverId: string | null; setCoverId: (v: string | null) => void
+  logistics: LogisticsOption; setLogistics: (v: LogisticsOption) => void
+  pillowsQty: number; setPillowsQty: (v: number) => void
+  korpeQty: number; setKorpeQty: (v: number) => void
+  bed: boolean; setBed: (v: boolean) => void
+  traditionalList: ApiAccessory[]; loadingTraditional: boolean
+  selectedTraditionalIds: string[]; toggleTraditional: (id: string) => void
+  expandedId: string | null; setExpandedId: (v: string | null) => void
+  note: string; setNote: (v: string) => void
+}) {
+  const SectionLabel = ({ children }: { children: React.ReactNode }) => (
+    <p className="font-inter text-[10px] uppercase tracking-[0.2em] text-[#a89578] mb-3 mt-1">{children}</p>
+  )
+  const Divider = () => <div className="border-t border-[#ede8e0] my-6" />
+
+  return (
+    <>
+      {/* ── INTERIOR ── */}
+      <SectionLabel>{t('interiorOptionsTitle')}</SectionLabel>
 
           {/* ── INTERIOR ── */}
           <SectionLabel>{t('interiorOptionsTitle')}</SectionLabel>
@@ -405,43 +549,6 @@ export function AddYurtModal({ yurt, locale, onConfirm, onClose }: Props) {
             className="w-full rounded-xl border border-[#d4c8b8] bg-white px-4 py-3 text-[#1a1714] text-sm font-inter placeholder:text-[#a89578]/60 resize-none focus:outline-none focus:border-[#a89578] transition-colors"
           />
 
-          {/* Bottom spacer so sticky footer doesn't cover content */}
-          <div className="h-32" />
-        </div>
-      </div>
-
-      {/* ── STICKY FOOTER ── */}
-      <div className="shrink-0 border-t border-[#ede8e0] bg-[#faf9f7] px-5 py-4 shadow-[0_-4px_20px_rgba(0,0,0,0.06)]">
-        {/* Price summary */}
-        <div className="flex items-baseline justify-between mb-3 max-w-2xl mx-auto">
-          <span className="font-inter text-[#a89578] text-xs uppercase tracking-wider">Total</span>
-          <div className="text-right">
-            <span className="font-garamond text-[#1a1714] text-2xl">${total.toLocaleString('en-US')}</span>
-            {addonsTotal > 0 && (
-              <span className="font-inter text-[#a89578] text-xs ml-2">
-                (yurt ${yurt.price_usd.toLocaleString('en-US')} + add-ons ${addonsTotal.toLocaleString('en-US')})
-              </span>
-            )}
-          </div>
-        </div>
-        {/* Buttons */}
-        <div className="flex gap-3 max-w-2xl mx-auto">
-          <button
-            type="button"
-            onClick={() => handleConfirm(false)}
-            className="py-3 px-4 rounded-xl border border-[#d4c8b8] text-[#1a1714]/70 font-inter text-xs uppercase tracking-wider hover:bg-[#ede8e0] transition-colors touch-manipulation whitespace-nowrap"
-          >
-            {t('addYurtOnly')}
-          </button>
-          <button
-            type="button"
-            onClick={() => handleConfirm(true)}
-            className="flex-1 py-3 px-6 rounded-xl bg-[#1a1714] text-white font-inter text-sm font-medium uppercase tracking-wider hover:bg-[#2d2825] active:scale-[0.98] transition-all touch-manipulation"
-          >
-            {t('addToCartWithOptions')}
-          </button>
-        </div>
-      </div>
-    </div>
+    </>
   )
 }
