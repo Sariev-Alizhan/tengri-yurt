@@ -173,53 +173,85 @@ export async function GET(request: Request) {
       y -= 12;
     }
 
+    // also list addons from order_options inline (they're not in order_items)
+    const opts = orderRow.order_options as OrderOptions | null | undefined;
+    if (opts?.addons?.length) {
+      for (const a of opts.addons) {
+        const addonTotal = (a.price_usd * a.quantity).toFixed(2);
+        const addonText = safe(`  + ${a.name} x ${a.quantity} — $${a.price_usd} = $${addonTotal}`);
+        page.drawText(addonText.substring(0, 80), { x: 50, y, size: 10, font, color: rgb(0.35, 0.25, 0.1) });
+        y -= 12;
+      }
+    }
+    if (opts?.selectedAccessories?.length) {
+      for (const accName of opts.selectedAccessories) {
+        const accText = safe(`  + ${accName}`);
+        page.drawText(accText.substring(0, 80), { x: 50, y, size: 10, font, color: rgb(0.35, 0.25, 0.1) });
+        y -= 12;
+      }
+    }
+
     y -= 6;
     page.drawLine({ start: { x: 50, y }, end: { x: width - 50, y }, thickness: 0.5, color: rgb(0.2, 0.2, 0.2) });
     y -= 12;
     drawText(`Total: $${orderRow.total_price_usd.toFixed(2)}`, 50, 12, true);
 
-    const opts = orderRow.order_options as OrderOptions | null | undefined;
-    if (type === 'store') {
-      const drawLine = (text: string) => {
-        page.drawText(safe(text).slice(0, 90), { x: 50, y, size: 9, font, color: rgb(0.25, 0.25, 0.25) });
-        y -= 11;
-      };
-      if (opts) {
-        y -= 16;
-        if (opts.interior) {
-          drawText('Interior', 50, 10, true); y -= 4;
-          drawLine(`Floor & Walls: ${opts.interior.floorWalls === 'carpolan' ? 'Carpolan (in stock)' : 'Felt (1 month)'}`);
-          if (opts.interior.exclusiveCustom) drawLine('Exclusive custom interior');
-          if (opts.interior.coverCustom) drawLine('Cover (custom order)');
-          y -= 6;
-        }
-        if (opts.logistics) {
-          drawText('Logistics', 50, 10, true); y -= 4;
-          drawLine(opts.logistics.method === 'sea' ? 'Sea — 30-60 days' : 'Air — 3-10 days');
-          y -= 6;
-        }
-        if (opts.addons?.length) {
-          drawText('Add-ons', 50, 10, true); y -= 4;
-          for (const a of opts.addons) drawLine(`${a.name} x ${a.quantity} — $${a.price_usd}`);
-          y -= 6;
-        }
-        if (opts.delivery) {
-          drawText('Delivery details', 50, 10, true); y -= 4;
-          drawLine([opts.delivery.address, opts.delivery.postalCode, opts.delivery.notes].filter(Boolean).join(' · '));
-          y -= 6;
-        }
-        if (opts.selectedAccessories?.length) {
-          drawText('Selected Accessories', 50, 10, true); y -= 4;
-          drawLine(opts.selectedAccessories.join(', '));
-          y -= 6;
-        }
+    // Order details section — shown for both client and store
+    const drawDetail = (text: string) => {
+      page.drawText(safe(text).slice(0, 90), { x: 50, y, size: 9, font, color: rgb(0.25, 0.25, 0.25) });
+      y -= 13;
+    };
+
+    if (opts) {
+      y -= 16;
+      page.drawLine({ start: { x: 50, y }, end: { x: width - 50, y }, thickness: 0.3, color: rgb(0.75, 0.7, 0.65) });
+      y -= 12;
+      drawText('Order Details', 50, 11, true);
+      y -= 6;
+
+      if (opts.interior) {
+        drawText('Interior', 50, 10, true); y -= 2;
+        drawDetail(`Floor & Walls: ${opts.interior.floorWalls === 'carpolan' ? 'Carpolan (in stock)' : 'Felt (1 month lead time)'}`);
+        if (opts.interior.exclusiveCustom) drawDetail('  Exclusive custom interior (on order)');
+        if (opts.interior.coverCustom) drawDetail('  Cover (custom order)');
+        y -= 4;
       }
-      if (orderRow.message) {
-        y -= 8;
-        drawText('Message', 50, 10, true); y -= 4;
-        const msg = safe(orderRow.message.slice(0, 400).replace(/\n/g, ' '));
-        page.drawText(msg, { x: 50, y, size: 9, font, color: rgb(0.3, 0.3, 0.3) });
+
+      if (opts.logistics) {
+        drawText('Shipping method', 50, 10, true); y -= 2;
+        drawDetail(opts.logistics.method === 'sea' ? 'Sea freight — 30-60 days' : 'Air freight — 3-10 days');
+        y -= 4;
       }
+
+      if (opts.addons?.length) {
+        drawText('Add-ons & accessories', 50, 10, true); y -= 2;
+        for (const a of opts.addons) {
+          drawDetail(`${a.name}  x${a.quantity}  — $${(a.price_usd * a.quantity).toFixed(2)}`);
+        }
+        y -= 4;
+      }
+
+      if (opts.selectedAccessories?.length) {
+        drawText('Selected traditional accessories', 50, 10, true); y -= 2;
+        for (const name of opts.selectedAccessories) drawDetail(`  ${name}`);
+        y -= 4;
+      }
+
+      if (opts.delivery && (opts.delivery.address || opts.delivery.postalCode || opts.delivery.notes)) {
+        drawText('Delivery details', 50, 10, true); y -= 2;
+        if (opts.delivery.address) drawDetail(`Address: ${opts.delivery.address}`);
+        if (opts.delivery.postalCode) drawDetail(`Postal code: ${opts.delivery.postalCode}`);
+        if (opts.delivery.notes) drawDetail(`Notes: ${opts.delivery.notes}`);
+        y -= 4;
+      }
+    }
+
+    if (orderRow.message) {
+      y -= 8;
+      drawText('Note from customer', 50, 10, true); y -= 2;
+      const msg = safe(orderRow.message.slice(0, 400).replace(/\n/g, ' '));
+      page.drawText(msg.slice(0, 90), { x: 50, y, size: 9, font, color: rgb(0.3, 0.3, 0.3) });
+      y -= 14;
     }
 
     const pdfBytes = await pdfDoc.save();
