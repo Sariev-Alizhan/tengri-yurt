@@ -1,9 +1,9 @@
 import { getTranslations } from 'next-intl/server';
 import { notFound } from 'next/navigation';
-import Image from 'next/image';
 import { createClient } from '@/utils/supabase/server';
 import { PriceUsdKzt } from '@/components/PriceUsdKzt';
 import { YurtDetailAddToCart } from '@/components/YurtDetailAddToCart';
+import { YurtPhotoCarousel } from '@/components/YurtPhotoCarousel';
 import { DEFAULT_YURTS } from '@/lib/defaultCatalog';
 
 export default async function YurtDetailPage({
@@ -64,30 +64,22 @@ export default async function YurtDetailPage({
   }
 
   const supplier = Array.isArray(yurt.suppliers) ? yurt.suppliers[0] : yurt.suppliers;
-  const mainPhoto = yurt.photos?.[0];
+  const photos: string[] = (yurt.photos ?? []).filter(Boolean);
   const knownYurtSlugs = ['intimate', 'cozy', 'classic', 'spacious', 'grand', 'monumental'] as const;
   const displayName = knownYurtSlugs.includes(yurt.slug as typeof knownYurtSlugs[number]) ? t(`yurtNames.${yurt.slug}`) : yurt.name;
 
   return (
     <div className="bg-beige min-h-screen">
-      {/* Hero: full-screen image with overlay */}
-      <section className="relative h-[60vh] min-h-[320px] sm:min-h-[380px] md:h-[70vh] flex items-end">
-        <div className="absolute inset-0 z-0">
-          {mainPhoto ? (
-            <Image
-              src={mainPhoto}
-              alt={displayName}
-              fill
-              className="object-cover"
-              priority
-              sizes="100vw"
-            />
-          ) : (
-            <div className="absolute inset-0 bg-white/10" />
-          )}
-          <div className="absolute inset-0 z-[1]" style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0.15) 50%, transparent)' }} />
-        </div>
-        <div className="relative z-10 w-full max-w-6xl mx-auto px-4 sm:px-6 pb-8 sm:pb-12 md:pb-16">
+      {/* Hero: photo carousel */}
+      <section className="relative h-[60vh] min-h-[320px] sm:min-h-[380px] md:h-[70vh] flex flex-col overflow-hidden">
+        {photos.length > 0 ? (
+          <YurtPhotoCarousel photos={photos} name={displayName} />
+        ) : (
+          <div className="absolute inset-0 bg-[#1a1714]" />
+        )}
+        {/* Yurt name overlay */}
+        <div className="absolute bottom-0 left-0 right-0 z-30 w-full max-w-6xl mx-auto px-4 sm:px-6 pb-8 sm:pb-12 md:pb-16 pointer-events-none"
+          style={{ paddingBottom: photos.length > 1 ? '3.5rem' : undefined }}>
           <h1 className="font-garamond text-white text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-medium tracking-tight drop-shadow-sm">
             {displayName}
           </h1>
@@ -168,32 +160,13 @@ export default async function YurtDetailPage({
                 slug={yurt.slug}
                 price_usd={yurt.price_usd}
                 supplier_id={yurt.supplier_id ?? 'default'}
-                photo={mainPhoto ?? null}
+                photo={photos[0] ?? null}
                 addToCartLabel={t('addToCart')}
               />
             </div>
           </div>
         </div>
 
-        {/* Gallery grid */}
-        {yurt.photos && yurt.photos.length > 1 && (
-          <div className="mt-20 pt-20 border-t border-white/10">
-            <h2 className="font-garamond text-white text-2xl mb-8">{t('galleryLabel')}</h2>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-              {yurt.photos.map((url: string, i: number) => (
-                <div key={i} className="relative aspect-[4/3] overflow-hidden">
-                  <Image
-                    src={url}
-                    alt={`${yurt.name} ${i + 1}`}
-                    fill
-                    className="object-cover"
-                    sizes="(max-width: 768px) 100vw, 33vw"
-                  />
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
       </section>
     </div>
   );
