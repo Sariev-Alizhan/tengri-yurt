@@ -6,6 +6,22 @@ import fs from 'fs/promises';
 
 export const dynamic = 'force-dynamic';
 
+// Transliterate Cyrillic → Latin so pdf-lib standard fonts don't crash
+const CYR_MAP: Record<string, string> = {
+  а:'a',б:'b',в:'v',г:'g',д:'d',е:'e',ё:'yo',ж:'zh',з:'z',и:'i',й:'y',
+  к:'k',л:'l',м:'m',н:'n',о:'o',п:'p',р:'r',с:'s',т:'t',у:'u',ф:'f',
+  х:'kh',ц:'ts',ч:'ch',ш:'sh',щ:'sch',ъ:"'",ы:'y',ь:"'",э:'e',ю:'yu',я:'ya',
+  А:'A',Б:'B',В:'V',Г:'G',Д:'D',Е:'E',Ё:'Yo',Ж:'Zh',З:'Z',И:'I',Й:'Y',
+  К:'K',Л:'L',М:'M',Н:'N',О:'O',П:'P',Р:'R',С:'S',Т:'T',У:'U',Ф:'F',
+  Х:'Kh',Ц:'Ts',Ч:'Ch',Ш:'Sh',Щ:'Sch',Ъ:"'",Ы:'Y',Ь:"'",Э:'E',Ю:'Yu',Я:'Ya',
+};
+function safe(text: string): string {
+  return (text ?? '')
+    .split('')
+    .map((c) => CYR_MAP[c] ?? (c.charCodeAt(0) > 127 ? '?' : c))
+    .join('');
+}
+
 export async function GET(request: Request) {
   try {
     const { searchParams } = new URL(request.url);
@@ -136,14 +152,14 @@ export async function GET(request: Request) {
     };
 
     const title = type === 'store' ? `Order (Store) #${orderRow.order_number}` : `Order Receipt #${orderRow.order_number}`;
-    drawText(title, 50, 18, true);
+    drawText(safe(title), 50, 18, true);
     y -= 8;
 
     drawText(`Date: ${new Date(orderRow.created_at).toLocaleString()}`, 50, 10);
-    drawText(`Buyer: ${orderRow.buyer_name}`, 50, 10);
-    drawText(`Email: ${orderRow.buyer_email}`, 50, 10);
-    if (orderRow.buyer_phone) drawText(`Phone: ${orderRow.buyer_phone}`, 50, 10);
-    drawText(`Delivery: ${orderRow.delivery_country}, ${orderRow.delivery_city || ''}${orderRow.delivery_address ? ', ' + orderRow.delivery_address : ''}`, 50, 10);
+    drawText(safe(`Buyer: ${orderRow.buyer_name}`), 50, 10);
+    drawText(safe(`Email: ${orderRow.buyer_email}`), 50, 10);
+    if (orderRow.buyer_phone) drawText(safe(`Phone: ${orderRow.buyer_phone}`), 50, 10);
+    drawText(safe(`Delivery: ${orderRow.delivery_country}, ${orderRow.delivery_city || ''}${orderRow.delivery_address ? ', ' + orderRow.delivery_address : ''}`), 50, 10);
     drawText(`Shipping: ${orderRow.shipping_method === 'air' ? 'Air' : 'Sea'}`, 50, 10);
     y -= 12;
 
@@ -152,7 +168,7 @@ export async function GET(request: Request) {
     y -= 10;
 
     for (const line of lineItems) {
-      const lineText = `${line.name} × ${line.quantity} — $${line.unitPrice.toFixed(2)} = $${line.total.toFixed(2)}`;
+      const lineText = safe(`${line.name} x ${line.quantity} — $${line.unitPrice.toFixed(2)} = $${line.total.toFixed(2)}`);
       page.drawText(lineText.substring(0, 80), { x: 50, y, size: 10, font, color: rgb(0.2, 0.2, 0.2) });
       y -= 12;
     }
@@ -165,7 +181,7 @@ export async function GET(request: Request) {
     const opts = orderRow.order_options as OrderOptions | null | undefined;
     if (type === 'store') {
       const drawLine = (text: string) => {
-        page.drawText(text.slice(0, 90), { x: 50, y, size: 9, font, color: rgb(0.25, 0.25, 0.25) });
+        page.drawText(safe(text).slice(0, 90), { x: 50, y, size: 9, font, color: rgb(0.25, 0.25, 0.25) });
         y -= 11;
       };
       if (opts) {
@@ -201,7 +217,7 @@ export async function GET(request: Request) {
       if (orderRow.message) {
         y -= 8;
         drawText('Message', 50, 10, true); y -= 4;
-        const msg = orderRow.message.slice(0, 400).replace(/\n/g, ' ');
+        const msg = safe(orderRow.message.slice(0, 400).replace(/\n/g, ' '));
         page.drawText(msg, { x: 50, y, size: 9, font, color: rgb(0.3, 0.3, 0.3) });
       }
     }
