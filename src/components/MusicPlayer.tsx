@@ -63,25 +63,25 @@ export function MusicPlayer() {
         gap: '12px',
       }}>
 
+        {/* Track name — always white, same brightness playing or not */}
         <p className="font-inter uppercase" style={{
           fontSize: '8px',
           letterSpacing: '0.35em',
           writingMode: 'vertical-rl',
           transform: 'rotate(180deg)',
-          color: playing ? 'rgba(168,149,120,0.85)' : 'rgba(255,255,255,0.55)',
-          transition: 'color 0.3s ease',
+          color: 'rgba(255,255,255,0.7)',
           margin: 0,
         }}>
           Бесік күйі
         </p>
 
+        {/* Line — always same brightness */}
         <div style={{
           width: '1px',
           height: '48px',
           position: 'relative',
           overflow: 'hidden',
-          background: playing ? 'rgba(168,149,120,0.3)' : 'rgba(255,255,255,0.2)',
-          transition: 'background 0.3s ease',
+          background: 'rgba(255,255,255,0.25)',
         }}>
           {playing && (
             <div style={{
@@ -89,7 +89,7 @@ export function MusicPlayer() {
               left: 0,
               width: '100%',
               height: '40%',
-              background: '#a89578',
+              background: 'rgba(255,255,255,0.9)',
               animation: 'tkScanLine 1.8s linear infinite',
             }} />
           )}
@@ -102,45 +102,33 @@ export function MusicPlayer() {
             width: '36px',
             height: '36px',
             flexShrink: 0,
-            border: playing ? '1px solid rgba(168,149,120,0.8)' : '1px solid rgba(255,255,255,0.4)',
-            background: playing ? 'rgba(168,149,120,0.12)' : 'rgba(255,255,255,0.04)',
+            border: playing ? '1px solid rgba(255,255,255,0.8)' : '1px solid rgba(255,255,255,0.4)',
+            background: playing ? 'rgba(255,255,255,0.1)' : 'rgba(255,255,255,0.04)',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
             cursor: 'pointer',
+            outline: 'none',
             transition: 'border-color 0.3s ease, background 0.3s ease',
             position: 'relative',
             overflow: 'hidden',
           }}
           onMouseEnter={e => {
-            if (!playing) {
-              e.currentTarget.style.borderColor = 'rgba(255,255,255,0.7)'
-              e.currentTarget.style.background = 'rgba(255,255,255,0.08)'
-            }
+            e.currentTarget.style.borderColor = 'rgba(255,255,255,0.9)'
+            e.currentTarget.style.background = 'rgba(255,255,255,0.12)'
           }}
           onMouseLeave={e => {
-            if (!playing) {
-              e.currentTarget.style.borderColor = 'rgba(255,255,255,0.4)'
-              e.currentTarget.style.background = 'rgba(255,255,255,0.04)'
-            }
+            e.currentTarget.style.borderColor = playing ? 'rgba(255,255,255,0.8)' : 'rgba(255,255,255,0.4)'
+            e.currentTarget.style.background = playing ? 'rgba(255,255,255,0.1)' : 'rgba(255,255,255,0.04)'
           }}
         >
-          {playing && (
-            <span style={{
-              position: 'absolute',
-              inset: 0,
-              background: 'linear-gradient(90deg, transparent, rgba(168,149,120,0.15), transparent)',
-              animation: 'tkShimmer 2s linear infinite',
-            }} />
-          )}
-
           {playing ? (
-            <span style={{ display: 'flex', gap: '4px', alignItems: 'center', position: 'relative' }}>
-              <span style={{ display: 'block', width: '2px', height: '12px', background: '#a89578' }} />
-              <span style={{ display: 'block', width: '2px', height: '12px', background: '#a89578' }} />
+            <span style={{ display: 'flex', gap: '4px', alignItems: 'center' }}>
+              <span style={{ display: 'block', width: '2px', height: '12px', background: 'rgba(255,255,255,0.9)' }} />
+              <span style={{ display: 'block', width: '2px', height: '12px', background: 'rgba(255,255,255,0.9)' }} />
             </span>
           ) : (
-            <svg width="10" height="12" viewBox="0 0 10 12" fill="none" style={{ position: 'relative' }}>
+            <svg width="10" height="12" viewBox="0 0 10 12" fill="none">
               <path d="M0 0L10 6L0 12V0Z" fill="rgba(255,255,255,0.85)" />
             </svg>
           )}
