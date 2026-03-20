@@ -52,7 +52,7 @@ export function MusicPlayer() {
 
   return (
     <>
-      <div style={{
+      <div className="tk-player" style={{
         position: 'fixed',
         bottom: '80px',
         left: '32px',
@@ -61,8 +61,6 @@ export function MusicPlayer() {
         flexDirection: 'column',
         alignItems: 'center',
         gap: '12px',
-        animation: 'tkFadeIn 0.8s ease 2s both',
-        willChange: 'opacity, transform',
       }}>
 
         <p className="font-inter uppercase" style={{
@@ -150,6 +148,11 @@ export function MusicPlayer() {
       </div>
 
       <style>{`
+        /* Class-based animation — React won't touch it on re-renders */
+        .tk-player {
+          animation: tkFadeIn 0.8s ease 2s both;
+          will-change: opacity, transform;
+        }
         @keyframes tkFadeIn {
           from { opacity: 0; transform: translateY(10px); }
           to   { opacity: 1; transform: translateY(0); }
