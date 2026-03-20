@@ -1,10 +1,10 @@
 import { getTranslations } from 'next-intl/server';
 import { notFound } from 'next/navigation';
-import Image from 'next/image';
 import Link from 'next/link';
 import { createClient } from '@/utils/supabase/server';
 import { PriceUsdKzt } from '@/components/PriceUsdKzt';
 import { AccessoryDetailAddToCart } from '@/components/AccessoryDetailAddToCart';
+import { YurtPhotoCarousel } from '@/components/YurtPhotoCarousel';
 import { DEFAULT_ACCESSORIES } from '@/lib/defaultCatalog';
 
 export default async function AccessoryDetailPage({
@@ -68,7 +68,8 @@ export default async function AccessoryDetailPage({
   }
 
   const supplier = Array.isArray(accessory.suppliers) ? accessory.suppliers[0] : accessory.suppliers;
-  const mainPhoto = accessory.photos?.[0];
+  const photos: string[] = (accessory.photos ?? []).filter(Boolean);
+  const mainPhoto = photos[0];
   const nameI18n = (accessory as { name_i18n?: Record<string, string> }).name_i18n;
   const descI18n = (accessory as { description_i18n?: Record<string, string> }).description_i18n;
   const historyI18n = (accessory as { history_i18n?: Record<string, string> }).history_i18n;
@@ -88,24 +89,17 @@ export default async function AccessoryDetailPage({
 
   return (
     <div className="bg-beige min-h-screen">
-      {/* Hero: full-screen image with overlay */}
-      <section className="relative h-[70vh] min-h-[400px] flex items-end">
-        <div className="absolute inset-0 z-0">
-          {mainPhoto ? (
-            <Image
-              src={mainPhoto}
-              alt={displayName}
-              fill
-              className="object-cover"
-              priority
-              sizes="100vw"
-            />
-          ) : (
-            <div className="absolute inset-0 bg-white/10" />
-          )}
-          <div className="absolute inset-0 z-[1]" style={{ background: 'rgba(0,0,0,0.25)' }} />
-        </div>
-        <div className="relative z-10 w-full max-w-6xl mx-auto px-4 sm:px-6 pb-16">
+      {/* Hero: photo carousel */}
+      <section className="relative h-[70vh] min-h-[400px] flex flex-col overflow-hidden">
+        {photos.length > 0 ? (
+          <YurtPhotoCarousel photos={photos} name={displayName} />
+        ) : (
+          <div className="absolute inset-0 bg-[#1a1714]" />
+        )}
+        <div
+          className="absolute bottom-0 left-0 right-0 z-30 w-full max-w-6xl mx-auto px-4 sm:px-6 pointer-events-none"
+          style={{ paddingBottom: photos.length > 1 ? '3.5rem' : '4rem' }}
+        >
           <h1 className="font-garamond text-white text-4xl md:text-6xl">
             {displayName}
           </h1>
@@ -186,25 +180,6 @@ export default async function AccessoryDetailPage({
           </div>
         </div>
 
-        {/* Gallery grid */}
-        {accessory.photos && accessory.photos.length > 1 && (
-          <div className="mt-20 pt-20 border-t border-white/10">
-            <h2 className="font-garamond text-white text-2xl mb-8">{t('galleryLabel')}</h2>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-              {accessory.photos.map((url: string, i: number) => (
-                <div key={i} className="relative aspect-[4/3] overflow-hidden">
-                  <Image
-                    src={url}
-                    alt={`${accessory.name} ${i + 1}`}
-                    fill
-                    className="object-cover"
-                    sizes="(max-width: 768px) 100vw, 33vw"
-                  />
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
       </section>
     </div>
   );
