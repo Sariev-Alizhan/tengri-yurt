@@ -1,16 +1,32 @@
 'use client'
 
 import { useEffect, useRef, useState } from 'react'
+import { usePathname } from 'next/navigation'
 
 export function MusicPlayer() {
   const audioRef = useRef<HTMLAudioElement | null>(null)
   const [playing, setPlaying] = useState(false)
   const [visible, setVisible] = useState(false)
+  const pathname = usePathname()
+
+  const isSupplierPage = pathname?.includes('/supplier/')
 
   useEffect(() => {
+    if (isSupplierPage) return
     const t = setTimeout(() => setVisible(true), 2000)
     return () => clearTimeout(t)
-  }, [])
+  }, [isSupplierPage])
+
+  // Pause and hide when navigating to supplier pages
+  useEffect(() => {
+    if (isSupplierPage) {
+      audioRef.current?.pause()
+      setPlaying(false)
+      setVisible(false)
+    }
+  }, [isSupplierPage])
+
+  if (isSupplierPage) return null
 
   const toggle = () => {
     const audio = audioRef.current
