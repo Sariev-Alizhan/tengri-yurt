@@ -38,36 +38,38 @@ export function MusicPlayer() {
       >
         {/* Track name — vertical text, same style as SCROLL label */}
         <p
-          className="font-inter text-white/30 uppercase"
+          className="font-inter uppercase"
           style={{
             fontSize: '8px',
             letterSpacing: '0.35em',
             writingMode: 'vertical-rl',
             transform: 'rotate(180deg)',
+            color: playing ? 'rgba(168,149,120,0.8)' : 'rgba(255,255,255,0.55)',
+            transition: 'color 0.3s ease',
           }}
         >
           Бесік күйі
         </p>
 
-        {/* Thin animated line — static when paused, animated when playing */}
+        {/* Thin animated line */}
         <div className="w-px relative overflow-hidden" style={{ height: '48px' }}>
           <div
             className="absolute inset-0"
-            style={{ background: playing ? 'rgba(168,149,120,0.25)' : 'rgba(255,255,255,0.1)' }}
+            style={{ background: playing ? 'rgba(168,149,120,0.35)' : 'rgba(255,255,255,0.2)' }}
           />
           {playing && (
             <div
               className="absolute left-0 w-full"
               style={{
                 height: '40%',
-                background: 'rgba(168,149,120,0.8)',
+                background: 'rgba(168,149,120,1)',
                 animation: 'scanLine 1.8s ease-in-out infinite',
               }}
             />
           )}
         </div>
 
-        {/* Square play/pause button — no border-radius, matches site's square UI */}
+        {/* Square play/pause button */}
         <button
           onClick={toggle}
           aria-label={playing ? 'Pause ambient music' : 'Play ambient music'}
@@ -76,9 +78,9 @@ export function MusicPlayer() {
             width: '36px',
             height: '36px',
             border: playing
-              ? '1px solid rgba(168,149,120,0.5)'
-              : '1px solid rgba(255,255,255,0.15)',
-            background: playing ? 'rgba(168,149,120,0.08)' : 'transparent',
+              ? '1px solid rgba(168,149,120,0.8)'
+              : '1px solid rgba(255,255,255,0.4)',
+            background: playing ? 'rgba(168,149,120,0.12)' : 'rgba(255,255,255,0.04)',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
@@ -87,36 +89,33 @@ export function MusicPlayer() {
           }}
           onMouseEnter={e => {
             if (!playing) {
-              e.currentTarget.style.borderColor = 'rgba(255,255,255,0.35)'
-              e.currentTarget.style.background = 'rgba(255,255,255,0.04)'
+              e.currentTarget.style.borderColor = 'rgba(255,255,255,0.7)'
+              e.currentTarget.style.background = 'rgba(255,255,255,0.08)'
             }
           }}
           onMouseLeave={e => {
             if (!playing) {
-              e.currentTarget.style.borderColor = 'rgba(255,255,255,0.15)'
-              e.currentTarget.style.background = 'transparent'
+              e.currentTarget.style.borderColor = 'rgba(255,255,255,0.4)'
+              e.currentTarget.style.background = 'rgba(255,255,255,0.04)'
             }
           }}
         >
           {playing ? (
-            /* Pause — two thin vertical bars */
             <div className="flex gap-[4px] items-center">
               <span style={{ display: 'block', width: '2px', height: '12px', background: '#a89578' }} />
               <span style={{ display: 'block', width: '2px', height: '12px', background: '#a89578' }} />
             </div>
           ) : (
-            /* Play — minimal triangle */
             <svg width="10" height="12" viewBox="0 0 10 12" fill="none">
-              <path d="M0 0L10 6L0 12V0Z" fill="rgba(255,255,255,0.55)" />
+              <path d="M0 0L10 6L0 12V0Z" fill="rgba(255,255,255,0.85)" />
             </svg>
           )}
 
-          {/* Outer pulse ring when playing — square, not circle */}
           {playing && (
             <span
               className="absolute inset-0"
               style={{
-                border: '1px solid rgba(168,149,120,0.3)',
+                border: '1px solid rgba(168,149,120,0.5)',
                 animation: 'squarePulse 2.4s ease-out infinite',
               }}
             />
