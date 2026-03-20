@@ -1,18 +1,38 @@
 'use client'
 
-import { useRef, useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import { usePathname } from 'next/navigation'
 
+// Module-level singleton — survives page navigations, never recreated
+let _audio: HTMLAudioElement | null = null
+
+function getAudio(): HTMLAudioElement | null {
+  if (typeof window === 'undefined') return null
+  if (!_audio) {
+    _audio = new Audio('/audio/besik-kui.mp3')
+    _audio.loop = true
+    _audio.preload = 'none'
+  }
+  return _audio
+}
+
 export function MusicPlayer() {
-  const audioRef = useRef<HTMLAudioElement | null>(null)
   const [playing, setPlaying] = useState(false)
   const pathname = usePathname()
 
   const isSupplierPage = pathname?.includes('/supplier/')
 
+  // Sync playing state with the actual audio element on mount
+  useEffect(() => {
+    const audio = getAudio()
+    if (!audio) return
+    setPlaying(!audio.paused)
+  }, [])
+
+  // Pause on supplier pages
   useEffect(() => {
     if (isSupplierPage) {
-      audioRef.current?.pause()
+      getAudio()?.pause()
       setPlaying(false)
     }
   }, [isSupplierPage])
@@ -20,21 +40,18 @@ export function MusicPlayer() {
   if (isSupplierPage) return null
 
   const toggle = () => {
-    const audio = audioRef.current
+    const audio = getAudio()
     if (!audio) return
-    if (playing) {
+    if (audio.paused) {
+      audio.play().then(() => setPlaying(true)).catch(() => {})
+    } else {
       audio.pause()
       setPlaying(false)
-    } else {
-      audio.play().then(() => setPlaying(true)).catch(() => {})
     }
   }
 
   return (
     <>
-      <audio ref={audioRef} src="/audio/besik-kui.mp3" loop preload="none" />
-
-      {/* Visibility is CSS-only (animation), not state-driven — clicking play can't break it */}
       <div style={{
         position: 'fixed',
         bottom: '80px',
@@ -48,7 +65,6 @@ export function MusicPlayer() {
         willChange: 'opacity, transform',
       }}>
 
-        {/* Track name — vertical */}
         <p className="font-inter uppercase" style={{
           fontSize: '8px',
           letterSpacing: '0.35em',
@@ -61,7 +77,6 @@ export function MusicPlayer() {
           Бесік күйі
         </p>
 
-        {/* Animated line */}
         <div style={{
           width: '1px',
           height: '48px',
@@ -82,7 +97,6 @@ export function MusicPlayer() {
           )}
         </div>
 
-        {/* Square button */}
         <button
           onClick={toggle}
           aria-label={playing ? 'Pause ambient music' : 'Play ambient music'}
