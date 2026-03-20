@@ -8,8 +8,7 @@ export function MusicPlayer() {
   const [visible, setVisible] = useState(false)
 
   useEffect(() => {
-    // Show the button after a short delay so it doesn't pop in immediately
-    const t = setTimeout(() => setVisible(true), 1500)
+    const t = setTimeout(() => setVisible(true), 2000)
     return () => clearTimeout(t)
   }, [])
 
@@ -28,80 +27,113 @@ export function MusicPlayer() {
     <>
       <audio ref={audioRef} src="/audio/besik-kui.mp3" loop preload="none" />
 
-      <button
-        onClick={toggle}
-        title={playing ? 'Pause music' : 'Play ambient music'}
-        aria-label={playing ? 'Pause ambient music' : 'Play ambient music'}
-        className={`
-          fixed bottom-6 left-6 z-50
-          w-11 h-11 rounded-full
-          bg-[#1a1714]/80 backdrop-blur-md
-          border border-white/15 hover:border-white/30
-          flex items-center justify-center
-          shadow-lg hover:shadow-xl
-          transition-all duration-500
-          ${visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4 pointer-events-none'}
-          hover:scale-105 active:scale-95
-          group
-        `}
+      {/* Mirroring the SCROLL indicator — positioned bottom-left, vertical layout */}
+      <div
+        className="fixed bottom-20 left-8 z-50 flex flex-col items-center gap-3"
+        style={{
+          opacity: visible ? 1 : 0,
+          transform: visible ? 'translateY(0)' : 'translateY(12px)',
+          transition: 'opacity 0.8s ease, transform 0.8s ease',
+        }}
       >
-        {/* Animated sound waves when playing */}
-        {playing && (
-          <span className="absolute inset-0 rounded-full border border-[#a89578]/40 animate-ping" />
-        )}
-
-        {playing ? (
-          /* Pause icon */
-          <svg className="w-4 h-4 text-[#a89578]" fill="currentColor" viewBox="0 0 24 24">
-            <rect x="6" y="5" width="4" height="14" rx="1" />
-            <rect x="14" y="5" width="4" height="14" rx="1" />
-          </svg>
-        ) : (
-          /* Sound / music icon */
-          <svg className="w-4 h-4 text-white/70 group-hover:text-[#a89578] transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8}
-              d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2z" />
-          </svg>
-        )}
-      </button>
-
-      {/* Tooltip label */}
-      <div className={`
-        fixed bottom-[4.5rem] left-6 z-50
-        bg-[#1a1714]/90 backdrop-blur-md
-        border border-white/10 rounded-lg
-        px-3 py-1.5
-        pointer-events-none select-none
-        transition-all duration-300
-        ${playing
-          ? 'opacity-100 translate-y-0'
-          : 'opacity-0 translate-y-1'
-        }
-      `}>
-        <p className="font-inter text-white/70 text-[10px] uppercase tracking-widest whitespace-nowrap">
+        {/* Track name — vertical text, same style as SCROLL label */}
+        <p
+          className="font-inter text-white/30 uppercase"
+          style={{
+            fontSize: '8px',
+            letterSpacing: '0.35em',
+            writingMode: 'vertical-rl',
+            transform: 'rotate(180deg)',
+          }}
+        >
           Бесік күйі
         </p>
-        <div className="flex items-end gap-[3px] mt-1 h-3">
-          {[1, 2, 3, 4].map((i) => (
-            <span
-              key={i}
-              className="w-[3px] rounded-full bg-[#a89578]"
+
+        {/* Thin animated line — static when paused, animated when playing */}
+        <div className="w-px relative overflow-hidden" style={{ height: '48px' }}>
+          <div
+            className="absolute inset-0"
+            style={{ background: playing ? 'rgba(168,149,120,0.25)' : 'rgba(255,255,255,0.1)' }}
+          />
+          {playing && (
+            <div
+              className="absolute left-0 w-full"
               style={{
-                height: playing ? `${[60, 100, 80, 50][i - 1]}%` : '30%',
-                transition: 'height 0.3s ease',
-                animation: playing ? `soundBar${i} 0.8s ease-in-out infinite alternate` : 'none',
-                animationDelay: `${(i - 1) * 0.15}s`,
+                height: '40%',
+                background: 'rgba(168,149,120,0.8)',
+                animation: 'scanLine 1.8s ease-in-out infinite',
               }}
             />
-          ))}
+          )}
         </div>
+
+        {/* Square play/pause button — no border-radius, matches site's square UI */}
+        <button
+          onClick={toggle}
+          aria-label={playing ? 'Pause ambient music' : 'Play ambient music'}
+          className="group relative"
+          style={{
+            width: '36px',
+            height: '36px',
+            border: playing
+              ? '1px solid rgba(168,149,120,0.5)'
+              : '1px solid rgba(255,255,255,0.15)',
+            background: playing ? 'rgba(168,149,120,0.08)' : 'transparent',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            cursor: 'pointer',
+            transition: 'border-color 0.3s ease, background 0.3s ease',
+          }}
+          onMouseEnter={e => {
+            if (!playing) {
+              e.currentTarget.style.borderColor = 'rgba(255,255,255,0.35)'
+              e.currentTarget.style.background = 'rgba(255,255,255,0.04)'
+            }
+          }}
+          onMouseLeave={e => {
+            if (!playing) {
+              e.currentTarget.style.borderColor = 'rgba(255,255,255,0.15)'
+              e.currentTarget.style.background = 'transparent'
+            }
+          }}
+        >
+          {playing ? (
+            /* Pause — two thin vertical bars */
+            <div className="flex gap-[4px] items-center">
+              <span style={{ display: 'block', width: '2px', height: '12px', background: '#a89578' }} />
+              <span style={{ display: 'block', width: '2px', height: '12px', background: '#a89578' }} />
+            </div>
+          ) : (
+            /* Play — minimal triangle */
+            <svg width="10" height="12" viewBox="0 0 10 12" fill="none">
+              <path d="M0 0L10 6L0 12V0Z" fill="rgba(255,255,255,0.55)" />
+            </svg>
+          )}
+
+          {/* Outer pulse ring when playing — square, not circle */}
+          {playing && (
+            <span
+              className="absolute inset-0"
+              style={{
+                border: '1px solid rgba(168,149,120,0.3)',
+                animation: 'squarePulse 2.4s ease-out infinite',
+              }}
+            />
+          )}
+        </button>
       </div>
 
       <style>{`
-        @keyframes soundBar1 { from { height: 30% } to { height: 90% } }
-        @keyframes soundBar2 { from { height: 60% } to { height: 100% } }
-        @keyframes soundBar3 { from { height: 40% } to { height: 80% } }
-        @keyframes soundBar4 { from { height: 20% } to { height: 60% } }
+        @keyframes scanLine {
+          0%   { top: -40%; }
+          100% { top: 140%; }
+        }
+        @keyframes squarePulse {
+          0%   { transform: scale(1);   opacity: 0.6; }
+          60%  { transform: scale(1.8); opacity: 0; }
+          100% { transform: scale(1.8); opacity: 0; }
+        }
       `}</style>
     </>
   )
