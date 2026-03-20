@@ -7,6 +7,7 @@ import { CartProvider } from '@/components/CartContext'
 import { ExchangeRateProvider } from '@/components/ExchangeRateContext'
 import { CookieConsent } from '@/components/CookieConsent'
 import { BackgroundEffects } from '@/components/BackgroundEffects'
+import { MusicPlayer } from '@/components/MusicPlayer'
 
 export function CartLayout({
   locale,
@@ -26,6 +27,7 @@ export function CartLayout({
           <main className="relative z-10 min-h-screen overflow-x-hidden">
             {children}
           </main>
+          <MusicPlayer />
           <CookieConsent />
         </NextIntlClientProvider>
       </ExchangeRateProvider>
