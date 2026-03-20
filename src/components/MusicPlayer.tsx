@@ -1,21 +1,14 @@
 'use client'
 
-import { useEffect, useRef, useState } from 'react'
+import { useRef, useState, useEffect } from 'react'
 import { usePathname } from 'next/navigation'
 
 export function MusicPlayer() {
   const audioRef = useRef<HTMLAudioElement | null>(null)
   const [playing, setPlaying] = useState(false)
-  const [mounted, setMounted] = useState(false)
   const pathname = usePathname()
 
   const isSupplierPage = pathname?.includes('/supplier/')
-
-  useEffect(() => {
-    if (isSupplierPage) return
-    const t = setTimeout(() => setMounted(true), 1800)
-    return () => clearTimeout(t)
-  }, [isSupplierPage])
 
   useEffect(() => {
     if (isSupplierPage) {
@@ -41,63 +34,55 @@ export function MusicPlayer() {
     <>
       <audio ref={audioRef} src="/audio/besik-kui.mp3" loop preload="none" />
 
-      <div
-        style={{
-          position: 'fixed',
-          bottom: '80px',
-          left: '32px',
-          zIndex: 50,
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          gap: '12px',
-          opacity: mounted ? 1 : 0,
-          transform: mounted ? 'translateY(0)' : 'translateY(10px)',
-          transition: 'opacity 0.8s ease, transform 0.8s ease',
-          willChange: 'opacity, transform',
-        }}
-      >
+      {/* Visibility is CSS-only (animation), not state-driven — clicking play can't break it */}
+      <div style={{
+        position: 'fixed',
+        bottom: '80px',
+        left: '32px',
+        zIndex: 50,
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        gap: '12px',
+        animation: 'tkFadeIn 0.8s ease 2s both',
+        willChange: 'opacity, transform',
+      }}>
+
         {/* Track name — vertical */}
-        <p
-          className="font-inter uppercase"
-          style={{
-            fontSize: '8px',
-            letterSpacing: '0.35em',
-            writingMode: 'vertical-rl',
-            transform: 'rotate(180deg)',
-            color: playing ? 'rgba(168,149,120,0.85)' : 'rgba(255,255,255,0.55)',
-            transition: 'color 0.3s ease',
-            margin: 0,
-          }}
-        >
+        <p className="font-inter uppercase" style={{
+          fontSize: '8px',
+          letterSpacing: '0.35em',
+          writingMode: 'vertical-rl',
+          transform: 'rotate(180deg)',
+          color: playing ? 'rgba(168,149,120,0.85)' : 'rgba(255,255,255,0.55)',
+          transition: 'color 0.3s ease',
+          margin: 0,
+        }}>
           Бесік күйі
         </p>
 
         {/* Animated line */}
-        <div
-          style={{
-            width: '1px',
-            height: '48px',
-            position: 'relative',
-            overflow: 'hidden',
-            background: playing ? 'rgba(168,149,120,0.3)' : 'rgba(255,255,255,0.2)',
-          }}
-        >
+        <div style={{
+          width: '1px',
+          height: '48px',
+          position: 'relative',
+          overflow: 'hidden',
+          background: playing ? 'rgba(168,149,120,0.3)' : 'rgba(255,255,255,0.2)',
+          transition: 'background 0.3s ease',
+        }}>
           {playing && (
-            <div
-              style={{
-                position: 'absolute',
-                left: 0,
-                width: '100%',
-                height: '40%',
-                background: '#a89578',
-                animation: 'tkScanLine 1.8s linear infinite',
-              }}
-            />
+            <div style={{
+              position: 'absolute',
+              left: 0,
+              width: '100%',
+              height: '40%',
+              background: '#a89578',
+              animation: 'tkScanLine 1.8s linear infinite',
+            }} />
           )}
         </div>
 
-        {/* Square button — overflow:hidden to contain any effects */}
+        {/* Square button */}
         <button
           onClick={toggle}
           aria-label={playing ? 'Pause ambient music' : 'Play ambient music'}
@@ -128,16 +113,13 @@ export function MusicPlayer() {
             }
           }}
         >
-          {/* Shimmer effect inside button when playing */}
           {playing && (
-            <span
-              style={{
-                position: 'absolute',
-                inset: 0,
-                background: 'linear-gradient(90deg, transparent 0%, rgba(168,149,120,0.15) 50%, transparent 100%)',
-                animation: 'tkShimmer 2s linear infinite',
-              }}
-            />
+            <span style={{
+              position: 'absolute',
+              inset: 0,
+              background: 'linear-gradient(90deg, transparent, rgba(168,149,120,0.15), transparent)',
+              animation: 'tkShimmer 2s linear infinite',
+            }} />
           )}
 
           {playing ? (
@@ -154,13 +136,17 @@ export function MusicPlayer() {
       </div>
 
       <style>{`
+        @keyframes tkFadeIn {
+          from { opacity: 0; transform: translateY(10px); }
+          to   { opacity: 1; transform: translateY(0); }
+        }
         @keyframes tkScanLine {
-          0%   { top: -40%; }
-          100% { top: 140%; }
+          from { top: -40%; }
+          to   { top: 140%; }
         }
         @keyframes tkShimmer {
-          0%   { transform: translateX(-100%); }
-          100% { transform: translateX(100%); }
+          from { transform: translateX(-100%); }
+          to   { transform: translateX(100%); }
         }
       `}</style>
     </>
