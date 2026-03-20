@@ -6,23 +6,21 @@ import { usePathname } from 'next/navigation'
 export function MusicPlayer() {
   const audioRef = useRef<HTMLAudioElement | null>(null)
   const [playing, setPlaying] = useState(false)
-  const [visible, setVisible] = useState(false)
+  const [mounted, setMounted] = useState(false)
   const pathname = usePathname()
 
   const isSupplierPage = pathname?.includes('/supplier/')
 
   useEffect(() => {
     if (isSupplierPage) return
-    const t = setTimeout(() => setVisible(true), 2000)
+    const t = setTimeout(() => setMounted(true), 1800)
     return () => clearTimeout(t)
   }, [isSupplierPage])
 
-  // Pause and hide when navigating to supplier pages
   useEffect(() => {
     if (isSupplierPage) {
       audioRef.current?.pause()
       setPlaying(false)
-      setVisible(false)
     }
   }, [isSupplierPage])
 
@@ -43,16 +41,23 @@ export function MusicPlayer() {
     <>
       <audio ref={audioRef} src="/audio/besik-kui.mp3" loop preload="none" />
 
-      {/* Mirroring the SCROLL indicator — positioned bottom-left, vertical layout */}
       <div
-        className="fixed bottom-20 left-8 z-50 flex flex-col items-center gap-3"
         style={{
-          opacity: visible ? 1 : 0,
-          transform: visible ? 'translateY(0)' : 'translateY(12px)',
+          position: 'fixed',
+          bottom: '80px',
+          left: '32px',
+          zIndex: 50,
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          gap: '12px',
+          opacity: mounted ? 1 : 0,
+          transform: mounted ? 'translateY(0)' : 'translateY(10px)',
           transition: 'opacity 0.8s ease, transform 0.8s ease',
+          willChange: 'opacity, transform',
         }}
       >
-        {/* Track name — vertical text, same style as SCROLL label */}
+        {/* Track name — vertical */}
         <p
           className="font-inter uppercase"
           style={{
@@ -60,48 +65,55 @@ export function MusicPlayer() {
             letterSpacing: '0.35em',
             writingMode: 'vertical-rl',
             transform: 'rotate(180deg)',
-            color: playing ? 'rgba(168,149,120,0.8)' : 'rgba(255,255,255,0.55)',
+            color: playing ? 'rgba(168,149,120,0.85)' : 'rgba(255,255,255,0.55)',
             transition: 'color 0.3s ease',
+            margin: 0,
           }}
         >
           Бесік күйі
         </p>
 
-        {/* Thin animated line */}
-        <div className="w-px relative overflow-hidden" style={{ height: '48px' }}>
-          <div
-            className="absolute inset-0"
-            style={{ background: playing ? 'rgba(168,149,120,0.35)' : 'rgba(255,255,255,0.2)' }}
-          />
+        {/* Animated line */}
+        <div
+          style={{
+            width: '1px',
+            height: '48px',
+            position: 'relative',
+            overflow: 'hidden',
+            background: playing ? 'rgba(168,149,120,0.3)' : 'rgba(255,255,255,0.2)',
+          }}
+        >
           {playing && (
             <div
-              className="absolute left-0 w-full"
               style={{
+                position: 'absolute',
+                left: 0,
+                width: '100%',
                 height: '40%',
-                background: 'rgba(168,149,120,1)',
-                animation: 'scanLine 1.8s ease-in-out infinite',
+                background: '#a89578',
+                animation: 'tkScanLine 1.8s linear infinite',
               }}
             />
           )}
         </div>
 
-        {/* Square play/pause button */}
+        {/* Square button — overflow:hidden to contain any effects */}
         <button
           onClick={toggle}
           aria-label={playing ? 'Pause ambient music' : 'Play ambient music'}
-          className="group relative"
           style={{
             width: '36px',
             height: '36px',
-            border: playing
-              ? '1px solid rgba(168,149,120,0.8)'
-              : '1px solid rgba(255,255,255,0.4)',
+            flexShrink: 0,
+            border: playing ? '1px solid rgba(168,149,120,0.8)' : '1px solid rgba(255,255,255,0.4)',
             background: playing ? 'rgba(168,149,120,0.12)' : 'rgba(255,255,255,0.04)',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
             cursor: 'pointer',
             transition: 'border-color 0.3s ease, background 0.3s ease',
+            position: 'relative',
+            overflow: 'hidden',
           }}
           onMouseEnter={e => {
             if (!playing) {
@@ -116,38 +128,39 @@ export function MusicPlayer() {
             }
           }}
         >
-          {playing ? (
-            <div className="flex gap-[4px] items-center">
-              <span style={{ display: 'block', width: '2px', height: '12px', background: '#a89578' }} />
-              <span style={{ display: 'block', width: '2px', height: '12px', background: '#a89578' }} />
-            </div>
-          ) : (
-            <svg width="10" height="12" viewBox="0 0 10 12" fill="none">
-              <path d="M0 0L10 6L0 12V0Z" fill="rgba(255,255,255,0.85)" />
-            </svg>
-          )}
-
+          {/* Shimmer effect inside button when playing */}
           {playing && (
             <span
-              className="absolute inset-0"
               style={{
-                border: '1px solid rgba(168,149,120,0.5)',
-                animation: 'squarePulse 2.4s ease-out infinite',
+                position: 'absolute',
+                inset: 0,
+                background: 'linear-gradient(90deg, transparent 0%, rgba(168,149,120,0.15) 50%, transparent 100%)',
+                animation: 'tkShimmer 2s linear infinite',
               }}
             />
+          )}
+
+          {playing ? (
+            <span style={{ display: 'flex', gap: '4px', alignItems: 'center', position: 'relative' }}>
+              <span style={{ display: 'block', width: '2px', height: '12px', background: '#a89578' }} />
+              <span style={{ display: 'block', width: '2px', height: '12px', background: '#a89578' }} />
+            </span>
+          ) : (
+            <svg width="10" height="12" viewBox="0 0 10 12" fill="none" style={{ position: 'relative' }}>
+              <path d="M0 0L10 6L0 12V0Z" fill="rgba(255,255,255,0.85)" />
+            </svg>
           )}
         </button>
       </div>
 
       <style>{`
-        @keyframes scanLine {
+        @keyframes tkScanLine {
           0%   { top: -40%; }
           100% { top: 140%; }
         }
-        @keyframes squarePulse {
-          0%   { transform: scale(1);   opacity: 0.6; }
-          60%  { transform: scale(1.8); opacity: 0; }
-          100% { transform: scale(1.8); opacity: 0; }
+        @keyframes tkShimmer {
+          0%   { transform: translateX(-100%); }
+          100% { transform: translateX(100%); }
         }
       `}</style>
     </>
