@@ -147,25 +147,6 @@ export function MusicPlayer() {
         </button>
       </div>
 
-      <style>{`
-        /* Class-based animation — React won't touch it on re-renders */
-        .tk-player {
-          animation: tkFadeIn 0.8s ease 2s both;
-          will-change: opacity, transform;
-        }
-        @keyframes tkFadeIn {
-          from { opacity: 0; transform: translateY(10px); }
-          to   { opacity: 1; transform: translateY(0); }
-        }
-        @keyframes tkScanLine {
-          from { top: -40%; }
-          to   { top: 140%; }
-        }
-        @keyframes tkShimmer {
-          from { transform: translateX(-100%); }
-          to   { transform: translateX(100%); }
-        }
-      `}</style>
     </>
   )
 }
