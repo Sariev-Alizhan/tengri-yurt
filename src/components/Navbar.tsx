@@ -269,7 +269,7 @@ function PublicNavbar() {
             </div>
           </div>
 
-          <a href={`/${locale}`}>
+          <Link href={`/${locale}`}>
             <img
               src="/images/logo_white.png"
               alt="Tengri Yurt"
@@ -279,7 +279,7 @@ function PublicNavbar() {
                 display: 'block'
               }}
             />
-          </a>
+          </Link>
 
           <div style={{ justifySelf: 'end', display: 'flex', alignItems: 'center', gap: '16px' }}>
             <Link
@@ -362,7 +362,7 @@ function PublicNavbar() {
               background: 'rgba(255,255,255,0.15)',
             }} />
             {isCatalog ? (
-              <a
+              <Link
                 href={`/${locale}`}
                 style={{
                   display: isDesktop ? 'inline-flex' : 'none',
@@ -382,9 +382,9 @@ function PublicNavbar() {
                 }}
               >
                 {t('home')}
-              </a>
+              </Link>
             ) : (
-              <a
+              <Link
                 href={`/${locale}/catalog`}
                 style={{
                   display: isDesktop ? 'inline-flex' : 'none',
@@ -404,7 +404,7 @@ function PublicNavbar() {
                 }}
               >
                 {t('bookNow')}
-              </a>
+              </Link>
             )}
             <button
               type="button"
@@ -484,7 +484,7 @@ function PublicNavbar() {
             {t('cart')} {totalItems > 0 ? `(${totalItems})` : ''}
           </Link>
         )}
-        <a href={`/${locale}/catalog`}
+        <Link href={`/${locale}/catalog`}
           onClick={() => setMenuOpen(false)}
           style={{
             fontFamily: 'EB Garamond, serif',
@@ -499,7 +499,7 @@ function PublicNavbar() {
             justifyContent: 'center',
           }}>
           {t('bookNow')}
-        </a>
+        </Link>
         <Link href={`/${locale}/supplier/login`}
           onClick={() => setMenuOpen(false)}
           style={{
@@ -516,7 +516,7 @@ function PublicNavbar() {
           }}>
           SUPPLIER PORTAL
         </Link>
-        <a href={`/${locale}`}
+        <Link href={`/${locale}`}
           onClick={() => setMenuOpen(false)}
           style={{
             fontFamily: 'Inter, sans-serif',
@@ -531,7 +531,7 @@ function PublicNavbar() {
             alignItems: 'center',
           }}>
           {t('home')}
-        </a>
+        </Link>
       </div>
     </>
   )
