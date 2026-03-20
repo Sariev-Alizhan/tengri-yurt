@@ -1,6 +1,5 @@
 import { getTranslations } from 'next-intl/server';
 import { notFound } from 'next/navigation';
-import Link from 'next/link';
 import { createClient } from '@/utils/supabase/server';
 import { PriceUsdKzt } from '@/components/PriceUsdKzt';
 import { AccessoryDetailAddToCart } from '@/components/AccessoryDetailAddToCart';
@@ -14,7 +13,6 @@ export default async function AccessoryDetailPage({
 }) {
   const { slug, locale } = await params;
   const t = await getTranslations('catalog');
-  const tNav = await getTranslations('nav');
   const tOrder = await getTranslations('order');
   const supabase = await createClient();
   const defaultAcc = DEFAULT_ACCESSORIES.find((a) => a.slug === slug);
@@ -175,16 +173,6 @@ export default async function AccessoryDetailPage({
                   addToCartLabel={t('addToCart')}
                   quantityLabel={tOrder('quantity')}
                 />
-                {!accessory.id.startsWith('default-') && (
-                  <Link
-                    href={`/${locale}/order/accessory/${accessory.id}`}
-                    className="block text-center border border-white/25 text-white/70
-                      py-3 px-6 font-inter text-[10px] uppercase tracking-[0.2em]
-                      hover:border-white/50 hover:text-white/90 transition-colors duration-200"
-                  >
-                    {tNav('bookNow')}
-                  </Link>
-                )}
               </div>
             </div>
           </div>
