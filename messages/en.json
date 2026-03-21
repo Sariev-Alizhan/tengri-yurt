@@ -115,10 +115,10 @@
     "title": "Choose Your Yurt",
     "subtitle": "FROM INTIMATE SPACES TO GRAND GATHERINGS",
     "yurtNames": {
-      "intimate": "Intimate",
-      "cozy": "Cozy",
-      "classic": "Classic",
-      "spacious": "Spacious",
+      "intimate": "Kazakh 6-Kanat",
+      "cozy": "Kazakh 8-Kanat",
+      "classic": "Kazakh 12-Kanat",
+      "spacious": "Kazakh 16-Kanat",
       "grand": "Grand",
       "monumental": "Monumental"
     },
