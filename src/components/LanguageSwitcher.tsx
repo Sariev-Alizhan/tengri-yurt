@@ -1,14 +1,13 @@
 'use client'
 
 import { useParams, usePathname } from 'next/navigation'
-import { useCallback } from 'react'
-
-const MIN_TOUCH_PX = 44
+import { useCallback, useState } from 'react'
 
 export function LanguageSwitcher() {
   const params = useParams()
   const pathname = usePathname()
   const currentLocale = (params?.locale as string) || 'en'
+  const [hoveredCode, setHoveredCode] = useState<string | null>(null)
 
   const languages = [
     { code: 'en', label: 'EN' },
@@ -34,64 +33,69 @@ export function LanguageSwitcher() {
       style={{
         display: 'flex',
         alignItems: 'center',
-        gap: 'clamp(4px, 1vw, 8px)',
-        flexWrap: 'wrap',
-        justifyContent: 'center',
+        gap: '2px',
+        flexWrap: 'nowrap',
       }}
     >
-      {languages.map((lang, i) => (
-        <span key={lang.code} style={{ display: 'flex', alignItems: 'center', gap: '2px' }}>
-          <button
-            onClick={() => handleSwitch(lang.code)}
-            type="button"
-            className="lang-btn"
-            style={{
-              background: 'none',
-              border: 'none',
-              appearance: 'none',
-              WebkitAppearance: 'none',
-              cursor: lang.code === currentLocale ? 'default' : 'pointer',
-              fontFamily: 'Inter, sans-serif',
-              fontSize: 'clamp(12px, 1.5vw, 13px)',
-              fontWeight: currentLocale === lang.code ? 600 : 400,
-              letterSpacing: '0.1em',
-              color:
-                currentLocale === lang.code
-                  ? 'rgba(255,255,255,1)'
-                  : 'rgba(255,255,255,0.5)',
-              textTransform: 'uppercase',
-              padding: `clamp(10px, 2vw, 12px) clamp(14px, 2.5vw, 18px)`,
-              minWidth: MIN_TOUCH_PX,
-              minHeight: MIN_TOUCH_PX,
-              display: 'inline-flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              borderBottom:
-                currentLocale === lang.code
-                  ? '2px solid rgba(255,255,255,0.75)'
-                  : '2px solid transparent',
-              transition: 'color 0.2s ease, border-color 0.2s ease',
-              touchAction: 'manipulation',
-            }}
-            aria-label={`Language: ${lang.label}`}
-            aria-current={currentLocale === lang.code ? 'true' : undefined}
-          >
-            {lang.label}
-          </button>
-          {i < languages.length - 1 && (
-            <span
+      {languages.map((lang, i) => {
+        const isActive = currentLocale === lang.code
+        const isHovered = hoveredCode === lang.code && !isActive
+
+        return (
+          <span key={lang.code} style={{ display: 'flex', alignItems: 'center' }}>
+            <button
+              onClick={() => handleSwitch(lang.code)}
+              onMouseEnter={() => !isActive && setHoveredCode(lang.code)}
+              onMouseLeave={() => setHoveredCode(null)}
+              type="button"
               style={{
-                color: 'rgba(255,255,255,0.25)',
-                fontSize: 'clamp(10px, 1.2vw, 12px)',
-                padding: '0 2px',
+                background: 'none',
+                border: 'none',
+                appearance: 'none',
+                WebkitAppearance: 'none',
+                cursor: isActive ? 'default' : 'pointer',
+                fontFamily: 'Inter, sans-serif',
+                fontSize: '12px',
+                fontWeight: isActive ? 600 : 400,
+                letterSpacing: '0.1em',
+                color: isActive
+                  ? 'rgba(255,255,255,1)'
+                  : isHovered
+                  ? 'rgba(255,255,255,0.85)'
+                  : 'rgba(255,255,255,0.45)',
+                textTransform: 'uppercase',
+                padding: '6px 8px',
+                minHeight: '32px',
+                display: 'inline-flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                borderBottom: isActive
+                  ? '1.5px solid rgba(255,255,255,0.75)'
+                  : '1.5px solid transparent',
+                transition: 'color 0.15s ease, border-color 0.15s ease',
+                touchAction: 'manipulation',
               }}
-              aria-hidden
+              aria-label={`Language: ${lang.label}`}
+              aria-current={isActive ? 'true' : undefined}
             >
-              |
-            </span>
-          )}
-        </span>
-      ))}
+              {lang.label}
+            </button>
+            {i < languages.length - 1 && (
+              <span
+                style={{
+                  color: 'rgba(255,255,255,0.2)',
+                  fontSize: '11px',
+                  userSelect: 'none',
+                  pointerEvents: 'none',
+                }}
+                aria-hidden
+              >
+                |
+              </span>
+            )}
+          </span>
+        )
+      })}
     </div>
   )
 }

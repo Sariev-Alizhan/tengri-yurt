@@ -451,17 +451,19 @@ function PublicNavbar() {
         </div>
       </nav>
 
-      <div style={{
-        position: 'fixed', inset: 0, zIndex: 99,
-        background: '#a89578',
-        display: 'flex', flexDirection: 'column',
-        alignItems: 'center', justifyContent: 'center',
-        gap: 'clamp(28px, 6vw, 40px)',
-        padding: 'clamp(60px, 12vw, 80px) 24px',
-        opacity: menuOpen ? 1 : 0,
-        pointerEvents: menuOpen ? 'all' : 'none',
-        transition: 'opacity 0.3s ease',
-      }}>
+      <div
+        onClick={(e) => { if (e.target === e.currentTarget) setMenuOpen(false) }}
+        style={{
+          position: 'fixed', inset: 0, zIndex: 99,
+          background: '#a89578',
+          display: 'flex', flexDirection: 'column',
+          alignItems: 'center', justifyContent: 'center',
+          gap: 'clamp(28px, 6vw, 40px)',
+          padding: 'clamp(60px, 12vw, 80px) 24px',
+          opacity: menuOpen ? 1 : 0,
+          pointerEvents: menuOpen ? 'all' : 'none',
+          transition: 'opacity 0.3s ease',
+        }}>
         <div style={{ marginBottom: '8px' }}>
           <LanguageSwitcher />
         </div>
