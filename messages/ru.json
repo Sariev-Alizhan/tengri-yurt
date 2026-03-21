@@ -382,6 +382,18 @@
     "categoryCarpet": "Войлочный ковёр",
     "categoryFurniture": "Мебель",
     "categoryCover": "Чехол",
-    "categoryOther": "Другое"
+    "categoryOther": "Другое",
+    "rentals": "Аренда",
+    "noRentals": "Заявок на аренду пока нет.",
+    "rentalClient": "Клиент",
+    "rentalPhone": "Телефон",
+    "rentalYurt": "Юрта",
+    "rentalMessage": "Сообщение",
+    "rentalDate": "Дата заявки",
+    "rentalStatusNew": "Новая",
+    "rentalStatusContacted": "Связались",
+    "rentalStatusConfirmed": "Подтверждена",
+    "rentalStatusCancelled": "Отменена",
+    "accessoriesLabel": "Аксессуары"
   }
 }

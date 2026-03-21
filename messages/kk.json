@@ -378,6 +378,18 @@
     "stock": "Қоймада",
     "noAccessoriesYet": "Аксессуарлар әзірге жоқ",
     "deleteAccessory": "Аксессуарды жою",
-    "confirmDeleteAccessory": "Бұл аксессуарды жоюға сенімдісіз бе? Бұл әрекетті қайтару мүмкін емес."
+    "confirmDeleteAccessory": "Бұл аксессуарды жоюға сенімдісіз бе? Бұл әрекетті қайтару мүмкін емес.",
+    "rentals": "Жалға алу",
+    "noRentals": "Жалға алу өтінімдері әлі жоқ.",
+    "rentalClient": "Клиент",
+    "rentalPhone": "Телефон",
+    "rentalYurt": "Киіз үй",
+    "rentalMessage": "Хабарлама",
+    "rentalDate": "Күні",
+    "rentalStatusNew": "Жаңа",
+    "rentalStatusContacted": "Байланысқан",
+    "rentalStatusConfirmed": "Расталған",
+    "rentalStatusCancelled": "Бас тартылған",
+    "accessoriesLabel": "Аксессуарлар"
   }
 }

@@ -382,6 +382,18 @@
     "categoryCarpet": "Felt Carpet",
     "categoryFurniture": "Furniture",
     "categoryCover": "Cover",
-    "categoryOther": "Other"
+    "categoryOther": "Other",
+    "rentals": "Rentals",
+    "noRentals": "No rental inquiries yet.",
+    "rentalClient": "Client",
+    "rentalPhone": "Phone",
+    "rentalYurt": "Yurt",
+    "rentalMessage": "Message",
+    "rentalDate": "Date",
+    "rentalStatusNew": "New",
+    "rentalStatusContacted": "Contacted",
+    "rentalStatusConfirmed": "Confirmed",
+    "rentalStatusCancelled": "Cancelled",
+    "accessoriesLabel": "Accessories"
   }
 }

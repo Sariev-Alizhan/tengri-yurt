@@ -30,6 +30,7 @@ function SupplierNavbar() {
     if (pathname?.includes('/dashboard') && !pathname?.includes('/yurts') && !pathname?.includes('/orders') && !pathname?.includes('/settings') && !pathname?.includes('/accessories')) return t('dashboard')
     if (pathname?.includes('/yurts/new')) return t('addYurt')
     if (pathname?.includes('/yurts')) return t('yurts')
+    if (pathname?.includes('/rentals')) return t('rentals')
     if (pathname?.includes('/orders')) return t('orders')
     if (pathname?.includes('/accessories')) return t('accessories')
     if (pathname?.includes('/profile') || pathname?.includes('/settings')) return t('profile')

@@ -33,6 +33,7 @@ export function SupplierSidebar({ supplierName, isLoggedIn = true }: { supplierN
     { href: `/${locale}/supplier/dashboard/yurts/new`, icon: '+', label: t('addYurt') },
     { href: `/${locale}/supplier/dashboard/accessories`, icon: '◇', label: t('accessories') },
     { href: `/${locale}/supplier/dashboard/orders`, icon: '◎', label: t('orders') },
+    { href: `/${locale}/supplier/dashboard/rentals`, icon: '⊞', label: t('rentals') },
     { href: `/${locale}/supplier/dashboard/settings`, icon: '◉', label: t('profile') },
   ]
 

@@ -378,6 +378,18 @@
     "stock": "库存",
     "noAccessoriesYet": "暂无配件",
     "deleteAccessory": "删除配件",
-    "confirmDeleteAccessory": "确定要删除此配件吗？此操作无法撤销。"
+    "confirmDeleteAccessory": "确定要删除此配件吗？此操作无法撤销。",
+    "rentals": "租赁",
+    "noRentals": "暂无租赁申请。",
+    "rentalClient": "客户",
+    "rentalPhone": "电话",
+    "rentalYurt": "蒙古包",
+    "rentalMessage": "留言",
+    "rentalDate": "日期",
+    "rentalStatusNew": "新的",
+    "rentalStatusContacted": "已联系",
+    "rentalStatusConfirmed": "已确认",
+    "rentalStatusCancelled": "已取消",
+    "accessoriesLabel": "配件"
   }
 }
