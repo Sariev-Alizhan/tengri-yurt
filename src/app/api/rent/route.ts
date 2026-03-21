@@ -1,5 +1,11 @@
 import { NextResponse } from 'next/server'
-import { createServiceRoleClient } from '@/lib/supabase'
+import { createClient } from '@supabase/supabase-js'
+
+function getSupabase() {
+  const url = process.env.NEXT_PUBLIC_SUPABASE_URL!
+  const key = process.env.SUPABASE_SERVICE_ROLE_KEY!
+  return createClient(url, key, { auth: { persistSession: false } })
+}
 
 export async function POST(request: Request) {
   try {
@@ -12,7 +18,7 @@ export async function POST(request: Request) {
       )
     }
 
-    const supabase = createServiceRoleClient()
+    const supabase = getSupabase()
 
     const { error } = await supabase.from('rental_inquiries').insert({
       yurt_slug: yurtSlug,
