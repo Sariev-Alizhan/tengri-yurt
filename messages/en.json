@@ -194,7 +194,17 @@
     "coverCustomOrder": "White or transparent cover (custom order)",
     "coverPaidSeparately": "Paid separately: 1,000,000 KZT",
     "messageOptional": "Message (optional)",
-    "messagePlaceholder": "Your message or special requests..."
+    "messagePlaceholder": "Your message or special requests...",
+    "rent": "Rent",
+    "rentTitle": "Rent a Yurt",
+    "rentSubtitle": "Leave a request and we will contact you",
+    "rentName": "Your name",
+    "rentPhone": "Phone number",
+    "rentMessage": "Message (optional)",
+    "rentMessagePlaceholder": "Dates, location, number of guests...",
+    "rentSubmit": "Send request",
+    "rentSuccess": "Request sent! We will contact you shortly.",
+    "rentError": "Something went wrong. Please try again."
   },
   "order": {
     "title": "Submit Your Inquiry",

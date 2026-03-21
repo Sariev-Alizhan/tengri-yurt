@@ -4,6 +4,7 @@ import { createClient } from '@/utils/supabase/server';
 import { PriceUsdKzt } from '@/components/PriceUsdKzt';
 import { YurtDetailAddToCart } from '@/components/YurtDetailAddToCart';
 import { YurtPhotoCarousel } from '@/components/YurtPhotoCarousel';
+import { YurtRentButton } from '@/components/YurtRentButton';
 import { DEFAULT_YURTS } from '@/lib/defaultCatalog';
 
 export default async function YurtDetailPage({
@@ -163,6 +164,7 @@ export default async function YurtDetailPage({
                 photo={photos[0] ?? null}
                 addToCartLabel={t('addToCart')}
               />
+              <YurtRentButton yurtSlug={yurt.slug} yurtName={displayName} />
             </div>
           </div>
         </div>

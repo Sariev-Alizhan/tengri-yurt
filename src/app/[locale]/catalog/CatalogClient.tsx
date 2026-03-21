@@ -7,6 +7,7 @@ import { formatPrice } from '@/utils/formatPrice'
 import { useCart } from '@/components/CartContext'
 import { PriceUsdKzt } from '@/components/PriceUsdKzt'
 import { AddYurtModal, type TraditionalAccessorySelected } from '@/components/AddYurtModal'
+import { RentModal } from '@/components/RentModal'
 import { COVER_OPTIONS, PILLOWS_ADDON, KORPE_ADDON, BED_ADDON } from '@/lib/yurtAddOns'
 
 export type SupplierRelation = { company_name: string } | { company_name: string }[] | null
@@ -59,6 +60,7 @@ export function CatalogClient({
   const [accessoryFilter, setAccessoryFilter] = useState<'all' | 'carpet' | 'furniture' | 'cover' | 'other'>('all')
   const [hoveredId, setHoveredId] = useState<string | null>(null)
   const [modalYurt, setModalYurt] = useState<Yurt | null>(null)
+  const [rentYurt, setRentYurt] = useState<Yurt | null>(null)
 
   const filtered = useMemo(() => {
     if (filter === 'all') return yurts
@@ -139,6 +141,14 @@ export function CatalogClient({
 
   return (
     <div style={{ minHeight: '100vh', position: 'relative' }}>
+
+      {rentYurt && (
+        <RentModal
+          yurtSlug={rentYurt.slug}
+          yurtName={yurtNames[rentYurt.slug] || rentYurt.name}
+          onClose={() => setRentYurt(null)}
+        />
+      )}
 
       {modalYurt && (
         <AddYurtModal
@@ -467,6 +477,8 @@ export function CatalogClient({
               supplierName={getSupplierDisplayName(yurt.suppliers)}
               addToCart={() => setModalYurt(yurt)}
               addToCartLabel={t('addToCart')}
+              onRent={() => setRentYurt(yurt)}
+              rentLabel={t('rent')}
             />
           ))}
         </div>
@@ -496,7 +508,7 @@ export function CatalogClient({
 
 /* ─── КОМПОНЕНТ КАРТОЧКИ ЮРТЫ ─── */
 function YurtCard({
-  yurt, displayName, locale, photo, isHovered, onHover, onLeave, index, t, supplierName, addToCart, addToCartLabel
+  yurt, displayName, locale, photo, isHovered, onHover, onLeave, index, t, supplierName, addToCart, addToCartLabel, onRent, rentLabel
 }: {
   yurt: Yurt
   displayName: string
@@ -510,6 +522,8 @@ function YurtCard({
   supplierName: string
   addToCart: () => void
   addToCartLabel: string
+  onRent: () => void
+  rentLabel: string
 }) {
   const productionLabel = yurt.production_days_min === yurt.production_days_max
     ? `${yurt.production_days_min}d`
@@ -676,11 +690,11 @@ function YurtCard({
           </p>
         )}
 
-        {/* Кнопки: одна строка, одинаковый стиль */}
+        {/* Кнопки */}
         <div style={{
           display: 'grid',
           gridTemplateColumns: '1fr 1fr',
-          gap: '12px',
+          gap: '10px',
           marginTop: '4px',
         }}>
           <button
@@ -688,9 +702,9 @@ function YurtCard({
             onClick={(e) => { e.preventDefault(); e.stopPropagation(); addToCart(); }}
             style={{
               height: '44px',
-              padding: '0 16px',
+              padding: '0 12px',
               fontFamily: 'Inter, sans-serif',
-              fontSize: '12px',
+              fontSize: '11px',
               fontWeight: 600,
               letterSpacing: '0.06em',
               textTransform: 'uppercase',
@@ -708,13 +722,39 @@ function YurtCard({
           >
             {addToCartLabel}
           </button>
+          <button
+            type="button"
+            onClick={(e) => { e.preventDefault(); e.stopPropagation(); onRent(); }}
+            style={{
+              height: '44px',
+              padding: '0 12px',
+              fontFamily: 'Inter, sans-serif',
+              fontSize: '11px',
+              fontWeight: 600,
+              letterSpacing: '0.06em',
+              textTransform: 'uppercase',
+              border: '1px solid rgba(168,149,120,0.5)',
+              color: 'rgba(168,149,120,0.95)',
+              background: 'rgba(168,149,120,0.08)',
+              cursor: 'pointer',
+              transition: 'all 0.2s ease',
+              touchAction: 'manipulation',
+              borderRadius: '8px',
+              display: 'inline-flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}
+          >
+            {rentLabel}
+          </button>
           <Link
             href={`/${locale}/yurt/${yurt.slug}`}
             style={{
+              gridColumn: '1 / -1',
               height: '44px',
               padding: '0 16px',
               fontFamily: 'Inter, sans-serif',
-              fontSize: '12px',
+              fontSize: '11px',
               fontWeight: 600,
               letterSpacing: '0.06em',
               textTransform: 'uppercase',

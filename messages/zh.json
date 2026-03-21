@@ -194,7 +194,17 @@
     "coverCustomOrder": "白色或透明罩（按订单）",
     "coverPaidSeparately": "另付：1,000,000 KZT",
     "messageOptional": "留言（选填）",
-    "messagePlaceholder": "您的留言或特殊要求..."
+    "messagePlaceholder": "您的留言或特殊要求...",
+    "rent": "租赁",
+    "rentTitle": "租赁蒙古包",
+    "rentSubtitle": "提交申请，我们将与您联系",
+    "rentName": "您的姓名",
+    "rentPhone": "电话号码",
+    "rentMessage": "留言（可选）",
+    "rentMessagePlaceholder": "日期、地点、客人数量...",
+    "rentSubmit": "提交申请",
+    "rentSuccess": "申请已发送！我们将尽快与您联系。",
+    "rentError": "出了点问题，请重试。"
   },
   "order": {
     "title": "提交询价",
