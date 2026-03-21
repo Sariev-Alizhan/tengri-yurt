@@ -1,6 +1,7 @@
 import { getTranslations, getLocale } from 'next-intl/server'
 import { redirect } from 'next/navigation'
 import { createClient } from '@/utils/supabase/server'
+import { createClient as createSupabaseClient } from '@supabase/supabase-js'
 import { RentalsList } from './RentalsList'
 
 export default async function SupplierRentalsPage() {
@@ -19,7 +20,13 @@ export default async function SupplierRentalsPage() {
     .single()
   if (!supplier) redirect(`/${locale}/supplier/register`)
 
-  const { data: rentals } = await supabase
+  const adminClient = createSupabaseClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.SUPABASE_SERVICE_ROLE_KEY!,
+    { auth: { persistSession: false } },
+  )
+
+  const { data: rentals } = await adminClient
     .from('rental_inquiries')
     .select('*')
     .order('created_at', { ascending: false })
