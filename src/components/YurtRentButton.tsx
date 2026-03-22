@@ -7,9 +7,11 @@ import { RentModal } from './RentModal'
 export function YurtRentButton({
   yurtSlug,
   yurtName,
+  rentalPrice,
 }: {
   yurtSlug: string
   yurtName: string
+  rentalPrice?: number | null
 }) {
   const t = useTranslations('catalog')
   const [open, setOpen] = useState(false)
@@ -40,11 +42,17 @@ export function YurtRentButton({
         }}
       >
         {t('rent')}
+        {rentalPrice != null && rentalPrice > 0 && (
+          <span style={{ fontWeight: 400, fontSize: '11px', opacity: 0.7, marginLeft: '8px' }}>
+            from ${rentalPrice.toLocaleString('en-US')}
+          </span>
+        )}
       </button>
       {open && (
         <RentModal
           yurtSlug={yurtSlug}
           yurtName={yurtName}
+          rentalPrice={rentalPrice}
           onClose={() => setOpen(false)}
         />
       )}

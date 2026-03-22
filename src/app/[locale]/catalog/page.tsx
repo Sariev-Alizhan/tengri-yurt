@@ -22,7 +22,7 @@ export default async function CatalogPage({
     .from('yurts')
     .select(`
       id, name, slug, diameter_m, kanat,
-      capacity_min, capacity_max, price_usd,
+      capacity_min, capacity_max, price_usd, price_usd_max, rental_price_usd,
       production_days_min, production_days_max, description, photos, supplier_id,
       suppliers ( company_name )
     `)

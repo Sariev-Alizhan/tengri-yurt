@@ -6,10 +6,12 @@ import { useTranslations } from 'next-intl'
 export function RentModal({
   yurtSlug,
   yurtName,
+  rentalPrice,
   onClose,
 }: {
   yurtSlug: string
   yurtName: string
+  rentalPrice?: number | null
   onClose: () => void
 }) {
   const t = useTranslations('catalog')
@@ -129,10 +131,21 @@ export function RentModal({
           fontFamily: 'Inter, sans-serif',
           fontSize: '13px',
           color: 'rgba(168,149,120,0.8)',
-          margin: '0 0 24px',
+          margin: '0 0 6px',
         }}>
           {yurtName}
         </p>
+        {rentalPrice != null && rentalPrice > 0 && (
+          <p style={{
+            fontFamily: 'EB Garamond, serif',
+            fontSize: '20px',
+            color: 'rgba(255,255,255,0.9)',
+            margin: '0 0 20px',
+          }}>
+            from $ {rentalPrice.toLocaleString('en-US')}
+          </p>
+        )}
+        {(!rentalPrice || rentalPrice <= 0) && <div style={{ marginBottom: '18px' }} />}
 
         {status === 'success' ? (
           <div style={{ textAlign: 'center', padding: '24px 0' }}>

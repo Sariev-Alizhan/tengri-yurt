@@ -21,6 +21,8 @@ export type Yurt = {
   capacity_min: number
   capacity_max: number
   price_usd: number
+  price_usd_max?: number | null
+  rental_price_usd?: number | null
   production_days_min: number
   production_days_max: number
   description: string | null
@@ -146,6 +148,7 @@ export function CatalogClient({
         <RentModal
           yurtSlug={rentYurt.slug}
           yurtName={yurtNames[rentYurt.slug] || rentYurt.name}
+          rentalPrice={rentYurt.rental_price_usd}
           onClose={() => setRentYurt(null)}
         />
       )}
@@ -479,6 +482,7 @@ export function CatalogClient({
               addToCartLabel={t('addToCart')}
               onRent={() => setRentYurt(yurt)}
               rentLabel={t('rent')}
+              rentalPrice={yurt.rental_price_usd}
             />
           ))}
         </div>
@@ -524,6 +528,7 @@ function YurtCard({
   addToCartLabel: string
   onRent: () => void
   rentLabel: string
+  rentalPrice?: number | null
 }) {
   const productionLabel = yurt.production_days_min === yurt.production_days_max
     ? `${yurt.production_days_min}d`
@@ -608,7 +613,7 @@ function YurtCard({
             borderRadius: '8px',
             backdropFilter: 'blur(6px)',
           }}>
-            <PriceUsdKzt usd={yurt.price_usd} fromPrefix />
+            <PriceUsdKzt usd={yurt.price_usd} usdMax={yurt.price_usd_max} fromPrefix />
           </div>
         )}
 
@@ -743,9 +748,15 @@ function YurtCard({
               display: 'inline-flex',
               alignItems: 'center',
               justifyContent: 'center',
+              gap: '6px',
             }}
           >
             {rentLabel}
+            {rentalPrice != null && rentalPrice > 0 && (
+              <span style={{ fontWeight: 400, fontSize: '10px', opacity: 0.75 }}>
+                ${rentalPrice.toLocaleString('en-US')}+
+              </span>
+            )}
           </button>
           <Link
             href={`/${locale}/yurt/${yurt.slug}`}

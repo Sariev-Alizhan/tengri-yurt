@@ -23,6 +23,8 @@ export default async function YurtDetailPage({
       slug,
       description,
       price_usd,
+      price_usd_max,
+      rental_price_usd,
       diameter_m,
       kanat,
       capacity_min,
@@ -48,6 +50,8 @@ export default async function YurtDetailPage({
       slug: defaultYurt.slug,
       description: defaultYurt.description,
       price_usd: defaultYurt.price_usd,
+      price_usd_max: (defaultYurt as any).price_usd_max ?? null,
+      rental_price_usd: (defaultYurt as any).rental_price_usd ?? null,
       diameter_m: defaultYurt.diameter_m,
       kanat: defaultYurt.kanat,
       capacity_min: defaultYurt.capacity_min,
@@ -152,8 +156,13 @@ export default async function YurtDetailPage({
             )}
             <div className="mt-8 p-5 sm:p-6 rounded-xl bg-white/5 border border-white/10 space-y-4">
               <p className="font-garamond text-white text-xl sm:text-2xl font-medium">
-                <PriceUsdKzt usd={yurt.price_usd} fromPrefix />
+                <PriceUsdKzt usd={yurt.price_usd} usdMax={(yurt as any).price_usd_max} fromPrefix />
               </p>
+              {(yurt as any).rental_price_usd > 0 && (
+                <p className="font-inter text-[rgba(168,149,120,0.85)] text-sm">
+                  {t('rent')}: from $ {((yurt as any).rental_price_usd as number).toLocaleString('en-US')}
+                </p>
+              )}
               <YurtDetailAddToCart
                 locale={locale}
                 yurtId={yurt.id}
@@ -164,7 +173,7 @@ export default async function YurtDetailPage({
                 photo={photos[0] ?? null}
                 addToCartLabel={t('addToCart')}
               />
-              <YurtRentButton yurtSlug={yurt.slug} yurtName={displayName} />
+              <YurtRentButton yurtSlug={yurt.slug} yurtName={displayName} rentalPrice={(yurt as any).rental_price_usd} />
             </div>
           </div>
         </div>
