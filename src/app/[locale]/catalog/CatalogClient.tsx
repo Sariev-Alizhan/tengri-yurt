@@ -512,7 +512,7 @@ export function CatalogClient({
 
 /* ─── КОМПОНЕНТ КАРТОЧКИ ЮРТЫ ─── */
 function YurtCard({
-  yurt, displayName, locale, photo, isHovered, onHover, onLeave, index, t, supplierName, addToCart, addToCartLabel, onRent, rentLabel
+  yurt, displayName, locale, photo, isHovered, onHover, onLeave, index, t, supplierName, addToCart, addToCartLabel, onRent, rentLabel, rentalPrice,
 }: {
   yurt: Yurt
   displayName: string
