@@ -69,7 +69,11 @@ export function CartPageClient({
                   <div className="flex-1 min-w-0">
                     <p className="font-inter text-white font-medium text-base sm:text-lg">{item.name}</p>
                     <p className="font-inter text-white/55 text-xs uppercase tracking-wider mt-1">
-                      {item.type === 'yurt' ? translations.yurt : translations.accessory}
+                      {item.type === 'yurt'
+                        ? (isYurtItem(item) && item.dealType === 'rent'
+                          ? `${translations.yurt} · ${translations.rentLine}`
+                          : translations.yurt)
+                        : translations.accessory}
                     </p>
                     {isYurtItem(item) && (item.addons?.length ?? 0) > 0 && (
                       <ul className="mt-2 space-y-1">

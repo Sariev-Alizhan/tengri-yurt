@@ -1,13 +1,13 @@
 'use client'
 
 import React, { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react'
-import type { CartItem, CartYurtItem, CartAccessoryItem, LogisticsOption } from '@/types/cart'
+import type { CartItem, CartYurtItem, CartAccessoryItem, LogisticsOption, YurtDealType } from '@/types/cart'
 
 const STORAGE_KEY = 'tengri-cart'
 
 type CartContextValue = {
   items: CartItem[]
-  addYurt: (item: Omit<CartYurtItem, 'type'> & { logistics?: LogisticsOption }) => void
+  addYurt: (item: Omit<CartYurtItem, 'type'> & { logistics?: LogisticsOption; dealType?: YurtDealType }) => void
   addAccessory: (item: Omit<CartAccessoryItem, 'type'>) => void
   remove: (type: 'yurt' | 'accessory', id: string) => void
   updateQuantity: (type: 'yurt' | 'accessory', id: string, quantity: number) => void
@@ -48,27 +48,60 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     saveCart(items)
   }, [items])
 
-  const addYurt = useCallback((item: Omit<CartYurtItem, 'type'> & { logistics?: LogisticsOption }) => {
+  const addYurt = useCallback((item: Omit<CartYurtItem, 'type'> & { logistics?: LogisticsOption; dealType?: YurtDealType }) => {
     setItems((prev) => {
+      const dealType: YurtDealType = item.dealType ?? 'purchase'
+      const isRent = dealType === 'rent'
       const hasAddons = (item.addons?.length ?? 0) > 0
-      const rowId = hasAddons ? `bundle-${Date.now()}-${Math.random().toString(36).slice(2, 9)}` : item.id
-      const yurtId = hasAddons ? item.id : undefined
+      const realYurtId = item.yurtId ?? item.id
+
+      let rowId: string
+      let bundleYurtId: string | undefined
+
+      if (hasAddons) {
+        rowId = `bundle-${Date.now()}-${Math.random().toString(36).slice(2, 9)}`
+        bundleYurtId = item.id
+      } else if (isRent) {
+        rowId = `rent-${realYurtId}`
+        bundleYurtId = realYurtId
+      } else {
+        rowId = item.id
+        bundleYurtId = undefined
+      }
+
       const newItem: CartYurtItem = {
         ...item,
         type: 'yurt',
         id: rowId,
-        yurtId: hasAddons ? item.id : undefined,
+        yurtId: bundleYurtId,
+        dealType,
         quantity: item.quantity || 1,
         addons: item.addons ?? [],
       }
+
       if (!hasAddons) {
-        const existing = prev.find((i) => i.type === 'yurt' && i.id === item.id)
+        const existing = prev.find((i) => {
+          if (i.type !== 'yurt') return false
+          if (isRent) return i.id === rowId && (i as CartYurtItem).dealType === 'rent'
+          return i.id === item.id && ((i as CartYurtItem).dealType ?? 'purchase') === 'purchase'
+        })
         if (existing) {
-          return prev.map((i) =>
-            i.type === 'yurt' && i.id === item.id
-              ? { ...i, quantity: i.quantity + (item.quantity || 1), logistics: item.logistics ?? i.logistics, floorWalls: item.floorWalls ?? i.floorWalls, customInterior: item.customInterior ?? i.customInterior, note: item.note ?? i.note }
-              : i
-          )
+          return prev.map((i) => {
+            if (i.type !== 'yurt') return i
+            const sameRow = isRent ? i.id === rowId : i.id === item.id
+            if (!sameRow) return i
+            const yi = i as CartYurtItem
+            if (isRent && yi.dealType !== 'rent') return i
+            if (!isRent && (yi.dealType ?? 'purchase') !== 'purchase') return i
+            return {
+              ...yi,
+              quantity: yi.quantity + (item.quantity || 1),
+              logistics: item.logistics ?? yi.logistics,
+              floorWalls: item.floorWalls ?? yi.floorWalls,
+              customInterior: item.customInterior ?? yi.customInterior,
+              note: item.note ?? yi.note,
+            }
+          })
         }
       }
       return [...prev, newItem]

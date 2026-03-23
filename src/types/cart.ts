@@ -10,11 +10,15 @@ export type CartYurtAddon = {
   quantity: number
 }
 
+export type YurtDealType = 'purchase' | 'rent'
+
 export type CartYurtItem = {
   type: 'yurt'
   id: string
   /** When this row is a bundle (yurt + addons), id is unique row id and yurtId is the yurt being ordered */
   yurtId?: string
+  /** purchase = buy; rent = rental line (price_usd = rental starting price) */
+  dealType?: YurtDealType
   name: string
   slug: string
   price_usd: number

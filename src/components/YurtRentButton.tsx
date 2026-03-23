@@ -5,13 +5,21 @@ import { useTranslations } from 'next-intl'
 import { RentModal } from './RentModal'
 
 export function YurtRentButton({
+  yurtId,
   yurtSlug,
   yurtName,
   rentalPrice,
+  supplierId,
+  photo,
+  locale,
 }: {
+  yurtId: string
   yurtSlug: string
   yurtName: string
   rentalPrice?: number | null
+  supplierId: string
+  photo?: string | null
+  locale: string
 }) {
   const t = useTranslations('catalog')
   const [open, setOpen] = useState(false)
@@ -50,9 +58,13 @@ export function YurtRentButton({
       </button>
       {open && (
         <RentModal
+          yurtId={yurtId}
           yurtSlug={yurtSlug}
           yurtName={yurtName}
           rentalPrice={rentalPrice}
+          supplierId={supplierId}
+          photo={photo}
+          locale={locale}
           onClose={() => setOpen(false)}
         />
       )}

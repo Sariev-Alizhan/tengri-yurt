@@ -173,7 +173,15 @@ export default async function YurtDetailPage({
                 photo={photos[0] ?? null}
                 addToCartLabel={t('addToCart')}
               />
-              <YurtRentButton yurtSlug={yurt.slug} yurtName={displayName} rentalPrice={(yurt as any).rental_price_usd} />
+              <YurtRentButton
+                yurtId={yurt.id}
+                yurtSlug={yurt.slug}
+                yurtName={displayName}
+                rentalPrice={(yurt as any).rental_price_usd}
+                supplierId={yurt.supplier_id ?? 'default'}
+                photo={photos[0] ?? null}
+                locale={locale}
+              />
             </div>
           </div>
         </div>

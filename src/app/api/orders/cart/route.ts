@@ -62,26 +62,30 @@ export async function POST(request: Request) {
 
     for (const yurtItem of yurtItems) {
       const yurtId = (yurtItem as { yurtId?: string }).yurtId ?? yurtItem.id
+      const isRent = (yurtItem as { dealType?: string }).dealType === 'rent'
       const { data: yurt, error: yurtError } = await supabase
         .from('yurts')
-        .select('id, name, supplier_id, price_usd, production_days_min, production_days_max')
+        .select('id, slug, name, supplier_id, price_usd, production_days_min, production_days_max')
         .eq('id', yurtId)
         .single()
 
       if (yurtError || !yurt) continue
 
       const yurtData = yurt as any
-      const addons = (yurtItem as { addons?: { id: string; name: string; slug: string; quantity: number; price_usd: number }[] }).addons ?? []
+      const addons = isRent
+        ? []
+        : (yurtItem as { addons?: { id: string; name: string; slug: string; quantity: number; price_usd: number }[] }).addons ?? []
       const floorWalls = (yurtItem as { floorWalls?: string }).floorWalls ?? 'felt'
       const customInterior = (yurtItem as { customInterior?: boolean }).customInterior ?? false
 
       const orderNumber = await getNextOrderNumber()
-      const unitPrice = yurtData.price_usd
+      const unitPrice = isRent ? yurtItem.price_usd : yurtData.price_usd
       const yurtTotal = unitPrice * yurtItem.quantity
       const addonsTotal = addons.reduce((sum, a) => sum + a.price_usd * a.quantity, 0) * yurtItem.quantity
       const totalPrice = yurtTotal + addonsTotal
-      const estimatedProductionDays =
-        (yurtData.production_days_min + yurtData.production_days_max) / 2
+      const estimatedProductionDays = isRent
+        ? 0
+        : (yurtData.production_days_min + yurtData.production_days_max) / 2
       const estimatedDeliveryDays = await getEstimatedDeliveryDays(
         yurtData.supplier_id,
         deliveryCountry
@@ -91,8 +95,16 @@ export async function POST(request: Request) {
       const logisticsDaysMax = itemShipping === 'air' ? 10 : 60
 
       const orderOptions: Record<string, unknown> = {
-        interior: { floorWalls, exclusiveCustom: customInterior, coverCustom: false },
+        dealType: isRent ? 'rent' : 'purchase',
         logistics: { method: itemShipping },
+      }
+      if (!isRent) {
+        orderOptions.interior = { floorWalls, exclusiveCustom: customInterior, coverCustom: false }
+      }
+      if (isRent) {
+        orderOptions.rental = true
+        const lineNote = (yurtItem as { note?: string }).note
+        if (lineNote) orderOptions.lineNote = lineNote
       }
       if (addons.length > 0) {
         orderOptions.addons = addons.map((a) => ({
@@ -150,6 +162,24 @@ export async function POST(request: Request) {
         total_price_usd: yurtTotal,
       }
       await (supabase as any).from('order_items').insert(yurtOrderItem)
+
+      if (isRent) {
+        const rentMsg = [
+          `Order ${orderNumber} · RENTAL · qty ${yurtItem.quantity}`,
+          (yurtItem as { note?: string }).note,
+          message,
+        ]
+          .filter(Boolean)
+          .join(' · ')
+        await (supabase as any).from('rental_inquiries').insert({
+          yurt_slug: yurtData.slug ?? 'unknown',
+          yurt_name: yurtData.name,
+          client_name: buyerName,
+          client_phone: buyerPhone,
+          message: rentMsg || null,
+          status: 'new',
+        })
+      }
 
       orderNumbers.push(orderNumber)
       const totalDays = Math.round(estimatedProductionDays + estimatedDeliveryDays)

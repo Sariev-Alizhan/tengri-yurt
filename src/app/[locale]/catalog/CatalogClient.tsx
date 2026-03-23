@@ -146,9 +146,13 @@ export function CatalogClient({
 
       {rentYurt && (
         <RentModal
+          yurtId={rentYurt.id}
           yurtSlug={rentYurt.slug}
           yurtName={yurtNames[rentYurt.slug] || rentYurt.name}
           rentalPrice={rentYurt.rental_price_usd}
+          supplierId={rentYurt.supplier_id ?? 'default'}
+          photo={rentYurt.photos?.[0] ?? null}
+          locale={locale}
           onClose={() => setRentYurt(null)}
         />
       )}

@@ -204,7 +204,15 @@
     "rentMessagePlaceholder": "Dates, location, number of guests...",
     "rentSubmit": "Send request",
     "rentSuccess": "Request sent! We will contact you shortly.",
-    "rentError": "Something went wrong. Please try again."
+    "rentError": "Something went wrong. Please try again.",
+    "rentSubtitleCart": "Add to cart, then checkout — you can rent several yurts at once.",
+    "rentAddToCart": "Add to cart",
+    "rentAddedToCart": "Added to cart. Complete your details at checkout.",
+    "rentGoToCart": "Go to cart",
+    "rentContinueShopping": "Continue browsing",
+    "rentQuantity": "Quantity",
+    "rentUnit": "unit",
+    "rentLineBadge": "Rental"
   },
   "order": {
     "title": "Submit Your Inquiry",
@@ -248,7 +256,8 @@
     "accessory": "Accessory",
     "noImage": "—",
     "decreaseQty": "Decrease quantity",
-    "increaseQty": "Increase quantity"
+    "increaseQty": "Increase quantity",
+    "rentLine": "Rental"
   },
   "checkout": {
     "title": "Checkout",

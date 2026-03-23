@@ -1,47 +1,51 @@
 'use client'
 
 import { useState } from 'react'
+import Link from 'next/link'
 import { useTranslations } from 'next-intl'
+import { useCart } from '@/components/CartContext'
 
 export function RentModal({
+  yurtId,
   yurtSlug,
   yurtName,
   rentalPrice,
+  supplierId,
+  photo,
+  locale,
   onClose,
 }: {
+  yurtId: string
   yurtSlug: string
   yurtName: string
   rentalPrice?: number | null
+  supplierId: string
+  photo?: string | null
+  locale: string
   onClose: () => void
 }) {
   const t = useTranslations('catalog')
-  const [name, setName] = useState('')
-  const [phone, setPhone] = useState('')
-  const [message, setMessage] = useState('')
-  const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle')
+  const { addYurt } = useCart()
+  const [quantity, setQuantity] = useState(1)
+  const [note, setNote] = useState('')
+  const [added, setAdded] = useState(false)
 
-  const canSubmit = name.trim().length > 0 && phone.trim().length >= 6
+  const priceUsd = rentalPrice != null && rentalPrice > 0 ? rentalPrice : 0
 
-  const handleSubmit = async () => {
-    if (!canSubmit || status === 'loading') return
-    setStatus('loading')
-    try {
-      const res = await fetch('/api/rent', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          yurtSlug,
-          yurtName,
-          name: name.trim(),
-          phone: phone.trim(),
-          message: message.trim() || undefined,
-        }),
-      })
-      if (!res.ok) throw new Error()
-      setStatus('success')
-    } catch {
-      setStatus('error')
-    }
+  const handleAddToCart = () => {
+    addYurt({
+      id: yurtId,
+      yurtId: yurtId,
+      name: `${yurtName} (${t('rentLineBadge')})`,
+      slug: yurtSlug,
+      price_usd: priceUsd,
+      quantity,
+      supplier_id: supplierId,
+      photo: photo ?? null,
+      dealType: 'rent',
+      note: note.trim() || undefined,
+    })
+    setAdded(true)
   }
 
   const inputStyle: React.CSSProperties = {
@@ -84,7 +88,6 @@ export function RentModal({
           position: 'relative',
         }}
       >
-        {/* Close */}
         <button
           type="button"
           onClick={onClose}
@@ -108,7 +111,6 @@ export function RentModal({
           ✕
         </button>
 
-        {/* Title */}
         <h2 style={{
           fontFamily: 'EB Garamond, serif',
           fontSize: 'clamp(22px, 4vw, 28px)',
@@ -125,7 +127,7 @@ export function RentModal({
           letterSpacing: '0.05em',
           margin: '0 0 8px',
         }}>
-          {t('rentSubtitle')}
+          {t('rentSubtitleCart')}
         </p>
         <p style={{
           fontFamily: 'Inter, sans-serif',
@@ -135,94 +137,122 @@ export function RentModal({
         }}>
           {yurtName}
         </p>
-        {rentalPrice != null && rentalPrice > 0 && (
+        {priceUsd > 0 && (
           <p style={{
             fontFamily: 'EB Garamond, serif',
             fontSize: '20px',
             color: 'rgba(255,255,255,0.9)',
             margin: '0 0 20px',
           }}>
-            from $ {rentalPrice.toLocaleString('en-US')}
+            from $ {priceUsd.toLocaleString('en-US')} / {t('rentUnit')}
           </p>
         )}
-        {(!rentalPrice || rentalPrice <= 0) && <div style={{ marginBottom: '18px' }} />}
+        {priceUsd <= 0 && <div style={{ marginBottom: '18px' }} />}
 
-        {status === 'success' ? (
-          <div style={{ textAlign: 'center', padding: '24px 0' }}>
+        {added ? (
+          <div style={{ textAlign: 'center', padding: '16px 0' }}>
             <p style={{
               fontFamily: 'Inter, sans-serif',
               fontSize: '14px',
               color: 'rgba(255,255,255,0.85)',
               lineHeight: 1.6,
             }}>
-              {t('rentSuccess')}
+              {t('rentAddedToCart')}
             </p>
-            <button
-              type="button"
-              onClick={onClose}
-              style={{
-                marginTop: '20px',
-                padding: '12px 32px',
-                fontFamily: 'Inter, sans-serif',
-                fontSize: '12px',
-                fontWeight: 600,
-                letterSpacing: '0.1em',
-                textTransform: 'uppercase',
-                color: '#1a1714',
-                background: 'rgba(168,149,120,0.9)',
-                border: 'none',
-                borderRadius: '10px',
-                cursor: 'pointer',
-              }}
-            >
-              OK
-            </button>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', marginTop: '20px' }}>
+              <Link
+                href={`/${locale}/cart`}
+                onClick={onClose}
+                style={{
+                  padding: '14px',
+                  fontFamily: 'Inter, sans-serif',
+                  fontSize: '13px',
+                  fontWeight: 600,
+                  letterSpacing: '0.1em',
+                  textTransform: 'uppercase',
+                  color: '#1a1714',
+                  background: 'rgba(168,149,120,0.9)',
+                  borderRadius: '10px',
+                  textDecoration: 'none',
+                  textAlign: 'center',
+                }}
+              >
+                {t('rentGoToCart')}
+              </Link>
+              <button
+                type="button"
+                onClick={onClose}
+                style={{
+                  padding: '12px',
+                  fontFamily: 'Inter, sans-serif',
+                  fontSize: '12px',
+                  color: 'rgba(255,255,255,0.6)',
+                  background: 'none',
+                  border: 'none',
+                  cursor: 'pointer',
+                }}
+              >
+                {t('rentContinueShopping')}
+              </button>
+            </div>
           </div>
         ) : (
           <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
-            <input
-              type="text"
-              placeholder={t('rentName')}
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              style={inputStyle}
-              onFocus={(e) => { e.currentTarget.style.borderColor = 'rgba(168,149,120,0.5)' }}
-              onBlur={(e) => { e.currentTarget.style.borderColor = 'rgba(255,255,255,0.15)' }}
-            />
-            <input
-              type="tel"
-              placeholder={t('rentPhone')}
-              value={phone}
-              onChange={(e) => setPhone(e.target.value)}
-              style={inputStyle}
-              onFocus={(e) => { e.currentTarget.style.borderColor = 'rgba(168,149,120,0.5)' }}
-              onBlur={(e) => { e.currentTarget.style.borderColor = 'rgba(255,255,255,0.15)' }}
-            />
+            <div>
+              <label style={{ display: 'block', fontFamily: 'Inter, sans-serif', fontSize: '10px', letterSpacing: '0.12em', textTransform: 'uppercase', color: 'rgba(168,149,120,0.6)', marginBottom: '8px' }}>
+                {t('rentQuantity')}
+              </label>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                <button
+                  type="button"
+                  onClick={() => setQuantity((q) => Math.max(1, q - 1))}
+                  style={{
+                    width: '44px',
+                    height: '44px',
+                    border: '1px solid rgba(255,255,255,0.25)',
+                    background: 'rgba(255,255,255,0.06)',
+                    color: '#fff',
+                    cursor: 'pointer',
+                    borderRadius: '8px',
+                    fontSize: '18px',
+                  }}
+                >
+                  −
+                </button>
+                <span style={{ fontFamily: 'Inter, sans-serif', fontSize: '18px', color: '#fff', minWidth: '32px', textAlign: 'center' }}>
+                  {quantity}
+                </span>
+                <button
+                  type="button"
+                  onClick={() => setQuantity((q) => q + 1)}
+                  style={{
+                    width: '44px',
+                    height: '44px',
+                    border: '1px solid rgba(255,255,255,0.25)',
+                    background: 'rgba(255,255,255,0.06)',
+                    color: '#fff',
+                    cursor: 'pointer',
+                    borderRadius: '8px',
+                    fontSize: '18px',
+                  }}
+                >
+                  +
+                </button>
+              </div>
+            </div>
             <textarea
               placeholder={t('rentMessagePlaceholder')}
-              value={message}
-              onChange={(e) => setMessage(e.target.value)}
-              rows={3}
+              value={note}
+              onChange={(e) => setNote(e.target.value)}
+              rows={2}
               style={{ ...inputStyle, resize: 'vertical', minHeight: '70px' }}
               onFocus={(e) => { e.currentTarget.style.borderColor = 'rgba(168,149,120,0.5)' }}
               onBlur={(e) => { e.currentTarget.style.borderColor = 'rgba(255,255,255,0.15)' }}
             />
 
-            {status === 'error' && (
-              <p style={{
-                fontFamily: 'Inter, sans-serif',
-                fontSize: '12px',
-                color: '#e57373',
-                margin: 0,
-              }}>
-                {t('rentError')}
-              </p>
-            )}
-
             <button
               type="button"
-              onClick={handleSubmit}
-              disabled={!canSubmit || status === 'loading'}
+              onClick={handleAddToCart}
               style={{
                 width: '100%',
                 padding: '14px',
@@ -232,15 +262,14 @@ export function RentModal({
                 letterSpacing: '0.1em',
                 textTransform: 'uppercase',
                 color: '#1a1714',
-                background: canSubmit ? 'rgba(168,149,120,0.9)' : 'rgba(168,149,120,0.3)',
+                background: 'rgba(168,149,120,0.9)',
                 border: 'none',
                 borderRadius: '10px',
-                cursor: canSubmit ? 'pointer' : 'not-allowed',
-                transition: 'background 0.2s',
+                cursor: 'pointer',
                 marginTop: '4px',
               }}
             >
-              {status === 'loading' ? '...' : t('rentSubmit')}
+              {t('rentAddToCart')}
             </button>
           </div>
         )}

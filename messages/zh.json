@@ -204,7 +204,15 @@
     "rentMessagePlaceholder": "日期、地点、客人数量...",
     "rentSubmit": "提交申请",
     "rentSuccess": "申请已发送！我们将尽快与您联系。",
-    "rentError": "出了点问题，请重试。"
+    "rentError": "出了点问题，请重试。",
+    "rentSubtitleCart": "先加入购物车再结算——可同时租赁多顶蒙古包。",
+    "rentAddToCart": "加入购物车",
+    "rentAddedToCart": "已加入购物车。请在结算时填写联系方式。",
+    "rentGoToCart": "去购物车",
+    "rentContinueShopping": "继续浏览",
+    "rentQuantity": "数量",
+    "rentUnit": "顶",
+    "rentLineBadge": "租赁"
   },
   "order": {
     "title": "提交询价",
@@ -248,7 +256,8 @@
     "accessory": "配件",
     "noImage": "—",
     "decreaseQty": "减少数量",
-    "increaseQty": "增加数量"
+    "increaseQty": "增加数量",
+    "rentLine": "租赁"
   },
   "checkout": {
     "title": "结账",
