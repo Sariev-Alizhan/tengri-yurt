@@ -3,7 +3,6 @@
 import { useState, useEffect } from 'react'
 import { usePathname } from 'next/navigation'
 
-// Module-level singleton — survives page navigations, never recreated
 let _audio: HTMLAudioElement | null = null
 
 function getAudio(): HTMLAudioElement | null {
@@ -19,7 +18,6 @@ function getAudio(): HTMLAudioElement | null {
 export function MusicPlayer() {
   const [playing, setPlaying] = useState(false)
   const pathname = usePathname()
-
   const isSupplierPage = pathname?.includes('/supplier/')
 
   useEffect(() => {
@@ -48,117 +46,104 @@ export function MusicPlayer() {
     }
   }
 
-  // z-index 20: ниже модалок (z-50), оверлеев и корзины — не перекрывает TOTAL / кнопки
-  const dockStyle: React.CSSProperties = {
-    position: 'fixed',
-    left: 0,
-    right: 0,
-    bottom: 0,
-    zIndex: 20,
-    pointerEvents: 'none',
-    paddingBottom: 'env(safe-area-inset-bottom, 0px)',
-    paddingLeft: 'max(12px, env(safe-area-inset-left))',
-    paddingRight: 'max(12px, env(safe-area-inset-right))',
-    paddingTop: '10px',
-    background: 'linear-gradient(to top, rgba(15,13,10,0.78) 0%, rgba(15,13,10,0.35) 55%, transparent 100%)',
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'flex-end',
-    minHeight: '52px',
-  }
-
-  const btnStyle: React.CSSProperties = {
-    pointerEvents: 'auto',
-    display: 'inline-flex',
-    alignItems: 'center',
-    gap: '10px',
-    padding: '0 14px 0 10px',
-    height: '34px',
-    marginBottom: '8px',
-    borderRadius: '999px',
-    border: '1px solid rgba(255,255,255,0.2)',
-    background: 'rgba(20,16,12,0.85)',
-    backdropFilter: 'blur(14px)',
-    WebkitBackdropFilter: 'blur(14px)',
-    cursor: 'pointer',
-    outline: 'none',
-    transition: 'border-color 0.2s ease, background 0.2s ease',
-    boxShadow: '0 4px 24px rgba(0,0,0,0.35)',
-  }
-
+  // Фундамент: всегда под контентом (z-10 main), ниже модалок (z-50)
   return (
-    <div style={dockStyle}>
-      <button
-        type="button"
-        onClick={toggle}
-        aria-label={playing ? 'Pause ambient music' : 'Play ambient music'}
-        style={btnStyle}
-        onMouseEnter={(e) => {
-          e.currentTarget.style.borderColor = 'rgba(255,255,255,0.4)'
-          e.currentTarget.style.background = 'rgba(28,24,18,0.95)'
+    <div
+      className="music-foundation"
+      style={{
+        position: 'fixed',
+        left: 0,
+        right: 0,
+        bottom: 0,
+        zIndex: 15,
+        paddingBottom: 'env(safe-area-inset-bottom, 0px)',
+        background: 'linear-gradient(180deg, #0c0a08 0%, #0f0d0a 40%, #12100e 100%)',
+        borderTop: '1px solid rgba(168,149,120,0.35)',
+        boxShadow: '0 -8px 24px rgba(0,0,0,0.35)',
+      }}
+    >
+      {/* Декоративная линия — как на лендинге */}
+      <div
+        aria-hidden
+        style={{
+          width: '100%',
+          height: '1px',
+          background: 'linear-gradient(90deg, transparent 0%, rgba(168,149,120,0.45) 50%, transparent 100%)',
+          marginTop: '-1px',
         }}
-        onMouseLeave={(e) => {
-          e.currentTarget.style.borderColor = 'rgba(255,255,255,0.2)'
-          e.currentTarget.style.background = 'rgba(20,16,12,0.85)'
-        }}
+      />
+
+      <div
+        className="mx-auto flex max-w-6xl items-center justify-between gap-3 px-4 py-3 md:px-8 md:py-3.5"
+        style={{ minHeight: '56px' }}
       >
-        <span style={{
-          width: '20px',
-          height: '20px',
-          borderRadius: '50%',
-          border: '1px solid rgba(255,255,255,0.3)',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          flexShrink: 0,
-        }}>
-          {playing ? (
-            <span style={{ display: 'flex', gap: '3px', alignItems: 'center' }}>
-              <span style={{ display: 'block', width: '2px', height: '8px', background: 'rgba(255,255,255,0.9)', borderRadius: '1px' }} />
-              <span style={{ display: 'block', width: '2px', height: '8px', background: 'rgba(255,255,255,0.9)', borderRadius: '1px' }} />
-            </span>
-          ) : (
-            <svg width="7" height="8" viewBox="0 0 7 8" fill="none" style={{ marginLeft: '1px' }}>
-              <path d="M0 0L7 4L0 8V0Z" fill="rgba(255,255,255,0.85)" />
-            </svg>
-          )}
-        </span>
+        {/* Левая колонка: маркер + кнопка */}
+        <div className="flex flex-shrink-0 items-center gap-3 md:gap-4">
+          <button
+            type="button"
+            onClick={toggle}
+            aria-label={playing ? 'Pause music' : 'Play music'}
+            className="group flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-full border transition-all md:h-12 md:w-12"
+            style={{
+              borderColor: playing ? 'rgba(168,149,120,0.9)' : 'rgba(168,149,120,0.45)',
+              background: playing ? 'rgba(168,149,120,0.12)' : 'rgba(168,149,120,0.06)',
+              boxShadow: playing ? '0 0 20px rgba(168,149,120,0.15)' : 'none',
+            }}
+          >
+            {playing ? (
+              <span className="flex items-center gap-0.5">
+                <span className="block h-3 w-0.5 rounded-sm bg-[#a89578]" />
+                <span className="block h-3 w-0.5 rounded-sm bg-[#a89578]" />
+              </span>
+            ) : (
+              <svg width="16" height="18" viewBox="0 0 16 18" fill="none" className="ml-0.5">
+                <path d="M0 0L16 9L0 18V0Z" fill="rgba(255,255,255,0.85)" />
+              </svg>
+            )}
+          </button>
 
-        <span style={{ display: 'flex', alignItems: 'flex-end', gap: '2px', height: '14px', flexShrink: 0 }}>
-          {[1, 0.6, 0.9, 0.5].map((h, i) => (
-            <span
-              key={i}
-              style={{
-                display: 'block',
-                width: '2px',
-                borderRadius: '1px',
-                background: playing ? 'rgba(255,255,255,0.75)' : 'rgba(255,255,255,0.25)',
-                height: playing ? `${h * 14}px` : '4px',
-                animation: playing ? `tkBar${i} ${0.8 + i * 0.15}s ease-in-out infinite alternate` : 'none',
-                transition: 'height 0.3s ease, background 0.3s ease',
-              }}
-            />
-          ))}
-        </span>
+          <div className="hidden h-8 w-px bg-[rgba(168,149,120,0.25)] sm:block" aria-hidden />
 
-        <span style={{
-          fontFamily: 'Inter, sans-serif',
-          fontSize: '9px',
-          letterSpacing: '0.18em',
-          textTransform: 'uppercase',
-          color: 'rgba(255,255,255,0.65)',
-          whiteSpace: 'nowrap',
-        }}>
-          Бесік күйі
-        </span>
+          {/* Эквалайзер */}
+          <div className="flex h-8 items-end gap-0.5">
+            {[0.35, 0.65, 0.5, 0.8, 0.45].map((h, i) => (
+              <span
+                key={i}
+                className="w-0.5 rounded-full bg-[#a89578]/60 transition-all"
+                style={{
+                  height: playing ? `${Math.max(12, h * 28)}px` : '6px',
+                  opacity: playing ? 0.9 : 0.35,
+                  animation: playing ? `tkBar${i} ${0.7 + i * 0.12}s ease-in-out infinite alternate` : 'none',
+                }}
+              />
+            ))}
+          </div>
+        </div>
 
-        <style dangerouslySetInnerHTML={{ __html: `
-          @keyframes tkBar0 { from { height: 4px } to { height: 14px } }
-          @keyframes tkBar1 { from { height: 8px } to { height: 5px } }
-          @keyframes tkBar2 { from { height: 12px } to { height: 6px } }
-          @keyframes tkBar3 { from { height: 5px } to { height: 12px } }
-        `}} />
-      </button>
+        {/* Центр: название */}
+        <div className="min-w-0 flex-1 text-center px-2">
+          <p className="font-garamond text-lg leading-tight text-white/90 md:text-xl">
+            Бесік күйі
+          </p>
+          <p className="font-inter mt-0.5 text-[9px] uppercase tracking-[0.2em] text-[#a89578]/70 md:text-[10px]">
+            Traditional Kazakh
+          </p>
+        </div>
+
+        {/* Правая колонка: подпись бренда */}
+        <div className="hidden flex-shrink-0 flex-col items-end text-right sm:flex">
+          <span className="font-inter text-[8px] uppercase tracking-[0.25em] text-white/35">Tengri Yurt</span>
+          <span className="font-inter mt-0.5 text-[9px] uppercase tracking-[0.15em] text-[#a89578]/50">Ambient</span>
+        </div>
+      </div>
+
+      <style dangerouslySetInnerHTML={{ __html: `
+        @keyframes tkBar0 { from { height: 8px } to { height: 22px } }
+        @keyframes tkBar1 { from { height: 14px } to { height: 10px } }
+        @keyframes tkBar2 { from { height: 12px } to { height: 6px } }
+        @keyframes tkBar3 { from { height: 20px } to { height: 12px } }
+        @keyframes tkBar4 { from { height: 10px } to { height: 18px } }
+      `}} />
     </div>
   )
 }
