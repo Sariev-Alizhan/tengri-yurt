@@ -159,7 +159,7 @@ export default async function YurtDetailPage({
                 <PriceUsdKzt usd={yurt.price_usd} usdMax={(yurt as any).price_usd_max} fromPrefix />
               </p>
               {(yurt as any).rental_price_usd > 0 && (
-                <p className="font-inter text-[rgba(168,149,120,0.85)] text-sm">
+                <p className="font-inter text-sm sm:text-base font-semibold text-[#1a1714] [text-shadow:none]">
                   {t('rent')}: from $ {((yurt as any).rental_price_usd as number).toLocaleString('en-US')}
                 </p>
               )}

@@ -742,9 +742,9 @@ function YurtCard({
               fontWeight: 600,
               letterSpacing: '0.06em',
               textTransform: 'uppercase',
-              border: '1px solid rgba(168,149,120,0.5)',
-              color: 'rgba(168,149,120,0.95)',
-              background: 'rgba(168,149,120,0.08)',
+              border: '1px solid rgba(26, 23, 20, 0.35)',
+              color: '#1a1714',
+              background: 'rgba(255,255,255,0.35)',
               cursor: 'pointer',
               transition: 'all 0.2s ease',
               touchAction: 'manipulation',
@@ -753,11 +753,22 @@ function YurtCard({
               alignItems: 'center',
               justifyContent: 'center',
               gap: '6px',
+              boxShadow: '0 1px 2px rgba(0,0,0,0.06)',
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.background = '#1a1714'
+              e.currentTarget.style.color = '#fff'
+              e.currentTarget.style.borderColor = '#1a1714'
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.background = 'rgba(255,255,255,0.35)'
+              e.currentTarget.style.color = '#1a1714'
+              e.currentTarget.style.borderColor = 'rgba(26, 23, 20, 0.35)'
             }}
           >
             {rentLabel}
             {rentalPrice != null && rentalPrice > 0 && (
-              <span style={{ fontWeight: 400, fontSize: '10px', opacity: 0.75 }}>
+              <span style={{ fontWeight: 400, fontSize: '10px', opacity: 0.9 }}>
                 ${rentalPrice.toLocaleString('en-US')}+
               </span>
             )}

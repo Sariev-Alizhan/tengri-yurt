@@ -29,29 +29,11 @@ export function YurtRentButton({
       <button
         type="button"
         onClick={() => setOpen(true)}
-        style={{
-          width: '100%',
-          height: '48px',
-          fontFamily: 'Inter, sans-serif',
-          fontSize: '12px',
-          fontWeight: 600,
-          letterSpacing: '0.1em',
-          textTransform: 'uppercase',
-          border: '1px solid rgba(168,149,120,0.5)',
-          color: 'rgba(168,149,120,0.95)',
-          background: 'rgba(168,149,120,0.08)',
-          cursor: 'pointer',
-          transition: 'all 0.2s ease',
-          borderRadius: '10px',
-          display: 'inline-flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          touchAction: 'manipulation',
-        }}
+        className="inline-flex w-full min-h-[48px] items-center justify-center gap-2 rounded-[10px] border border-[#1a1714]/35 bg-white/35 px-3 font-inter text-[12px] font-semibold uppercase tracking-[0.1em] text-[#1a1714] shadow-sm transition-colors hover:border-[#1a1714] hover:bg-[#1a1714] hover:text-white touch-manipulation"
       >
         {t('rent')}
         {rentalPrice != null && rentalPrice > 0 && (
-          <span style={{ fontWeight: 400, fontSize: '11px', opacity: 0.7, marginLeft: '8px' }}>
+          <span className="font-normal text-[11px] opacity-90">
             from ${rentalPrice.toLocaleString('en-US')}
           </span>
         )}
