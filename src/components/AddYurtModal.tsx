@@ -224,7 +224,7 @@ export function AddYurtModal({ yurt, locale, onConfirm, onClose }: Props) {
       </div>
 
       {/* ── DESKTOP: split modal ── */}
-      <div className="hidden md:flex relative z-10 bg-[#faf9f7] rounded-2xl shadow-2xl overflow-hidden"
+      <div className="hidden md:flex relative z-10 bg-[#faf9f7] rounded-2xl shadow-2xl overflow-hidden min-h-0"
         style={{ width: 'min(960px, 94vw)', height: 'min(90vh, 860px)' }}>
 
         {/* Close button */}
@@ -233,10 +233,12 @@ export function AddYurtModal({ yurt, locale, onConfirm, onClose }: Props) {
           <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
         </button>
 
-        {/* LEFT: photo + summary (sticky) */}
-        <div className="w-[340px] shrink-0 flex flex-col bg-[#1a1714] relative overflow-hidden">
+        {/* LEFT: фото + сводка — прокручивается целиком (тач-свайп на планшетах) */}
+        <div
+          className="w-[300px] lg:w-[340px] shrink-0 flex flex-col bg-[#1a1714] relative min-h-0 h-full max-h-full overflow-y-auto overscroll-contain touch-pan-y [-webkit-overflow-scrolling:touch]"
+        >
           {/* Yurt photo */}
-          <div className="flex-1 relative">
+          <div className="flex-1 min-h-[160px] relative shrink-0">
             {yurt.photo ? (
               <img src={yurt.photo} alt={yurt.name} className="absolute inset-0 w-full h-full object-cover opacity-80" />
             ) : (
@@ -285,7 +287,7 @@ export function AddYurtModal({ yurt, locale, onConfirm, onClose }: Props) {
         </div>
 
         {/* RIGHT: scrollable form */}
-        <div className="flex-1 overflow-y-auto">
+        <div className="flex-1 min-h-0 overflow-y-auto overscroll-contain touch-pan-y [-webkit-overflow-scrolling:touch]">
           <div className="px-8 py-7 pb-10">
         <MobileFormBody
               t={t} rec={rec} floorWalls={floorWalls} setFloorWalls={setFloorWalls}
