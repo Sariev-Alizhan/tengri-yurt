@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { usePathname } from 'next/navigation'
 
 let _audio: HTMLAudioElement | null = null
@@ -19,6 +19,31 @@ export function MusicPlayer() {
   const [playing, setPlaying] = useState(false)
   const pathname = usePathname()
   const isSupplierPage = pathname?.includes('/supplier/')
+  const foundationRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    if (isSupplierPage) {
+      document.documentElement.style.removeProperty('--music-foundation-height')
+      return
+    }
+    const el = foundationRef.current
+    if (!el) return
+    const sync = () => {
+      const h = Math.ceil(el.getBoundingClientRect().height)
+      if (h > 0) {
+        document.documentElement.style.setProperty('--music-foundation-height', `${h}px`)
+      }
+    }
+    sync()
+    const ro = new ResizeObserver(sync)
+    ro.observe(el)
+    window.addEventListener('resize', sync)
+    return () => {
+      ro.disconnect()
+      window.removeEventListener('resize', sync)
+      document.documentElement.style.removeProperty('--music-foundation-height')
+    }
+  }, [isSupplierPage])
 
   useEffect(() => {
     const audio = getAudio()
@@ -46,11 +71,18 @@ export function MusicPlayer() {
     }
   }
 
-  // Футер в потоке страницы (после main): не перекрывает контент; модалки fixed остаются сверху.
+  // Фиксированный футер: всегда виден; контент с padding-bottom по --music-foundation-height.
+  // z-15 ниже модалок (110+) и навбара (100); без z-index на <main> модалки не оказываются под плеером.
   return (
     <div
-      className="music-foundation w-full shrink-0"
+      ref={foundationRef}
+      className="music-foundation"
       style={{
+        position: 'fixed',
+        left: 0,
+        right: 0,
+        bottom: 0,
+        zIndex: 15,
         paddingBottom: 'env(safe-area-inset-bottom, 0px)',
         background: 'linear-gradient(180deg, #0c0a08 0%, #0f0d0a 40%, #12100e 100%)',
         borderTop: '1px solid rgba(168,149,120,0.35)',

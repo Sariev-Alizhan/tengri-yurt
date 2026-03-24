@@ -6,6 +6,8 @@
 @import 'leaflet/dist/leaflet.css';
 
 :root {
+  /* Высота музыкального футера; уточняется MusicPlayer (ResizeObserver) */
+  --music-foundation-height: 72px;
   --beige: #a89578;
   --beige-dark: #9a8568;
   --beige-light: #b8a588;

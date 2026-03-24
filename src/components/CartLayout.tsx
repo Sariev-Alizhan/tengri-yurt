@@ -27,8 +27,8 @@ export function CartLayout({
           <div className="relative flex min-h-[100dvh] flex-col">
             <Navbar />
             <SiteMain>{children}</SiteMain>
-            <MusicPlayer />
           </div>
+          <MusicPlayer />
           <CookieConsent />
         </NextIntlClientProvider>
       </ExchangeRateProvider>
