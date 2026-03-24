@@ -71,7 +71,7 @@ export function MusicPlayer() {
     }
   }
 
-  // Фундамент: всегда под контентом (z-10 main), ниже модалок (z-50)
+  // Фундамент: под main (z-10), ниже модалок (110+) и навбара (100)
   return (
     <div
       ref={foundationRef}

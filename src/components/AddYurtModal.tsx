@@ -173,7 +173,7 @@ export function AddYurtModal({ yurt, locale, onConfirm, onClose }: Props) {
   const Divider = () => <div className="border-t border-[#ede8e0] my-6" />
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto overflow-x-hidden overscroll-contain">
+    <div className="fixed inset-0 z-[110] flex items-center justify-center overflow-y-auto overflow-x-hidden overscroll-contain">
       {/* Backdrop */}
       <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" onClick={onClose} />
 
