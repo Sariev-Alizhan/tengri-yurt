@@ -1,5 +1,5 @@
 {
-  "nav": { "bookNow": "Заказать", "catalog": "Каталог", "back": "Назад", "supplierPortal": "Кабинет поставщика", "home": "На главную", "cart": "Корзина", "openMenu": "Открыть меню", "closeMenu": "Закрыть меню" },
+  "nav": { "bookNow": "Заказать", "catalog": "Каталог", "back": "Назад", "supplierPortal": "Кабинет поставщика", "home": "На главную", "cart": "Корзина", "openMenu": "Открыть меню", "closeMenu": "Закрыть меню", "language": "Язык" },
   "hero": {
     "since": "С 2010 года",
     "tagline": "Традиционные юрты по всему миру",

@@ -1,5 +1,5 @@
 {
-  "nav": { "bookNow": "立即预订", "catalog": "产品目录", "back": "返回", "supplierPortal": "供应商门户", "home": "首页", "cart": "购物车", "openMenu": "打开菜单", "closeMenu": "关闭菜单" },
+  "nav": { "bookNow": "立即预订", "catalog": "产品目录", "back": "返回", "supplierPortal": "供应商门户", "home": "首页", "cart": "购物车", "openMenu": "打开菜单", "closeMenu": "关闭菜单", "language": "语言" },
   "hero": {
     "since": "自2010年",
     "tagline": "传统蒙古包遍布全球",

@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { usePathname } from 'next/navigation'
 
 let _audio: HTMLAudioElement | null = null
@@ -19,6 +19,31 @@ export function MusicPlayer() {
   const [playing, setPlaying] = useState(false)
   const pathname = usePathname()
   const isSupplierPage = pathname?.includes('/supplier/')
+  const foundationRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    if (isSupplierPage) {
+      document.documentElement.style.removeProperty('--music-foundation-height')
+      return
+    }
+    const el = foundationRef.current
+    if (!el) return
+    const sync = () => {
+      const h = Math.ceil(el.getBoundingClientRect().height)
+      if (h > 0) {
+        document.documentElement.style.setProperty('--music-foundation-height', `${h}px`)
+      }
+    }
+    sync()
+    const ro = new ResizeObserver(sync)
+    ro.observe(el)
+    window.addEventListener('resize', sync)
+    return () => {
+      ro.disconnect()
+      window.removeEventListener('resize', sync)
+      document.documentElement.style.removeProperty('--music-foundation-height')
+    }
+  }, [isSupplierPage])
 
   useEffect(() => {
     const audio = getAudio()
@@ -49,6 +74,7 @@ export function MusicPlayer() {
   // Фундамент: всегда под контентом (z-10 main), ниже модалок (z-50)
   return (
     <div
+      ref={foundationRef}
       className="music-foundation"
       style={{
         position: 'fixed',
@@ -121,11 +147,11 @@ export function MusicPlayer() {
         </div>
 
         {/* Центр: название */}
-        <div className="min-w-0 flex-1 text-center px-2">
-          <p className="font-garamond text-lg leading-tight text-white/90 md:text-xl">
+        <div className="min-w-0 flex-1 text-center px-1 sm:px-2">
+          <p className="font-garamond text-base leading-tight text-white/90 sm:text-lg md:text-xl">
             Бесік күйі
           </p>
-          <p className="font-inter mt-0.5 text-[9px] uppercase tracking-[0.2em] text-[#a89578]/70 md:text-[10px]">
+          <p className="font-inter mt-0.5 hidden text-[9px] uppercase tracking-[0.2em] text-[#a89578]/70 sm:block sm:text-[10px]">
             Traditional Kazakh
           </p>
         </div>

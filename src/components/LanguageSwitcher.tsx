@@ -1,30 +1,31 @@
 'use client'
 
-import { useParams, usePathname } from 'next/navigation'
+import { useParams } from 'next/navigation'
 import { useCallback, useState } from 'react'
+import { usePathname, useRouter } from '@/i18n/navigation'
 
-export function LanguageSwitcher() {
+export function LanguageSwitcher({ onNavigate }: { onNavigate?: () => void } = {}) {
   const params = useParams()
   const pathname = usePathname()
+  const router = useRouter()
   const currentLocale = (params?.locale as string) || 'en'
   const [hoveredCode, setHoveredCode] = useState<string | null>(null)
 
   const languages = [
-    { code: 'en', label: 'EN' },
-    { code: 'ru', label: 'RU' },
-    { code: 'kk', label: 'KZ' },
-    { code: 'zh', label: 'CN' },
+    { code: 'en' as const, label: 'EN' },
+    { code: 'ru' as const, label: 'RU' },
+    { code: 'kk' as const, label: 'KZ' },
+    { code: 'zh' as const, label: 'CN' },
   ]
 
   const handleSwitch = useCallback(
     (langCode: string) => {
       if (langCode === currentLocale) return
-      const segments = (pathname || '').split('/')
-      segments[1] = langCode
-      const newPath = segments.join('/') || `/${langCode}`
-      window.location.href = newPath
+      const path = pathname && pathname.length > 0 ? pathname : '/'
+      onNavigate?.()
+      router.replace(path, { locale: langCode })
     },
-    [currentLocale, pathname]
+    [currentLocale, pathname, router, onNavigate]
   )
 
   return (
@@ -33,8 +34,9 @@ export function LanguageSwitcher() {
       style={{
         display: 'flex',
         alignItems: 'center',
-        gap: '2px',
+        gap: '4px',
         flexWrap: 'nowrap',
+        justifyContent: 'center',
       }}
     >
       {languages.map((lang, i) => {
@@ -44,7 +46,11 @@ export function LanguageSwitcher() {
         return (
           <span key={lang.code} style={{ display: 'flex', alignItems: 'center' }}>
             <button
-              onClick={() => handleSwitch(lang.code)}
+              onClick={(e) => {
+                e.preventDefault()
+                e.stopPropagation()
+                handleSwitch(lang.code)
+              }}
               onMouseEnter={() => !isActive && setHoveredCode(lang.code)}
               onMouseLeave={() => setHoveredCode(null)}
               type="button"
@@ -61,11 +67,12 @@ export function LanguageSwitcher() {
                 color: isActive
                   ? 'rgba(255,255,255,1)'
                   : isHovered
-                  ? 'rgba(255,255,255,0.85)'
-                  : 'rgba(255,255,255,0.45)',
+                    ? 'rgba(255,255,255,0.85)'
+                    : 'rgba(255,255,255,0.45)',
                 textTransform: 'uppercase',
-                padding: '6px 8px',
-                minHeight: '32px',
+                padding: '10px 10px',
+                minHeight: '44px',
+                minWidth: '44px',
                 display: 'inline-flex',
                 alignItems: 'center',
                 justifyContent: 'center',
@@ -74,6 +81,8 @@ export function LanguageSwitcher() {
                   : '1.5px solid transparent',
                 transition: 'color 0.15s ease, border-color 0.15s ease',
                 touchAction: 'manipulation',
+                WebkitUserSelect: 'none',
+                userSelect: 'none',
               }}
               aria-label={`Language: ${lang.label}`}
               aria-current={isActive ? 'true' : undefined}
@@ -87,6 +96,7 @@ export function LanguageSwitcher() {
                   fontSize: '11px',
                   userSelect: 'none',
                   pointerEvents: 'none',
+                  padding: '0 2px',
                 }}
                 aria-hidden
               >

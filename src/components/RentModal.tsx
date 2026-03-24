@@ -69,23 +69,36 @@ export function RentModal({
         inset: 0,
         zIndex: 200,
         display: 'flex',
-        alignItems: 'center',
+        alignItems: 'flex-start',
         justifyContent: 'center',
         background: 'rgba(0,0,0,0.6)',
         backdropFilter: 'blur(6px)',
         WebkitBackdropFilter: 'blur(6px)',
-        padding: '16px',
+        paddingTop: 'max(16px, env(safe-area-inset-top, 0px))',
+        paddingBottom: 'max(16px, env(safe-area-inset-bottom, 0px))',
+        paddingLeft: 'max(16px, env(safe-area-inset-left, 0px))',
+        paddingRight: 'max(16px, env(safe-area-inset-right, 0px))',
+        overflowY: 'auto',
+        overscrollBehavior: 'contain',
+        WebkitOverflowScrolling: 'touch',
+        boxSizing: 'border-box',
       }}
     >
       <div
         style={{
           width: '100%',
           maxWidth: '420px',
+          marginTop: 'auto',
+          marginBottom: 'auto',
+          maxHeight: 'min(90dvh, calc(100dvh - max(32px, env(safe-area-inset-top, 0px)) - max(32px, env(safe-area-inset-bottom, 0px))))',
+          overflowY: 'auto',
+          WebkitOverflowScrolling: 'touch',
           background: '#1a1714',
           border: '1px solid rgba(255,255,255,0.1)',
           borderRadius: '16px',
           padding: 'clamp(24px, 5vw, 32px)',
           position: 'relative',
+          boxSizing: 'border-box',
         }}
       >
         <button

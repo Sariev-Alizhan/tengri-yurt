@@ -1,5 +1,5 @@
 {
-  "nav": { "bookNow": "Book Now", "catalog": "Catalog", "back": "Back", "supplierPortal": "Supplier Portal", "home": "Home", "cart": "Cart", "openMenu": "Open menu", "closeMenu": "Close menu" },
+  "nav": { "bookNow": "Book Now", "catalog": "Catalog", "back": "Back", "supplierPortal": "Supplier Portal", "home": "Home", "cart": "Cart", "openMenu": "Open menu", "closeMenu": "Close menu", "language": "Language" },
   "hero": {
     "since": "Since 2010",
     "tagline": "Traditional Yurts Around The World",

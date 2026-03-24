@@ -6,6 +6,8 @@
 @import 'leaflet/dist/leaflet.css';
 
 :root {
+  /* Fallback до измерения плеера; обновляется MusicPlayer (ResizeObserver) */
+  --music-foundation-height: 72px;
   --beige: #a89578;
   --beige-dark: #9a8568;
   --beige-light: #b8a588;
@@ -103,12 +105,11 @@ input:focus, textarea:focus {
   border-bottom-color: rgba(255, 255, 255, 0.8);
 }
 
-* {
-  border-radius: 0 !important;
-}
-
-button, a.btn {
-  border-radius: 0 !important;
+/* Скругления: не глобально в ноль — Tailwind rounded-* и инлайны работают.
+   Только кнопки без класса rounded* остаются квадратными по умолчанию. */
+button:not([class*="rounded"]),
+a.btn {
+  border-radius: 0;
   transition: all 0.25s ease;
 }
 

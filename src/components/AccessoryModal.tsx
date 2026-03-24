@@ -160,7 +160,7 @@ export function AccessoryModal({ isOpen, onClose, onProceed, locale }: Accessory
         />
       </div>
       <div 
-        className="relative bg-beige-deep/95 w-full max-w-4xl max-h-[90vh] overflow-y-auto rounded-lg shadow-2xl scrollbar-hide backdrop-blur-sm"
+        className="relative bg-beige-deep/95 w-full max-w-4xl max-h-[min(90dvh,calc(100dvh-2rem))] overflow-y-auto rounded-lg shadow-2xl scrollbar-hide backdrop-blur-sm"
         style={{
           transform: isClosing ? 'translateY(20px) scale(0.95)' : 'translateY(0) scale(1)',
           opacity: isClosing ? 0 : 1,

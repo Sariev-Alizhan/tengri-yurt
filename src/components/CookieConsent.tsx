@@ -2,10 +2,15 @@
 
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
+import { useParams, usePathname } from 'next/navigation'
 
 const STORAGE_KEY = 'tengri-cookie-consent'
 
 export function CookieConsent() {
+  const params = useParams()
+  const pathname = usePathname()
+  const locale = (params?.locale as string) || 'en'
+  const hideMusic = pathname?.includes('/supplier/')
   const [visible, setVisible] = useState(false)
 
   useEffect(() => {
@@ -29,13 +34,23 @@ export function CookieConsent() {
 
   return (
     <div
-      className="fixed bottom-0 left-0 right-0 z-[9999] px-4 py-4 md:py-3 flex flex-wrap items-center justify-center gap-4 bg-[#0f0d0a]/98 border-t border-white/10 shadow-[0_-4px_20px_rgba(0,0,0,0.3)]"
+      className="fixed left-0 right-0 z-40 px-4 py-4 md:py-3 flex flex-wrap items-center justify-center gap-4 bg-[#0f0d0a]/98 border-t border-white/10 shadow-[0_-4px_20px_rgba(0,0,0,0.3)] transition-[bottom] duration-200 ease-out"
+      style={{
+        /* Над музыкальным фундаментом, не перекрывая плеер; в кабинете поставщика плеера нет */
+        bottom: hideMusic ? 0 : 'var(--music-foundation-height, 72px)',
+        /* Safe area только когда плеера нет — иначе «домик» уже в зоне музыки */
+        paddingBottom: hideMusic
+          ? 'max(1rem, env(safe-area-inset-bottom, 0px))'
+          : '1rem',
+        paddingLeft: 'max(1rem, env(safe-area-inset-left, 0px))',
+        paddingRight: 'max(1rem, env(safe-area-inset-right, 0px))',
+      }}
       role="dialog"
       aria-live="polite"
     >
       <p className="font-inter text-white/80 text-sm text-center md:text-left max-w-2xl">
         We use cookies to improve your experience and for analytics. By continuing you agree to our use of cookies.{' '}
-        <Link href="/en" className="text-amber-400/90 hover:text-amber-300 underline underline-offset-2">
+        <Link href={`/${locale}`} className="text-amber-400/90 hover:text-amber-300 underline underline-offset-2">
           Learn more
         </Link>
       </p>

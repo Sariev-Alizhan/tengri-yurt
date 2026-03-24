@@ -173,14 +173,14 @@ export function AddYurtModal({ yurt, locale, onConfirm, onClose }: Props) {
   const Divider = () => <div className="border-t border-[#ede8e0] my-6" />
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center">
+    <div className="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto overflow-x-hidden overscroll-contain">
       {/* Backdrop */}
       <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" onClick={onClose} />
 
       {/* ── MOBILE: full screen ── */}
-      <div className="md:hidden relative z-10 flex flex-col bg-[#faf9f7] w-full h-full">
+      <div className="md:hidden relative z-10 flex flex-col bg-[#faf9f7] w-full min-h-0 h-[100dvh] max-h-[100dvh]">
         {/* Mobile header */}
-        <div className="shrink-0 flex items-center justify-between px-5 py-4 border-b border-[#ede8e0] bg-[#faf9f7]">
+        <div className="shrink-0 flex items-center justify-between px-5 py-4 border-b border-[#ede8e0] bg-[#faf9f7] pt-[max(1rem,env(safe-area-inset-top,0px))]">
           <div>
             <p className="font-garamond text-[#1a1714] text-xl leading-tight">{yurt.name}</p>
             <p className="font-inter text-[#a89578] text-xs mt-0.5">{t('addYurtModalSubtitle')}</p>
@@ -208,7 +208,7 @@ export function AddYurtModal({ yurt, locale, onConfirm, onClose }: Props) {
           </div>
         </div>
         {/* Mobile footer */}
-        <div className="shrink-0 border-t border-[#ede8e0] bg-[#faf9f7] px-5 py-4 shadow-[0_-4px_20px_rgba(0,0,0,0.06)]">
+        <div className="shrink-0 border-t border-[#ede8e0] bg-[#faf9f7] px-5 py-4 pb-[max(1rem,env(safe-area-inset-bottom,0px))] shadow-[0_-4px_20px_rgba(0,0,0,0.06)]">
           <div className="flex items-baseline justify-between mb-3">
             <span className="font-inter text-[#a89578] text-xs uppercase tracking-wider">Total</span>
             <div className="text-right">

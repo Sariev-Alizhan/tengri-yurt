@@ -54,7 +54,10 @@ function SupplierNavbar() {
         display: 'flex',
         alignItems: 'center',
         flexWrap: 'wrap',
-        padding: 'clamp(10px, 2vw, 14px) clamp(16px, 4vw, 24px)',
+        paddingTop: 'calc(clamp(10px, 2vw, 14px) + env(safe-area-inset-top, 0px))',
+        paddingBottom: 'clamp(10px, 2vw, 14px)',
+        paddingLeft: 'max(clamp(16px, 4vw, 24px), env(safe-area-inset-left, 0px))',
+        paddingRight: 'max(clamp(16px, 4vw, 24px), env(safe-area-inset-right, 0px))',
         gap: 'clamp(10px, 2vw, 16px)',
       }}
     >
@@ -232,7 +235,7 @@ function PublicNavbar() {
 
   useEffect(() => {
     const check = () => {
-      const desktop = window.innerWidth >= 1280
+      const desktop = window.innerWidth >= 1024
       setIsDesktop(desktop)
       if (desktop) setMenuOpen(false)
     }
@@ -246,6 +249,15 @@ function PublicNavbar() {
     return () => { document.body.style.overflow = '' }
   }, [menuOpen])
 
+  useEffect(() => {
+    if (!menuOpen) return
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setMenuOpen(false)
+    }
+    window.addEventListener('keydown', onKey)
+    return () => window.removeEventListener('keydown', onKey)
+  }, [menuOpen])
+
   return (
     <>
       <nav style={{
@@ -256,7 +268,10 @@ function PublicNavbar() {
         WebkitBackdropFilter: 'none',
         boxShadow: 'none',
         borderBottom: 'none',
-        padding: 'clamp(12px, 3vw, 20px) clamp(16px, 5vw, 48px)'
+        paddingTop: 'calc(clamp(12px, 3vw, 20px) + env(safe-area-inset-top, 0px))',
+        paddingBottom: 'clamp(12px, 3vw, 20px)',
+        paddingLeft: 'max(clamp(16px, 5vw, 48px), env(safe-area-inset-left, 0px))',
+        paddingRight: 'max(clamp(16px, 5vw, 48px), env(safe-area-inset-right, 0px))',
       }}>
         <div style={{
           display: 'grid',
@@ -454,20 +469,26 @@ function PublicNavbar() {
 
       <div
         onClick={(e) => { if (e.target === e.currentTarget) setMenuOpen(false) }}
+        role="presentation"
         style={{
           position: 'fixed', inset: 0, zIndex: 99,
           background: '#a89578',
           display: 'flex', flexDirection: 'column',
-          alignItems: 'center', justifyContent: 'center',
-          gap: 'clamp(28px, 6vw, 40px)',
-          padding: 'clamp(60px, 12vw, 80px) 24px',
+          alignItems: 'center', justifyContent: 'flex-start',
+          gap: 'clamp(20px, 5vw, 32px)',
+          paddingTop: 'calc(clamp(56px, 14vw, 72px) + env(safe-area-inset-top, 0px))',
+          paddingBottom: 'calc(clamp(24px, 6vw, 40px) + env(safe-area-inset-bottom, 0px))',
+          paddingLeft: 'max(20px, env(safe-area-inset-left, 0px))',
+          paddingRight: 'max(20px, env(safe-area-inset-right, 0px))',
+          minHeight: '100dvh',
+          maxHeight: '100dvh',
+          overflowY: 'auto',
+          overscrollBehavior: 'contain',
+          WebkitOverflowScrolling: 'touch',
           opacity: menuOpen ? 1 : 0,
           pointerEvents: menuOpen ? 'all' : 'none',
           transition: 'opacity 0.3s ease',
         }}>
-        <div style={{ marginBottom: '8px' }}>
-          <LanguageSwitcher />
-        </div>
         {isBookNowFlow && (
           <Link href={`/${locale}/cart`}
             onClick={() => setMenuOpen(false)}
@@ -535,6 +556,33 @@ function PublicNavbar() {
           }}>
           {t('home')}
         </Link>
+
+        <div
+          style={{
+            marginTop: 'clamp(20px, 5vw, 32px)',
+            paddingTop: 'clamp(20px, 5vw, 28px)',
+            borderTop: '1px solid rgba(255,255,255,0.12)',
+            width: '100%',
+            maxWidth: 'min(100%, 360px)',
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            gap: '10px',
+          }}
+        >
+          <span
+            style={{
+              fontFamily: 'Inter, sans-serif',
+              fontSize: '9px',
+              letterSpacing: '0.2em',
+              textTransform: 'uppercase',
+              color: 'rgba(255,255,255,0.35)',
+            }}
+          >
+            {t('language')}
+          </span>
+          <LanguageSwitcher onNavigate={() => setMenuOpen(false)} />
+        </div>
       </div>
     </>
   )

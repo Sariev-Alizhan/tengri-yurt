@@ -40,8 +40,8 @@ export function HistoryModal({ isOpen, onClose }: { isOpen: boolean; onClose: ()
 
   return (
     <div
-      className="fixed inset-0 z-[1000] flex items-center justify-center p-4"
-      style={{ position: 'fixed', inset: 0, zIndex: 1000, display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+      className="fixed inset-0 z-[1000] flex items-center justify-center p-4 overflow-y-auto overscroll-contain"
+      style={{ position: 'fixed', inset: 0, zIndex: 1000, display: 'flex', alignItems: 'center', justifyContent: 'center', WebkitOverflowScrolling: 'touch' }}
     >
       <div
         role="button"
@@ -53,11 +53,11 @@ export function HistoryModal({ isOpen, onClose }: { isOpen: boolean; onClose: ()
         aria-label="Close"
       />
       <div
-        className="relative overflow-y-auto scrollbar-hide"
+        className="relative overflow-y-auto scrollbar-hide my-auto"
         style={{
           width: '92%',
           maxWidth: '720px',
-          maxHeight: '88vh',
+          maxHeight: 'min(88dvh, calc(100dvh - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px) - 32px))',
           background: '#a89578',
           border: '1px solid rgba(255,255,255,0.2)',
           padding: 'clamp(24px, 5vw, 64px)',
