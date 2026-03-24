@@ -1,15 +1,13 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import Link from 'next/link'
-import { useParams, usePathname } from 'next/navigation'
+import { Link } from '@/i18n/navigation'
+import { usePathname } from 'next/navigation'
 
 const STORAGE_KEY = 'tengri-cookie-consent'
 
 export function CookieConsent() {
-  const params = useParams()
   const pathname = usePathname()
-  const locale = (params?.locale as string) || 'en'
   const hideMusic = pathname?.includes('/supplier/')
   const [visible, setVisible] = useState(false)
 
@@ -50,7 +48,7 @@ export function CookieConsent() {
     >
       <p className="font-inter text-white/80 text-sm text-center md:text-left max-w-2xl">
         We use cookies to improve your experience and for analytics. By continuing you agree to our use of cookies.{' '}
-        <Link href={`/${locale}`} className="text-amber-400/90 hover:text-amber-300 underline underline-offset-2">
+        <Link href="/" className="text-amber-400/90 hover:text-amber-300 underline underline-offset-2">
           Learn more
         </Link>
       </p>

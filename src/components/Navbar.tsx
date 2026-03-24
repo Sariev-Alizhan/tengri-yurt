@@ -1,9 +1,9 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import Link from 'next/link'
 import { useTranslations } from 'next-intl'
-import { useParams, usePathname } from 'next/navigation'
+import { usePathname } from 'next/navigation'
+import { Link } from '@/i18n/navigation'
 import { LanguageSwitcher } from './LanguageSwitcher'
 import { useCart } from './CartContext'
 
@@ -21,8 +21,6 @@ export default function Navbar() {
 }
 
 function SupplierNavbar() {
-  const params = useParams()
-  const locale = (params?.locale as string) || 'en'
   const pathname = usePathname()
   const t = useTranslations('supplier')
 
@@ -61,8 +59,8 @@ function SupplierNavbar() {
         gap: 'clamp(10px, 2vw, 16px)',
       }}
     >
-      <a
-        href={`/${locale}/supplier/dashboard`}
+      <Link
+        href="/supplier/dashboard"
         style={{
           display: 'flex',
           alignItems: 'center',
@@ -103,7 +101,7 @@ function SupplierNavbar() {
             {t('portalTitle')}
           </p>
         </div>
-      </a>
+      </Link>
 
       <span
         className="supplier-nav-sep"
@@ -140,8 +138,8 @@ function SupplierNavbar() {
         <LanguageSwitcher />
       </div>
 
-      <a
-        href={`/${locale}/catalog`}
+      <Link
+        href="/catalog"
         target="_blank"
         rel="noopener noreferrer"
         style={{
@@ -175,10 +173,10 @@ function SupplierNavbar() {
           <path d="M1 9L9 1M9 1H4M9 1V6" stroke="currentColor" strokeWidth="1.2" />
         </svg>
         <span className="supplier-view-store-text">{t('viewStore')}</span>
-      </a>
+      </Link>
 
-      <a
-        href={`/${locale}/supplier/dashboard/settings`}
+      <Link
+        href="/supplier/dashboard/settings"
         style={{
           width: '44px',
           height: '44px',
@@ -208,7 +206,7 @@ function SupplierNavbar() {
         aria-label={t('profile')}
       >
         ◉
-      </a>
+      </Link>
 
       <style dangerouslySetInnerHTML={{ __html: `
         @media (max-width: 480px) {
@@ -223,9 +221,7 @@ function SupplierNavbar() {
 
 function PublicNavbar() {
   const t = useTranslations('nav')
-  const params = useParams()
   const pathname = usePathname()
-  const locale = (params?.locale as string) || 'en'
   const isCatalog = pathname?.includes('/catalog') ?? false
   // Корзина только в разделе Book Now: каталог, корзина, оформление заказа, страницы юрты/аксессуара
   const isBookNowFlow = (pathname?.match(/\/(catalog|cart|order|yurt\/|accessory\/)/)) != null
@@ -285,7 +281,7 @@ function PublicNavbar() {
             </div>
           </div>
 
-          <Link href={`/${locale}`}>
+          <Link href="/">
             <img
               src="/images/logo_white.png"
               alt="Tengri Yurt"
@@ -299,7 +295,7 @@ function PublicNavbar() {
 
           <div style={{ justifySelf: 'end', display: 'flex', alignItems: 'center', gap: '16px' }}>
             <Link
-              href={`/${locale}/supplier/login`}
+              href="/supplier/login"
               style={{
                 cursor: 'pointer',
                 textDecoration: 'none',
@@ -328,7 +324,7 @@ function PublicNavbar() {
             }} />
             {isBookNowFlow && (
               <Link
-                href={`/${locale}/cart`}
+                href="/cart"
                 style={{
                   display: 'flex',
                   alignItems: 'center',
@@ -379,7 +375,7 @@ function PublicNavbar() {
             }} />
             {isCatalog ? (
               <Link
-                href={`/${locale}`}
+                href="/"
                 style={{
                   display: isDesktop ? 'inline-flex' : 'none',
                   alignItems: 'center',
@@ -401,7 +397,7 @@ function PublicNavbar() {
               </Link>
             ) : (
               <Link
-                href={`/${locale}/catalog`}
+                href="/catalog"
                 style={{
                   display: isDesktop ? 'inline-flex' : 'none',
                   alignItems: 'center',
@@ -490,7 +486,7 @@ function PublicNavbar() {
           transition: 'opacity 0.3s ease',
         }}>
         {isBookNowFlow && (
-          <Link href={`/${locale}/cart`}
+          <Link href="/cart"
             onClick={() => setMenuOpen(false)}
             style={{
               fontFamily: 'Inter, sans-serif',
@@ -508,7 +504,7 @@ function PublicNavbar() {
             {t('cart')} {totalItems > 0 ? `(${totalItems})` : ''}
           </Link>
         )}
-        <Link href={`/${locale}/catalog`}
+        <Link href="/catalog"
           onClick={() => setMenuOpen(false)}
           style={{
             fontFamily: 'EB Garamond, serif',
@@ -524,7 +520,7 @@ function PublicNavbar() {
           }}>
           {t('bookNow')}
         </Link>
-        <Link href={`/${locale}/supplier/login`}
+        <Link href="/supplier/login"
           onClick={() => setMenuOpen(false)}
           style={{
             fontFamily: 'Inter, sans-serif',
@@ -540,7 +536,7 @@ function PublicNavbar() {
           }}>
           SUPPLIER PORTAL
         </Link>
-        <Link href={`/${locale}`}
+        <Link href="/"
           onClick={() => setMenuOpen(false)}
           style={{
             fontFamily: 'Inter, sans-serif',

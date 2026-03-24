@@ -1,6 +1,6 @@
 'use client'
 
-import Link from 'next/link'
+import { Link } from '@/i18n/navigation'
 import Image from 'next/image'
 import { useCart } from '@/components/CartContext'
 import { isYurtItem, isAccessoryItem } from '@/types/cart'
@@ -33,7 +33,7 @@ export function CartPageClient({
         <h1 className="font-garamond text-white text-2xl sm:text-3xl md:text-4xl mb-4 font-medium">{translations.title}</h1>
         <p className="font-inter text-white/75 text-sm sm:text-base mb-8">{translations.empty}</p>
         <Link
-          href={`/${locale}/catalog`}
+          href="/catalog"
           className="inline-block border border-white/80 text-white py-3 px-6 sm:px-8 uppercase font-inter text-sm font-medium tracking-widest hover:bg-white hover:text-[#7a6a54] transition-all min-h-[48px] flex items-center justify-center rounded-lg"
         >
           {translations.continueShopping}
@@ -125,7 +125,7 @@ export function CartPageClient({
 
         <div className="flex flex-wrap items-center justify-between gap-6 border-t border-white/15 pt-8">
           <Link
-            href={`/${locale}/catalog`}
+            href="/catalog"
             className="font-inter text-white/75 text-sm uppercase tracking-wider hover:text-white transition-colors min-h-[48px] flex items-center"
           >
             ← {translations.continueShopping}
@@ -135,7 +135,7 @@ export function CartPageClient({
               {translations.total}: <span className="font-garamond text-white text-xl sm:text-2xl ml-2 font-medium"><PriceUsdKzt usd={totalUsd} /></span>
             </p>
             <Link
-              href={`/${locale}/cart/checkout`}
+              href="/cart/checkout"
               className="inline-block border border-white/80 text-white py-3 px-6 sm:px-8 uppercase font-inter text-sm font-medium tracking-widest hover:bg-white hover:text-[#7a6a54] transition-all min-h-[48px] flex items-center justify-center touch-manipulation rounded-lg"
             >
               {translations.checkout}

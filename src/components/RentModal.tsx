@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import Link from 'next/link'
+import { Link } from '@/i18n/navigation'
 import { useTranslations } from 'next-intl'
 import { useCart } from '@/components/CartContext'
 
@@ -174,7 +174,7 @@ export function RentModal({
             </p>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', marginTop: '20px' }}>
               <Link
-                href={`/${locale}/cart`}
+                href="/cart"
                 onClick={onClose}
                 style={{
                   padding: '14px',

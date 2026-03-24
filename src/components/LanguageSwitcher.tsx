@@ -1,14 +1,14 @@
 'use client'
 
-import { useParams } from 'next/navigation'
-import { useCallback, useState } from 'react'
+import { useCallback, useRef, useState } from 'react'
+import { useLocale } from 'next-intl'
 import { usePathname, useRouter } from '@/i18n/navigation'
 
 export function LanguageSwitcher({ onNavigate }: { onNavigate?: () => void } = {}) {
-  const params = useParams()
   const pathname = usePathname()
   const router = useRouter()
-  const currentLocale = (params?.locale as string) || 'en'
+  const currentLocale = useLocale()
+  const switchingRef = useRef(false)
   const [hoveredCode, setHoveredCode] = useState<string | null>(null)
 
   const languages = [
@@ -21,9 +21,14 @@ export function LanguageSwitcher({ onNavigate }: { onNavigate?: () => void } = {
   const handleSwitch = useCallback(
     (langCode: string) => {
       if (langCode === currentLocale) return
+      if (switchingRef.current) return
+      switchingRef.current = true
       const path = pathname && pathname.length > 0 ? pathname : '/'
       onNavigate?.()
       router.replace(path, { locale: langCode })
+      window.setTimeout(() => {
+        switchingRef.current = false
+      }, 600)
     },
     [currentLocale, pathname, router, onNavigate]
   )

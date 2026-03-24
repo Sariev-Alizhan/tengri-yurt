@@ -2,7 +2,7 @@
 
 import { useState, useMemo } from 'react'
 import { useTranslations } from 'next-intl'
-import Link from 'next/link'
+import { Link } from '@/i18n/navigation'
 import { formatPrice } from '@/utils/formatPrice'
 import { useCart } from '@/components/CartContext'
 import { PriceUsdKzt } from '@/components/PriceUsdKzt'
@@ -555,7 +555,7 @@ function YurtCard({
       }}
     >
       <Link
-        href={`/${locale}/yurt/${yurt.slug}`}
+        href={`/yurt/${yurt.slug}`}
         style={{
           display: 'block',
           textDecoration: 'none',
@@ -774,7 +774,7 @@ function YurtCard({
             )}
           </button>
           <Link
-            href={`/${locale}/yurt/${yurt.slug}`}
+            href={`/yurt/${yurt.slug}`}
             style={{
               gridColumn: '1 / -1',
               height: '44px',
@@ -858,7 +858,7 @@ function AccessoryCard({
       }}
     >
       <Link
-        href={`/${locale}/accessory/${accessory.slug}`}
+        href={`/accessory/${accessory.slug}`}
         style={{
           display: 'block',
           textDecoration: 'none',
@@ -1019,7 +1019,7 @@ function AccessoryCard({
             {addToCartLabel}
           </button>
           <Link
-            href={`/${locale}/accessory/${accessory.slug}`}
+            href={`/accessory/${accessory.slug}`}
             style={{
               height: '44px',
               padding: '0 16px',
