@@ -24,9 +24,11 @@ export function CartLayout({
       <ExchangeRateProvider>
         <NextIntlClientProvider locale={locale} messages={messages}>
           <BackgroundEffects />
-          <Navbar />
-          <SiteMain>{children}</SiteMain>
-          <MusicPlayer />
+          <div className="relative flex min-h-[100dvh] flex-col">
+            <Navbar />
+            <SiteMain>{children}</SiteMain>
+            <MusicPlayer />
+          </div>
           <CookieConsent />
         </NextIntlClientProvider>
       </ExchangeRateProvider>

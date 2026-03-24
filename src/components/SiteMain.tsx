@@ -1,20 +1,11 @@
 'use client'
 
-import { usePathname } from 'next/navigation'
-
-/** Отступ снизу под фиксированный музыкальный фундамент (кроме кабинета поставщика). */
+/** flex-1: заполняет пространство между навбаром и музыкальным футером (CartLayout).
+ *  Плеер в потоке документа под main — не перекрывает контент на ноуте и телефоне.
+ *  Без z-index на main: fixed-модалки остаются поверх остального UI. */
 export function SiteMain({ children }: { children: React.ReactNode }) {
-  const pathname = usePathname()
-  const hideMusic = pathname?.includes('/supplier/')
-
   return (
-    <main
-      className={
-        hideMusic
-          ? 'relative z-10 min-h-screen overflow-x-hidden'
-          : 'relative z-10 min-h-screen overflow-x-hidden pb-[calc(64px+env(safe-area-inset-bottom,0px))] md:pb-[calc(72px+env(safe-area-inset-bottom,0px))]'
-      }
-    >
+    <main className="relative min-h-0 w-full flex-1 overflow-x-hidden">
       {children}
     </main>
   )

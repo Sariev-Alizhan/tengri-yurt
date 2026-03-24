@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect } from 'react'
 import { usePathname } from 'next/navigation'
 
 let _audio: HTMLAudioElement | null = null
@@ -19,31 +19,6 @@ export function MusicPlayer() {
   const [playing, setPlaying] = useState(false)
   const pathname = usePathname()
   const isSupplierPage = pathname?.includes('/supplier/')
-  const foundationRef = useRef<HTMLDivElement>(null)
-
-  useEffect(() => {
-    if (isSupplierPage) {
-      document.documentElement.style.removeProperty('--music-foundation-height')
-      return
-    }
-    const el = foundationRef.current
-    if (!el) return
-    const sync = () => {
-      const h = Math.ceil(el.getBoundingClientRect().height)
-      if (h > 0) {
-        document.documentElement.style.setProperty('--music-foundation-height', `${h}px`)
-      }
-    }
-    sync()
-    const ro = new ResizeObserver(sync)
-    ro.observe(el)
-    window.addEventListener('resize', sync)
-    return () => {
-      ro.disconnect()
-      window.removeEventListener('resize', sync)
-      document.documentElement.style.removeProperty('--music-foundation-height')
-    }
-  }, [isSupplierPage])
 
   useEffect(() => {
     const audio = getAudio()
@@ -71,17 +46,11 @@ export function MusicPlayer() {
     }
   }
 
-  // Фундамент: под main (z-10), ниже модалок (110+) и навбара (100)
+  // Футер в потоке страницы (после main): не перекрывает контент; модалки fixed остаются сверху.
   return (
     <div
-      ref={foundationRef}
-      className="music-foundation"
+      className="music-foundation w-full shrink-0"
       style={{
-        position: 'fixed',
-        left: 0,
-        right: 0,
-        bottom: 0,
-        zIndex: 15,
         paddingBottom: 'env(safe-area-inset-bottom, 0px)',
         background: 'linear-gradient(180deg, #0c0a08 0%, #0f0d0a 40%, #12100e 100%)',
         borderTop: '1px solid rgba(168,149,120,0.35)',
