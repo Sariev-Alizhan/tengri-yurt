@@ -17,13 +17,14 @@ export function OrderForm({ yurtId, translations }: Props) {
   const [quantity, setQuantity] = useState(1);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [floorWalls, setFloorWalls] = useState<'felt' | 'carpolan'>('felt');
+  const [keregeColor, setKeregeColor] = useState<'natural' | 'blue' | 'red' | 'silver'>('natural');
   const [exclusiveCustom, setExclusiveCustom] = useState(false);
   const [coverCustom, setCoverCustom] = useState(false);
   const [shippingMethod, setShippingMethod] = useState<'air' | 'sea'>('air');
   const [showAccessoryModal, setShowAccessoryModal] = useState(false);
   const [selectedAccessories, setSelectedAccessories] = useState<string[]>([]);
   const [showForm, setShowForm] = useState(false);
+  const [agreement, setAgreement] = useState(false);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -64,7 +65,7 @@ export function OrderForm({ yurtId, translations }: Props) {
     const qty = Number(formData.get('quantity')) || 1;
 
     const orderOptions = {
-      interior: { floorWalls, exclusiveCustom, coverCustom },
+      interior: { keregeColor, exclusiveCustom, coverCustom },
       logistics: { method: shippingMethod },
       selectedAccessories: selectedAccessories.length > 0 ? selectedAccessories : undefined,
     };
@@ -221,28 +222,20 @@ export function OrderForm({ yurtId, translations }: Props) {
         <div className="pt-4 border-t border-white/20 space-y-4">
           <h3 className="font-garamond text-white text-lg">{translations.interiorTitle}</h3>
           <div>
-            <span className={labelClass}>{translations.floorWalls}</span>
+            <span className={labelClass}>{translations.keregeColor}</span>
             <div className="flex flex-wrap gap-4 mt-2">
-              <label className="flex items-center gap-2 cursor-pointer text-white/80 font-inter text-sm">
-                <input
-                  type="radio"
-                  name="floorWalls"
-                  checked={floorWalls === 'felt'}
-                  onChange={() => setFloorWalls('felt')}
-                  className="accent-white/80"
-                />
-                {translations.feltOption}
-              </label>
-              <label className="flex items-center gap-2 cursor-pointer text-white/80 font-inter text-sm">
-                <input
-                  type="radio"
-                  name="floorWalls"
-                  checked={floorWalls === 'carpolan'}
-                  onChange={() => setFloorWalls('carpolan')}
-                  className="accent-white/80"
-                />
-                {translations.carpolanOption}
-              </label>
+              {(['natural', 'blue', 'red', 'silver'] as const).map((color) => (
+                <label key={color} className="flex items-center gap-2 cursor-pointer text-white/80 font-inter text-sm">
+                  <input
+                    type="radio"
+                    name="keregeColor"
+                    checked={keregeColor === color}
+                    onChange={() => setKeregeColor(color)}
+                    className="accent-white/80"
+                  />
+                  {translations[`kerege_${color}`]}
+                </label>
+              ))}
             </div>
           </div>
           <p className="text-white/60 text-sm font-inter">{translations.furniture}: {translations.furnitureInStock}</p>
@@ -309,12 +302,26 @@ export function OrderForm({ yurtId, translations }: Props) {
         />
       </div>
 
+      <div className="pt-2">
+        <label className="flex items-start gap-3 cursor-pointer group">
+          <input
+            type="checkbox"
+            checked={agreement}
+            onChange={(e) => setAgreement(e.target.checked)}
+            className="mt-1 w-4 h-4 rounded border-white/30 bg-white/5 accent-amber-600 flex-shrink-0"
+          />
+          <span className="font-inter text-white/70 text-sm leading-relaxed">
+            {translations.agreement}
+          </span>
+        </label>
+      </div>
+
       {error && (
         <p className="font-inter text-red-400 text-sm">{error}</p>
       )}
       <button
         type="submit"
-        disabled={loading}
+        disabled={loading || !agreement}
         style={{
           border: '1px solid rgba(255,255,255,0.6)',
           background: 'transparent',
@@ -325,8 +332,8 @@ export function OrderForm({ yurtId, translations }: Props) {
           fontWeight: 500,
           letterSpacing: '0.15em',
           textTransform: 'uppercase',
-          cursor: loading ? 'not-allowed' : 'pointer',
-          opacity: loading ? 0.6 : 1,
+          cursor: loading || !agreement ? 'not-allowed' : 'pointer',
+          opacity: loading || !agreement ? 0.4 : 1,
           transition: 'all 0.2s ease',
           appearance: 'none',
           WebkitAppearance: 'none',

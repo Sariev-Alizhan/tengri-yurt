@@ -43,9 +43,11 @@ export default async function OrderPage({
             message: t('message'),
             submitInquiry: t('submitInquiry'),
             interiorTitle: t('interiorTitle'),
-            floorWalls: t('floorWalls'),
-            feltOption: t('feltOption'),
-            carpolanOption: t('carpolanOption'),
+            keregeColor: t('keregeColor'),
+            kerege_natural: t('keregeNatural'),
+            kerege_blue: t('keregeBlue'),
+            kerege_red: t('keregeRed'),
+            kerege_silver: t('keregeSilver'),
             furniture: t('furniture'),
             furnitureInStock: t('furnitureInStock'),
             exclusiveCustom: t('exclusiveCustom'),
@@ -57,6 +59,7 @@ export default async function OrderPage({
             airShipping: t('airShipping'),
             seaShipping: t('seaShipping'),
             installationNote: t('installationNote'),
+            agreement: t('agreement'),
           }}
         />
       </div>

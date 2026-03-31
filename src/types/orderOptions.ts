@@ -4,7 +4,7 @@
  */
 
 export interface OrderOptionsInterior {
-  floorWalls: 'felt' | 'carpolan';
+  keregeColor: 'natural' | 'blue' | 'red' | 'silver';
   exclusiveCustom: boolean;
   coverCustom: boolean;
 }

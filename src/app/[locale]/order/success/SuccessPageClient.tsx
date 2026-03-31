@@ -68,8 +68,6 @@ export function SuccessPageClient({
                 key={num}
                 href={`/api/orders/pdf?orderNumber=${encodeURIComponent(num)}&type=client`}
                 download
-                target="_blank"
-                rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 border border-white/70 text-white py-2.5 px-5 font-inter text-sm uppercase tracking-[0.1em] hover:bg-white/15 transition-all duration-300"
               >
                 <svg className="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">

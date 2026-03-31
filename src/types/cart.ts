@@ -1,6 +1,6 @@
 export type LogisticsOption = 'air' | 'sea'
 
-export type FloorWallsOption = 'felt' | 'carpolan'
+export type KeregeColorOption = 'natural' | 'blue' | 'red' | 'silver'
 
 export type CartYurtAddon = {
   id: string
@@ -27,8 +27,8 @@ export type CartYurtItem = {
   supplier_id: string
   /** Chosen at add-to-cart: air 3–10 days, sea 30–60 days */
   logistics?: LogisticsOption
-  /** Floor & walls: felt (1 month) or carpolan (in stock) */
-  floorWalls?: FloorWallsOption
+  /** Kerege color: natural, blue, red, or silver */
+  keregeColor?: KeregeColorOption
   /** Exclusive custom interior (on order) */
   customInterior?: boolean
   /** Optional message for this yurt */

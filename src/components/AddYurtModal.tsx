@@ -10,7 +10,7 @@ import {
   BED_ADDON,
   type LogisticsOption,
 } from '@/lib/yurtAddOns'
-import type { FloorWallsOption } from '@/types/cart'
+import type { KeregeColorOption } from '@/types/cart'
 
 type YurtForModal = {
   id: string
@@ -49,7 +49,7 @@ type Props = {
     korpeQty: number
     bed: boolean
     selectedTraditional: TraditionalAccessorySelected[]
-    floorWalls: FloorWallsOption
+    keregeColor: KeregeColorOption
     customInterior: boolean
     note: string
   }) => void
@@ -99,7 +99,7 @@ export function AddYurtModal({ yurt, locale, onConfirm, onClose }: Props) {
   const [pillowsQty, setPillowsQty] = useState(rec.pillowsMin)
   const [korpeQty, setKorpeQty] = useState(rec.korpeMin)
   const [bed, setBed] = useState(false)
-  const [floorWalls, setFloorWalls] = useState<FloorWallsOption>('felt')
+  const [keregeColor, setKeregeColor] = useState<KeregeColorOption>('natural')
   const [customInterior, setCustomInterior] = useState(false)
   const [note, setNote] = useState('')
 
@@ -159,7 +159,7 @@ export function AddYurtModal({ yurt, locale, onConfirm, onClose }: Props) {
       korpeQty: withAddons && korpeQty >= KORPE_ADDON.minQty ? korpeQty : 0,
       bed: withAddons && bed,
       selectedTraditional: getSelectedTraditional(),
-      floorWalls,
+      keregeColor,
       customInterior,
       note: note.trim(),
     })
@@ -192,7 +192,7 @@ export function AddYurtModal({ yurt, locale, onConfirm, onClose }: Props) {
         <div className="flex-1 overflow-y-auto">
           <div className="px-5 py-6 pb-4">
             <MobileFormBody
-              t={t} rec={rec} floorWalls={floorWalls} setFloorWalls={setFloorWalls}
+              t={t} rec={rec} keregeColor={keregeColor} setKeregeColor={setKeregeColor}
               customInterior={customInterior} setCustomInterior={setCustomInterior}
               coverId={coverId} setCoverId={setCoverId}
               logistics={logistics} setLogistics={setLogistics}
@@ -290,7 +290,7 @@ export function AddYurtModal({ yurt, locale, onConfirm, onClose }: Props) {
         <div className="flex-1 min-h-0 overflow-y-auto overscroll-contain touch-pan-y [-webkit-overflow-scrolling:touch]">
           <div className="px-8 py-7 pb-10">
         <MobileFormBody
-              t={t} rec={rec} floorWalls={floorWalls} setFloorWalls={setFloorWalls}
+              t={t} rec={rec} keregeColor={keregeColor} setKeregeColor={setKeregeColor}
               customInterior={customInterior} setCustomInterior={setCustomInterior}
               coverId={coverId} setCoverId={setCoverId}
               logistics={logistics} setLogistics={setLogistics}
@@ -311,7 +311,7 @@ export function AddYurtModal({ yurt, locale, onConfirm, onClose }: Props) {
 
 // Shared form body used in both mobile and desktop
 function MobileFormBody({
-  t, rec, floorWalls, setFloorWalls, customInterior, setCustomInterior,
+  t, rec, keregeColor, setKeregeColor, customInterior, setCustomInterior,
   coverId, setCoverId, logistics, setLogistics,
   pillowsQty, setPillowsQty, korpeQty, setKorpeQty,
   bed, setBed, traditionalList, loadingTraditional,
@@ -320,7 +320,7 @@ function MobileFormBody({
 }: {
   t: ReturnType<typeof import('next-intl').useTranslations<'catalog'>>
   rec: { pillowsMin: number; pillowsMax: number; korpeMin: number; korpeMax: number }
-  floorWalls: FloorWallsOption; setFloorWalls: (v: FloorWallsOption) => void
+  keregeColor: KeregeColorOption; setKeregeColor: (v: KeregeColorOption) => void
   customInterior: boolean; setCustomInterior: (v: boolean) => void
   coverId: string | null; setCoverId: (v: string | null) => void
   logistics: LogisticsOption; setLogistics: (v: LogisticsOption) => void
@@ -345,22 +345,19 @@ function MobileFormBody({
           {/* ── INTERIOR ── */}
           <SectionLabel>{t('interiorOptionsTitle')}</SectionLabel>
           <div className="grid grid-cols-2 gap-3 mb-4">
-            {(['felt', 'carpolan'] as FloorWallsOption[]).map((opt) => (
+            {(['natural', 'blue', 'red', 'silver'] as KeregeColorOption[]).map((opt) => (
               <button
                 key={opt}
                 type="button"
-                onClick={() => setFloorWalls(opt)}
+                onClick={() => setKeregeColor(opt)}
                 className={`py-3 px-4 rounded-xl border text-left transition-all touch-manipulation ${
-                  floorWalls === opt
+                  keregeColor === opt
                     ? 'border-[#a89578] bg-[#a89578]/10 ring-1 ring-[#a89578]'
                     : 'border-[#d4c8b8] bg-white hover:border-[#a89578]/60'
                 }`}
               >
                 <p className="font-inter text-[#1a1714] text-sm font-medium">
-                  {opt === 'felt' ? t('floorFelt') : t('floorCarpolan')}
-                </p>
-                <p className="font-inter text-[#a89578] text-xs mt-0.5">
-                  {opt === 'felt' ? '~1 month' : 'In stock'}
+                  {t(`kerege_${opt}` as any)}
                 </p>
               </button>
             ))}

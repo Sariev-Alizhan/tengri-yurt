@@ -97,7 +97,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
               ...yi,
               quantity: yi.quantity + (item.quantity || 1),
               logistics: item.logistics ?? yi.logistics,
-              floorWalls: item.floorWalls ?? yi.floorWalls,
+              keregeColor: item.keregeColor ?? yi.keregeColor,
               customInterior: item.customInterior ?? yi.customInterior,
               note: item.note ?? yi.note,
             }

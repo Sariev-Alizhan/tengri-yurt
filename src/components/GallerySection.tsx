@@ -1,6 +1,6 @@
 'use client';
 
-import { useRef, useState, useEffect } from 'react';
+import { useRef, useState, useEffect, useCallback } from 'react';
 import Image from 'next/image';
 import { useScrollReveal, revealStyle } from '@/hooks/useScrollReveal';
 
@@ -16,15 +16,17 @@ const GALLERY_IMAGES = [
   '/images/picture/yurt_shanyraq.jpeg',
 ];
 
-function GalleryImage({ src, index }: { src: string; index: number }) {
+function GalleryImage({ src, index, total }: { src: string; index: number; total: number }) {
   const [hover, setHover] = useState(false);
+  const snapAlign = index === 0 ? 'start' : index === total - 1 ? 'end' : 'center';
   return (
     <div
       className="relative shrink-0 overflow-hidden"
       style={{
-        scrollSnapAlign: 'center',
-        width: 'clamp(320px, 85vw, 520px)',
+        scrollSnapAlign: snapAlign,
+        width: 'clamp(300px, 80vw, 520px)',
         height: 'clamp(220px, 50vw, 340px)',
+        borderRadius: '4px',
       }}
       onMouseEnter={() => setHover(true)}
       onMouseLeave={() => setHover(false)}
@@ -34,7 +36,7 @@ function GalleryImage({ src, index }: { src: string; index: number }) {
         alt={`Gallery ${index + 1}`}
         fill
         className="object-cover"
-        sizes="(max-width: 768px) 75vw, (max-width: 1024px) 50vw, 380px"
+        sizes="(max-width: 768px) 80vw, (max-width: 1024px) 50vw, 520px"
         style={{
           transition: 'transform 0.7s cubic-bezier(0.16, 1, 0.3, 1)',
           transform: hover ? 'scale(1.06)' : 'scale(1)',
@@ -60,31 +62,45 @@ type Props = {
 
 export function GallerySection({ label, title, subtitle }: Props) {
   const scrollRef = useRef<HTMLDivElement>(null);
-  const containerRef = useRef<HTMLDivElement>(null);
-  const touchStartX = useRef(0);
   const { ref: sectionRef, visible } = useScrollReveal();
   const [arrowsVisible, setArrowsVisible] = useState(false);
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(true);
+  const [activeIndex, setActiveIndex] = useState(0);
 
-  const updateScrollState = () => {
+  const updateScrollState = useCallback(() => {
     const el = scrollRef.current;
     if (!el) return;
     setCanScrollLeft(el.scrollLeft > 10);
     setCanScrollRight(el.scrollLeft < el.scrollWidth - el.clientWidth - 10);
-  };
+
+    // Calculate active image index based on scroll position
+    const children = Array.from(el.children) as HTMLElement[];
+    const scrollCenter = el.scrollLeft + el.clientWidth / 2;
+    let closest = 0;
+    let minDist = Infinity;
+    children.forEach((child, i) => {
+      const childCenter = child.offsetLeft + child.offsetWidth / 2;
+      const dist = Math.abs(scrollCenter - childCenter);
+      if (dist < minDist) {
+        minDist = dist;
+        closest = i;
+      }
+    });
+    setActiveIndex(closest);
+  }, []);
 
   useEffect(() => {
     const el = scrollRef.current;
     if (!el) return;
     updateScrollState();
-    el.addEventListener('scroll', updateScrollState);
+    el.addEventListener('scroll', updateScrollState, { passive: true });
     window.addEventListener('resize', updateScrollState);
     return () => {
       el.removeEventListener('scroll', updateScrollState);
       window.removeEventListener('resize', updateScrollState);
     };
-  }, []);
+  }, [updateScrollState]);
 
   const scroll = (dir: 'left' | 'right') => {
     const el = scrollRef.current;
@@ -93,13 +109,14 @@ export function GallerySection({ label, title, subtitle }: Props) {
     el.scrollBy({ left: dir === 'left' ? -step : step, behavior: 'smooth' });
   };
 
-  const handleTouchStart = (e: React.TouchEvent) => {
-    touchStartX.current = e.touches[0].clientX;
-  };
-  const handleTouchEnd = (e: React.TouchEvent) => {
-    const diff = touchStartX.current - e.changedTouches[0].clientX;
-    if (diff > 50) scroll('right');
-    if (diff < -50) scroll('left');
+  const scrollToIndex = (index: number) => {
+    const el = scrollRef.current;
+    if (!el) return;
+    const children = Array.from(el.children) as HTMLElement[];
+    if (!children[index]) return;
+    const childCenter = children[index].offsetLeft + children[index].offsetWidth / 2;
+    const targetScroll = childCenter - el.clientWidth / 2;
+    el.scrollTo({ left: targetScroll, behavior: 'smooth' });
   };
 
   return (
@@ -141,11 +158,28 @@ export function GallerySection({ label, title, subtitle }: Props) {
       </div>
 
       <div
-        ref={containerRef}
         className="relative"
         onMouseEnter={() => setArrowsVisible(true)}
         onMouseLeave={() => setArrowsVisible(false)}
       >
+        {/* Gradient fade edges — hint that there's more content */}
+        <div
+          className="absolute left-0 top-0 bottom-4 w-8 md:w-16 z-[5] pointer-events-none"
+          style={{
+            background: 'linear-gradient(to right, #a89578, transparent)',
+            opacity: canScrollLeft ? 1 : 0,
+            transition: 'opacity 0.3s',
+          }}
+        />
+        <div
+          className="absolute right-0 top-0 bottom-4 w-8 md:w-16 z-[5] pointer-events-none"
+          style={{
+            background: 'linear-gradient(to left, #a89578, transparent)',
+            opacity: canScrollRight ? 1 : 0,
+            transition: 'opacity 0.3s',
+          }}
+        />
+
         <button
           type="button"
           onClick={() => scroll('left')}
@@ -154,11 +188,10 @@ export function GallerySection({ label, title, subtitle }: Props) {
           style={{
             background: 'rgba(255,255,255,0.1)',
             border: '1px solid rgba(255,255,255,0.3)',
+            backdropFilter: 'blur(8px)',
             color: 'rgba(255,255,255,0.95)',
             opacity: arrowsVisible && canScrollLeft ? 0.9 : 0,
             pointerEvents: canScrollLeft ? 'auto' : 'none',
-            appearance: 'none',
-            WebkitAppearance: 'none',
             cursor: 'pointer',
           }}
         >
@@ -172,11 +205,10 @@ export function GallerySection({ label, title, subtitle }: Props) {
           style={{
             background: 'rgba(255,255,255,0.1)',
             border: '1px solid rgba(255,255,255,0.3)',
+            backdropFilter: 'blur(8px)',
             color: 'rgba(255,255,255,0.95)',
             opacity: arrowsVisible && canScrollRight ? 0.9 : 0,
             pointerEvents: canScrollRight ? 'auto' : 'none',
-            appearance: 'none',
-            WebkitAppearance: 'none',
             cursor: 'pointer',
           }}
         >
@@ -185,19 +217,42 @@ export function GallerySection({ label, title, subtitle }: Props) {
 
         <div
           ref={scrollRef}
-          className="overflow-x-auto scrollbar-hide flex gap-4 pb-4 scroll-smooth"
+          className="overflow-x-auto scrollbar-hide flex gap-4 pb-4"
           style={{
-            padding: '0 clamp(24px, 5vw, 48px)',
-            scrollSnapType: 'x mandatory',
+            scrollSnapType: 'x proximity',
             WebkitOverflowScrolling: 'touch',
+            scrollPaddingInline: 'clamp(24px, 5vw, 48px)',
+            paddingInline: 'clamp(24px, 5vw, 48px)',
           }}
-          onTouchStart={handleTouchStart}
-          onTouchEnd={handleTouchEnd}
         >
           {GALLERY_IMAGES.map((src, i) => (
-            <GalleryImage key={src} src={src} index={i} />
+            <GalleryImage key={src} src={src} index={i} total={GALLERY_IMAGES.length} />
           ))}
         </div>
+      </div>
+
+      {/* Dot indicators */}
+      <div className="flex justify-center gap-2 mt-6">
+        {GALLERY_IMAGES.map((_, i) => (
+          <button
+            key={i}
+            type="button"
+            aria-label={`Go to image ${i + 1}`}
+            onClick={() => scrollToIndex(i)}
+            style={{
+              width: activeIndex === i ? '24px' : '8px',
+              height: '8px',
+              borderRadius: '4px',
+              background: activeIndex === i ? 'rgba(255,255,255,0.9)' : 'rgba(255,255,255,0.3)',
+              border: 'none',
+              padding: 0,
+              cursor: 'pointer',
+              transition: 'all 0.3s ease',
+              minHeight: 'auto',
+              minWidth: 'auto',
+            }}
+          />
+        ))}
       </div>
     </section>
   );

@@ -102,7 +102,7 @@ export function CatalogClient({
     korpeQty: number
     bed: boolean
     selectedTraditional: TraditionalAccessorySelected[]
-    floorWalls: 'felt' | 'carpolan'
+    keregeColor: 'natural' | 'blue' | 'red' | 'silver'
     customInterior: boolean
     note: string
   }) => {
@@ -134,7 +134,7 @@ export function CatalogClient({
       photo: modalYurt.photos?.[0] ?? null,
       supplier_id: supplierId,
       logistics: opts.logistics,
-      floorWalls: opts.floorWalls,
+      keregeColor: opts.keregeColor,
       customInterior: opts.customInterior,
       note: opts.note || undefined,
       addons: addons.length > 0 ? addons : undefined,

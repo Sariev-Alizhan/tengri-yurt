@@ -66,7 +66,7 @@ export async function GET(request: Request) {
     (accessoriesRes.data || []).forEach((a: { id: string; name: string }) => { accessoryNames[a.id] = a.name; });
 
     type OrderOptions = {
-      interior?: { floorWalls?: string; exclusiveCustom?: boolean; coverCustom?: boolean };
+      interior?: { keregeColor?: string; exclusiveCustom?: boolean; coverCustom?: boolean };
       logistics?: { method?: string };
       addons?: { id: string; name: string; quantity: number; price_usd: number }[];
       delivery?: { address?: string; postalCode?: string; notes?: string };
@@ -211,7 +211,8 @@ export async function GET(request: Request) {
 
       if (opts.interior) {
         drawText('Interior', 50, 10, true); y -= 2;
-        drawDetail(`Floor & Walls: ${opts.interior.floorWalls === 'carpolan' ? 'Carpolan (in stock)' : 'Felt (1 month lead time)'}`);
+        const keregeMap: Record<string, string> = { natural: 'Natural wood', blue: 'Blue', red: 'Red', silver: 'Silver' };
+        drawDetail(`Kerege Color: ${keregeMap[opts.interior.keregeColor ?? 'natural'] ?? 'Natural wood'}`);
         if (opts.interior.exclusiveCustom) drawDetail('  Exclusive custom interior (on order)');
         if (opts.interior.coverCustom) drawDetail('  Cover (custom order)');
         y -= 4;

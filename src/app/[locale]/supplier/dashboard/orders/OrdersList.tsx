@@ -25,7 +25,7 @@ export type OrderItem = {
 };
 
 export type OrderOptionsStored = {
-  interior?: { floorWalls?: string; exclusiveCustom?: boolean; coverCustom?: boolean };
+  interior?: { keregeColor?: string; exclusiveCustom?: boolean; coverCustom?: boolean };
   logistics?: { method?: string };
   addons?: { id: string; name: string; slug?: string; quantity: number; price_usd: number }[];
   delivery?: { address?: string; postalCode?: string; notes?: string };
@@ -70,7 +70,7 @@ function OrderOptionsBlock({ opts, message, messageLabel }: { opts: OrderOptions
         <div style={{ marginBottom: '16px' }}>
           <p style={sectionLabel}>Interior</p>
           <ul style={{ ...sectionText, paddingLeft: '18px' }}>
-            <li>Floor &amp; Walls: {opts.interior.floorWalls === 'carpolan' ? 'Carpolan (in stock)' : 'Felt (1 month)'}</li>
+            <li>Kerege Color: {{ natural: 'Natural wood', blue: 'Blue', red: 'Red', silver: 'Silver' }[opts.interior.keregeColor ?? 'natural'] ?? 'Natural wood'}</li>
             {opts.interior.exclusiveCustom && <li>Exclusive custom interior</li>}
             {opts.interior.coverCustom && <li>Cover (custom order)</li>}
           </ul>
@@ -331,8 +331,6 @@ export function OrdersList({
               <a
                 href={`/api/orders/pdf?orderNumber=${encodeURIComponent(order.order_number)}&type=store`}
                 download
-                target="_blank"
-                rel="noopener noreferrer"
                 style={{
                   fontFamily: 'Inter, sans-serif',
                   fontSize: '11px',

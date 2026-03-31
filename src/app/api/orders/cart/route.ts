@@ -75,7 +75,7 @@ export async function POST(request: Request) {
       const addons = isRent
         ? []
         : (yurtItem as { addons?: { id: string; name: string; slug: string; quantity: number; price_usd: number }[] }).addons ?? []
-      const floorWalls = (yurtItem as { floorWalls?: string }).floorWalls ?? 'felt'
+      const keregeColor = (yurtItem as { keregeColor?: string }).keregeColor ?? 'natural'
       const customInterior = (yurtItem as { customInterior?: boolean }).customInterior ?? false
 
       const orderNumber = await getNextOrderNumber()
@@ -99,7 +99,7 @@ export async function POST(request: Request) {
         logistics: { method: itemShipping },
       }
       if (!isRent) {
-        orderOptions.interior = { floorWalls, exclusiveCustom: customInterior, coverCustom: false }
+        orderOptions.interior = { keregeColor, exclusiveCustom: customInterior, coverCustom: false }
       }
       if (isRent) {
         orderOptions.rental = true
