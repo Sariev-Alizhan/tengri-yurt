@@ -1,6 +1,6 @@
 'use client'
 
-import { usePathname } from 'next/navigation'
+import { usePathname } from '@/i18n/navigation'
 
 /** Отступ снизу под фиксированный музыкальный футер (высота из MusicPlayer → --music-foundation-height).
  *  Без z-index на main: fixed-модалки выше плеера (z-15), не прячутся под ним. */

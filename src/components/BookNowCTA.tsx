@@ -1,7 +1,6 @@
 'use client';
 
-import Link from 'next/link';
-import { useParams } from 'next/navigation';
+import { Link } from '@/i18n/navigation';
 import { useTranslations } from 'next-intl';
 import { useScrollReveal, revealStyle } from '@/hooks/useScrollReveal';
 
@@ -12,8 +11,6 @@ type Props = {
 };
 
 export function BookNowCTA({ label, title, subtitle }: Props) {
-  const params = useParams();
-  const locale = (params?.locale as string) || 'en';
   const t = useTranslations('cta');
   const { ref, visible } = useScrollReveal();
 
@@ -97,7 +94,7 @@ export function BookNowCTA({ label, title, subtitle }: Props) {
         </p>
 
         <Link
-          href={`/${locale}/catalog`}
+          href="/catalog"
           style={{
             display: 'inline-block',
             textAlign: 'center',

@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { useParams } from 'next/navigation'
 import { useTranslations } from 'next-intl'
+import { Link } from '@/i18n/navigation'
 
 // Локализованный контент для правой панели
 const rightPanelContent = {
@@ -296,17 +297,17 @@ export default function SupplierLoginPage() {
           textAlign: 'center',
           marginTop: '28px',
         }}>
-          <a href={`/${locale}/supplier/register`} style={{
+          <Link href="/supplier/register" style={{
             color: 'rgba(168,149,120,0.65)',
             textDecoration: 'underline',
             textUnderlineOffset: '3px',
           }}>
             {t('noAccountRegister')}
-          </a>
+          </Link>
         </p>
 
         {/* Ссылка домой */}
-        <a href={`/${locale}`} style={{
+        <Link href="/" style={{
           position: 'absolute',
           bottom: '28px',
           left: '50%',
@@ -323,7 +324,7 @@ export default function SupplierLoginPage() {
         onMouseLeave={e => { e.currentTarget.style.color = 'rgba(255,255,255,0.2)' }}
         >
           {t('backToSite')}
-        </a>
+        </Link>
 
       </div>
 

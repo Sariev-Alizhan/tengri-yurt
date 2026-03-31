@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { Link } from '@/i18n/navigation'
-import { usePathname } from 'next/navigation'
+import { usePathname } from '@/i18n/navigation'
 
 const STORAGE_KEY = 'tengri-cookie-consent'
 

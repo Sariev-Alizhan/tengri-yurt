@@ -1,7 +1,7 @@
 import { createClient } from '@/utils/supabase/server'
-import { redirect } from 'next/navigation'
 import { getTranslations } from 'next-intl/server'
-import Link from 'next/link'
+import { redirect } from 'next/navigation'
+import { Link } from '@/i18n/navigation'
 import { ActionLink } from './ActionLink'
 
 export const dynamic = 'force-dynamic'
@@ -20,14 +20,7 @@ export default async function DashboardPage({
     return (
       <>
         <header style={{ marginBottom: '40px' }}>
-          <p style={{
-            fontFamily: 'Inter, sans-serif',
-            fontSize: '10px',
-            letterSpacing: '0.25em',
-            textTransform: 'uppercase',
-            color: 'rgba(168,149,120,0.5)',
-            marginBottom: '8px',
-          }}>
+          <p className="sp-breadcrumb" style={{ marginBottom: '8px' }}>
             {t('portalBreadcrumb')}
           </p>
           <h1 style={{
@@ -56,7 +49,7 @@ export default async function DashboardPage({
             {t('signInToAccessDashboard')}
           </p>
           <Link
-            href={`/${locale}/supplier/login`}
+            href="/supplier/login"
             style={{
               display: 'inline-block',
               padding: '14px 28px',
@@ -150,14 +143,7 @@ export default async function DashboardPage({
   return (
     <>
         <header style={{ marginBottom: '40px' }}>
-          <p style={{
-            fontFamily: 'Inter, sans-serif',
-            fontSize: '10px',
-            letterSpacing: '0.25em',
-            textTransform: 'uppercase',
-            color: 'rgba(168,149,120,0.5)',
-            marginBottom: '8px',
-          }}>
+          <p className="sp-breadcrumb" style={{ marginBottom: '8px' }}>
             {t('portalBreadcrumb')}
           </p>
           <h1 style={{
@@ -212,8 +198,8 @@ export default async function DashboardPage({
             >
               <p style={{
                 fontFamily: 'monospace',
-                fontSize: '18px',
-                color: stat.highlight ? 'rgba(255,180,80,0.85)' : 'rgba(168,149,120,0.45)',
+                fontSize: '20px',
+                color: stat.highlight ? 'rgba(255,180,80,0.85)' : 'rgba(168,149,120,0.6)',
                 marginBottom: '10px',
               }}>
                 {stat.icon}
@@ -224,18 +210,11 @@ export default async function DashboardPage({
                 color: stat.highlight ? 'rgba(255,180,80,0.95)' : 'rgba(255,255,255,0.9)',
                 fontWeight: 500,
                 lineHeight: 1,
-                marginBottom: '6px',
+                marginBottom: '8px',
               }}>
                 {stat.value}
               </p>
-              <p style={{
-                fontFamily: 'Inter, sans-serif',
-                fontSize: '10px',
-                letterSpacing: '0.18em',
-                textTransform: 'uppercase',
-                color: 'rgba(168,149,120,0.5)',
-                fontWeight: 500,
-              }}>
+              <p className="sp-label" style={{ fontWeight: 500 }}>
                 {stat.label}
               </p>
             </div>
@@ -258,14 +237,14 @@ export default async function DashboardPage({
             }}>
               {t('recentOrders')}
             </h2>
-            <Link href={`/${locale}/supplier/dashboard/orders`} style={{
+            <Link href="/supplier/dashboard/orders" style={{
               fontFamily: 'Inter, sans-serif',
-              fontSize: '10px',
-              color: 'rgba(168,149,120,0.5)',
-              letterSpacing: '0.15em',
+              fontSize: '12px',
+              color: 'rgba(168,149,120,0.7)',
+              letterSpacing: '0.12em',
               textTransform: 'uppercase',
               textDecoration: 'none',
-              borderBottom: '1px solid rgba(168,149,120,0.2)',
+              borderBottom: '1px solid rgba(168,149,120,0.3)',
             }}>
               {t('viewAll')}
             </Link>
@@ -284,29 +263,29 @@ export default async function DashboardPage({
                     alignItems: 'center',
                   }}>
                     <div>
-                      <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '12px', color: 'rgba(255,255,255,0.7)', fontWeight: 500, marginBottom: '2px' }}>#{order.order_number}</p>
-                      <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '11px', color: 'rgba(168,149,120,0.5)' }}>{order.buyer_name}</p>
+                      <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '13px', color: 'rgba(255,255,255,0.85)', fontWeight: 500, marginBottom: '3px' }}>#{order.order_number}</p>
+                      <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '12px', color: 'rgba(168,149,120,0.65)' }}>{order.buyer_name}</p>
                     </div>
                     <div>
-                      <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '11px', color: 'rgba(255,255,255,0.5)' }}>{order.yurt?.name ?? '—'}</p>
-                      <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '10px', color: 'rgba(168,149,120,0.4)' }}>{order.delivery_country} · {t('qty')} {order.quantity}</p>
+                      <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '12px', color: 'rgba(255,255,255,0.65)' }}>{order.yurt?.name ?? '—'}</p>
+                      <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '11px', color: 'rgba(168,149,120,0.55)' }}>{order.delivery_country} · {t('qty')} {order.quantity}</p>
                     </div>
-                    <StatusBadge label={statusLabels[order.status] || order.status} />
-                    <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '10px', color: 'rgba(168,149,120,0.35)', whiteSpace: 'nowrap' }}>{new Date(order.created_at).toLocaleDateString()}</p>
+                    <StatusBadge label={statusLabels[order.status] || order.status} status={order.status} />
+                    <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '11px', color: 'rgba(168,149,120,0.6)', whiteSpace: 'nowrap' }}>{new Date(order.created_at).toLocaleDateString()}</p>
                   </div>
                 ))}
               </div>
               <div className="supplier-orders-mobile" style={{ display: 'none' }}>
                 {recentOrders.map((order) => (
-                  <Link key={`m-${order.id}`} href={`/${locale}/supplier/dashboard/orders`} style={{ textDecoration: 'none', color: 'inherit', display: 'block' }}>
+                  <Link key={`m-${order.id}`} href="/supplier/dashboard/orders" style={{ textDecoration: 'none', color: 'inherit', display: 'block' }}>
                     <div className="supplier-order-card" style={{ background: 'rgba(26,21,16,0.8)' }}>
                       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '8px' }}>
                         <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '13px', fontWeight: 600, color: 'rgba(255,255,255,0.9)', margin: 0 }}>#{order.order_number}</p>
-                        <StatusBadge label={statusLabels[order.status] || order.status} />
+                        <StatusBadge label={statusLabels[order.status] || order.status} status={order.status} />
                       </div>
-                      <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '12px', color: 'rgba(168,149,120,0.7)', margin: '0 0 4px' }}>{order.buyer_name}</p>
-                      <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '11px', color: 'rgba(255,255,255,0.55)', margin: '0 0 2px' }}>{order.yurt?.name ?? '—'}</p>
-                      <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '10px', color: 'rgba(168,149,120,0.45)', margin: 0 }}>{order.delivery_country} · {t('qty')} {order.quantity} · {new Date(order.created_at).toLocaleDateString()}</p>
+                      <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '13px', color: 'rgba(168,149,120,0.75)', margin: '0 0 4px' }}>{order.buyer_name}</p>
+                      <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '12px', color: 'rgba(255,255,255,0.65)', margin: '0 0 3px' }}>{order.yurt?.name ?? '—'}</p>
+                      <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '11px', color: 'rgba(168,149,120,0.6)', margin: 0 }}>{order.delivery_country} · {t('qty')} {order.quantity} · {new Date(order.created_at).toLocaleDateString()}</p>
                     </div>
                   </Link>
                 ))}
@@ -330,9 +309,9 @@ export default async function DashboardPage({
           gap: '12px',
         }}>
           {[
-            { label: t('addNewYurt'), href: `/${locale}/supplier/dashboard/yurts/new`, icon: '+' },
-            { label: t('viewAllOrders'), href: `/${locale}/supplier/dashboard/orders`, icon: '◎' },
-            { label: t('editProfile'), href: `/${locale}/supplier/dashboard/settings`, icon: '◉' },
+            { label: t('addNewYurt'), href: '/supplier/dashboard/yurts/new', icon: '+' },
+            { label: t('viewAllOrders'), href: '/supplier/dashboard/orders', icon: '◎' },
+            { label: t('editProfile'), href: '/supplier/dashboard/settings', icon: '◉' },
           ].map(action => (
             <ActionLink
               key={action.href}
@@ -350,15 +329,7 @@ export default async function DashboardPage({
           background: 'rgba(168,149,120,0.06)',
           border: '1px solid rgba(168,149,120,0.12)',
         }}>
-          <h2 style={{
-            fontFamily: 'Inter, sans-serif',
-            fontSize: '11px',
-            fontWeight: 600,
-            letterSpacing: '0.2em',
-            textTransform: 'uppercase',
-            color: 'rgba(168,149,120,0.7)',
-            margin: '0 0 16px',
-          }}>
+          <h2 className="sp-label" style={{ margin: '0 0 16px' }}>
             {t('helperTitle')}
           </h2>
           <ul style={{
@@ -379,19 +350,9 @@ export default async function DashboardPage({
   )
 }
 
-function StatusBadge({ label }: { label: string }) {
+function StatusBadge({ label, status }: { label: string; status?: string }) {
   return (
-    <span style={{
-      fontFamily: 'Inter, sans-serif',
-      fontSize: '9px',
-      fontWeight: 500,
-      letterSpacing: '0.15em',
-      textTransform: 'uppercase',
-      color: 'rgba(168,149,120,0.8)',
-      border: '1px solid rgba(168,149,120,0.3)',
-      padding: '3px 8px',
-      whiteSpace: 'nowrap',
-    }}>
+    <span className={`sp-badge ${status ? `sp-badge-${status}` : ''}`}>
       {label}
     </span>
   )

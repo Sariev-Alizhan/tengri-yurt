@@ -1,10 +1,9 @@
 'use client';
 
-import Link from 'next/link';
+import { Link } from '@/i18n/navigation';
 
 interface SuccessPageClientProps {
   orderNumbers: string[];
-  locale: string;
   translations: {
     title: string;
     subtitle: string;
@@ -18,7 +17,6 @@ interface SuccessPageClientProps {
 
 export function SuccessPageClient({
   orderNumbers,
-  locale,
   translations,
 }: SuccessPageClientProps) {
   const fromCart = orderNumbers.length > 0 && (translations.orderPlaced ?? '');
@@ -84,7 +82,7 @@ export function SuccessPageClient({
         )}
 
         <Link
-          href={`/${locale}/catalog`}
+          href="/catalog"
           className="inline-block border border-white text-white py-3 px-8 uppercase font-inter font-medium tracking-[0.1em] hover:bg-white hover:text-beige-deep transition-all duration-300 min-h-[44px] flex items-center justify-center mx-auto touch-manipulation"
         >
           {translations.backToCatalog}

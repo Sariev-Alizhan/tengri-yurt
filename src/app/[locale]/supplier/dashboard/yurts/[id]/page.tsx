@@ -1,4 +1,4 @@
-import { getTranslations, getLocale } from 'next-intl/server';
+import { getTranslations } from 'next-intl/server';
 import { redirect, notFound } from 'next/navigation';
 import { createClient } from '@/utils/supabase/server';
 import { EditYurtForm } from './EditYurtForm';
@@ -16,13 +16,13 @@ export default async function EditYurtPage({
   if (!user) {
     redirect(`/${locale}/supplier/login`);
   }
-  
+
   const { data: supplier } = await supabase
     .from('suppliers')
     .select('id')
     .eq('user_id', user.id)
     .single();
-    
+
   if (!supplier) {
     redirect(`/${locale}/supplier/register`);
   }

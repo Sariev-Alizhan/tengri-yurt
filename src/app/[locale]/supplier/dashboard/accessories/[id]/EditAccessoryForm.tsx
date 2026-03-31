@@ -103,7 +103,7 @@ export function EditAccessoryForm({
     <div>
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
-          <label className="block text-sm font-medium text-white/80 mb-1 font-inter uppercase tracking-wider">
+          <label className="block text-sm font-medium text-white/80 mb-2 font-inter uppercase tracking-wider">
             {translations.accessoryName}
           </label>
           <input
@@ -111,24 +111,24 @@ export function EditAccessoryForm({
             type="text"
             required
             defaultValue={accessory.name}
-            className="w-full border border-white/30 bg-transparent text-white px-3 py-2 font-inter placeholder:text-white/40"
+            className="w-full border border-white/30 bg-transparent text-white px-3 py-2 font-inter placeholder:text-white/55"
           />
         </div>
         
         <div>
-          <label className="block text-sm font-medium text-white/80 mb-1 font-inter uppercase tracking-wider">
+          <label className="block text-sm font-medium text-white/80 mb-2 font-inter uppercase tracking-wider">
             {translations.accessoryDescription}
           </label>
           <textarea
             name="description"
             rows={4}
             defaultValue={accessory.description || ''}
-            className="w-full border border-white/30 bg-transparent text-white px-3 py-2 font-inter placeholder:text-white/40"
+            className="w-full border border-white/30 bg-transparent text-white px-3 py-2 font-inter placeholder:text-white/55"
           />
         </div>
         
         <div>
-          <label className="block text-sm font-medium text-white/80 mb-1 font-inter uppercase tracking-wider">
+          <label className="block text-sm font-medium text-white/80 mb-2 font-inter uppercase tracking-wider">
             {translations.category}
           </label>
           <select
@@ -146,7 +146,7 @@ export function EditAccessoryForm({
         
         <div className="grid grid-cols-2 gap-4">
           <div>
-            <label className="block text-sm font-medium text-white/80 mb-1 font-inter uppercase tracking-wider">
+            <label className="block text-sm font-medium text-white/80 mb-2 font-inter uppercase tracking-wider">
               {translations.priceUsd}
             </label>
             <input
@@ -154,11 +154,11 @@ export function EditAccessoryForm({
               type="number"
               min={0}
               defaultValue={accessory.price_usd || ''}
-              className="w-full border border-white/30 bg-transparent text-white px-3 py-2 font-inter placeholder:text-white/40"
+              className="w-full border border-white/30 bg-transparent text-white px-3 py-2 font-inter placeholder:text-white/55"
             />
           </div>
           <div>
-            <label className="block text-sm font-medium text-white/80 mb-1 font-inter uppercase tracking-wider">
+            <label className="block text-sm font-medium text-white/80 mb-2 font-inter uppercase tracking-wider">
               {translations.priceKzt}
             </label>
             <input
@@ -166,13 +166,13 @@ export function EditAccessoryForm({
               type="number"
               min={0}
               defaultValue={accessory.price_kzt || ''}
-              className="w-full border border-white/30 bg-transparent text-white px-3 py-2 font-inter placeholder:text-white/40"
+              className="w-full border border-white/30 bg-transparent text-white px-3 py-2 font-inter placeholder:text-white/55"
             />
           </div>
         </div>
         
         <div>
-          <label className="block text-sm font-medium text-white/80 mb-1 font-inter uppercase tracking-wider">
+          <label className="block text-sm font-medium text-white/80 mb-2 font-inter uppercase tracking-wider">
             {translations.stockQuantity}
           </label>
           <input
@@ -180,13 +180,13 @@ export function EditAccessoryForm({
             type="number"
             min={0}
             defaultValue={accessory.stock_quantity}
-            className="w-full border border-white/30 bg-transparent text-white px-3 py-2 font-inter placeholder:text-white/40"
+            className="w-full border border-white/30 bg-transparent text-white px-3 py-2 font-inter placeholder:text-white/55"
           />
         </div>
         
         <div className="grid grid-cols-2 gap-4">
           <div>
-            <label className="block text-sm font-medium text-white/80 mb-1 font-inter uppercase tracking-wider">
+            <label className="block text-sm font-medium text-white/80 mb-2 font-inter uppercase tracking-wider">
               {translations.productionDaysMin}
             </label>
             <input
@@ -194,11 +194,11 @@ export function EditAccessoryForm({
               type="number"
               min={0}
               defaultValue={accessory.production_days_min}
-              className="w-full border border-white/30 bg-transparent text-white px-3 py-2 font-inter placeholder:text-white/40"
+              className="w-full border border-white/30 bg-transparent text-white px-3 py-2 font-inter placeholder:text-white/55"
             />
           </div>
           <div>
-            <label className="block text-sm font-medium text-white/80 mb-1 font-inter uppercase tracking-wider">
+            <label className="block text-sm font-medium text-white/80 mb-2 font-inter uppercase tracking-wider">
               {translations.productionDaysMax}
             </label>
             <input
@@ -206,7 +206,7 @@ export function EditAccessoryForm({
               type="number"
               min={0}
               defaultValue={accessory.production_days_max}
-              className="w-full border border-white/30 bg-transparent text-white px-3 py-2 font-inter placeholder:text-white/40"
+              className="w-full border border-white/30 bg-transparent text-white px-3 py-2 font-inter placeholder:text-white/55"
             />
           </div>
         </div>
@@ -232,7 +232,7 @@ export function EditAccessoryForm({
           </label>
         </div>
         
-        {error && <p className="text-red-700 text-sm">{error}</p>}
+        {error && <p className="text-red-400 text-sm">{error}</p>}
         
         <div className="flex gap-4">
           <button

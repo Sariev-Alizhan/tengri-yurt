@@ -77,45 +77,45 @@ export function AddYurtForm({
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
       <div>
-        <label className="block text-sm font-medium text-white/80 mb-1 font-inter uppercase tracking-wider">{translations.yurtName}</label>
-        <input name="name" type="text" required className="w-full border border-white/30 bg-transparent text-white px-3 py-2 font-inter placeholder:text-white/40" />
+        <label className="block text-sm font-medium text-white/80 mb-2 font-inter uppercase tracking-wider">{translations.yurtName}</label>
+        <input name="name" type="text" required className="w-full border border-white/30 bg-transparent text-white px-3 py-2 font-inter placeholder:text-white/55" />
       </div>
       <div>
-        <label className="block text-sm font-medium text-white/80 mb-1 font-inter uppercase tracking-wider">{translations.yurtDescription}</label>
-        <textarea name="description" rows={4} className="w-full border border-white/30 bg-transparent text-white px-3 py-2 font-inter placeholder:text-white/40" />
+        <label className="block text-sm font-medium text-white/80 mb-2 font-inter uppercase tracking-wider">{translations.yurtDescription}</label>
+        <textarea name="description" rows={4} className="w-full border border-white/30 bg-transparent text-white px-3 py-2 font-inter placeholder:text-white/55" />
       </div>
       <div>
-        <label className="block text-sm font-medium text-white/80 mb-1 font-inter uppercase tracking-wider">{translations.priceUsd}</label>
-        <input name="price_usd" type="number" min={0} required className="w-full border border-white/30 bg-transparent text-white px-3 py-2 font-inter placeholder:text-white/40" />
+        <label className="block text-sm font-medium text-white/80 mb-2 font-inter uppercase tracking-wider">{translations.priceUsd}</label>
+        <input name="price_usd" type="number" min={0} required className="w-full border border-white/30 bg-transparent text-white px-3 py-2 font-inter placeholder:text-white/55" />
       </div>
       <div className="grid grid-cols-2 gap-4">
         <div>
-          <label className="block text-sm font-medium text-white/80 mb-1 font-inter uppercase tracking-wider">{translations.diameter}</label>
-          <input name="diameter_m" type="number" step="0.1" min={0} className="w-full border border-white/30 bg-transparent text-white px-3 py-2 font-inter placeholder:text-white/40" />
+          <label className="block text-sm font-medium text-white/80 mb-2 font-inter uppercase tracking-wider">{translations.diameter}</label>
+          <input name="diameter_m" type="number" step="0.1" min={0} className="w-full border border-white/30 bg-transparent text-white px-3 py-2 font-inter placeholder:text-white/55" />
         </div>
         <div>
-          <label className="block text-sm font-medium text-white/80 mb-1 font-inter uppercase tracking-wider">{translations.kanat}</label>
-          <input name="kanat" type="number" min={0} className="w-full border border-white/30 bg-transparent text-white px-3 py-2 font-inter placeholder:text-white/40" />
-        </div>
-      </div>
-      <div className="grid grid-cols-2 gap-4">
-        <div>
-          <label className="block text-sm font-medium text-white/80 mb-1 font-inter uppercase tracking-wider">{translations.capacityMin}</label>
-          <input name="capacity_min" type="number" min={0} className="w-full border border-white/30 bg-transparent text-white px-3 py-2 font-inter placeholder:text-white/40" />
-        </div>
-        <div>
-          <label className="block text-sm font-medium text-white/80 mb-1 font-inter uppercase tracking-wider">{translations.capacityMax}</label>
-          <input name="capacity_max" type="number" min={0} className="w-full border border-white/30 bg-transparent text-white px-3 py-2 font-inter placeholder:text-white/40" />
+          <label className="block text-sm font-medium text-white/80 mb-2 font-inter uppercase tracking-wider">{translations.kanat}</label>
+          <input name="kanat" type="number" min={0} className="w-full border border-white/30 bg-transparent text-white px-3 py-2 font-inter placeholder:text-white/55" />
         </div>
       </div>
       <div className="grid grid-cols-2 gap-4">
         <div>
-          <label className="block text-sm font-medium text-white/80 mb-1 font-inter uppercase tracking-wider">{translations.productionDaysMin}</label>
-          <input name="production_days_min" type="number" min={0} defaultValue={30} className="w-full border border-white/30 bg-transparent text-white px-3 py-2 font-inter placeholder:text-white/40" />
+          <label className="block text-sm font-medium text-white/80 mb-2 font-inter uppercase tracking-wider">{translations.capacityMin}</label>
+          <input name="capacity_min" type="number" min={0} className="w-full border border-white/30 bg-transparent text-white px-3 py-2 font-inter placeholder:text-white/55" />
         </div>
         <div>
-          <label className="block text-sm font-medium text-white/80 mb-1 font-inter uppercase tracking-wider">{translations.productionDaysMax}</label>
-          <input name="production_days_max" type="number" min={0} defaultValue={60} className="w-full border border-white/30 bg-transparent text-white px-3 py-2 font-inter placeholder:text-white/40" />
+          <label className="block text-sm font-medium text-white/80 mb-2 font-inter uppercase tracking-wider">{translations.capacityMax}</label>
+          <input name="capacity_max" type="number" min={0} className="w-full border border-white/30 bg-transparent text-white px-3 py-2 font-inter placeholder:text-white/55" />
+        </div>
+      </div>
+      <div className="grid grid-cols-2 gap-4">
+        <div>
+          <label className="block text-sm font-medium text-white/80 mb-2 font-inter uppercase tracking-wider">{translations.productionDaysMin}</label>
+          <input name="production_days_min" type="number" min={0} defaultValue={30} className="w-full border border-white/30 bg-transparent text-white px-3 py-2 font-inter placeholder:text-white/55" />
+        </div>
+        <div>
+          <label className="block text-sm font-medium text-white/80 mb-2 font-inter uppercase tracking-wider">{translations.productionDaysMax}</label>
+          <input name="production_days_max" type="number" min={0} defaultValue={60} className="w-full border border-white/30 bg-transparent text-white px-3 py-2 font-inter placeholder:text-white/55" />
         </div>
       </div>
       <div>
@@ -127,8 +127,8 @@ export function AddYurtForm({
         />
       </div>
       <div>
-        <label className="block text-sm font-medium text-white/80 mb-1 font-inter uppercase tracking-wider">{translations.features}</label>
-        <textarea name="features" rows={3} placeholder="One per line" className="w-full border border-white/30 bg-transparent text-white px-3 py-2 font-inter placeholder:text-white/40" />
+        <label className="block text-sm font-medium text-white/80 mb-2 font-inter uppercase tracking-wider">{translations.features}</label>
+        <textarea name="features" rows={3} placeholder="One per line" className="w-full border border-white/30 bg-transparent text-white px-3 py-2 font-inter placeholder:text-white/55" />
       </div>
       <div>
         <label className="flex items-center gap-2 font-inter text-white/80">
@@ -136,7 +136,7 @@ export function AddYurtForm({
           {translations.isAvailable}
         </label>
       </div>
-      {error && <p className="text-red-700 text-sm">{error}</p>}
+      {error && <p className="text-red-400 text-sm">{error}</p>}
       <button
         type="submit"
         disabled={loading}

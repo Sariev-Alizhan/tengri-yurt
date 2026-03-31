@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import Image from 'next/image';
-import Link from 'next/link';
+import { Link } from '@/i18n/navigation';
 import { useScrollReveal, revealStyle } from '@/hooks/useScrollReveal';
 
 const WHATSAPP_NUMBER = '77477777788';
@@ -146,7 +146,7 @@ export function FooterSection({
         {locale && quizLink && (
           <p className="font-inter text-center mb-6">
             <Link
-              href={`/${locale}/quiz`}
+              href="/quiz"
               className="text-amber-400/90 hover:text-amber-300 border border-amber-400/40 hover:border-amber-300/50 px-4 py-2 text-xs uppercase tracking-wider transition-colors inline-block"
             >
               {quizLink}

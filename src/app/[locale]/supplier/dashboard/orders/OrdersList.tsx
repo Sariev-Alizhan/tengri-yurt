@@ -55,8 +55,8 @@ export type Order = {
 const STATUSES = ['pending', 'confirmed', 'in_production', 'ready', 'shipped', 'delivered', 'cancelled'];
 
 const sectionLabel: React.CSSProperties = {
-  fontFamily: 'Inter, sans-serif', fontSize: '11px', letterSpacing: '0.1em',
-  textTransform: 'uppercase', color: 'rgba(168,149,120,0.6)', marginBottom: '6px',
+  fontFamily: 'Inter, sans-serif', fontSize: '12px', letterSpacing: '0.1em',
+  textTransform: 'uppercase', color: 'rgba(168,149,120,0.75)', marginBottom: '6px',
 };
 const sectionText: React.CSSProperties = {
   fontFamily: 'Inter, sans-serif', fontSize: '13px', color: 'rgba(255,255,255,0.8)',
@@ -169,7 +169,7 @@ export function OrdersList({
         <p style={{
           fontFamily: 'Inter, sans-serif',
           fontSize: '14px',
-          color: 'rgba(255,255,255,0.5)',
+          color: 'rgba(255,255,255,0.6)',
           letterSpacing: '0.05em',
         }}>
           {noOrdersLabel}
@@ -249,7 +249,7 @@ export function OrdersList({
                   <p style={{
                     fontFamily: 'Inter, sans-serif',
                     fontSize: '12px',
-                    color: 'rgba(255,255,255,0.5)',
+                    color: 'rgba(255,255,255,0.6)',
                   }}>
                     {order.buyer_email}
                   </p>
@@ -257,7 +257,7 @@ export function OrdersList({
                     <p style={{
                       fontFamily: 'Inter, sans-serif',
                       fontSize: '12px',
-                      color: 'rgba(255,255,255,0.5)',
+                      color: 'rgba(255,255,255,0.6)',
                     }}>
                       {order.buyer_phone}
                     </p>
@@ -283,7 +283,7 @@ export function OrdersList({
                     <p style={{
                       fontFamily: 'Inter, sans-serif',
                       fontSize: '11px',
-                      color: 'rgba(255,255,255,0.4)',
+                      color: 'rgba(255,255,255,0.55)',
                     }}>
                       {order.delivery_address}
                     </p>
@@ -307,7 +307,7 @@ export function OrdersList({
                   </p>
                   <span style={{
                     fontFamily: 'Inter, sans-serif',
-                    fontSize: '10px',
+                    fontSize: '11px',
                     letterSpacing: '0.1em',
                     textTransform: 'uppercase',
                     color: order.payment_status === 'paid' ? 'rgba(100,255,150,0.7)' : 'rgba(255,200,100,0.7)',
@@ -358,10 +358,10 @@ export function OrdersList({
               </a>
               <p style={{
                 fontFamily: 'Inter, sans-serif',
-                fontSize: '10px',
+                fontSize: '12px',
                 letterSpacing: '0.15em',
                 textTransform: 'uppercase',
-                color: 'rgba(168,149,120,0.5)',
+                color: 'rgba(168,149,120,0.75)',
                 marginBottom: '4px',
               }}>
                 {updateStatusLabel}
@@ -401,10 +401,10 @@ export function OrdersList({
             }}>
               <p style={{
                 fontFamily: 'Inter, sans-serif',
-                fontSize: '11px',
+                fontSize: '12px',
                 letterSpacing: '0.1em',
                 textTransform: 'uppercase',
-                color: 'rgba(168,149,120,0.5)',
+                color: 'rgba(168,149,120,0.75)',
                 marginBottom: '12px',
               }}>
                 {accessoriesLabel}:
@@ -443,7 +443,7 @@ export function OrdersList({
                         <p style={{
                           fontFamily: 'Inter, sans-serif',
                           fontSize: '11px',
-                          color: 'rgba(255,255,255,0.5)',
+                          color: 'rgba(255,255,255,0.6)',
                           marginTop: '2px',
                         }}>
                           Qty: {item.quantity}
@@ -480,10 +480,10 @@ export function OrdersList({
                 <>
                   <p style={{
                     fontFamily: 'Inter, sans-serif',
-                    fontSize: '11px',
+                    fontSize: '12px',
                     letterSpacing: '0.1em',
                     textTransform: 'uppercase',
-                    color: 'rgba(168,149,120,0.5)',
+                    color: 'rgba(168,149,120,0.75)',
                     marginBottom: '8px',
                   }}>
                     {messageLabel}:

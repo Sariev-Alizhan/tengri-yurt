@@ -62,7 +62,7 @@ export function RentalsList({
         <p style={{
           fontFamily: 'Inter, sans-serif',
           fontSize: '14px',
-          color: 'rgba(255,255,255,0.5)',
+          color: 'rgba(255,255,255,0.6)',
           letterSpacing: '0.05em',
         }}>
           {noRentalsLabel}
@@ -128,7 +128,7 @@ export function RentalsList({
                 <span style={{
                   display: 'inline-block',
                   fontFamily: 'Inter, sans-serif',
-                  fontSize: '10px',
+                  fontSize: '11px',
                   letterSpacing: '0.1em',
                   textTransform: 'uppercase',
                   color: sc.text,
@@ -143,7 +143,7 @@ export function RentalsList({
                 {/* Client info */}
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '6px', paddingTop: '12px', borderTop: '1px solid rgba(168,149,120,0.1)' }}>
                   <div style={{ display: 'flex', gap: '8px', alignItems: 'baseline' }}>
-                    <span style={{ fontFamily: 'Inter, sans-serif', fontSize: '10px', letterSpacing: '0.12em', textTransform: 'uppercase', color: 'rgba(168,149,120,0.6)', minWidth: '70px' }}>
+                    <span style={{ fontFamily: 'Inter, sans-serif', fontSize: '11px', letterSpacing: '0.12em', textTransform: 'uppercase', color: 'rgba(168,149,120,0.75)', minWidth: '70px' }}>
                       {clientLabel}
                     </span>
                     <span style={{ fontFamily: 'Inter, sans-serif', fontSize: '14px', color: 'rgba(255,255,255,0.85)', fontWeight: 500 }}>
@@ -151,7 +151,7 @@ export function RentalsList({
                     </span>
                   </div>
                   <div style={{ display: 'flex', gap: '8px', alignItems: 'baseline' }}>
-                    <span style={{ fontFamily: 'Inter, sans-serif', fontSize: '10px', letterSpacing: '0.12em', textTransform: 'uppercase', color: 'rgba(168,149,120,0.6)', minWidth: '70px' }}>
+                    <span style={{ fontFamily: 'Inter, sans-serif', fontSize: '11px', letterSpacing: '0.12em', textTransform: 'uppercase', color: 'rgba(168,149,120,0.75)', minWidth: '70px' }}>
                       {phoneLabel}
                     </span>
                     <a
@@ -163,7 +163,7 @@ export function RentalsList({
                   </div>
                   {r.message && (
                     <div style={{ display: 'flex', gap: '8px', alignItems: 'baseline', marginTop: '4px' }}>
-                      <span style={{ fontFamily: 'Inter, sans-serif', fontSize: '10px', letterSpacing: '0.12em', textTransform: 'uppercase', color: 'rgba(168,149,120,0.6)', minWidth: '70px' }}>
+                      <span style={{ fontFamily: 'Inter, sans-serif', fontSize: '11px', letterSpacing: '0.12em', textTransform: 'uppercase', color: 'rgba(168,149,120,0.75)', minWidth: '70px' }}>
                         {messageLabel}
                       </span>
                       <span style={{ fontFamily: 'Inter, sans-serif', fontSize: '13px', color: 'rgba(255,255,255,0.7)', fontStyle: 'italic' }}>
@@ -172,10 +172,10 @@ export function RentalsList({
                     </div>
                   )}
                   <div style={{ display: 'flex', gap: '8px', alignItems: 'baseline', marginTop: '4px' }}>
-                    <span style={{ fontFamily: 'Inter, sans-serif', fontSize: '10px', letterSpacing: '0.12em', textTransform: 'uppercase', color: 'rgba(168,149,120,0.6)', minWidth: '70px' }}>
+                    <span style={{ fontFamily: 'Inter, sans-serif', fontSize: '11px', letterSpacing: '0.12em', textTransform: 'uppercase', color: 'rgba(168,149,120,0.75)', minWidth: '70px' }}>
                       {dateLabel}
                     </span>
-                    <span style={{ fontFamily: 'Inter, sans-serif', fontSize: '12px', color: 'rgba(255,255,255,0.5)' }}>
+                    <span style={{ fontFamily: 'Inter, sans-serif', fontSize: '12px', color: 'rgba(255,255,255,0.65)' }}>
                       {formatDate(r.created_at)}
                     </span>
                   </div>

@@ -1,7 +1,7 @@
 import { getTranslations, getLocale } from 'next-intl/server';
-import { redirect } from 'next/navigation';
 import { createClient } from '@/utils/supabase/server';
-import Link from 'next/link';
+import { redirect } from 'next/navigation';
+import { Link } from '@/i18n/navigation';
 
 export default async function SupplierYurtsPage() {
   const t = await getTranslations('supplier');
@@ -32,7 +32,7 @@ export default async function SupplierYurtsPage() {
       <div className="flex items-center justify-between mb-8">
         <h1 className="font-garamond text-3xl text-white">{t('yurts')}</h1>
         <Link
-          href={`/${locale}/supplier/dashboard/yurts/new`}
+          href={`/supplier/dashboard/yurts/new`}
           className="border border-white text-white py-2 px-6 uppercase font-inter font-medium tracking-wider hover:bg-white hover:text-black transition-colors duration-200"
         >
           {t('addYurt')}
@@ -59,7 +59,7 @@ export default async function SupplierYurtsPage() {
               {y.is_available ? t('isAvailable') : t('unavailable')}
             </p>
             <Link
-              href={`/${locale}/supplier/dashboard/yurts/${y.id}`}
+              href={`/supplier/dashboard/yurts/${y.id}`}
               className="mt-4 text-sm uppercase tracking-wider text-white/70 hover:text-white font-inter"
             >
               {t('editYurt')} →

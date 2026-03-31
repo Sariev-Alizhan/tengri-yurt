@@ -1,6 +1,6 @@
 import { getTranslations, getLocale } from 'next-intl/server'
-import Link from 'next/link'
 import { redirect } from 'next/navigation'
+import { Link } from '@/i18n/navigation'
 import { createClient } from '@/utils/supabase/server'
 import { SupplierRegisterForm } from './SupplierRegisterForm'
 
@@ -118,7 +118,7 @@ export default async function SupplierRegisterPage() {
           }}>
             {t('alreadyRegisteredPrompt')}{' '}
             <Link
-              href={`/${locale}/supplier/login`}
+              href="/supplier/login"
               style={{ color: 'rgba(255,255,255,0.8)', textDecoration: 'none' }}
             >
               {t('login')}

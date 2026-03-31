@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import Link from 'next/link'
+import { Link } from '@/i18n/navigation'
 import { useTranslations } from 'next-intl'
 
 type QuizQuestion = {
@@ -83,7 +83,7 @@ export function YurtQuizClient({ locale }: { locale: string }) {
           {t('start')}
         </button>
         <Link
-          href={`/${locale}`}
+          href="/"
           className="mt-8 font-inter text-white/50 text-sm hover:text-white/80 transition-colors"
         >
           ← Back to home
@@ -116,7 +116,7 @@ export function YurtQuizClient({ locale }: { locale: string }) {
           {t('playAgain')}
         </button>
         <Link
-          href={`/${locale}/catalog`}
+          href="/catalog"
           className="font-inter text-white/60 text-sm hover:text-white transition-colors"
         >
           Browse yurts →
@@ -205,7 +205,7 @@ export function YurtQuizClient({ locale }: { locale: string }) {
         )}
 
         <Link
-          href={`/${locale}`}
+          href="/"
           className="block mt-6 text-center font-inter text-white/50 text-sm hover:text-white/80"
         >
           ← Back to home

@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
+import { useRouter } from '@/i18n/navigation';
 import { useParams } from 'next/navigation';
 import { AccessoryModal } from '@/components/AccessoryModal';
 
@@ -98,7 +98,7 @@ export function OrderForm({ yurtId, translations }: Props) {
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || 'Submission failed');
-      router.push(`/${locale}/order/success?order=${encodeURIComponent(data.orderNumber)}`);
+      router.push(`/order/success?order=${encodeURIComponent(data.orderNumber)}`);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Submission failed');
     } finally {

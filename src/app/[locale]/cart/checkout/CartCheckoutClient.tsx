@@ -3,8 +3,7 @@
 import { useState, useCallback } from 'react'
 import dynamic from 'next/dynamic'
 import { useTranslations } from 'next-intl'
-import { useRouter } from 'next/navigation'
-import Link from 'next/link'
+import { useRouter, Link } from '@/i18n/navigation'
 import { useCart } from '@/components/CartContext'
 import { isYurtItem } from '@/types/cart'
 import type { DeliveryLocation } from '@/components/DeliveryMap'
@@ -93,7 +92,7 @@ export function CartCheckoutClient({
       clear()
       const orderNumbers = data.orderNumbers as string[]
       const query = orderNumbers.length ? `?orders=${orderNumbers.join(',')}` : ''
-      router.push(`/${locale}/order/success${query}`)
+      router.push(`/order/success${query}`)
     } catch (err) {
       setError(err instanceof Error ? err.message : translations.errorSubmit)
       setLoading(false)
@@ -109,7 +108,7 @@ export function CartCheckoutClient({
         <h1 className="font-garamond text-white text-3xl md:text-4xl mb-4">{translations.title}</h1>
         <p className="font-inter text-white/70 mb-8">{translations.emptyCart}</p>
         <Link
-          href={`/${locale}/cart`}
+          href="/cart"
           className="inline-block border border-white/70 text-white py-3 px-8 uppercase font-inter text-sm font-medium tracking-widest hover:bg-white hover:text-[#7a6a54] transition-all min-h-[44px] flex items-center justify-center"
         >
           {translations.backToCart}
@@ -289,7 +288,7 @@ export function CartCheckoutClient({
 
           <div className="pt-6 flex flex-wrap gap-4 justify-between items-center">
             <Link
-              href={`/${locale}/cart`}
+              href="/cart"
               className="font-inter text-white/70 text-sm uppercase tracking-wider hover:text-white transition-colors min-h-[44px] flex items-center"
             >
               ← {translations.backToCart ?? 'Back to cart'}

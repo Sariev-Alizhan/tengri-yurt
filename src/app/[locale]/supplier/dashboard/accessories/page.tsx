@@ -1,7 +1,7 @@
 import { getTranslations, getLocale } from 'next-intl/server';
-import { redirect } from 'next/navigation';
 import { createClient } from '@/utils/supabase/server';
-import Link from 'next/link';
+import { redirect } from 'next/navigation';
+import { Link } from '@/i18n/navigation';
 
 export default async function SupplierAccessoriesPage() {
   const t = await getTranslations('supplier');
@@ -42,7 +42,7 @@ export default async function SupplierAccessoriesPage() {
       <div className="flex items-center justify-between mb-8">
         <h1 className="font-garamond text-3xl text-white">{t('accessories')}</h1>
         <Link
-          href={`/${locale}/supplier/dashboard/accessories/new`}
+          href={`/supplier/dashboard/accessories/new`}
           className="border border-white text-white py-2 px-6 uppercase font-inter font-medium tracking-wider hover:bg-white hover:text-black transition-colors duration-200"
         >
           {t('addAccessory')}
@@ -78,7 +78,7 @@ export default async function SupplierAccessoriesPage() {
               {acc.is_available ? t('isAvailable') : t('unavailable')}
             </p>
             <Link
-              href={`/${locale}/supplier/dashboard/accessories/${acc.id}`}
+              href={`/supplier/dashboard/accessories/${acc.id}`}
               className="mt-4 text-sm uppercase tracking-wider text-white/70 hover:text-white font-inter"
             >
               {t('edit')} →
@@ -90,7 +90,7 @@ export default async function SupplierAccessoriesPage() {
         <div className="border border-white/15 p-12 text-center">
           <p className="font-inter text-white/50 mb-4">{t('noAccessoriesYet')}</p>
           <Link
-            href={`/${locale}/supplier/dashboard/accessories/new`}
+            href={`/supplier/dashboard/accessories/new`}
             className="inline-block border border-white text-white py-2 px-6 uppercase font-inter font-medium tracking-wider hover:bg-white hover:text-black transition-colors duration-200"
           >
             {t('addAccessory')}

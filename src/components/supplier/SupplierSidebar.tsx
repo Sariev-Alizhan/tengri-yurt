@@ -1,8 +1,8 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import Link from 'next/link'
-import { useParams, usePathname } from 'next/navigation'
+import { Link, usePathname } from '@/i18n/navigation'
+import { useParams } from 'next/navigation'
 import { useTranslations } from 'next-intl'
 import { createClient } from '@/utils/supabase/client'
 
@@ -24,17 +24,26 @@ export function SupplierSidebar({ supplierName, isLoggedIn = true }: { supplierN
   const handleLogout = async () => {
     const supabase = createClient()
     await supabase.auth.signOut()
-    window.location.href = `/${locale}/supplier/login`
+    window.location.href = `/${locale}/supplier/login` // window.location needs full path with locale
   }
 
   const navItems = [
-    { href: `/${locale}/supplier/dashboard`, icon: '◈', label: t('dashboard') },
-    { href: `/${locale}/supplier/dashboard/yurts`, icon: '⌂', label: t('yurts') },
-    { href: `/${locale}/supplier/dashboard/yurts/new`, icon: '+', label: t('addYurt') },
-    { href: `/${locale}/supplier/dashboard/accessories`, icon: '◇', label: t('accessories') },
-    { href: `/${locale}/supplier/dashboard/orders`, icon: '◎', label: t('orders') },
-    { href: `/${locale}/supplier/dashboard/rentals`, icon: '⊞', label: t('rentals') },
-    { href: `/${locale}/supplier/dashboard/settings`, icon: '◉', label: t('profile') },
+    { href: '/supplier/dashboard', icon: '◈', label: t('dashboard') },
+    { href: '/supplier/dashboard/yurts', icon: '⌂', label: t('yurts') },
+    { href: '/supplier/dashboard/yurts/new', icon: '+', label: t('addYurt') },
+    { href: '/supplier/dashboard/accessories', icon: '◇', label: t('accessories') },
+    { href: '/supplier/dashboard/orders', icon: '◎', label: t('orders') },
+    { href: '/supplier/dashboard/rentals', icon: '⊞', label: t('rentals') },
+    { href: '/supplier/dashboard/settings', icon: '◉', label: t('profile') },
+  ]
+
+  // Mobile: condensed to 5 items (Yurts+Accessories merged into Products link)
+  const mobileNavItems = [
+    { href: '/supplier/dashboard', icon: '◈', label: t('dashboard') },
+    { href: '/supplier/dashboard/yurts', icon: '⌂', label: t('yurts') },
+    { href: '/supplier/dashboard/orders', icon: '◎', label: t('orders') },
+    { href: '/supplier/dashboard/rentals', icon: '⊞', label: t('rentals') },
+    { href: '/supplier/dashboard/settings', icon: '◉', label: t('profile') },
   ]
 
   return (
@@ -55,8 +64,8 @@ export function SupplierSidebar({ supplierName, isLoggedIn = true }: { supplierN
           padding: '10px 6px',
         }}
       >
-        {navItems.map(item => {
-          const isActive = pathname === item.href
+        {mobileNavItems.map(item => {
+          const isActive = pathname === item.href || (item.href === '/supplier/dashboard/yurts' && pathname?.startsWith('/supplier/dashboard/yurts'))
           return (
             <Link
               key={item.href}
@@ -74,16 +83,16 @@ export function SupplierSidebar({ supplierName, isLoggedIn = true }: { supplierN
                 flex: '1 1 0',
                 maxWidth: '88px',
                 textDecoration: 'none',
-                color: isActive ? 'rgba(168,149,120,0.95)' : 'rgba(255,255,255,0.4)',
+                color: isActive ? 'rgba(168,149,120,0.95)' : 'rgba(255,255,255,0.55)',
                 touchAction: 'manipulation',
               }}
             >
-              <span className="supplier-nav-icon" style={{ fontFamily: 'monospace', fontSize: '14px' }}>
+              <span className="supplier-nav-icon" style={{ fontFamily: 'monospace', fontSize: '16px' }}>
                 {item.icon}
               </span>
               <span style={{
                 fontFamily: 'Inter, sans-serif',
-                fontSize: '10px',
+                fontSize: '11px',
                 fontWeight: isActive ? 600 : 500,
                 letterSpacing: '0.04em',
                 textTransform: 'uppercase',
@@ -122,9 +131,9 @@ export function SupplierSidebar({ supplierName, isLoggedIn = true }: { supplierN
         }}>
           <p style={{
             fontFamily: 'Inter, sans-serif',
-            fontSize: '9px',
-            color: 'rgba(168,149,120,0.4)',
-            letterSpacing: '0.15em',
+            fontSize: '11px',
+            color: 'rgba(168,149,120,0.6)',
+            letterSpacing: '0.12em',
             textTransform: 'uppercase',
             marginBottom: '4px',
           }}>
@@ -144,7 +153,7 @@ export function SupplierSidebar({ supplierName, isLoggedIn = true }: { supplierN
             </p>
           ) : (
             <Link
-              href={`/${locale}/supplier/login`}
+              href="/supplier/login"
               style={{
                 fontFamily: 'Inter, sans-serif',
                 fontSize: '12px',
@@ -173,14 +182,14 @@ export function SupplierSidebar({ supplierName, isLoggedIn = true }: { supplierN
                 textDecoration: 'none',
                 background: isActive ? 'rgba(168,149,120,0.12)' : 'transparent',
                 borderLeft: isActive ? '2px solid rgba(168,149,120,0.6)' : '2px solid transparent',
-                color: isActive ? 'rgba(255,255,255,0.9)' : 'rgba(255,255,255,0.4)',
+                color: isActive ? 'rgba(255,255,255,0.9)' : 'rgba(255,255,255,0.55)',
                 transition: 'all 0.2s ease',
               }}
               onMouseEnter={e => {
-                if (!isActive) e.currentTarget.style.color = 'rgba(255,255,255,0.7)'
+                if (!isActive) e.currentTarget.style.color = 'rgba(255,255,255,0.75)'
               }}
               onMouseLeave={e => {
-                if (!isActive) e.currentTarget.style.color = 'rgba(255,255,255,0.4)'
+                if (!isActive) e.currentTarget.style.color = 'rgba(255,255,255,0.55)'
               }}
             >
               <span style={{
@@ -195,9 +204,9 @@ export function SupplierSidebar({ supplierName, isLoggedIn = true }: { supplierN
               {!collapsed && (
                 <span style={{
                   fontFamily: 'Inter, sans-serif',
-                  fontSize: '12px',
-                  fontWeight: isActive ? 500 : 300,
-                  letterSpacing: '0.05em',
+                  fontSize: '13px',
+                  fontWeight: isActive ? 500 : 400,
+                  letterSpacing: '0.04em',
                 }}>
                   {item.label}
                 </span>
@@ -242,8 +251,8 @@ export function SupplierSidebar({ supplierName, isLoggedIn = true }: { supplierN
             padding: '8px',
             cursor: 'pointer',
             fontFamily: 'Inter, sans-serif',
-            fontSize: '10px',
-            letterSpacing: '0.15em',
+            fontSize: '11px',
+            letterSpacing: '0.12em',
             textTransform: 'uppercase',
             transition: 'all 0.2s',
             width: '100%',

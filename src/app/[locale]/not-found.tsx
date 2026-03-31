@@ -1,8 +1,6 @@
-import Link from 'next/link'
-import { getLocale } from 'next-intl/server'
+import { Link } from '@/i18n/navigation'
 
 export default async function NotFound() {
-  const locale = await getLocale()
   return (
     <main style={{
       minHeight: '100vh',
@@ -19,7 +17,7 @@ export default async function NotFound() {
       <p style={{ color: 'rgba(255,255,255,0.6)', marginBottom: 24 }}>This page does not exist or has been moved.</p>
       <div style={{ display: 'flex', gap: 16, flexWrap: 'wrap', justifyContent: 'center' }}>
         <Link
-          href={`/${locale}`}
+          href="/"
           style={{
             padding: '12px 24px',
             border: '1px solid rgba(168,149,120,0.5)',
@@ -31,7 +29,7 @@ export default async function NotFound() {
           Home
         </Link>
         <Link
-          href={`/${locale}/supplier/dashboard`}
+          href="/supplier/dashboard"
           style={{
             padding: '12px 24px',
             border: '1px solid rgba(168,149,120,0.5)',
@@ -43,7 +41,7 @@ export default async function NotFound() {
           Supplier panel
         </Link>
         <Link
-          href={`/${locale}/supplier/login`}
+          href="/supplier/login"
           style={{
             padding: '12px 24px',
             border: '1px solid rgba(168,149,120,0.5)',

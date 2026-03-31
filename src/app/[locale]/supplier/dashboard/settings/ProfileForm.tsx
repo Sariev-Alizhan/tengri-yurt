@@ -172,10 +172,10 @@ export function ProfileForm({
         <div>
           <p style={{
             fontFamily: 'Inter, sans-serif',
-            fontSize: '10px',
+            fontSize: '12px',
             letterSpacing: '0.25em',
             textTransform: 'uppercase',
-            color: 'rgba(168,149,120,0.5)',
+            color: 'rgba(168,149,120,0.75)',
             marginBottom: '12px',
           }}>
             {labels.companyName}
@@ -221,10 +221,10 @@ export function ProfileForm({
         <div>
           <p style={{
             fontFamily: 'Inter, sans-serif',
-            fontSize: '10px',
+            fontSize: '12px',
             letterSpacing: '0.25em',
             textTransform: 'uppercase',
-            color: 'rgba(168,149,120,0.5)',
+            color: 'rgba(168,149,120,0.75)',
             marginBottom: '12px',
           }}>
             {labels.email}
@@ -249,10 +249,10 @@ export function ProfileForm({
         <div>
           <p style={{
             fontFamily: 'Inter, sans-serif',
-            fontSize: '10px',
+            fontSize: '12px',
             letterSpacing: '0.25em',
             textTransform: 'uppercase',
-            color: 'rgba(168,149,120,0.5)',
+            color: 'rgba(168,149,120,0.75)',
             marginBottom: '12px',
           }}>
             {labels.description}
