@@ -295,8 +295,13 @@ export function CartCheckoutClient({
             </Link>
             <button
               type="submit"
-              disabled={loading}
-              className="border border-white/70 text-white py-3 px-8 uppercase font-inter text-sm font-medium tracking-widest hover:bg-white hover:text-[#7a6a54] transition-all min-h-[44px] flex items-center justify-center disabled:opacity-50 touch-manipulation"
+              disabled={loading || !agreement}
+              className={`border py-3 px-8 uppercase font-inter text-sm font-medium tracking-widest transition-all min-h-[44px] flex items-center justify-center touch-manipulation ${
+                agreement
+                  ? 'border-white/70 text-white hover:bg-white hover:text-[#7a6a54] cursor-pointer'
+                  : 'border-white/20 text-white/30 cursor-not-allowed'
+              }`}
+              style={{ opacity: loading ? 0.5 : undefined }}
             >
               {loading ? '...' : translations.submit}
             </button>
