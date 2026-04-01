@@ -18,8 +18,12 @@ const CYR_MAP: Record<string, string> = {
   // Kazakh specific
   ә:'a',Ә:'A',ғ:'g',Ғ:'G',қ:'q',Қ:'Q',ң:'ng',Ң:'Ng',
   ө:'o',Ө:'O',ұ:'u',Ұ:'U',ү:'u',Ү:'U',һ:'h',Һ:'H',і:'i',І:'I',
-  // Chinese common punctuation → safe ASCII
-  '—':'-','–':'-','«':'"','»':'"',
+  // Latin diacritics → ASCII
+  'ö':'o','Ö':'O','ü':'u','Ü':'U','ä':'a','Ä':'A','é':'e','É':'E',
+  'è':'e','ê':'e','ë':'e','à':'a','â':'a','ñ':'n','ç':'c','ß':'ss',
+  'í':'i','ó':'o','ú':'u','ý':'y',
+  // Common punctuation → safe ASCII
+  '—':'-','–':'-','«':'"','»':'"',''':'\'',''':'\'','"':'"','"':'"','…':'...',
 };
 function safe(text: string): string {
   return (text ?? '')
