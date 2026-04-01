@@ -235,7 +235,7 @@ export function CartCheckoutClient({
           </div>
 
           {/* Карта: выбор места доставки */}
-          <div className="border border-white/15 rounded-lg p-4 bg-white/5">
+          <div className="border border-white/15 rounded-lg p-4 bg-white/5 overflow-hidden">
             <button
               type="button"
               onClick={() => setShowMap((s) => !s)}

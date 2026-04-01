@@ -5,6 +5,12 @@
 /* Leaflet map (checkout delivery map) */
 @import 'leaflet/dist/leaflet.css';
 
+/* Contain Leaflet z-index so map doesn't overlap navbar (z-100) */
+.leaflet-container {
+  z-index: 0 !important;
+  isolation: isolate;
+}
+
 :root {
   /* Высота музыкального футера; уточняется MusicPlayer (ResizeObserver) */
   --music-foundation-height: 72px;
