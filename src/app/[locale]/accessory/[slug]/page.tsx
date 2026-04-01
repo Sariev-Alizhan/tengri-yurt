@@ -5,6 +5,7 @@ import { PriceUsdKzt } from '@/components/PriceUsdKzt';
 import { AccessoryDetailAddToCart } from '@/components/AccessoryDetailAddToCart';
 import { AccessoryPhotoCarousel } from '@/components/AccessoryPhotoCarousel';
 import { DEFAULT_ACCESSORIES } from '@/lib/defaultCatalog';
+import { BackButton } from '@/components/BackButton';
 
 export default async function AccessoryDetailPage({
   params,
@@ -75,6 +76,7 @@ export default async function AccessoryDetailPage({
 
   return (
     <div className="bg-beige min-h-screen">
+      <BackButton label={t('back')} />
 
       {/* ── HERO ── */}
       <section className="relative h-[75vh] min-h-[480px] overflow-hidden">

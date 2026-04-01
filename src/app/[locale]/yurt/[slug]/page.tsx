@@ -6,6 +6,7 @@ import { YurtDetailAddToCart } from '@/components/YurtDetailAddToCart';
 import { YurtPhotoCarousel } from '@/components/YurtPhotoCarousel';
 import { YurtRentButton } from '@/components/YurtRentButton';
 import { DEFAULT_YURTS } from '@/lib/defaultCatalog';
+import { BackButton } from '@/components/BackButton';
 
 export default async function YurtDetailPage({
   params,
@@ -75,6 +76,7 @@ export default async function YurtDetailPage({
 
   return (
     <div className="bg-beige min-h-screen">
+      <BackButton label={t('back')} />
       {/* Hero: photo carousel */}
       <section className="relative h-[60vh] min-h-[320px] sm:min-h-[380px] md:h-[70vh] flex flex-col overflow-hidden">
         {photos.length > 0 ? (
