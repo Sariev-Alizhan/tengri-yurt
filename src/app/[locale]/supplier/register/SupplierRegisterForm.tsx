@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { useParams } from 'next/navigation';
 import { createClient } from '@/utils/supabase/client';
+import { Spinner } from '@/components/Spinner';
 
 async function createSupplierRecord(userId: string, companyName: string, description: string) {
   const res = await fetch('/api/supplier/register', {
@@ -116,7 +117,7 @@ export function SupplierRegisterForm({
           WebkitAppearance: 'none',
         }}
       >
-        {loading ? '...' : translations.submit}
+        {loading ? <Spinner /> : translations.submit}
       </button>
     </form>
   );

@@ -3,6 +3,7 @@
 import { useState, useCallback } from 'react'
 import dynamic from 'next/dynamic'
 import { useTranslations } from 'next-intl'
+import { Spinner } from '@/components/Spinner'
 import { useRouter, Link } from '@/i18n/navigation'
 import { useCart } from '@/components/CartContext'
 import { isYurtItem } from '@/types/cart'
@@ -303,7 +304,7 @@ export function CartCheckoutClient({
               }`}
               style={{ opacity: loading ? 0.5 : undefined }}
             >
-              {loading ? '...' : translations.submit}
+              {loading ? <Spinner /> : translations.submit}
             </button>
           </div>
         </form>

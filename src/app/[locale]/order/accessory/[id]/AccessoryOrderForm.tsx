@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { useRouter } from '@/i18n/navigation';
 import { useParams } from 'next/navigation';
+import { Spinner } from '@/components/Spinner';
 
 type Props = {
   accessoryId: string;
@@ -192,7 +193,7 @@ export function AccessoryOrderForm({ accessoryId, translations }: Props) {
           WebkitAppearance: 'none',
         }}
       >
-        {loading ? '...' : translations.submitInquiry}
+        {loading ? <Spinner /> : translations.submitInquiry}
       </button>
     </form>
   );

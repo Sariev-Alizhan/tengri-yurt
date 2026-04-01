@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { useParams } from 'next/navigation';
 import { PhotoUploader } from '@/components/PhotoUploader';
+import { Spinner } from '@/components/Spinner';
 
 type Accessory = {
   id: string;
@@ -240,7 +241,7 @@ export function EditAccessoryForm({
             disabled={loading}
             className="flex-1 border border-white text-white py-3 px-8 uppercase font-inter font-medium tracking-wider hover:bg-white hover:text-black transition-colors duration-200 disabled:opacity-50"
           >
-            {loading ? '...' : translations.save}
+            {loading ? <Spinner /> : translations.save}
           </button>
           
           <button

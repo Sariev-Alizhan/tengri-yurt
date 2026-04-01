@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { useRouter } from '@/i18n/navigation';
 import { useParams } from 'next/navigation';
 import { AccessoryModal } from '@/components/AccessoryModal';
+import { Spinner } from '@/components/Spinner';
 
 type Props = {
   yurtId: string;
@@ -339,7 +340,7 @@ export function OrderForm({ yurtId, translations }: Props) {
           WebkitAppearance: 'none',
         }}
       >
-        {loading ? '...' : translations.submitInquiry}
+        {loading ? <Spinner /> : translations.submitInquiry}
       </button>
     </form>
       </div>

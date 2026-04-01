@@ -3,6 +3,7 @@ import { Inter, EB_Garamond } from 'next/font/google';
 import { NextIntlClientProvider } from 'next-intl';
 import { getMessages, getLocale } from 'next-intl/server';
 import type { AbstractIntlMessages } from 'next-intl';
+import { NavigationProgress } from '@/components/NavigationProgress';
 import './globals.css';
 
 const inter = Inter({ subsets: ['latin'], weight: ['300', '400', '500', '600'], variable: '--font-inter' });
@@ -46,6 +47,7 @@ export default async function RootLayout({
     <html lang={locale} className={`antialiased ${inter.variable} ${ebGaramond.variable}`}>
       <body className="font-inter bg-beige min-h-screen">
         <NextIntlClientProvider messages={messages}>
+          <NavigationProgress />
           {children}
         </NextIntlClientProvider>
       </body>
