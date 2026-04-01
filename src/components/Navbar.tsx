@@ -268,14 +268,14 @@ function PublicNavbar() {
       <nav style={{
         position: 'fixed', top: 0, left: 0, right: 0,
         zIndex: 100,
-        background: (!isLanding || scrolled) ? 'rgba(15, 13, 10, 0.85)' : 'transparent',
-        backdropFilter: (!isLanding || scrolled) ? 'blur(12px)' : 'none',
-        WebkitBackdropFilter: (!isLanding || scrolled) ? 'blur(12px)' : 'none',
+        background: (!isLanding || scrolled) ? 'rgba(15, 13, 10, 0.92)' : 'transparent',
+        backdropFilter: (!isLanding || scrolled) ? 'blur(16px)' : 'none',
+        WebkitBackdropFilter: (!isLanding || scrolled) ? 'blur(16px)' : 'none',
         boxShadow: (!isLanding || scrolled) ? '0 1px 0 rgba(168,149,120,0.08)' : 'none',
         borderBottom: 'none',
         transition: 'background 0.3s ease, backdrop-filter 0.3s ease, box-shadow 0.3s ease',
-        paddingTop: 'calc(clamp(12px, 3vw, 20px) + env(safe-area-inset-top, 0px))',
-        paddingBottom: 'clamp(12px, 3vw, 20px)',
+        paddingTop: 'calc(clamp(8px, 2vw, 14px) + env(safe-area-inset-top, 0px))',
+        paddingBottom: 'clamp(8px, 2vw, 14px)',
         paddingLeft: 'max(clamp(16px, 5vw, 48px), env(safe-area-inset-left, 0px))',
         paddingRight: 'max(clamp(16px, 5vw, 48px), env(safe-area-inset-right, 0px))',
       }}>
@@ -296,7 +296,7 @@ function PublicNavbar() {
               src="/images/logo_white.png"
               alt="Tengri Yurt"
               style={{
-                height: 'clamp(48px, 8vw, 80px)',
+                height: 'clamp(36px, 6vw, 56px)',
                 width: 'auto',
                 display: 'block'
               }}
