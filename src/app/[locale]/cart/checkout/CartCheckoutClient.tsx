@@ -11,7 +11,7 @@ import type { DeliveryLocation } from '@/components/DeliveryMap'
 function DeliveryMapLoading() {
   const t = useTranslations('checkout')
   return (
-    <div className="h-[280px] bg-white/5 rounded-lg flex items-center justify-center font-inter text-white/50 text-sm">
+    <div className="h-[200px] md:h-[280px] bg-white/5 rounded-lg flex items-center justify-center font-inter text-white/50 text-sm">
       {t('loadingMap')}
     </div>
   )
@@ -286,7 +286,7 @@ export function CartCheckoutClient({
             </label>
           </div>
 
-          <div className="pt-6 flex flex-wrap gap-4 justify-between items-center">
+          <div className="pt-6 flex flex-col-reverse sm:flex-row sm:justify-between gap-4 items-center">
             <Link
               href="/cart"
               className="font-inter text-white/70 text-sm uppercase tracking-wider hover:text-white transition-colors min-h-[44px] flex items-center"
@@ -296,7 +296,7 @@ export function CartCheckoutClient({
             <button
               type="submit"
               disabled={loading || !agreement}
-              className={`border py-3 px-8 uppercase font-inter text-sm font-medium tracking-widest transition-all min-h-[44px] flex items-center justify-center touch-manipulation ${
+              className={`w-full sm:w-auto border py-3 px-8 uppercase font-inter text-sm font-medium tracking-widest transition-all min-h-[44px] flex items-center justify-center touch-manipulation ${
                 agreement
                   ? 'border-white/70 text-white hover:bg-white hover:text-[#7a6a54] cursor-pointer'
                   : 'border-white/20 text-white/30 cursor-not-allowed'

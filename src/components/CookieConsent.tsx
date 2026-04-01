@@ -53,7 +53,7 @@ export function CookieConsent() {
       <button
         type="button"
         onClick={accept}
-        className="flex-shrink-0 border border-white/50 text-white px-5 py-2 font-inter text-xs uppercase tracking-wider hover:bg-white/10 transition-colors"
+        className="flex-shrink-0 border border-white/50 text-white px-5 py-2.5 font-inter text-xs uppercase tracking-wider hover:bg-white/10 transition-colors min-h-[44px]"
       >
         Accept
       </button>

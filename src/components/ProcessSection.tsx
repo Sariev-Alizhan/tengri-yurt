@@ -22,7 +22,7 @@ function ProcessStep({
     <div
       style={{
         display: 'grid',
-        gridTemplateColumns: '80px 1fr',
+        gridTemplateColumns: '60px 1fr',
         gap: '40px',
         padding: '0 0 64px 0',
         cursor: 'default',
@@ -38,7 +38,7 @@ function ProcessStep({
         <p
           style={{
             fontFamily: 'EB Garamond, serif',
-            fontSize: '20px',
+            fontSize: 'clamp(14px, 3vw, 20px)',
             color: 'rgba(255,255,255,0.5)',
             fontWeight: 400,
             lineHeight: 1,
@@ -56,7 +56,7 @@ function ProcessStep({
                 position: 'absolute',
                 left: '50%',
                 top: '16px',
-                bottom: '-64px',
+                bottom: '-48px',
                 width: '1px',
                 background: 'rgba(255,255,255,0.2)',
                 transform: 'translateX(-50%)',

@@ -91,7 +91,7 @@ function SupplierNavbar() {
           <p
             style={{
               fontFamily: 'Inter, sans-serif',
-              fontSize: 'clamp(7px, 1.2vw, 8px)',
+              fontSize: 'clamp(9px, 1.2vw, 10px)',
               letterSpacing: '0.2em',
               textTransform: 'uppercase',
               color: 'rgba(168,149,120,0.4)',
@@ -228,6 +228,8 @@ function PublicNavbar() {
   const { totalItems } = useCart()
   const [menuOpen, setMenuOpen] = useState(false)
   const [isDesktop, setIsDesktop] = useState(false)
+  const [scrolled, setScrolled] = useState(false)
+  const isLanding = !pathname || pathname === '/'
 
   useEffect(() => {
     const check = () => {
@@ -238,6 +240,13 @@ function PublicNavbar() {
     check()
     window.addEventListener('resize', check)
     return () => window.removeEventListener('resize', check)
+  }, [])
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 40)
+    onScroll()
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => window.removeEventListener('scroll', onScroll)
   }, [])
 
   useEffect(() => {
@@ -259,11 +268,12 @@ function PublicNavbar() {
       <nav style={{
         position: 'fixed', top: 0, left: 0, right: 0,
         zIndex: 100,
-        background: 'transparent',
-        backdropFilter: 'none',
-        WebkitBackdropFilter: 'none',
-        boxShadow: 'none',
+        background: (!isLanding || scrolled) ? 'rgba(15, 13, 10, 0.85)' : 'transparent',
+        backdropFilter: (!isLanding || scrolled) ? 'blur(12px)' : 'none',
+        WebkitBackdropFilter: (!isLanding || scrolled) ? 'blur(12px)' : 'none',
+        boxShadow: (!isLanding || scrolled) ? '0 1px 0 rgba(168,149,120,0.08)' : 'none',
         borderBottom: 'none',
+        transition: 'background 0.3s ease, backdrop-filter 0.3s ease, box-shadow 0.3s ease',
         paddingTop: 'calc(clamp(12px, 3vw, 20px) + env(safe-area-inset-top, 0px))',
         paddingBottom: 'clamp(12px, 3vw, 20px)',
         paddingLeft: 'max(clamp(16px, 5vw, 48px), env(safe-area-inset-left, 0px))',

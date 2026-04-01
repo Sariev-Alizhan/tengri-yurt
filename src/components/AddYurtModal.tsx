@@ -72,7 +72,7 @@ function Stepper({
       <button
         type="button"
         onClick={() => onChange(Math.max(min, value - 1))}
-        className="w-10 h-10 flex items-center justify-center rounded-l-lg border border-[#d4c8b8] bg-[#f5f2ee] text-[#1a1714] text-lg font-light hover:bg-[#ede8e0] transition-colors touch-manipulation"
+        className="w-11 h-11 sm:w-10 sm:h-10 flex items-center justify-center rounded-l-lg border border-[#d4c8b8] bg-[#f5f2ee] text-[#1a1714] text-lg font-light hover:bg-[#ede8e0] transition-colors touch-manipulation"
       >
         −
       </button>
@@ -82,7 +82,7 @@ function Stepper({
       <button
         type="button"
         onClick={() => onChange(Math.min(max, value + 1))}
-        className="w-10 h-10 flex items-center justify-center rounded-r-lg border border-[#d4c8b8] bg-[#f5f2ee] text-[#1a1714] text-lg font-light hover:bg-[#ede8e0] transition-colors touch-manipulation"
+        className="w-11 h-11 sm:w-10 sm:h-10 flex items-center justify-center rounded-r-lg border border-[#d4c8b8] bg-[#f5f2ee] text-[#1a1714] text-lg font-light hover:bg-[#ede8e0] transition-colors touch-manipulation"
       >
         +
       </button>

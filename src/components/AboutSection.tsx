@@ -46,7 +46,7 @@ export function AboutSection({
               border: '1px solid rgba(255,255,255,0.5)',
               background: 'transparent',
               color: 'rgba(255,255,255,0.85)',
-              padding: '12px 36px',
+              padding: 'clamp(10px, 2vw, 12px) clamp(20px, 5vw, 36px)',
               fontFamily: 'Inter, sans-serif',
               fontSize: '12px',
               fontWeight: 500,

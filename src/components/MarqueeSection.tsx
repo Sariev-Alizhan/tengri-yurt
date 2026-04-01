@@ -31,7 +31,7 @@ export function MarqueeSection() {
             key={i}
             style={{
               fontFamily: 'EB Garamond, serif',
-              fontSize: '20px',
+              fontSize: 'clamp(14px, 2.5vw, 20px)',
               fontStyle: item === '·' ? 'normal' : 'italic',
               color: item === '·' ? 'rgba(255,255,255,0.2)' : 'rgba(255,255,255,0.35)',
               whiteSpace: 'nowrap',

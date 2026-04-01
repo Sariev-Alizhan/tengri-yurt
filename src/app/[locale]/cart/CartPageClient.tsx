@@ -90,7 +90,7 @@ export function CartPageClient({
                       <button
                         type="button"
                         onClick={() => updateQuantity(item.type, item.id, item.quantity - 1)}
-                        className="w-10 h-10 flex items-center justify-center text-white hover:bg-white/10 transition-colors touch-manipulation min-w-[44px] min-h-[44px]"
+                        className="w-11 h-11 flex items-center justify-center text-white hover:bg-white/10 transition-colors touch-manipulation min-w-[44px] min-h-[44px]"
                         aria-label={translations.decreaseQty}
                       >
                         −
@@ -99,7 +99,7 @@ export function CartPageClient({
                       <button
                         type="button"
                         onClick={() => updateQuantity(item.type, item.id, item.quantity + 1)}
-                        className="w-10 h-10 flex items-center justify-center text-white hover:bg-white/10 transition-colors touch-manipulation min-w-[44px] min-h-[44px]"
+                        className="w-11 h-11 flex items-center justify-center text-white hover:bg-white/10 transition-colors touch-manipulation min-w-[44px] min-h-[44px]"
                         aria-label={translations.increaseQty}
                       >
                         +
@@ -123,7 +123,7 @@ export function CartPageClient({
           })}
         </ul>
 
-        <div className="flex flex-wrap items-center justify-between gap-6 border-t border-white/15 pt-8">
+        <div className="flex flex-col sm:flex-row flex-wrap items-center justify-between gap-6 border-t border-white/15 pt-8">
           <Link
             href="/catalog"
             className="font-inter text-white/75 text-sm uppercase tracking-wider hover:text-white transition-colors min-h-[48px] flex items-center"
@@ -136,7 +136,7 @@ export function CartPageClient({
             </p>
             <Link
               href="/cart/checkout"
-              className="inline-block border border-white/80 text-white py-3 px-6 sm:px-8 uppercase font-inter text-sm font-medium tracking-widest hover:bg-white hover:text-[#7a6a54] transition-all min-h-[48px] flex items-center justify-center touch-manipulation rounded-lg"
+              className="w-full sm:w-auto inline-block border border-white/80 text-white py-3 px-6 sm:px-8 uppercase font-inter text-sm font-medium tracking-widest hover:bg-white hover:text-[#7a6a54] transition-all min-h-[48px] flex items-center justify-center touch-manipulation rounded-lg"
             >
               {translations.checkout}
             </Link>

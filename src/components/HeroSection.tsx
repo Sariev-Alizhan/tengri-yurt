@@ -124,7 +124,7 @@ export function HeroSection({ heroTitle, since, heroSubtitle, statement }: Props
       {/* Scroll indicator — right edge */}
       <div
         className="absolute right-8 bottom-20 z-10 flex flex-col items-center gap-3"
-        style={{ right: '32px', bottom: '80px' }}
+        style={{ right: 'clamp(16px, 4vw, 32px)', bottom: 'clamp(48px, 10vw, 80px)' }}
       >
         <p
           className="font-inter text-[8px] uppercase text-white/30"

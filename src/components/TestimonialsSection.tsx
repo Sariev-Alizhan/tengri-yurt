@@ -34,7 +34,7 @@ function TestimonialCard({
       ref={ref}
       className="relative transition-[border-color,background] duration-300"
       style={{
-        padding: '40px',
+        padding: 'clamp(20px, 5vw, 40px)',
         border: '1px solid rgba(255,255,255,0.1)',
         background: hover ? 'rgba(255,255,255,0.06)' : 'rgba(255,255,255,0.03)',
         backdropFilter: 'blur(8px)',
@@ -47,7 +47,7 @@ function TestimonialCard({
       <p
         className="font-garamond pointer-events-none select-none"
         style={{
-          fontSize: '80px',
+          fontSize: 'clamp(40px, 10vw, 80px)',
           lineHeight: 0.8,
           color: 'rgba(255,255,255,0.06)',
           marginBottom: '20px',
@@ -60,7 +60,7 @@ function TestimonialCard({
       <p
         className="font-garamond italic relative z-10"
         style={{
-          fontSize: '18px',
+          fontSize: 'clamp(14px, 2.5vw, 18px)',
           fontStyle: 'italic',
           color: 'rgba(255,255,255,0.7)',
           lineHeight: 1.8,

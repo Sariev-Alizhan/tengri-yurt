@@ -31,7 +31,7 @@ function WhyCard({
       className="cursor-default transition-colors duration-300 relative overflow-hidden"
       style={{
         background: '#a89578',
-        padding: 'clamp(24px, 4vw, 44px)',
+        padding: 'clamp(20px, 4vw, 44px)',
         ...revealStyle(cardVisible, index * 0.1),
       }}
       onMouseEnter={(e) => {

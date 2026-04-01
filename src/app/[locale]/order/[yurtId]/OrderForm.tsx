@@ -167,7 +167,7 @@ export function OrderForm({ yurtId, translations }: Props) {
           )}
         </div>
         
-        <form onSubmit={handleSubmit} className="space-y-6 md:space-y-8">
+        <form onSubmit={handleSubmit} className="space-y-6 md:space-y-8 pb-24 md:pb-8">
       <div
         className="grid gap-6 md:gap-8"
         style={{
@@ -214,7 +214,7 @@ export function OrderForm({ yurtId, translations }: Props) {
           min={1}
           value={quantity}
           onChange={(e) => setQuantity(Number(e.target.value) || 1)}
-          className={`${inputClass} w-24`}
+          className={`${inputClass} w-24 min-h-[44px]`}
         />
       </div>
 
@@ -223,7 +223,7 @@ export function OrderForm({ yurtId, translations }: Props) {
           <h3 className="font-garamond text-white text-lg">{translations.interiorTitle}</h3>
           <div>
             <span className={labelClass}>{translations.keregeColor}</span>
-            <div className="flex flex-wrap gap-4 mt-2">
+            <div className="grid grid-cols-2 gap-3 sm:flex sm:flex-wrap sm:gap-4 mt-2">
               {(['natural', 'blue', 'red', 'silver'] as const).map((color) => (
                 <label key={color} className="flex items-center gap-2 cursor-pointer text-white/80 font-inter text-sm">
                   <input

@@ -8,7 +8,7 @@ let _audio: HTMLAudioElement | null = null
 function getAudio(): HTMLAudioElement | null {
   if (typeof window === 'undefined') return null
   if (!_audio) {
-    _audio = new Audio('/audio/besik-kui.mp3')
+    _audio = new Audio('/audio/kuy-aday-kurmangazy.mp3')
     _audio.loop = true
     _audio.preload = 'none'
   }
@@ -150,10 +150,10 @@ export function MusicPlayer() {
         {/* Центр: название */}
         <div className="min-w-0 flex-1 text-center px-1 sm:px-2">
           <p className="font-garamond text-base leading-tight text-white/90 sm:text-lg md:text-xl">
-            Бесік күйі
+            Адай — Күрмаңғазы
           </p>
           <p className="font-inter mt-0.5 hidden text-[9px] uppercase tracking-[0.2em] text-[#a89578]/70 sm:block sm:text-[10px]">
-            Traditional Kazakh
+            Traditional Kazakh Kuy
           </p>
         </div>
 
