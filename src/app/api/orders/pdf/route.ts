@@ -36,7 +36,7 @@ export async function GET(request: Request) {
   try {
     const { searchParams } = new URL(request.url);
     const orderNumber = searchParams.get('orderNumber');
-    const type = searchParams.get('type') || 'client'; // 'client' | 'store'
+    const type = searchParams.get('type') || 'client'; // 'client' | 'store' | 'supplier'
 
     if (!orderNumber || !/^TY-\d{4}-\d{5}$/.test(orderNumber.trim())) {
       return NextResponse.json({ error: 'Invalid order number' }, { status: 400 });
@@ -161,7 +161,7 @@ export async function GET(request: Request) {
       y -= size + 2;
     };
 
-    const title = type === 'store' ? `Order (Store) #${orderRow.order_number}` : `Order Receipt #${orderRow.order_number}`;
+    const title = type === 'store' ? `Order (Store) #${orderRow.order_number}` : type === 'supplier' ? `Production Order #${orderRow.order_number}` : `Order Receipt #${orderRow.order_number}`;
     drawText(safe(title), 50, 18, true);
     y -= 8;
 
@@ -178,7 +178,9 @@ export async function GET(request: Request) {
     y -= 10;
 
     for (const line of lineItems) {
-      const lineText = safe(`${line.name} x ${line.quantity} — $${line.unitPrice.toFixed(2)} = $${line.total.toFixed(2)}`);
+      const lineText = type === 'supplier'
+        ? safe(`${line.name} x ${line.quantity}`)
+        : safe(`${line.name} x ${line.quantity} — $${line.unitPrice.toFixed(2)} = $${line.total.toFixed(2)}`);
       page.drawText(lineText.substring(0, 80), { x: 50, y, size: 10, font, color: rgb(0.2, 0.2, 0.2) });
       y -= 12;
     }
@@ -188,7 +190,9 @@ export async function GET(request: Request) {
     if (opts?.addons?.length) {
       for (const a of opts.addons) {
         const addonTotal = (a.price_usd * a.quantity).toFixed(2);
-        const addonText = safe(`  + ${a.name} x ${a.quantity} — $${a.price_usd} = $${addonTotal}`);
+        const addonText = type === 'supplier'
+          ? safe(`  + ${a.name} x ${a.quantity}`)
+          : safe(`  + ${a.name} x ${a.quantity} — $${a.price_usd} = $${addonTotal}`);
         page.drawText(addonText.substring(0, 80), { x: 50, y, size: 10, font, color: rgb(0.35, 0.25, 0.1) });
         y -= 12;
       }
@@ -204,7 +208,9 @@ export async function GET(request: Request) {
     y -= 6;
     page.drawLine({ start: { x: 50, y }, end: { x: width - 50, y }, thickness: 0.5, color: rgb(0.2, 0.2, 0.2) });
     y -= 12;
-    drawText(`Total: $${orderRow.total_price_usd.toFixed(2)}`, 50, 12, true);
+    if (type !== 'supplier') {
+      drawText(`Total: $${orderRow.total_price_usd.toFixed(2)}`, 50, 12, true);
+    }
 
     // Order details section — shown for both client and store
     const drawDetail = (text: string) => {
@@ -237,7 +243,7 @@ export async function GET(request: Request) {
       if (opts.addons?.length) {
         drawText('Add-ons & accessories', 50, 10, true); y -= 2;
         for (const a of opts.addons) {
-          drawDetail(`${a.name}  x${a.quantity}  — $${(a.price_usd * a.quantity).toFixed(2)}`);
+          drawDetail(type === 'supplier' ? `${a.name}  x${a.quantity}` : `${a.name}  x${a.quantity}  — $${(a.price_usd * a.quantity).toFixed(2)}`);
         }
         y -= 4;
       }

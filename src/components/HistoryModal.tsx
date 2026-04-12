@@ -4,10 +4,10 @@ import { useEffect } from 'react';
 import { useTranslations } from 'next-intl';
 
 const textStyle: React.CSSProperties = {
-  fontFamily: 'Inter, sans-serif',
-  fontSize: '15px',
-  fontWeight: 300,
-  color: 'rgba(255,255,255,0.75)',
+  fontFamily: "'EB Garamond', serif",
+  fontSize: 'clamp(16px, 3.5vw, 18px)',
+  fontWeight: 400,
+  color: 'rgba(255,255,255,0.8)',
   lineHeight: '1.85',
   marginBottom: '20px',
 };
@@ -49,7 +49,7 @@ export function HistoryModal({ isOpen, onClose }: { isOpen: boolean; onClose: ()
         onClick={onClose}
         onKeyDown={(e) => e.key === 'Enter' && onClose()}
         className="absolute inset-0"
-        style={{ background: 'rgba(100, 80, 60, 0.92)', backdropFilter: 'blur(4px)' }}
+        style={{ background: 'rgba(30, 25, 18, 0.85)', backdropFilter: 'blur(12px)' }}
         aria-label="Close"
       />
       <div

@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter } from '@/i18n/navigation';
-import { useParams } from 'next/navigation';
+import { useLocale } from 'next-intl';
 import { AccessoryModal } from '@/components/AccessoryModal';
 import { Spinner } from '@/components/Spinner';
 
@@ -13,8 +13,7 @@ type Props = {
 
 export function OrderForm({ yurtId, translations }: Props) {
   const router = useRouter();
-  const params = useParams();
-  const locale = (params?.locale as string) || 'en';
+  const locale = useLocale();
   const [quantity, setQuantity] = useState(1);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);

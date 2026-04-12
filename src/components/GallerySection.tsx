@@ -24,8 +24,8 @@ function GalleryImage({ src, index, total }: { src: string; index: number; total
       className="relative shrink-0 overflow-hidden"
       style={{
         scrollSnapAlign: snapAlign,
-        width: 'clamp(300px, 80vw, 520px)',
-        height: 'clamp(220px, 50vw, 340px)',
+        width: 'clamp(300px, 80vw, 560px)',
+        height: 'clamp(260px, 55vw, 380px)',
         borderRadius: '4px',
       }}
       onMouseEnter={() => setHover(true)}

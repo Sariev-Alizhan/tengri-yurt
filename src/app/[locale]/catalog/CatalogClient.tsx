@@ -351,7 +351,7 @@ export function CatalogClient({
             <div style={{
               display: 'grid',
               gridTemplateColumns: 'repeat(auto-fill, minmax(min(340px, 100%), 1fr))',
-              gap: '1px',
+              gap: 'clamp(8px, 1.5vw, 16px)',
               padding: '0 clamp(16px, 4vw, 48px)',
               maxWidth: '1600px',
               margin: '0 auto',
@@ -464,7 +464,7 @@ export function CatalogClient({
         <div style={{
           display: 'grid',
           gridTemplateColumns: 'repeat(auto-fill, minmax(min(340px, 100%), 1fr))',
-          gap: '1px',
+          gap: 'clamp(8px, 1.5vw, 16px)',
           padding: '0 clamp(16px, 4vw, 48px)',
           maxWidth: '1600px',
           margin: '0 auto',
@@ -730,48 +730,6 @@ function YurtCard({
             }}
           >
             {addToCartLabel}
-          </button>
-          <button
-            type="button"
-            onClick={(e) => { e.preventDefault(); e.stopPropagation(); onRent(); }}
-            style={{
-              height: '44px',
-              padding: '0 12px',
-              fontFamily: 'Inter, sans-serif',
-              fontSize: '11px',
-              fontWeight: 600,
-              letterSpacing: '0.06em',
-              textTransform: 'uppercase',
-              border: '1px solid rgba(26, 23, 20, 0.35)',
-              color: '#1a1714',
-              background: 'rgba(255,255,255,0.35)',
-              cursor: 'pointer',
-              transition: 'all 0.2s ease',
-              touchAction: 'manipulation',
-              borderRadius: '8px',
-              display: 'inline-flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              gap: '6px',
-              boxShadow: '0 1px 2px rgba(0,0,0,0.06)',
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.background = '#1a1714'
-              e.currentTarget.style.color = '#fff'
-              e.currentTarget.style.borderColor = '#1a1714'
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.background = 'rgba(255,255,255,0.35)'
-              e.currentTarget.style.color = '#1a1714'
-              e.currentTarget.style.borderColor = 'rgba(26, 23, 20, 0.35)'
-            }}
-          >
-            {rentLabel}
-            {rentalPrice != null && rentalPrice > 0 && (
-              <span style={{ fontWeight: 400, fontSize: '10px', opacity: 0.9 }}>
-                ${rentalPrice.toLocaleString('en-US')}+
-              </span>
-            )}
           </button>
           <Link
             href={`/yurt/${yurt.slug}`}

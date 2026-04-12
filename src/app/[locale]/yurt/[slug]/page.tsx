@@ -160,11 +160,6 @@ export default async function YurtDetailPage({
               <p className="font-garamond text-white text-xl sm:text-2xl font-medium">
                 <PriceUsdKzt usd={yurt.price_usd} usdMax={(yurt as any).price_usd_max} fromPrefix />
               </p>
-              {(yurt as any).rental_price_usd > 0 && (
-                <p className="font-inter text-sm sm:text-base font-semibold text-[#1a1714] [text-shadow:none]">
-                  {t('rent')}: from $ {((yurt as any).rental_price_usd as number).toLocaleString('en-US')}
-                </p>
-              )}
               <YurtDetailAddToCart
                 locale={locale}
                 yurtId={yurt.id}
@@ -174,15 +169,6 @@ export default async function YurtDetailPage({
                 supplier_id={yurt.supplier_id ?? 'default'}
                 photo={photos[0] ?? null}
                 addToCartLabel={t('addToCart')}
-              />
-              <YurtRentButton
-                yurtId={yurt.id}
-                yurtSlug={yurt.slug}
-                yurtName={displayName}
-                rentalPrice={(yurt as any).rental_price_usd}
-                supplierId={yurt.supplier_id ?? 'default'}
-                photo={photos[0] ?? null}
-                locale={locale}
               />
             </div>
           </div>

@@ -19,106 +19,59 @@ export function BookNowCTA({ label, title, subtitle }: Props) {
       ref={ref}
       style={{
         background: '#a89578',
-        padding: 'clamp(60px, 10vw, 140px) clamp(20px, 5vw, 48px)',
+        padding: 'clamp(100px, 14vw, 180px) clamp(24px, 6vw, 64px)',
         position: 'relative',
         overflow: 'hidden',
       }}
     >
-      <div
-        style={{
-          position: 'absolute',
-          width: '600px',
-          height: '600px',
-          borderRadius: '50%',
-          border: '1px solid rgba(255,255,255,0.06)',
-          top: '50%',
-          left: '50%',
-          transform: 'translate(-50%, -50%)',
-          pointerEvents: 'none',
-        }}
-      />
-      <div
-        style={{
-          position: 'absolute',
-          width: '900px',
-          height: '900px',
-          borderRadius: '50%',
-          border: '1px solid rgba(255,255,255,0.04)',
-          top: '50%',
-          left: '50%',
-          transform: 'translate(-50%, -50%)',
-          pointerEvents: 'none',
-        }}
-      />
+      {/* Decorative circles — subtle Kazakh geometric */}
+      <div style={{
+        position: 'absolute', width: '500px', height: '500px',
+        borderRadius: '50%', border: '1px solid rgba(168,149,120,0.08)',
+        top: '50%', left: '50%', transform: 'translate(-50%, -50%)',
+        pointerEvents: 'none',
+      }} />
+      <div style={{
+        position: 'absolute', width: '800px', height: '800px',
+        borderRadius: '50%', border: '1px solid rgba(168,149,120,0.04)',
+        top: '50%', left: '50%', transform: 'translate(-50%, -50%)',
+        pointerEvents: 'none',
+      }} />
 
       <div style={{ textAlign: 'center', position: 'relative', ...revealStyle(visible) }}>
-        <p
-          style={{
-            fontFamily: 'Inter, sans-serif',
-            fontSize: '11px',
-            fontWeight: 500,
-            letterSpacing: '0.3em',
-            color: 'rgba(255,255,255,0.45)',
-            textTransform: 'uppercase',
-            marginBottom: '24px',
-          }}
-        >
+        <p style={{
+          fontSize: '11px',
+          letterSpacing: '0.3em',
+          color: 'rgba(168,149,120,0.6)',
+          textTransform: 'uppercase',
+          marginBottom: '28px',
+        }}>
           {label ?? t('label')}
         </p>
 
-        <h2
-          style={{
-            fontFamily: 'EB Garamond, serif',
-            fontSize: 'clamp(32px, 7vw, 80px)',
-            color: 'rgba(255,255,255,0.92)',
-            fontWeight: 400,
-            lineHeight: 1.1,
-            marginBottom: '20px',
-          }}
-        >
+        <h2 className="font-garamond" style={{
+          fontSize: 'clamp(32px, 7vw, 72px)',
+          color: 'rgba(255,255,255,0.92)',
+          fontWeight: 300,
+          lineHeight: 1.1,
+          letterSpacing: '-0.01em',
+          marginBottom: '24px',
+        }}>
           {title ?? t('title')}
         </h2>
 
-        <p
-          style={{
-            fontFamily: 'Inter, sans-serif',
-            fontSize: 'clamp(13px, 2vw, 16px)',
-            fontWeight: 300,
-            color: 'rgba(255,255,255,0.55)',
-            maxWidth: '100%',
-            margin: '0 auto 40px',
-            lineHeight: '1.8',
-          }}
-        >
+        <p className="font-garamond italic" style={{
+          fontSize: 'clamp(15px, 2vw, 18px)',
+          color: 'rgba(255,255,255,0.45)',
+          maxWidth: '480px',
+          margin: '0 auto 48px',
+          lineHeight: 1.7,
+          fontWeight: 300,
+        }}>
           {subtitle ?? t('subtitle')}
         </p>
 
-        <Link
-          href="/catalog"
-          style={{
-            display: 'inline-block',
-            textAlign: 'center',
-            border: '1px solid rgba(255,255,255,0.55)',
-            color: 'rgba(255,255,255,0.9)',
-            padding: 'clamp(10px, 2vw, 14px) clamp(24px, 5vw, 48px)',
-            fontFamily: 'Inter, sans-serif',
-            fontSize: 'clamp(10px, 1.5vw, 12px)',
-            fontWeight: 500,
-            letterSpacing: '0.18em',
-            textTransform: 'uppercase',
-            textDecoration: 'none',
-            borderRadius: 0,
-            transition: 'all 0.25s ease',
-          }}
-          onMouseEnter={(e) => {
-            e.currentTarget.style.background = 'rgba(255,255,255,0.95)';
-            e.currentTarget.style.color = '#7a6a54';
-          }}
-          onMouseLeave={(e) => {
-            e.currentTarget.style.background = 'transparent';
-            e.currentTarget.style.color = 'rgba(255,255,255,0.9)';
-          }}
-        >
+        <Link href="/catalog" className="btn-book">
           {t('button')}
         </Link>
       </div>

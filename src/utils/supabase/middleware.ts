@@ -39,9 +39,8 @@ export async function updateSession(request: NextRequest) {
     }
   )
 
-  // getSession() обновляет сессию при истечении access token и записывает новые cookie
-  const { data: { session } } = await supabase.auth.getSession()
-  const user = session?.user ?? null
+  // getUser() верифицирует JWT на сервере (безопаснее чем getSession)
+  const { data: { user } } = await supabase.auth.getUser()
 
   return { supabaseResponse, user }
 }

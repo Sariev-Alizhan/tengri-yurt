@@ -1,0 +1,3 @@
+Backup of current production deployment:
+Fetching deployment "tengri-yurt" in alizhan
+Error: Can't find the deployment "tengri-yurt" under the context "alizhan"

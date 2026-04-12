@@ -1,8 +1,15 @@
 import { NextResponse } from 'next/server';
 import { createServiceRoleClient } from '@/lib/supabase';
+import { createClient } from '@/utils/supabase/server';
 
 export async function POST(request: Request) {
   try {
+    const authClient = await createClient();
+    const { data: { user } } = await authClient.auth.getUser();
+    if (!user) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
     const body = await request.json();
     const {
       supplierId,

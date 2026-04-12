@@ -74,7 +74,7 @@ function SupplierNavbar() {
         <img
           src="/images/logo_white.png"
           alt="Tengri Yurt"
-          style={{ height: 'clamp(24px, 5vw, 28px)', width: 'auto' }}
+          style={{ height: 'clamp(32px, 6vw, 40px)', width: 'auto' }}
         />
         <div style={{ minWidth: 0 }}>
           <p
@@ -230,6 +230,7 @@ function PublicNavbar() {
   const [isDesktop, setIsDesktop] = useState(false)
   const [scrolled, setScrolled] = useState(false)
   const isLanding = !pathname || pathname === '/'
+  const isOrderFlow = pathname?.includes('/order') || pathname?.includes('/cart') || pathname?.includes('/checkout')
 
   useEffect(() => {
     const check = () => {
@@ -268,10 +269,10 @@ function PublicNavbar() {
       <nav style={{
         position: 'fixed', top: 0, left: 0, right: 0,
         zIndex: 100,
-        background: (!isLanding || scrolled) ? 'rgba(15, 13, 10, 0.92)' : 'transparent',
-        backdropFilter: (!isLanding || scrolled) ? 'blur(16px)' : 'none',
-        WebkitBackdropFilter: (!isLanding || scrolled) ? 'blur(16px)' : 'none',
-        boxShadow: (!isLanding || scrolled) ? '0 1px 0 rgba(168,149,120,0.08)' : 'none',
+        background: 'transparent',
+        backdropFilter: 'none',
+        WebkitBackdropFilter: 'none',
+        boxShadow: 'none',
         borderBottom: 'none',
         transition: 'background 0.3s ease, backdrop-filter 0.3s ease, box-shadow 0.3s ease',
         paddingTop: 'calc(clamp(8px, 2vw, 14px) + env(safe-area-inset-top, 0px))',
@@ -286,7 +287,7 @@ function PublicNavbar() {
         }}>
 
           <div style={{ justifySelf: 'start' }}>
-            <div style={{ display: isDesktop ? 'block' : 'none' }}>
+            <div style={{ display: isDesktop && !isOrderFlow ? 'block' : 'none' }}>
               <LanguageSwitcher />
             </div>
           </div>
@@ -450,21 +451,21 @@ function PublicNavbar() {
               aria-label={menuOpen ? t('closeMenu') : t('openMenu')}
             >
               <span style={{
-                display: 'block', width: '24px',
-                height: '1px', background: 'rgba(255,255,255,0.9)',
-                transform: menuOpen ? 'rotate(45deg) translate(4px, 4px)' : 'none',
+                display: 'block', width: '28px',
+                height: '2px', background: 'rgba(255,255,255,0.9)',
+                transform: menuOpen ? 'rotate(45deg) translate(5px, 5px)' : 'none',
                 transition: 'transform 0.3s ease'
               }} />
               <span style={{
-                display: 'block', width: '16px',
-                height: '1px', background: 'rgba(255,255,255,0.9)',
+                display: 'block', width: '20px',
+                height: '2px', background: 'rgba(255,255,255,0.9)',
                 opacity: menuOpen ? 0 : 1,
                 transition: 'opacity 0.3s ease'
               }} />
               <span style={{
-                display: 'block', width: '24px',
-                height: '1px', background: 'rgba(255,255,255,0.9)',
-                transform: menuOpen ? 'rotate(-45deg) translate(4px, -4px)' : 'none',
+                display: 'block', width: '28px',
+                height: '2px', background: 'rgba(255,255,255,0.9)',
+                transform: menuOpen ? 'rotate(-45deg) translate(5px, -5px)' : 'none',
                 transition: 'transform 0.3s ease'
               }} />
             </button>
@@ -478,7 +479,7 @@ function PublicNavbar() {
         role="presentation"
         style={{
           position: 'fixed', inset: 0, zIndex: 99,
-          background: '#a89578',
+          background: '#0f0d0a',
           display: 'flex', flexDirection: 'column',
           alignItems: 'center', justifyContent: 'flex-start',
           gap: 'clamp(20px, 5vw, 32px)',
@@ -576,18 +577,22 @@ function PublicNavbar() {
             gap: '10px',
           }}
         >
-          <span
-            style={{
-              fontFamily: 'Inter, sans-serif',
-              fontSize: '9px',
-              letterSpacing: '0.2em',
-              textTransform: 'uppercase',
-              color: 'rgba(255,255,255,0.35)',
-            }}
-          >
-            {t('language')}
-          </span>
-          <LanguageSwitcher onNavigate={() => setMenuOpen(false)} />
+          {!isOrderFlow && (
+            <>
+              <span
+                style={{
+                  fontFamily: 'Inter, sans-serif',
+                  fontSize: '9px',
+                  letterSpacing: '0.2em',
+                  textTransform: 'uppercase',
+                  color: 'rgba(255,255,255,0.35)',
+                }}
+              >
+                {t('language')}
+              </span>
+              <LanguageSwitcher onNavigate={() => setMenuOpen(false)} />
+            </>
+          )}
         </div>
       </div>
     </>

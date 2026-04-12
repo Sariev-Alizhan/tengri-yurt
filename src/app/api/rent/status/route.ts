@@ -9,6 +9,13 @@ function getSupabase() {
 
 export async function PATCH(request: Request) {
   try {
+    const { createClient: createAuthClient } = await import('@/utils/supabase/server');
+    const authClient = await createAuthClient();
+    const { data: { user } } = await authClient.auth.getUser();
+    if (!user) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
     const { id, status } = await request.json()
 
     if (!id || !status) {

@@ -62,7 +62,7 @@ export function FooterSection({
         />
         <div
           className="absolute inset-0 z-[1]"
-          style={{ background: 'rgba(80, 60, 40, 0.88)' }}
+          style={{ background: 'rgba(42, 34, 27, 0.92)' }}
         />
       </div>
       <div className="relative z-10 max-w-6xl mx-auto" style={revealStyle(visible)}>
@@ -81,7 +81,7 @@ export function FooterSection({
               <p className="font-inter text-white/60 text-xs uppercase tracking-wider mb-3">
                 {contactLabel}
               </p>
-              <p className="font-inter text-white/70">info@tengri-camp.kz</p>
+              <a href="mailto:info@tengri-camp.kz" className="block font-inter text-white/70 hover:text-white transition-colors">info@tengri-camp.kz</a>
               <a href="tel:+77477777788" className="font-inter text-white/70 hover:text-white transition-colors">
                 +7 747 777 78 88
               </a>
@@ -147,7 +147,7 @@ export function FooterSection({
           <p className="font-inter text-center mb-6">
             <Link
               href="/quiz"
-              className="text-amber-400/90 hover:text-amber-300 border border-amber-400/40 hover:border-amber-300/50 px-4 py-2 text-xs uppercase tracking-wider transition-colors inline-block"
+              className="text-beige-light hover:text-white border border-beige/40 hover:border-beige-light/50 px-4 py-2 text-xs uppercase tracking-wider transition-colors inline-block"
             >
               {quizLink}
             </Link>

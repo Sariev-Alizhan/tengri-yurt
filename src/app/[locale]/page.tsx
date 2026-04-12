@@ -12,6 +12,7 @@ import { MarqueeSection } from '@/components/MarqueeSection';
 import { GallerySection } from '@/components/GallerySection';
 import { TestimonialsSection } from '@/components/TestimonialsSection';
 import { FooterSection } from '@/components/FooterSection';
+import HammamSection from '@/components/HammamSection';
 
 export default async function HomePage() {
   const locale = await getLocale();
@@ -40,14 +41,6 @@ export default async function HomePage() {
       />
 
       <div className="reveal">
-        <BookNowCTA
-          label={tCta('label')}
-          title={tCta('title')}
-          subtitle={tCta('subtitle')}
-        />
-      </div>
-
-      <div className="reveal">
         <AboutSection
           aboutTitle={tAbout('title')}
           aboutText={tAbout('text')}
@@ -68,19 +61,15 @@ export default async function HomePage() {
       </div>
 
       <div className="reveal">
-        <BookNowCTA
-          label={tCta('label')}
-          title={tCta('title')}
-          subtitle={tCta('subtitle')}
-        />
-      </div>
-
-      <div className="reveal">
         <GallerySection
           label={tGallery('label')}
           title={tGallery('title')}
           subtitle={tGallery('subtitle')}
         />
+      </div>
+
+      <div className="reveal">
+        <HammamSection />
       </div>
 
       <div className="reveal">

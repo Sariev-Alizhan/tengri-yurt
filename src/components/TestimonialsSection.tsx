@@ -78,7 +78,7 @@ function TestimonialCard({
         }}
       />
       <p
-        className="font-inter"
+        className=""
         style={{
           fontSize: '10px',
           fontWeight: 600,
@@ -91,7 +91,7 @@ function TestimonialCard({
         {name}
       </p>
       <p
-        className="font-inter"
+        className=""
         style={{
           fontSize: '11px',
           color: 'rgba(255,255,255,0.3)',
@@ -117,7 +117,7 @@ export function TestimonialsSection() {
     >
       <div className="max-w-6xl mx-auto text-center">
         <p
-          className="font-inter text-xs uppercase mb-2"
+          className="text-xs uppercase mb-2"
           style={{
             letterSpacing: '0.15em',
             color: 'rgba(255,255,255,0.5)',

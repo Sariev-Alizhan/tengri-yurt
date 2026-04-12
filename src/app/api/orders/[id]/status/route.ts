@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { createServiceRoleClient } from '@/lib/supabase';
+import { createClient } from '@/utils/supabase/server';
 import { sendOrderStatusUpdate } from '@/lib/resend';
 import type { OrderStatus, Database } from '@/types/database';
 
@@ -9,6 +10,12 @@ export async function PATCH(
   request: Request,
   { params }: { params: Promise<{ id: string }> }
 ) {
+  const authClient = await createClient();
+  const { data: { user } } = await authClient.auth.getUser();
+  if (!user) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  }
+
   const { id } = await params;
   const body = await request.json();
   const { status: newStatus } = body as { status: OrderStatus };

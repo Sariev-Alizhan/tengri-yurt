@@ -34,7 +34,7 @@ export function CartPageClient({
         <p className="font-inter text-white/75 text-sm sm:text-base mb-8">{translations.empty}</p>
         <Link
           href="/catalog"
-          className="inline-block border border-white/80 text-white py-3 px-6 sm:px-8 uppercase font-inter text-sm font-medium tracking-widest hover:bg-white hover:text-[#7a6a54] transition-all min-h-[48px] flex items-center justify-center rounded-lg"
+          className="inline-flex border border-white/80 text-white py-3 px-6 sm:px-8 uppercase text-sm font-medium tracking-widest hover:bg-white hover:text-[#7a6a54] transition-all min-h-[48px] items-center justify-center"
         >
           {translations.continueShopping}
         </Link>
@@ -59,7 +59,7 @@ export function CartPageClient({
                 className="rounded-xl border border-white/15 bg-white/5 p-4 sm:p-5"
               >
                 <div className="flex flex-wrap items-start gap-4 sm:gap-5">
-                  <div className="w-20 h-20 sm:w-24 sm:h-24 relative flex-shrink-0 rounded-lg bg-white/10 overflow-hidden">
+                  <div className="w-20 h-20 sm:w-24 sm:h-24 relative flex-shrink-0  bg-white/10 overflow-hidden">
                     {item.photo ? (
                       <Image src={item.photo} alt={item.name} fill className="object-cover" sizes="96px" />
                     ) : (
@@ -136,7 +136,7 @@ export function CartPageClient({
             </p>
             <Link
               href="/cart/checkout"
-              className="w-full sm:w-auto inline-block border border-white/80 text-white py-3 px-6 sm:px-8 uppercase font-inter text-sm font-medium tracking-widest hover:bg-white hover:text-[#7a6a54] transition-all min-h-[48px] flex items-center justify-center touch-manipulation rounded-lg"
+              className="w-full sm:w-auto inline-block border border-white/80 text-white py-3 px-6 sm:px-8 uppercase font-inter text-sm font-medium tracking-widest hover:bg-white hover:text-[#7a6a54] transition-all min-h-[48px] flex items-center justify-center touch-manipulation "
             >
               {translations.checkout}
             </Link>

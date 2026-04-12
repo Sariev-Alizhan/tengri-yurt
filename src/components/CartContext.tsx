@@ -150,7 +150,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
       if (i.type === 'yurt') {
         const base = i.price_usd * i.quantity
         const addonsTotal = (i.addons ?? []).reduce((s, a) => s + a.price_usd * a.quantity, 0)
-        return sum + base + addonsTotal * i.quantity
+        return sum + base + addonsTotal
       }
       return sum + (i.price_usd ?? 0) * i.quantity
     }, 0)

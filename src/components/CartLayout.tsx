@@ -29,7 +29,6 @@ export function CartLayout({
             <SiteMain>{children}</SiteMain>
           </div>
           <MusicPlayer />
-          <CookieConsent />
         </NextIntlClientProvider>
       </ExchangeRateProvider>
     </CartProvider>

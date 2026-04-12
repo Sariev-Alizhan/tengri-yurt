@@ -152,7 +152,7 @@ export function MusicPlayer() {
           <p className="font-garamond text-base leading-tight text-white/90 sm:text-lg md:text-xl">
             Адай — Күрмаңғазы
           </p>
-          <p className="font-inter mt-0.5 hidden text-[9px] uppercase tracking-[0.2em] text-[#a89578]/70 sm:block sm:text-[10px]">
+          <p className="font-garamond italic mt-0.5 hidden text-[10px] tracking-[0.15em] text-[#a89578]/70 sm:block sm:text-[11px]">
             Traditional Kazakh Kuy
           </p>
         </div>
