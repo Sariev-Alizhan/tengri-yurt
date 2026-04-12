@@ -77,9 +77,19 @@ export function CatalogClient({
     return accessories.filter(a => a.category === accessoryFilter)
   }, [accessories, accessoryFilter])
 
+  const YURT_FALLBACK_PHOTOS: Record<string, string> = {
+    '6': '/images/picture/yurt_intimate_cozy_classic.png',
+    '8': '/images/picture/yurt_intimate_cozy_classic.png',
+    '12': '/images/picture/yurt_intimate_cozy_classic.png',
+    '16': '/images/picture/yurt_spacious_grand_monumental.png',
+  }
+
   const getPhoto = (yurt: Yurt) => {
     const first = yurt.photos?.[0]
-    return first || '/images/background.jpg'
+    if (first) return first
+    const kanatMatch = yurt.name.match(/(\d+)-?[Kk]anat/)
+    const kanat = kanatMatch?.[1]
+    return (kanat && YURT_FALLBACK_PHOTOS[kanat]) || '/images/picture/yurt_kazakhstan.jpeg'
   }
 
   const getSupplierDisplayName = (suppliers: SupplierRelation | undefined): string => {
@@ -710,7 +720,7 @@ function YurtCard({
         {/* Кнопки */}
         <div style={{
           display: 'grid',
-          gridTemplateColumns: '1fr 1fr',
+          gridTemplateColumns: '1fr',
           gap: '10px',
           marginTop: '4px',
         }}>
