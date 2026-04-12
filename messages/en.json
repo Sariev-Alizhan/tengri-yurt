@@ -1,5 +1,15 @@
 {
-  "nav": { "bookNow": "Get Started", "catalog": "Catalog", "back": "Back", "supplierPortal": "Supplier Portal", "home": "Home", "cart": "Cart", "openMenu": "Open menu", "closeMenu": "Close menu", "language": "Language" },
+  "nav": {
+    "bookNow": "Get Started",
+    "catalog": "Catalog",
+    "back": "Back",
+    "supplierPortal": "Supplier Portal",
+    "home": "Home",
+    "cart": "Cart",
+    "openMenu": "Open menu",
+    "closeMenu": "Close menu",
+    "language": "Language"
+  },
   "hero": {
     "since": "Since 2010",
     "tagline": "Traditional Yurts Around The World",
@@ -16,12 +26,36 @@
     "title": "Our Craft",
     "subtitle": "FROM TRADITION TO TRANSFORMATION",
     "steps": [
-      { "number": "01", "title": "Design & Consultation", "desc": "Understanding your vision, space requirements, and intended use. Every yurt begins with a conversation about purpose and place." },
-      { "number": "02", "title": "Material Selection", "desc": "Choosing premium natural materials — sustainable wood from Kazakh forests, hand-pressed felt, and weather-resistant canvas." },
-      { "number": "03", "title": "Frame Construction", "desc": "Master craftsmen shape and bend each wooden lattice wall by hand, creating the iconic circular structure." },
-      { "number": "04", "title": "Felt Making", "desc": "Traditional wool pressing techniques passed through generations. Each layer carefully compressed for natural insulation." },
-      { "number": "05", "title": "Assembly & Details", "desc": "Hand-stitching decorative elements, painting traditional patterns, ensuring every joint meets our exacting standards." },
-      { "number": "06", "title": "Global Installation", "desc": "Our team travels worldwide to install your yurt, ensuring it stands perfectly in its new home." }
+      {
+        "number": "01",
+        "title": "Design & Consultation",
+        "desc": "Understanding your vision, space requirements, and intended use. Every yurt begins with a conversation about purpose and place."
+      },
+      {
+        "number": "02",
+        "title": "Material Selection",
+        "desc": "Choosing premium natural materials — sustainable wood from Kazakh forests, hand-pressed felt, and weather-resistant canvas."
+      },
+      {
+        "number": "03",
+        "title": "Frame Construction",
+        "desc": "Master craftsmen shape and bend each wooden lattice wall by hand, creating the iconic circular structure."
+      },
+      {
+        "number": "04",
+        "title": "Felt Making",
+        "desc": "Traditional wool pressing techniques passed through generations. Each layer carefully compressed for natural insulation."
+      },
+      {
+        "number": "05",
+        "title": "Assembly & Details",
+        "desc": "Hand-stitching decorative elements, painting traditional patterns, ensuring every joint meets our exacting standards."
+      },
+      {
+        "number": "06",
+        "title": "Global Installation",
+        "desc": "Our team travels worldwide to install your yurt, ensuring it stands perfectly in its new home."
+      }
     ]
   },
   "about": {
@@ -46,18 +80,48 @@
     "title": "Why Tengri Yurt",
     "subtitle": "Master artisans from the heart of Kazakhstan bring centuries of nomadic wisdom to the modern world.",
     "stats": [
-      { "num": "15+", "label": "Years of craft" },
-      { "num": "10+", "label": "Countries" },
-      { "num": "200+", "label": "Yurts built" },
-      { "num": "40+", "label": "Artisans" }
+      {
+        "num": "15+",
+        "label": "Years of craft"
+      },
+      {
+        "num": "10+",
+        "label": "Countries"
+      },
+      {
+        "num": "200+",
+        "label": "Yurts built"
+      },
+      {
+        "num": "40+",
+        "label": "Artisans"
+      }
     ],
     "items": [
-      { "title": "Traditional Craftsmanship", "desc": "Since 2010, preserving centuries-old techniques passed through generations" },
-      { "title": "Master Artisans", "desc": "Skilled craftspeople from Kazakhstan bringing authentic nomadic heritage" },
-      { "title": "Global Reach", "desc": "Delivery and professional installation across continents" },
-      { "title": "Proven Track Record", "desc": "Projects in 10+ countries from Kazakhstan to the Emirates" },
-      { "title": "Diverse Applications", "desc": "From luxury resorts to private retreats, glamping to cultural spaces" },
-      { "title": "Premium Materials", "desc": "Natural wood, felt, and canvas crafted for longevity and beauty" }
+      {
+        "title": "Traditional Craftsmanship",
+        "desc": "Since 2010, preserving centuries-old techniques passed through generations"
+      },
+      {
+        "title": "Master Artisans",
+        "desc": "Skilled craftspeople from Kazakhstan bringing authentic nomadic heritage"
+      },
+      {
+        "title": "Global Reach",
+        "desc": "Delivery and professional installation across continents"
+      },
+      {
+        "title": "Proven Track Record",
+        "desc": "Projects in 10+ countries from Kazakhstan to the Emirates"
+      },
+      {
+        "title": "Diverse Applications",
+        "desc": "From luxury resorts to private retreats, glamping to cultural spaces"
+      },
+      {
+        "title": "Premium Materials",
+        "desc": "Natural wood, felt, and canvas crafted for longevity and beauty"
+      }
     ]
   },
   "gallery": {
@@ -69,10 +133,26 @@
     "label": "VOICES FROM OUR COMMUNITY",
     "title": "What They Say",
     "items": [
-      { "text": "The craftsmanship exceeded our expectations. Each detail — from the hand-carved shanyrak to the felt walls — speaks to centuries of expertise. Our guests consistently rate the yurt experience as their trip highlight.", "name": "Resort Director", "role": "Luxury Eco-Resort, Bali" },
-      { "text": "From initial consultation to installation, the process was seamless. The team flew out, spent three days on-site, and left us with a structure that has become the centerpiece of our retreat.", "name": "Property Developer", "role": "Wellness Retreat, Colorado" },
-      { "text": "We commissioned a custom 12-kanat for our cultural center. The circular space transforms every event — the acoustics, the light through the shanyrak, the warmth. Nothing compares.", "name": "Cultural Director", "role": "Private Cultural Space, Dubai" },
-      { "text": "Third yurt we've ordered. The quality is consistent, the team knows exactly what they're doing. Installation in remote locations is their specialty.", "name": "Hospitality Group", "role": "Glamping Network, Central Europe" }
+      {
+        "text": "The craftsmanship exceeded our expectations. Each detail — from the hand-carved shanyrak to the felt walls — speaks to centuries of expertise. Our guests consistently rate the yurt experience as their trip highlight.",
+        "name": "Resort Director",
+        "role": "Luxury Eco-Resort, Bali"
+      },
+      {
+        "text": "From initial consultation to installation, the process was seamless. The team flew out, spent three days on-site, and left us with a structure that has become the centerpiece of our retreat.",
+        "name": "Property Developer",
+        "role": "Wellness Retreat, Colorado"
+      },
+      {
+        "text": "We commissioned a custom 12-kanat for our cultural center. The circular space transforms every event — the acoustics, the light through the shanyrak, the warmth. Nothing compares.",
+        "name": "Cultural Director",
+        "role": "Private Cultural Space, Dubai"
+      },
+      {
+        "text": "Third yurt we've ordered. The quality is consistent, the team knows exactly what they're doing. Installation in remote locations is their specialty.",
+        "name": "Hospitality Group",
+        "role": "Glamping Network, Central Europe"
+      }
     ]
   },
   "footer": {
@@ -101,14 +181,94 @@
     "resultGood": "Well done! A few more facts and you'll be a true nomad.",
     "resultLearn": "Every expert was once a beginner. Explore our site and try again!",
     "questions": [
-      { "q": "What does the word \"yurt\" mean in Turkic?", "options": ["Tent", "Homeland / dwelling", "Circle", "Felt"], "correct": 1, "explain": "The word comes from Turkic roots meaning \"homeland\" or \"place of stay.\"" },
-      { "q": "What is the Mongolian name for a yurt?", "options": ["Yurt", "Kerege", "Ger", "Shanyrak"], "correct": 2, "explain": "In Mongolia it is called \"ger\" (гэр), which simply means \"home.\"" },
-      { "q": "How long does it take to assemble a traditional yurt?", "options": ["About 10 minutes", "About 1 hour", "Half a day", "Several days"], "correct": 1, "explain": "Skilled nomads can put one up in about an hour — perfect for a mobile life." },
-      { "q": "What is the central roof ring of a yurt called in Kazakh?", "options": ["Kerege", "Uyn", "Shanyrak", "Tunduk"], "correct": 2, "explain": "Shanyrak is the crown of the yurt and a symbol of the family and homeland in Kazakh culture." },
-      { "q": "Which empire used large yurts as mobile command centers?", "options": ["Ottoman", "Mongol", "Byzantine", "Persian"], "correct": 1, "explain": "Genghis Khan and the Mongol Empire used yurts as mobile headquarters on the steppe." },
-      { "q": "What are the lattice walls of a yurt called?", "options": ["Shanyrak", "Kerege", "Felt", "Toono"], "correct": 1, "explain": "Kerege (or kana in Mongolian) are the foldable wooden lattice sections that form the wall." },
-      { "q": "Roughly how many years have yurts been used in Central Asia?", "options": ["500 years", "1,000 years", "Over 3,000 years", "Since the 20th century"], "correct": 2, "explain": "Evidence of similar structures dates back to the Scythians and Bronze Age nomads." },
-      { "q": "What natural material is traditionally used for yurt insulation?", "options": ["Cotton", "Straw", "Wool felt", "Leaves"], "correct": 2, "explain": "Hand-pressed wool felt provides insulation and weather resistance." }
+      {
+        "q": "What does the word \"yurt\" mean in Turkic?",
+        "options": [
+          "Tent",
+          "Homeland / dwelling",
+          "Circle",
+          "Felt"
+        ],
+        "correct": 1,
+        "explain": "The word comes from Turkic roots meaning \"homeland\" or \"place of stay.\""
+      },
+      {
+        "q": "What is the Mongolian name for a yurt?",
+        "options": [
+          "Yurt",
+          "Kerege",
+          "Ger",
+          "Shanyrak"
+        ],
+        "correct": 2,
+        "explain": "In Mongolia it is called \"ger\" (гэр), which simply means \"home.\""
+      },
+      {
+        "q": "How long does it take to assemble a traditional yurt?",
+        "options": [
+          "About 10 minutes",
+          "About 1 hour",
+          "Half a day",
+          "Several days"
+        ],
+        "correct": 1,
+        "explain": "Skilled nomads can put one up in about an hour — perfect for a mobile life."
+      },
+      {
+        "q": "What is the central roof ring of a yurt called in Kazakh?",
+        "options": [
+          "Kerege",
+          "Uyn",
+          "Shanyrak",
+          "Tunduk"
+        ],
+        "correct": 2,
+        "explain": "Shanyrak is the crown of the yurt and a symbol of the family and homeland in Kazakh culture."
+      },
+      {
+        "q": "Which empire used large yurts as mobile command centers?",
+        "options": [
+          "Ottoman",
+          "Mongol",
+          "Byzantine",
+          "Persian"
+        ],
+        "correct": 1,
+        "explain": "Genghis Khan and the Mongol Empire used yurts as mobile headquarters on the steppe."
+      },
+      {
+        "q": "What are the lattice walls of a yurt called?",
+        "options": [
+          "Shanyrak",
+          "Kerege",
+          "Felt",
+          "Toono"
+        ],
+        "correct": 1,
+        "explain": "Kerege (or kana in Mongolian) are the foldable wooden lattice sections that form the wall."
+      },
+      {
+        "q": "Roughly how many years have yurts been used in Central Asia?",
+        "options": [
+          "500 years",
+          "1,000 years",
+          "Over 3,000 years",
+          "Since the 20th century"
+        ],
+        "correct": 2,
+        "explain": "Evidence of similar structures dates back to the Scythians and Bronze Age nomads."
+      },
+      {
+        "q": "What natural material is traditionally used for yurt insulation?",
+        "options": [
+          "Cotton",
+          "Straw",
+          "Wool felt",
+          "Leaves"
+        ],
+        "correct": 2,
+        "explain": "Hand-pressed wool felt provides insulation and weather resistance."
+      }
     ]
   },
   "catalog": {
@@ -395,11 +555,6 @@
     "edit": "Edit",
     "cancel": "Cancel",
     "saving": "Saving...",
-    "category": "Category",
-    "categoryCarpet": "Felt Carpet",
-    "categoryFurniture": "Furniture",
-    "categoryCover": "Cover",
-    "categoryOther": "Other",
     "rentals": "Rentals",
     "noRentals": "No rental inquiries yet.",
     "rentalClient": "Client",
@@ -412,5 +567,36 @@
     "rentalStatusConfirmed": "Confirmed",
     "rentalStatusCancelled": "Cancelled",
     "accessoriesLabel": "Accessories"
+  },
+  "inquiry": {
+    "step1Title": "What brings you here?",
+    "step1Subtitle": "Help us understand your vision.",
+    "step2Title": "What size do you need?",
+    "step2Subtitle": "Each yurt is handcrafted to order.",
+    "step3Title": "Where in the world?",
+    "step3Subtitle": "We deliver and install globally.",
+    "step4Title": "How can we reach you?",
+    "step4Subtitle": "We'll respond within 24 hours.",
+    "purposeRetreat": "Wellness retreat",
+    "purposeResort": "Hotel or resort",
+    "purposeEvent": "Events and festivals",
+    "purposePrivate": "Private residence",
+    "purposeOther": "Something else",
+    "sizeIntimate": "Intimate — 6 Kanat",
+    "sizeCozy": "Cozy — 8 Kanat",
+    "sizeClassic": "Classic — 12 Kanat",
+    "sizeGrand": "Grand — 16 Kanat",
+    "sizeNotSure": "Not sure yet",
+    "namePlaceholder": "Your name",
+    "emailPlaceholder": "Email address",
+    "phonePlaceholder": "Phone or WhatsApp",
+    "messagePlaceholder": "Tell us about your project (optional)",
+    "countryPlaceholder": "Country or city",
+    "next": "Continue",
+    "back": "Back",
+    "submit": "Send inquiry",
+    "successTitle": "Thank you",
+    "successSubtitle": "Our team will reach out within 24 hours to discuss your project in detail.",
+    "successBack": "Back to home"
   }
 }

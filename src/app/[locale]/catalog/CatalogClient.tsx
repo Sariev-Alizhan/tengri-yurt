@@ -724,10 +724,8 @@ function YurtCard({
           gap: '10px',
           marginTop: '4px',
         }}>
-          <a
-            href={`https://wa.me/77477777888?text=${encodeURIComponent(`Hi, I'm interested in ${displayName}`)}`}
-            target="_blank"
-            rel="noopener noreferrer"
+          <Link
+            href={`/inquiry?yurt=${yurt.slug}`}
             onClick={(e) => { e.stopPropagation(); }}
             style={{
               height: '44px',
@@ -751,7 +749,7 @@ function YurtCard({
             }}
           >
             {t('inquire')}
-          </a>
+          </Link>
           <Link
             href={`/yurt/${yurt.slug}`}
             style={{
