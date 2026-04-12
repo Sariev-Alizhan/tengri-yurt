@@ -223,8 +223,8 @@ function PublicNavbar() {
   const t = useTranslations('nav')
   const pathname = usePathname()
   const isCatalog = pathname?.includes('/catalog') ?? false
-  // Корзина только в разделе Book Now: каталог, корзина, оформление заказа, страницы юрты/аксессуара
-  const isBookNowFlow = (pathname?.match(/\/(catalog|cart|order|yurt\/|accessory\/)/)) != null
+  // Корзина только для аксессуаров и корзины — юрты продаются через inquiry, не через cart
+  const isBookNowFlow = (pathname?.match(/\/(cart|accessory\/)/)) != null
   const { totalItems } = useCart()
   const [menuOpen, setMenuOpen] = useState(false)
   const [isDesktop, setIsDesktop] = useState(false)
