@@ -71,7 +71,7 @@ export function BookNowCTA({ label, title, subtitle }: Props) {
           {subtitle ?? t('subtitle')}
         </p>
 
-        <Link href="/inquiry" className="btn-book">
+        <Link href="/catalog" className="btn-book">
           {t('button')}
         </Link>
       </div>

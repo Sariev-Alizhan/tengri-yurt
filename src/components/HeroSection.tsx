@@ -147,7 +147,7 @@ export function HeroSection({ heroTitle, since, heroSubtitle, statement }: Props
 
         {/* CTA Button */}
         <Link
-          href="/inquiry"
+          href="/catalog"
           className="btn-book"
           style={{
             marginTop: 'clamp(24px, 4vw, 36px)',

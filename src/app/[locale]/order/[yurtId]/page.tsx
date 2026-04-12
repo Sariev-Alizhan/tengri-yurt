@@ -1,6 +1,7 @@
 import { getTranslations } from 'next-intl/server';
 import { notFound } from 'next/navigation';
 import { createClient } from '@/utils/supabase/server';
+import { DEFAULT_YURTS } from '@/lib/defaultCatalog';
 import { OrderForm } from './OrderForm';
 
 export default async function OrderPage({
@@ -11,14 +12,19 @@ export default async function OrderPage({
   const { yurtId } = await params;
   const t = await getTranslations('order');
   const supabase = await createClient();
-  const { data: yurt, error } = await supabase
+  const { data: dbYurt, error } = await supabase
     .from('yurts')
     .select('id, name, price_usd')
     .eq('id', yurtId)
     .eq('is_available', true)
     .single();
 
-  if (error || !yurt) notFound();
+  let yurt = dbYurt;
+  if (error || !yurt) {
+    const fallback = DEFAULT_YURTS.find((y) => y.id === yurtId);
+    if (!fallback) notFound();
+    yurt = { id: fallback.id, name: fallback.name, price_usd: fallback.price_usd };
+  }
 
   return (
     <div className="bg-beige-deep min-h-screen pt-24 md:pt-28 pb-16 md:pb-24 px-6 md:px-10">

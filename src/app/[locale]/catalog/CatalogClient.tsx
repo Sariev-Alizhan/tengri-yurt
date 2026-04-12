@@ -725,7 +725,7 @@ function YurtCard({
           marginTop: '4px',
         }}>
           <Link
-            href={`/inquiry?yurt=${yurt.slug}`}
+            href={`/yurt/${yurt.slug}`}
             onClick={(e) => { e.stopPropagation(); }}
             style={{
               height: '44px',
@@ -741,30 +741,6 @@ function YurtCard({
               cursor: 'pointer',
               transition: 'all 0.2s ease',
               touchAction: 'manipulation',
-              borderRadius: '8px',
-              display: 'inline-flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              textDecoration: 'none',
-            }}
-          >
-            {t('inquire')}
-          </Link>
-          <Link
-            href={`/yurt/${yurt.slug}`}
-            style={{
-              gridColumn: '1 / -1',
-              height: '44px',
-              padding: '0 16px',
-              fontFamily: 'Inter, sans-serif',
-              fontSize: '11px',
-              fontWeight: 600,
-              letterSpacing: '0.06em',
-              textTransform: 'uppercase',
-              border: '1px solid rgba(255,255,255,0.4)',
-              color: 'rgba(255,255,255,0.98)',
-              background: 'transparent',
-              transition: 'all 0.2s ease',
               borderRadius: '8px',
               display: 'inline-flex',
               alignItems: 'center',

@@ -1,5 +1,6 @@
 import { getTranslations } from 'next-intl/server';
 import { notFound } from 'next/navigation';
+import { Link } from '@/i18n/navigation';
 import { createClient } from '@/utils/supabase/server';
 import { PriceUsdKzt } from '@/components/PriceUsdKzt';
 import { YurtPhotoCarousel } from '@/components/YurtPhotoCarousel';
@@ -162,13 +163,19 @@ export default async function YurtDetailPage({
               <p className="font-inter text-[10px] text-white/50 tracking-wide mt-1">
                 {t('customPricing')}
               </p>
+              <Link
+                href={`/order/${yurt.id}`}
+                className="inline-block border border-white/90 bg-white/10 py-3 px-8 font-inter text-sm font-medium uppercase tracking-[0.12em] text-white transition-colors duration-200 hover:bg-white hover:text-[#1a1714] min-h-[48px] rounded-lg text-center"
+              >
+                {t('configureOrder')}
+              </Link>
               <a
                 href={`https://wa.me/77477777888?text=${encodeURIComponent(`Hi, I'm interested in ${displayName}`)}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-block border border-white/90 bg-white/10 py-3 px-8 font-inter text-sm font-medium uppercase tracking-[0.12em] text-white transition-colors duration-200 hover:bg-white hover:text-[#1a1714] min-h-[48px] rounded-lg text-center"
+                className="inline-block border border-white/30 py-2.5 px-6 font-inter text-xs uppercase tracking-[0.12em] text-white/60 transition-colors duration-200 hover:text-white hover:border-white/60 min-h-[44px] rounded-lg text-center"
               >
-                {t('inquire')}
+                {t('orWhatsApp')}
               </a>
             </div>
           </div>
