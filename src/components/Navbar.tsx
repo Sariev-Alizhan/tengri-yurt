@@ -230,7 +230,7 @@ function PublicNavbar() {
   const [isDesktop, setIsDesktop] = useState(false)
   const [scrolled, setScrolled] = useState(false)
   const isLanding = !pathname || pathname === '/'
-  const isOrderFlow = pathname?.includes('/order') || pathname?.includes('/cart') || pathname?.includes('/checkout')
+  const isOrderFlow = pathname?.includes('/order') || pathname?.includes('/cart') || pathname?.includes('/checkout') || pathname?.includes('/quiz') || pathname?.includes('/inquiry')
 
   useEffect(() => {
     const check = () => {
