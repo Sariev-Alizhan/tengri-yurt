@@ -78,10 +78,10 @@ export function CatalogClient({
   }, [accessories, accessoryFilter])
 
   const YURT_FALLBACK_PHOTOS: Record<string, string> = {
-    '6': '/images/picture/yurt_intimate_cozy_classic.png',
-    '8': '/images/picture/yurt_intimate_cozy_classic.png',
-    '12': '/images/picture/yurt_intimate_cozy_classic.png',
-    '16': '/images/picture/yurt_spacious_grand_monumental.png',
+    '6': '/images/picture/yurt_kazakhstan.jpeg',
+    '8': '/images/picture/yurt_dubai.jpeg',
+    '12': '/images/picture/yurt_lovebern.jpeg',
+    '16': '/images/picture/yurt_maiyami.jpeg',
   }
 
   const getPhoto = (yurt: Yurt) => {
