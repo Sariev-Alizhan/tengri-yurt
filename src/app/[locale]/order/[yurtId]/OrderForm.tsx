@@ -33,28 +33,18 @@ export function OrderForm({ yurtId, translations }: Props) {
   const [showForm, setShowForm] = useState(false);
   const [agreement, setAgreement] = useState(false);
 
+  // Accessories modal opens manually via button — no auto-popup
   useEffect(() => {
-    const timer = setTimeout(() => {
-      setShowAccessoryModal(true);
-    }, 800);
-    return () => clearTimeout(timer);
+    setShowForm(true);
   }, []);
 
   const handleAccessorySelection = (accessories: string[]) => {
     setSelectedAccessories(accessories);
     setShowAccessoryModal(false);
-    setTimeout(() => {
-      setShowForm(true);
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }, 300);
   };
 
   const handleAccessoryClose = () => {
     setShowAccessoryModal(false);
-    setTimeout(() => {
-      setShowForm(true);
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }, 300);
   };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -293,6 +283,7 @@ export function OrderForm({ yurtId, translations }: Props) {
                   </svg>
                   <span className="block font-inter text-white/90 text-sm font-medium">{translations.airShipping?.split('—')[0]?.trim()}</span>
                   <span className="block font-inter text-white/30 text-xs mt-1">{translations.airShipping?.includes('—') ? translations.airShipping.split('—')[1]?.trim() : ''}</span>
+                  <span className="block font-inter text-white/20 text-[10px] mt-2">~$2,000–4,000</span>
                 </button>
 
                 <button
@@ -309,8 +300,12 @@ export function OrderForm({ yurtId, translations }: Props) {
                   </svg>
                   <span className="block font-inter text-white/90 text-sm font-medium">{translations.seaShipping?.split('—')[0]?.trim()}</span>
                   <span className="block font-inter text-white/30 text-xs mt-1">{translations.seaShipping?.includes('—') ? translations.seaShipping.split('—')[1]?.trim() : ''}</span>
+                  <span className="block font-inter text-white/20 text-[10px] mt-2">~$800–1,500</span>
                 </button>
               </div>
+              <p className="font-inter text-white/15 text-[10px] tracking-wide">
+                {locale === 'ru' ? 'Точная стоимость зависит от страны назначения' : locale === 'kk' ? 'Нақты бағасы елге байланысты' : 'Exact cost depends on destination country'}
+              </p>
 
               <p className="font-inter text-white/25 text-xs leading-relaxed">{translations.installationNote}</p>
             </section>
