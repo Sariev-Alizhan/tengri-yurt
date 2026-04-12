@@ -153,6 +153,16 @@ a.btn {
   color: var(--beige-deep);
   border-color: transparent;
 }
+@media (max-width: 640px) {
+  .btn-book {
+    display: block;
+    width: 100%;
+    max-width: 360px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 18px 32px;
+  }
+}
 
 .scrollbar-hide {
   -ms-overflow-style: none;

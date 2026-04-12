@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from 'react'
 import Image from 'next/image'
 import { Link } from '@/i18n/navigation'
+import { useTranslations } from 'next-intl'
 
 type Props = {
   heroTitle: string
@@ -12,6 +13,7 @@ type Props = {
 }
 
 export function HeroSection({ heroTitle, since, heroSubtitle, statement }: Props) {
+  const tNav = useTranslations('nav')
   const sectionRef = useRef<HTMLElement>(null)
   const bgRef = useRef<HTMLDivElement>(null)
   const [scrollProgress, setScrollProgress] = useState(0)
@@ -154,7 +156,7 @@ export function HeroSection({ heroTitle, since, heroSubtitle, statement }: Props
             transition: 'all 0.9s cubic-bezier(0.16, 1, 0.3, 1) 1.5s, background 0.3s ease, border-color 0.3s ease',
           }}
         >
-          Book Now
+          {tNav('bookNow')}
         </Link>
       </div>
 

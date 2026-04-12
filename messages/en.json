@@ -1,5 +1,5 @@
 {
-  "nav": { "bookNow": "Book Now", "catalog": "Catalog", "back": "Back", "supplierPortal": "Supplier Portal", "home": "Home", "cart": "Cart", "openMenu": "Open menu", "closeMenu": "Close menu", "language": "Language" },
+  "nav": { "bookNow": "Get Started", "catalog": "Catalog", "back": "Back", "supplierPortal": "Supplier Portal", "home": "Home", "cart": "Cart", "openMenu": "Open menu", "closeMenu": "Close menu", "language": "Language" },
   "hero": {
     "since": "Since 2010",
     "tagline": "Traditional Yurts Around The World",
@@ -10,7 +10,7 @@
     "label": "BEGIN YOUR JOURNEY",
     "title": "Let's Create Something Timeless",
     "subtitle": "Every yurt is unique. Share your vision, and we'll bring it to life with traditional craftsmanship and modern expertise.",
-    "button": "Book Now"
+    "button": "Begin Your Journey"
   },
   "process": {
     "title": "Our Craft",
@@ -56,23 +56,23 @@
       { "title": "Master Artisans", "desc": "Skilled craftspeople from Kazakhstan bringing authentic nomadic heritage" },
       { "title": "Global Reach", "desc": "Delivery and professional installation across continents" },
       { "title": "Proven Track Record", "desc": "Projects in 10+ countries from Kazakhstan to the Emirates" },
-      { "title": "Diverse Applications", "desc": "From Burning Man to luxury resorts, glamping to cultural spaces" },
+      { "title": "Diverse Applications", "desc": "From luxury resorts to private retreats, glamping to cultural spaces" },
       { "title": "Premium Materials", "desc": "Natural wood, felt, and canvas crafted for longevity and beauty" }
     ]
   },
   "gallery": {
     "label": "OUR PROJECTS",
     "title": "Spaces We've Created",
-    "subtitle": "From Burning Man to luxury resorts around the world"
+    "subtitle": "From luxury resorts to private retreats around the world"
   },
   "testimonials": {
     "label": "VOICES FROM OUR COMMUNITY",
     "title": "What They Say",
     "items": [
-      { "text": "The craftsmanship is extraordinary. Every detail reflects centuries of tradition merged with modern precision. Our guests are mesmerized.", "name": "Sarah Martinez", "role": "Eco-Resort Owner, California" },
-      { "text": "From design consultation to final installation, the team was with us every step. The yurt has become the heart of our retreat center.", "name": "James Chen", "role": "Wellness Retreat Director, Colorado" },
-      { "text": "We've hosted everything from intimate gatherings to 40-person events. The circular space creates an energy that rectangular rooms simply cannot.", "name": "Aisha Al-Farsi", "role": "Cultural Space Curator, Dubai" },
-      { "text": "Exceptional quality and service. The yurt arrived perfectly and was installed with great care. A true masterpiece of traditional craft.", "name": "Elena Dvorak", "role": "Glamping Owner, Czech Republic" }
+      { "text": "The craftsmanship exceeded our expectations. Each detail — from the hand-carved shanyrak to the felt walls — speaks to centuries of expertise. Our guests consistently rate the yurt experience as their trip highlight.", "name": "Resort Director", "role": "Luxury Eco-Resort, Bali" },
+      { "text": "From initial consultation to installation, the process was seamless. The team flew out, spent three days on-site, and left us with a structure that has become the centerpiece of our retreat.", "name": "Property Developer", "role": "Wellness Retreat, Colorado" },
+      { "text": "We commissioned a custom 12-kanat for our cultural center. The circular space transforms every event — the acoustics, the light through the shanyrak, the warmth. Nothing compares.", "name": "Cultural Director", "role": "Private Cultural Space, Dubai" },
+      { "text": "Third yurt we've ordered. The quality is consistent, the team knows exactly what they're doing. Installation in remote locations is their specialty.", "name": "Hospitality Group", "role": "Glamping Network, Central Europe" }
     ]
   },
   "footer": {
@@ -124,6 +124,8 @@
     },
     "viewDetails": "View Details",
     "addToCart": "Add to cart",
+    "inquire": "Inquire",
+    "customPricing": "Custom pricing based on specifications",
     "filterAll": "All",
     "filterSize": "Size",
     "filterCapacity": "Capacity",

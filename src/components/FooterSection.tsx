@@ -1,6 +1,5 @@
 'use client';
 
-import { useState } from 'react';
 import Image from 'next/image';
 import { Link } from '@/i18n/navigation';
 import { useScrollReveal, revealStyle } from '@/hooks/useScrollReveal';
@@ -14,10 +13,6 @@ type Props = {
   followLabel: string;
   address: string;
   copyright: string;
-  newsletterTitle?: string;
-  newsletterPlaceholder?: string;
-  subscribeButton?: string;
-  newsletterThanks?: string;
   contactWhatsApp?: string;
   trustBadges?: string;
   quizLink?: string;
@@ -30,22 +25,11 @@ export function FooterSection({
   followLabel,
   address,
   copyright,
-  newsletterTitle,
-  newsletterPlaceholder,
-  subscribeButton,
-  newsletterThanks,
   contactWhatsApp,
   trustBadges,
   quizLink,
 }: Props) {
   const { ref, visible } = useScrollReveal();
-  const [newsletterEmail, setNewsletterEmail] = useState('');
-  const [newsletterSent, setNewsletterSent] = useState(false);
-
-  const handleNewsletterSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (newsletterEmail.trim()) setNewsletterSent(true);
-  };
 
   return (
     <footer
@@ -91,7 +75,7 @@ export function FooterSection({
                   href={`https://wa.me/${WHATSAPP_NUMBER}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-block mt-2 font-inter text-white/70 hover:text-white border border-white/30 hover:border-white/50 px-3 py-1.5 text-xs uppercase tracking-wider transition-all"
+                  className="inline-flex items-center mt-2 font-inter text-white/70 hover:text-white border border-white/30 hover:border-white/50 px-4 py-3 min-h-[44px] text-xs uppercase tracking-wider transition-all"
                 >
                   {contactWhatsApp}
                 </a>
@@ -111,32 +95,6 @@ export function FooterSection({
               </a>
             </div>
           </div>
-          {newsletterTitle && subscribeButton && (
-            <div className="flex-shrink-0">
-              <p className="font-inter text-white/60 text-xs uppercase tracking-wider mb-3">
-                {newsletterTitle}
-              </p>
-              {newsletterSent ? (
-                <p className="font-inter text-white/70 text-sm">{newsletterThanks ?? 'Thanks for subscribing.'}</p>
-              ) : (
-                <form onSubmit={handleNewsletterSubmit} className="flex flex-wrap gap-2">
-                  <input
-                    type="email"
-                    value={newsletterEmail}
-                    onChange={(e) => setNewsletterEmail(e.target.value)}
-                    placeholder={newsletterPlaceholder}
-                    className="flex-1 min-w-[180px] bg-white/10 border border-white/20 text-white placeholder-white/40 px-3 py-2 font-inter text-sm outline-none focus:border-white/50"
-                  />
-                  <button
-                    type="submit"
-                    className="border border-white/50 text-white px-4 py-2 font-inter text-xs uppercase tracking-wider hover:bg-white/10 transition-colors"
-                  >
-                    {subscribeButton}
-                  </button>
-                </form>
-              )}
-            </div>
-          )}
         </div>
         {trustBadges && (
           <p className="font-inter text-white/40 text-xs text-center uppercase tracking-widest mb-8">
@@ -147,7 +105,7 @@ export function FooterSection({
           <p className="font-inter text-center mb-6">
             <Link
               href="/quiz"
-              className="text-beige-light hover:text-white border border-beige/40 hover:border-beige-light/50 px-4 py-2 text-xs uppercase tracking-wider transition-colors inline-block"
+              className="text-beige-light hover:text-white border border-beige/40 hover:border-beige-light/50 px-4 py-3 min-h-[44px] text-xs uppercase tracking-wider transition-colors inline-flex items-center"
             >
               {quizLink}
             </Link>

@@ -482,8 +482,6 @@ export function CatalogClient({
               index={index}
               t={t}
               supplierName={getSupplierDisplayName(yurt.suppliers)}
-              addToCart={() => setModalYurt(yurt)}
-              addToCartLabel={t('addToCart')}
               onRent={() => setRentYurt(yurt)}
               rentLabel={t('rent')}
               rentalPrice={yurt.rental_price_usd}
@@ -516,7 +514,7 @@ export function CatalogClient({
 
 /* ─── КОМПОНЕНТ КАРТОЧКИ ЮРТЫ ─── */
 function YurtCard({
-  yurt, displayName, locale, photo, isHovered, onHover, onLeave, index, t, supplierName, addToCart, addToCartLabel, onRent, rentLabel, rentalPrice,
+  yurt, displayName, locale, photo, isHovered, onHover, onLeave, index, t, supplierName, onRent, rentLabel, rentalPrice,
 }: {
   yurt: Yurt
   displayName: string
@@ -528,8 +526,6 @@ function YurtCard({
   index: number
   t: ReturnType<typeof useTranslations<'catalog'>>
   supplierName: string
-  addToCart: () => void
-  addToCartLabel: string
   onRent: () => void
   rentLabel: string
   rentalPrice?: number | null
@@ -616,8 +612,20 @@ function YurtCard({
             padding: '8px 14px',
             borderRadius: '8px',
             backdropFilter: 'blur(6px)',
+            textAlign: 'right',
           }}>
             <PriceUsdKzt usd={yurt.price_usd} usdMax={yurt.price_usd_max} fromPrefix />
+            <p style={{
+              fontFamily: 'Inter, sans-serif',
+              fontSize: '9px',
+              color: 'rgba(255,255,255,0.55)',
+              fontWeight: 400,
+              letterSpacing: '0.02em',
+              margin: '4px 0 0',
+              lineHeight: 1.2,
+            }}>
+              {t('customPricing')}
+            </p>
           </div>
         )}
 
@@ -706,9 +714,11 @@ function YurtCard({
           gap: '10px',
           marginTop: '4px',
         }}>
-          <button
-            type="button"
-            onClick={(e) => { e.preventDefault(); e.stopPropagation(); addToCart(); }}
+          <a
+            href={`https://wa.me/77477777888?text=${encodeURIComponent(`Hi, I'm interested in ${displayName}`)}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={(e) => { e.stopPropagation(); }}
             style={{
               height: '44px',
               padding: '0 12px',
@@ -727,10 +737,11 @@ function YurtCard({
               display: 'inline-flex',
               alignItems: 'center',
               justifyContent: 'center',
+              textDecoration: 'none',
             }}
           >
-            {addToCartLabel}
-          </button>
+            {t('inquire')}
+          </a>
           <Link
             href={`/yurt/${yurt.slug}`}
             style={{

@@ -17,7 +17,7 @@ export function PriceUsdKzt({
 }: Props) {
   const lo = formatPrice(Number(usd) || 0)
 
-  if (usdMax && usdMax > usd) {
+  if (!fromPrefix && usdMax && usdMax > usd) {
     const hi = formatPrice(Number(usdMax) || 0)
     return (
       <span className={className}>
@@ -26,7 +26,7 @@ export function PriceUsdKzt({
     )
   }
 
-  const prefix = fromPrefix ? 'from ' : ''
+  const prefix = fromPrefix ? 'From ' : ''
   return (
     <span className={className}>
       {prefix}$ {lo}

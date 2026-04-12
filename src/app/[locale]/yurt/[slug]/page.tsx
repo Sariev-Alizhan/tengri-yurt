@@ -2,7 +2,6 @@ import { getTranslations } from 'next-intl/server';
 import { notFound } from 'next/navigation';
 import { createClient } from '@/utils/supabase/server';
 import { PriceUsdKzt } from '@/components/PriceUsdKzt';
-import { YurtDetailAddToCart } from '@/components/YurtDetailAddToCart';
 import { YurtPhotoCarousel } from '@/components/YurtPhotoCarousel';
 import { YurtRentButton } from '@/components/YurtRentButton';
 import { DEFAULT_YURTS } from '@/lib/defaultCatalog';
@@ -160,16 +159,17 @@ export default async function YurtDetailPage({
               <p className="font-garamond text-white text-xl sm:text-2xl font-medium">
                 <PriceUsdKzt usd={yurt.price_usd} usdMax={(yurt as any).price_usd_max} fromPrefix />
               </p>
-              <YurtDetailAddToCart
-                locale={locale}
-                yurtId={yurt.id}
-                name={displayName}
-                slug={yurt.slug}
-                price_usd={yurt.price_usd}
-                supplier_id={yurt.supplier_id ?? 'default'}
-                photo={photos[0] ?? null}
-                addToCartLabel={t('addToCart')}
-              />
+              <p className="font-inter text-[10px] text-white/50 tracking-wide mt-1">
+                {t('customPricing')}
+              </p>
+              <a
+                href={`https://wa.me/77477777888?text=${encodeURIComponent(`Hi, I'm interested in ${displayName}`)}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-block border border-white/90 bg-white/10 py-3 px-8 font-inter text-sm font-medium uppercase tracking-[0.12em] text-white transition-colors duration-200 hover:bg-white hover:text-[#1a1714] min-h-[48px] rounded-lg text-center"
+              >
+                {t('inquire')}
+              </a>
             </div>
           </div>
         </div>

@@ -231,8 +231,8 @@ export function GallerySection({ label, title, subtitle }: Props) {
         </div>
       </div>
 
-      {/* Dot indicators */}
-      <div className="flex justify-center gap-2 mt-6">
+      {/* Dot indicators — 44px touch target with visual dot inside */}
+      <div className="flex justify-center gap-0 mt-4">
         {GALLERY_IMAGES.map((_, i) => (
           <button
             key={i}
@@ -240,18 +240,28 @@ export function GallerySection({ label, title, subtitle }: Props) {
             aria-label={`Go to image ${i + 1}`}
             onClick={() => scrollToIndex(i)}
             style={{
-              width: activeIndex === i ? '24px' : '8px',
-              height: '8px',
-              borderRadius: '4px',
-              background: activeIndex === i ? 'rgba(255,255,255,0.9)' : 'rgba(255,255,255,0.3)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              width: '44px',
+              height: '44px',
+              background: 'none',
               border: 'none',
               padding: 0,
               cursor: 'pointer',
-              transition: 'all 0.3s ease',
-              minHeight: 'auto',
-              minWidth: 'auto',
             }}
-          />
+          >
+            <span
+              style={{
+                display: 'block',
+                width: activeIndex === i ? '24px' : '8px',
+                height: '8px',
+                borderRadius: '4px',
+                background: activeIndex === i ? 'rgba(255,255,255,0.9)' : 'rgba(255,255,255,0.3)',
+                transition: 'all 0.3s ease',
+              }}
+            />
+          </button>
         ))}
       </div>
     </section>

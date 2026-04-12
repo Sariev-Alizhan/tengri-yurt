@@ -91,10 +91,6 @@ export default async function HomePage() {
         followLabel={tFooter('follow')}
         address={tFooter('address')}
         copyright={tFooter('copyright')}
-        newsletterTitle={tFooter('newsletterTitle')}
-        newsletterPlaceholder={tFooter('newsletterPlaceholder')}
-        subscribeButton={tFooter('subscribe')}
-        newsletterThanks={tFooter('newsletterThanks')}
         contactWhatsApp={tFooter('contactWhatsApp')}
         trustBadges={tFooter('trustBadges')}
         quizLink={tFooter('quizLink')}
