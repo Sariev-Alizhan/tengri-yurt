@@ -37,12 +37,16 @@ const SIZE_OPTIONS = [
   { key: 'notSure', kanat: 0, diameter: '', guests: '' },
 ] as const
 
-const ICONS: Record<string, string> = {
-  mountains: 'M',
-  hotel: 'H',
-  celebration: 'C',
-  home: 'P',
-  sparkle: '?',
+function Icon({ name }: { name: string }) {
+  const s = { width: 20, height: 20, fill: 'none', stroke: 'currentColor', strokeWidth: 1.5, strokeLinecap: 'round' as const, strokeLinejoin: 'round' as const }
+  switch (name) {
+    case 'mountains': return <svg viewBox="0 0 24 24" {...s}><path d="M8 21l4.5-9 3.5 5 4-7" /><path d="M2 21h20" /><circle cx="18" cy="5" r="2" /></svg>
+    case 'hotel': return <svg viewBox="0 0 24 24" {...s}><rect x="4" y="5" width="16" height="16" rx="1" /><path d="M9 21V9h6v12" /><path d="M4 9h16" /><path d="M12 5V2" /></svg>
+    case 'celebration': return <svg viewBox="0 0 24 24" {...s}><path d="M12 2v4M5.6 5.6l2.8 2.8M2 12h4M5.6 18.4l2.8-2.8M12 18v4M18.4 18.4l-2.8-2.8M22 12h-4M18.4 5.6l-2.8 2.8" /></svg>
+    case 'home': return <svg viewBox="0 0 24 24" {...s}><path d="M3 10.5L12 3l9 7.5V20a1 1 0 01-1 1H4a1 1 0 01-1-1z" /><path d="M9 21v-7h6v7" /></svg>
+    case 'sparkle': return <svg viewBox="0 0 24 24" {...s}><path d="M12 2l2.4 7.2L22 12l-7.6 2.8L12 22l-2.4-7.2L2 12l7.6-2.8z" /></svg>
+    default: return null
+  }
 }
 
 export function InquiryWizard({
@@ -193,10 +197,10 @@ export function InquiryWizard({
                     width: '36px', height: '36px', borderRadius: '50%',
                     background: purpose === key ? 'rgba(168,149,120,0.3)' : 'rgba(255,255,255,0.06)',
                     display: 'flex', alignItems: 'center', justifyContent: 'center',
-                    fontSize: '14px', color: 'rgba(255,255,255,0.5)',
+                    color: purpose === key ? 'rgba(168,149,120,0.9)' : 'rgba(255,255,255,0.35)',
                     flexShrink: 0, transition: 'all 0.25s ease',
                   }}>
-                    {ICONS[icon]}
+                    <Icon name={icon} />
                   </span>
                   <span style={{
                     fontFamily: 'Inter, sans-serif', fontSize: '15px',
