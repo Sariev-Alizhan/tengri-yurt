@@ -354,6 +354,32 @@ export function OrdersList({
               >
                 {downloadPdfLabel}
               </a>
+              <a
+                href={`/api/orders/pdf?orderNumber=${encodeURIComponent(order.order_number)}&type=supplier`}
+                download
+                style={{
+                  fontFamily: 'Inter, sans-serif',
+                  fontSize: '11px',
+                  letterSpacing: '0.08em',
+                  textTransform: 'uppercase',
+                  color: 'rgba(255,255,255,0.5)',
+                  marginBottom: '8px',
+                  textDecoration: 'none',
+                  border: '1px solid rgba(255,255,255,0.15)',
+                  padding: '6px 12px',
+                  borderRadius: '6px',
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.background = 'rgba(255,255,255,0.08)';
+                  e.currentTarget.style.borderColor = 'rgba(255,255,255,0.25)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.background = 'transparent';
+                  e.currentTarget.style.borderColor = 'rgba(255,255,255,0.15)';
+                }}
+              >
+                PDF for Supplier (no prices)
+              </a>
               <p style={{
                 fontFamily: 'Inter, sans-serif',
                 fontSize: '12px',
