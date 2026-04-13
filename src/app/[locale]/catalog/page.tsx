@@ -1,6 +1,12 @@
+import type { Metadata } from 'next'
 import { createClient } from '@/utils/supabase/server'
 import { DEFAULT_YURTS, DEFAULT_ACCESSORIES } from '@/lib/defaultCatalog'
 import { CatalogClient, type Yurt, type Accessory } from './CatalogClient'
+
+export const metadata: Metadata = {
+  title: 'Yurt Collection — Choose Your Model',
+  description: 'Browse 4 traditional Kazakh yurt models from $5,000 to $25,000. 6 to 16-kanat, handcrafted by master artisans. Worldwide delivery.',
+}
 
 export default async function CatalogPage({
   params,

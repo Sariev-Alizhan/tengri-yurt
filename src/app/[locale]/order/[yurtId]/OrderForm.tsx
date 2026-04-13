@@ -9,6 +9,7 @@ import { Spinner } from '@/components/Spinner';
 
 type Props = {
   yurtId: string;
+  yurtPrice: number;
   translations: Record<string, string>;
 };
 
@@ -26,7 +27,7 @@ const CATEGORY_LABELS: Record<string, Record<string, string>> = {
   rope: { en: 'Ropes & Bindings', ru: 'Верёвки и обвязки', kk: 'Арқандар' },
 };
 
-export function OrderForm({ yurtId, translations }: Props) {
+export function OrderForm({ yurtId, yurtPrice, translations }: Props) {
   const router = useRouter();
   const locale = useLocale();
   const [quantity, setQuantity] = useState(1);
@@ -317,6 +318,40 @@ export function OrderForm({ yurtId, translations }: Props) {
           <textarea name="message" rows={3} className="w-full bg-transparent text-white/90 border border-white/10 rounded-sm p-4 font-inter text-sm placeholder:text-white/20 focus:outline-none focus:border-white/30 transition-colors resize-none" />
         </div>
       </section>
+
+      {/* ═══ Estimated Total ═══ */}
+      <div className="p-5 border border-[#C9A86E]/30 bg-[#C9A86E]/[0.06] mb-8">
+        <p className="font-inter text-[10px] tracking-[0.2em] uppercase text-white/40 mb-3">
+          {locale === 'ru' ? 'Ориентировочная сумма' : locale === 'kk' ? 'Болжамды сома' : 'Estimated Total'}
+        </p>
+        <div className="space-y-1.5 font-inter text-sm">
+          <div className="flex justify-between text-white/60">
+            <span>{locale === 'ru' ? 'Юрта' : 'Yurt'} &times; {quantity}</span>
+            <span>${(yurtPrice * quantity).toLocaleString()}+</span>
+          </div>
+          {selectedAccessories.length > 0 && (
+            <div className="flex justify-between text-white/60">
+              <span>{locale === 'ru' ? 'Аксессуары' : 'Accessories'} ({selectedAccessories.length})</span>
+              <span>${TRADITIONAL_ACCESSORIES.filter(a => selectedAccessories.includes(a.id)).reduce((s, a) => s + a.price_usd, 0).toLocaleString()}</span>
+            </div>
+          )}
+          {(exclusiveCustom || coverCustom) && (
+            <div className="flex justify-between text-white/60">
+              <span>{locale === 'ru' ? 'Доп. опции' : 'Options'}</span>
+              <span>{locale === 'ru' ? 'Уточняется' : 'TBD'}</span>
+            </div>
+          )}
+          <div className="pt-2 mt-2 border-t border-white/10 flex justify-between text-white/90 font-medium">
+            <span>{locale === 'ru' ? 'Итого от' : 'From'}</span>
+            <span className="font-garamond text-lg text-[#C9A86E]">
+              ${((yurtPrice * quantity) + TRADITIONAL_ACCESSORIES.filter(a => selectedAccessories.includes(a.id)).reduce((s, a) => s + a.price_usd, 0)).toLocaleString()}+
+            </span>
+          </div>
+        </div>
+        <p className="font-inter text-[10px] text-white/25 mt-2">
+          {locale === 'ru' ? 'Окончательная цена подтверждается после консультации' : 'Final pricing confirmed after consultation'}
+        </p>
+      </div>
 
       {/* ═══ Agreement + Submit ═══ */}
       <div className="pt-4 border-t border-white/8">

@@ -38,6 +38,7 @@ export default async function OrderPage({
         </p>
         <OrderForm
           yurtId={yurt.id}
+          yurtPrice={yurt.price_usd}
           translations={{
             name: t('name'),
             email: t('email'),

@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+
+Disallow: /api/
+Disallow: /supplier/
+Disallow: /_next/
+
+Sitemap: https://tengri-yurt-eta.vercel.app/sitemap.xml

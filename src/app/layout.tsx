@@ -4,14 +4,18 @@ import { NextIntlClientProvider } from 'next-intl';
 import { getMessages, getLocale } from 'next-intl/server';
 import type { AbstractIntlMessages } from 'next-intl';
 import { NavigationProgress } from '@/components/NavigationProgress';
+import { FloatingWhatsApp } from '@/components/FloatingWhatsApp';
 import './globals.css';
 
 const inter = Inter({ subsets: ['latin'], weight: ['300', '400', '500', '600'], variable: '--font-inter' });
 const ebGaramond = EB_Garamond({ subsets: ['latin'], weight: ['400', '500'], style: ['normal', 'italic'], variable: '--font-garamond' });
 
 export const metadata: Metadata = {
-  title: 'Tengri Yurt | Traditional Yurts Marketplace',
-  description: 'Tengri Camp — traditional yurt production. Browse, order, and receive worldwide.',
+  title: {
+    default: 'Tengri Yurt — Handcrafted Kazakh Yurts Since 2010',
+    template: '%s | Tengri Yurt',
+  },
+  description: 'Handcrafted traditional Kazakh yurts delivered worldwide. 200+ yurts built, 10+ countries, 40+ master artisans. From $5,000.',
   icons: {
     icon: [
       { url: '/icon-192.png', type: 'image/png', sizes: '192x192' },
@@ -56,6 +60,7 @@ export default async function RootLayout({
         <NextIntlClientProvider messages={messages}>
           <NavigationProgress />
           {children}
+          <FloatingWhatsApp />
         </NextIntlClientProvider>
       </body>
     </html>
