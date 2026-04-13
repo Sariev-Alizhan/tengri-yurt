@@ -406,7 +406,7 @@ function FormField({ label, name, type = 'text', required, placeholder }: {
   return (
     <div>
       <p className="font-inter text-[10px] tracking-[0.2em] uppercase text-white/40 mb-2">
-        {label}{required && <span className="text-white/20 ml-1">*</span>}
+        {label}{required && <span className="text-red-400/60 ml-1">*</span>}
       </p>
       <input
         name={name}

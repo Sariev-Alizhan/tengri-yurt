@@ -4,7 +4,7 @@ import Image from 'next/image';
 import { Link } from '@/i18n/navigation';
 import { useScrollReveal, revealStyle } from '@/hooks/useScrollReveal';
 
-const WHATSAPP_NUMBER = '77477777788';
+const WHATSAPP_NUMBER = '77477777888';
 
 type Props = {
   locale?: string;
@@ -66,7 +66,7 @@ export function FooterSection({
                 {contactLabel}
               </p>
               <a href="mailto:info@tengri-camp.kz" className="block font-inter text-white/70 hover:text-white transition-colors">info@tengri-camp.kz</a>
-              <a href="tel:+77477777788" className="font-inter text-white/70 hover:text-white transition-colors">
+              <a href="tel:+77477777888" className="font-inter text-white/70 hover:text-white transition-colors">
                 +7 747 777 78 88
               </a>
               <p className="font-inter text-white/70">{address}</p>

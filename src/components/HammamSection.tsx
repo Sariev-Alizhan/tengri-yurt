@@ -106,7 +106,7 @@ export default function HammamSection() {
 
           <div className="text-center">
             <a
-              href="https://wa.me/77477777788?text=Hello%2C%20I%27m%20interested%20in%20the%20Yurt%20Hammam"
+              href="https://wa.me/77477777888?text=Hello%2C%20I%27m%20interested%20in%20the%20Yurt%20Hammam"
               target="_blank"
               rel="noopener noreferrer"
               className="btn-book"
