@@ -2,7 +2,20 @@ import { Link } from '@/i18n/navigation'
 import { getTranslations } from 'next-intl/server'
 
 export default async function NotFound() {
-  const t = await getTranslations('notFound')
+  let title = 'Page not found'
+  let description = 'This page does not exist or has been moved.'
+  let homeLabel = 'Home'
+  let catalogLabel = 'Catalog'
+
+  try {
+    const t = await getTranslations('notFound')
+    title = t('title')
+    description = t('description')
+    homeLabel = t('home')
+    catalogLabel = t('catalog')
+  } catch {
+    // Fallback to English defaults if locale context unavailable
+  }
 
   return (
     <main style={{
@@ -16,8 +29,8 @@ export default async function NotFound() {
       background: '#0f0d0a',
       color: 'rgba(255,255,255,0.9)',
     }}>
-      <h1 style={{ fontSize: 'clamp(24px, 4vw, 32px)', marginBottom: 8 }}>{t('title')}</h1>
-      <p style={{ color: 'rgba(255,255,255,0.6)', marginBottom: 24 }}>{t('description')}</p>
+      <h1 style={{ fontSize: 'clamp(24px, 4vw, 32px)', marginBottom: 8 }}>{title}</h1>
+      <p style={{ color: 'rgba(255,255,255,0.6)', marginBottom: 24 }}>{description}</p>
       <div style={{ display: 'flex', gap: 16, flexWrap: 'wrap', justifyContent: 'center' }}>
         <Link
           href="/"
@@ -29,7 +42,7 @@ export default async function NotFound() {
             borderRadius: 4,
           }}
         >
-          {t('home')}
+          {homeLabel}
         </Link>
         <Link
           href="/catalog"
@@ -41,7 +54,7 @@ export default async function NotFound() {
             borderRadius: 4,
           }}
         >
-          {t('catalog')}
+          {catalogLabel}
         </Link>
       </div>
     </main>
