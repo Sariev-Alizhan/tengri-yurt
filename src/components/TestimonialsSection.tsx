@@ -113,14 +113,14 @@ export function TestimonialsSection() {
     <section
       ref={ref}
       className="py-16 md:py-20 lg:py-24 px-6 md:px-10"
-      style={{ background: '#a89578' }}
+      style={{ background: '#1A1510' }}
     >
       <div className="max-w-6xl mx-auto text-center">
         <p
           className="text-xs uppercase mb-2"
           style={{
             letterSpacing: '0.15em',
-            color: 'rgba(255,255,255,0.5)',
+            color: 'rgba(255,255,255,0.7)',
             ...revealStyle(visible),
           }}
         >

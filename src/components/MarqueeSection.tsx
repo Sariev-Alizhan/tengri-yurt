@@ -33,7 +33,7 @@ export function MarqueeSection() {
               fontFamily: 'EB Garamond, serif',
               fontSize: 'clamp(14px, 2.5vw, 20px)',
               fontStyle: item === '·' ? 'normal' : 'italic',
-              color: item === '·' ? 'rgba(255,255,255,0.2)' : 'rgba(255,255,255,0.35)',
+              color: item === '·' ? 'rgba(255,255,255,0.2)' : 'rgba(255,255,255,0.6)',
               whiteSpace: 'nowrap',
             }}
           >

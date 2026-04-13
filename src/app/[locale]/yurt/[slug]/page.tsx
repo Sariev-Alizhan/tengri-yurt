@@ -99,7 +99,7 @@ export default async function YurtDetailPage({
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-12">
           <div className="lg:col-span-2 space-y-6 sm:space-y-8">
             {yurt.description && (
-              <div className="rounded-xl border border-white/10 bg-white/5 p-5 sm:p-6 md:p-8">
+              <div className="rounded-sm border border-white/10 bg-white/5 p-5 sm:p-6 md:p-8">
                 <h2 className="font-garamond text-white text-lg sm:text-xl md:text-2xl mb-3 md:mb-4 uppercase tracking-wider text-white/90 font-medium">
                   {t('descriptionTitle')}
                 </h2>
@@ -109,7 +109,7 @@ export default async function YurtDetailPage({
               </div>
             )}
             {(yurt as { history?: string | null }).history && (
-              <div className="rounded-xl border border-amber-900/30 bg-amber-950/20 p-5 sm:p-6 md:p-8">
+              <div className="rounded-sm border border-amber-900/30 bg-amber-950/20 p-5 sm:p-6 md:p-8">
                 <h2 className="font-garamond text-white text-lg sm:text-xl md:text-2xl mb-3 md:mb-4 uppercase tracking-wider text-amber-200/90 font-medium">
                   {t('historyTitle')}
                 </h2>
@@ -118,7 +118,7 @@ export default async function YurtDetailPage({
                 </p>
               </div>
             )}
-            <div className="rounded-xl border border-white/10 bg-white/5 p-5 sm:p-6 md:p-8">
+            <div className="rounded-sm border border-white/10 bg-white/5 p-5 sm:p-6 md:p-8">
               <h2 className="font-garamond text-white text-lg sm:text-xl md:text-2xl mb-3 md:mb-4 uppercase tracking-wider text-white/90 font-medium">
                 {t('installationTitle')}
               </h2>
@@ -157,7 +157,7 @@ export default async function YurtDetailPage({
                 ))}
               </ul>
             )}
-            <div className="mt-8 p-5 sm:p-6 rounded-xl bg-white/5 border border-white/10 space-y-4">
+            <div className="mt-8 p-5 sm:p-6 rounded-sm bg-white/5 border border-white/10 space-y-4">
               <p className="font-garamond text-white text-xl sm:text-2xl font-medium">
                 <PriceUsdKzt usd={yurt.price_usd} usdMax={(yurt as any).price_usd_max} fromPrefix />
               </p>

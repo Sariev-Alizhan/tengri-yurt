@@ -55,7 +55,7 @@ function WhyCard({ item, index }: { item: WhyItem; index: number }) {
         </h3>
         <p style={{
           fontSize: 'clamp(14px, 1.6vw, 15px)',
-          color: 'rgba(255,255,255,0.45)',
+          color: 'rgba(255,255,255,0.75)',
           lineHeight: 1.7,
           fontWeight: 300,
         }}>
@@ -86,7 +86,7 @@ export function WhySection() {
             fontSize: '11px',
             letterSpacing: '0.3em',
             textTransform: 'uppercase',
-            color: 'rgba(255,255,255,0.35)',
+            color: 'rgba(255,255,255,0.6)',
             marginBottom: '20px',
           }}>
             Why Tengri Yurt
@@ -135,7 +135,7 @@ export function WhySection() {
                 fontSize: '11px',
                 letterSpacing: '0.15em',
                 textTransform: 'uppercase',
-                color: 'rgba(255,255,255,0.35)',
+                color: 'rgba(255,255,255,0.6)',
               }}>
                 {stat.label}
               </p>

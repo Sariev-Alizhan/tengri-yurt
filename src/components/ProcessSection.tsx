@@ -39,7 +39,7 @@ function ProcessStep({
           style={{
             fontFamily: 'EB Garamond, serif',
             fontSize: 'clamp(14px, 3vw, 20px)',
-            color: 'rgba(255,255,255,0.5)',
+            color: 'rgba(255,255,255,0.7)',
             fontWeight: 400,
             lineHeight: 1,
             paddingTop: '4px',
@@ -74,7 +74,7 @@ function ProcessStep({
               position: 'relative',
               zIndex: 1,
               transition: 'all 0.3s ease',
-              border: '2px solid #a89578',
+              border: '2px solid #1A1510',
             }}
           />
         </div>
@@ -117,7 +117,7 @@ export function ProcessSection() {
   const steps = (t.raw('steps') as Step[]) || []
 
   return (
-    <section className="py-16 md:py-20 lg:py-24 px-6 md:px-10" style={{ background: '#a89578' }}>
+    <section className="py-16 md:py-20 lg:py-24 px-6 md:px-10" style={{ background: '#1A1510' }}>
       <div className="max-w-6xl mx-auto">
         <div className="mb-12 md:mb-20 lg:mb-[80px] text-center">
           <h2

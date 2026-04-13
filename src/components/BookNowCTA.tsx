@@ -62,7 +62,7 @@ export function BookNowCTA({ label, title, subtitle }: Props) {
 
         <p className="font-garamond italic" style={{
           fontSize: 'clamp(15px, 2vw, 18px)',
-          color: 'rgba(255,255,255,0.45)',
+          color: 'rgba(255,255,255,0.75)',
           maxWidth: '480px',
           margin: '0 auto 48px',
           lineHeight: 1.7,

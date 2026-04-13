@@ -198,7 +198,7 @@ export function OrderForm({ yurtId, translations }: Props) {
                       key={acc.id}
                       type="button"
                       onClick={() => toggleAccessory(acc.id)}
-                      className={`group text-left transition-all duration-200 rounded-lg overflow-hidden ${
+                      className={`group text-left transition-all duration-200 rounded-sm overflow-hidden ${
                         selected
                           ? 'ring-2 ring-[#C9A86E]'
                           : 'ring-1 ring-white/8 hover:ring-white/15'
@@ -314,7 +314,7 @@ export function OrderForm({ yurtId, translations }: Props) {
 
         <div className="mt-6">
           <p className="font-inter text-[10px] tracking-[0.2em] uppercase text-white/40 mb-2">{translations.message}</p>
-          <textarea name="message" rows={3} className="w-full bg-transparent text-white/90 border border-white/10 rounded-lg p-4 font-inter text-sm placeholder:text-white/20 focus:outline-none focus:border-white/30 transition-colors resize-none" />
+          <textarea name="message" rows={3} className="w-full bg-transparent text-white/90 border border-white/10 rounded-sm p-4 font-inter text-sm placeholder:text-white/20 focus:outline-none focus:border-white/30 transition-colors resize-none" />
         </div>
       </section>
 
@@ -340,7 +340,7 @@ export function OrderForm({ yurtId, translations }: Props) {
         <button
           type="submit"
           disabled={loading || !agreement}
-          className={`w-full md:w-auto px-12 py-4 font-inter text-[11px] font-medium tracking-[0.2em] uppercase transition-all duration-300 rounded-lg ${
+          className={`w-full md:w-auto px-12 py-4 font-inter text-[11px] font-medium tracking-[0.2em] uppercase transition-all duration-300 rounded-sm ${
             loading || !agreement
               ? 'border border-white/10 text-white/20 cursor-not-allowed'
               : 'border border-white/50 text-white bg-white/10 hover:bg-white hover:text-[#0f0d0a] cursor-pointer'
@@ -367,7 +367,7 @@ function ToggleCard({ active, onClick, label, sub }: { active: boolean; onClick:
     <button
       type="button"
       onClick={onClick}
-      className={`w-full flex items-center gap-4 p-4 border rounded-lg text-left transition-all duration-300 ${
+      className={`w-full flex items-center gap-4 p-4 border rounded-sm text-left transition-all duration-300 ${
         active ? 'border-white/30 bg-white/[0.06]' : 'border-white/8 hover:border-white/15'
       }`}
     >
@@ -389,7 +389,7 @@ function ShippingCard({ active, onClick, icon, label, sub }: { active: boolean; 
     <button
       type="button"
       onClick={onClick}
-      className={`p-5 border rounded-lg text-left transition-all duration-300 ${
+      className={`p-5 border rounded-sm text-left transition-all duration-300 ${
         active ? 'border-white/30 bg-white/[0.06]' : 'border-white/8 hover:border-white/15'
       }`}
     >

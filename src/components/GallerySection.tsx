@@ -26,7 +26,7 @@ function GalleryImage({ src, index, total }: { src: string; index: number; total
         scrollSnapAlign: snapAlign,
         width: 'clamp(300px, 80vw, 560px)',
         height: 'clamp(260px, 55vw, 380px)',
-        borderRadius: '4px',
+        borderRadius: '0',
       }}
       onMouseEnter={() => setHover(true)}
       onMouseLeave={() => setHover(false)}
@@ -130,7 +130,7 @@ export function GallerySection({ label, title, subtitle }: Props) {
           className="font-inter text-xs uppercase mb-2"
           style={{
             letterSpacing: '0.3em',
-            color: 'rgba(255,255,255,0.45)',
+            color: 'rgba(255,255,255,0.75)',
           }}
         >
           {label}
@@ -256,7 +256,7 @@ export function GallerySection({ label, title, subtitle }: Props) {
                 display: 'block',
                 width: activeIndex === i ? '24px' : '8px',
                 height: '8px',
-                borderRadius: '4px',
+                borderRadius: '0',
                 background: activeIndex === i ? 'rgba(255,255,255,0.9)' : 'rgba(255,255,255,0.3)',
                 transition: 'all 0.3s ease',
               }}
