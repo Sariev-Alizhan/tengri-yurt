@@ -1,6 +1,6 @@
 {
   "nav": {
-    "bookNow": "Get Started",
+    "bookNow": "See Models & Pricing",
     "catalog": "Catalog",
     "back": "Back",
     "supplierPortal": "Supplier Portal",
@@ -12,15 +12,15 @@
   },
   "hero": {
     "since": "Since 2010",
-    "tagline": "Traditional Yurts Around The World",
-    "quote": "Tradition is not something to preserve.\nIt is something to pass forward.",
+    "tagline": "Handcrafted Kazakh Yurts. Delivered Worldwide.",
+    "quote": "200+ yurts built across 10+ countries.\nFrom luxury resorts to Burning Man.",
     "scrollDown": "Scroll"
   },
   "cta": {
     "label": "BEGIN YOUR JOURNEY",
-    "title": "Let's Create Something Timeless",
+    "title": "Your Yurt Project Starts Here",
     "subtitle": "Every yurt is unique. Share your vision, and we'll bring it to life with traditional craftsmanship and modern expertise.",
-    "button": "Begin Your Journey"
+    "button": "Explore Yurt Collection"
   },
   "process": {
     "title": "Our Craft",

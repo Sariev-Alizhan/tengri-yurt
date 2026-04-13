@@ -135,8 +135,9 @@ export function HeroSection({ heroTitle, since, heroSubtitle, statement }: Props
           style={{
             fontSize: 'clamp(16px, 2.5vw, 20px)',
             lineHeight: 1.6,
-            color: 'rgba(255,255,255,0.6)',
+            color: 'rgba(255,255,255,0.85)',
             fontWeight: 300,
+            textShadow: '0 1px 12px rgba(0,0,0,0.5)',
             opacity: loaded ? 1 : 0,
             transform: loaded ? 'translateY(0)' : 'translateY(15px)',
             transition: 'all 0.9s cubic-bezier(0.16, 1, 0.3, 1) 1.2s',
