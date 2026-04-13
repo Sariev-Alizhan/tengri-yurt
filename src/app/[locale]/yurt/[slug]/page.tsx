@@ -15,6 +15,7 @@ export default async function YurtDetailPage({
 }) {
   const { slug, locale } = await params;
   const t = await getTranslations('catalog');
+  const td = await getTranslations('yurtDescriptions');
   const supabase = await createClient();
   const { data: dbYurt, error } = await supabase
     .from('yurts')
@@ -103,7 +104,7 @@ export default async function YurtDetailPage({
                   {t('descriptionTitle')}
                 </h2>
                 <p className="font-inter text-white/80 text-sm sm:text-base font-light leading-relaxed whitespace-pre-wrap">
-                  {yurt.description}
+                  {td.has(slug) ? td(slug) : yurt.description}
                 </p>
               </div>
             )}
@@ -113,7 +114,7 @@ export default async function YurtDetailPage({
                   {t('historyTitle')}
                 </h2>
                 <p className="font-inter text-white/75 font-light leading-relaxed">
-                  {(yurt as { history?: string }).history}
+                  {td.has(`${slug}History`) ? td(`${slug}History`) : (yurt as { history?: string }).history}
                 </p>
               </div>
             )}

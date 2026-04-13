@@ -305,28 +305,6 @@ function PublicNavbar() {
           </Link>
 
           <div style={{ justifySelf: 'end', display: 'flex', alignItems: 'center', gap: '16px' }}>
-            <Link
-              href="/supplier/login"
-              style={{
-                cursor: 'pointer',
-                textDecoration: 'none',
-                fontFamily: 'Inter, sans-serif',
-                fontSize: '10px',
-                fontWeight: 400,
-                letterSpacing: '0.18em',
-                textTransform: 'uppercase',
-                color: 'rgba(255,255,255,0.38)',
-                display: isDesktop ? 'inline-flex' : 'none',
-                alignItems: 'center',
-                transition: 'color 0.2s ease',
-                whiteSpace: 'nowrap',
-                lineHeight: 1,
-              }}
-              onMouseEnter={e => { e.currentTarget.style.color = 'rgba(255,255,255,0.65)' }}
-              onMouseLeave={e => { e.currentTarget.style.color = 'rgba(255,255,255,0.38)' }}
-            >
-              SUPPLIER PORTAL
-            </Link>
             <span style={{
               display: isDesktop && isBookNowFlow ? 'inline-block' : 'none',
               width: '1px',
@@ -530,22 +508,6 @@ function PublicNavbar() {
             justifyContent: 'center',
           }}>
           {t('bookNow')}
-        </Link>
-        <Link href="/supplier/login"
-          onClick={() => setMenuOpen(false)}
-          style={{
-            fontFamily: 'Inter, sans-serif',
-            fontSize: 'clamp(11px, 2.5vw, 12px)',
-            color: 'rgba(255,255,255,0.5)',
-            textDecoration: 'none',
-            letterSpacing: '0.15em',
-            textTransform: 'uppercase',
-            padding: 'clamp(12px, 3vw, 16px)',
-            minHeight: '44px',
-            display: 'inline-flex',
-            alignItems: 'center',
-          }}>
-          SUPPLIER PORTAL
         </Link>
         <Link href="/"
           onClick={() => setMenuOpen(false)}

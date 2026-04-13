@@ -387,7 +387,7 @@
     "quantity": "Quantity",
     "message": "Message (optional)",
     "submitInquiry": "Submit Inquiry",
-    "pricingNote": "From ${{price}} per unit (pricing confirmed after inquiry)",
+    "pricingNote": "From ${price} per unit (pricing confirmed after inquiry)",
     "interiorTitle": "Interior options",
     "keregeColor": "Kerege (lattice wall) color",
     "keregeNatural": "Natural wood",
@@ -595,5 +595,21 @@
     "successTitle": "Thank you",
     "successSubtitle": "Our team will reach out within 24 hours to discuss your project in detail.",
     "successBack": "Back to home"
+  },
+  "notFound": {
+    "title": "Page not found",
+    "description": "This page does not exist or has been moved.",
+    "home": "Home",
+    "catalog": "Catalog"
+  },
+  "yurtDescriptions": {
+    "intimate": "Traditional Kazakh 6-kanat yurt. 5×5 m, height 3.6 m. Ideal for private retreats and intimate gatherings of 15–20 people. Withstands temperatures from −40°C to +40°C.",
+    "cozy": "Traditional Kazakh 8-kanat yurt. 6×6 m, height 4 m. Perfect for family events, yoga sessions, creative workshops, and glamping with 25–30 guests.",
+    "classic": "Traditional Kazakh 12-kanat yurt. 8×8 m, height 4.7 m. Our most popular model for eco-resorts, cultural venues, and events hosting 35–55 people.",
+    "spacious": "Traditional Kazakh 16-kanat yurt. 9×9 m, height 4.8 m. The largest model — survived the strongest storm at Burning Man 2025, sheltering 5,000 guests.",
+    "intimateHistory": "The 6-kanat yurt is the classic compact form of the Kazakh nomadic dwelling. Built by hand using techniques passed down through generations, it offers the perfect balance of portability and comfort.",
+    "cozyHistory": "The 8-kanat yurt has long been the choice for extended families and small celebrations on the steppe. Its proportions balance warmth in winter and airflow in summer.",
+    "classicHistory": "The 12-kanat yurt is the classic format used for gatherings, ceremonies and hospitality across Central Asia.",
+    "spaciousHistory": "The 16-kanat model is the pinnacle of the traditional Kazakh yurt: a grand space for weddings, festivals and corporate events."
   }
 }

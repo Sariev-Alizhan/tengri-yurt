@@ -18,6 +18,7 @@ export interface AccessoryItem {
   price_kzt: number;
   price_usd: number;
   category: 'structure' | 'rope' | 'decoration' | 'cover';
+  photo: string;
 }
 
 export const TRADITIONAL_ACCESSORIES: AccessoryItem[] = [
@@ -40,7 +41,8 @@ export const TRADITIONAL_ACCESSORIES: AccessoryItem[] = [
     },
     price_kzt: 850000,
     price_usd: 1900,
-    category: 'structure'
+    category: 'structure',
+    photo: '/images/accessories/shanyrak.jpg'
   },
   {
     id: 'uyk',
@@ -61,7 +63,8 @@ export const TRADITIONAL_ACCESSORIES: AccessoryItem[] = [
     },
     price_kzt: 450000,
     price_usd: 1000,
-    category: 'structure'
+    category: 'structure',
+    photo: '/images/accessories/uyk.jpg'
   },
   {
     id: 'kerege',
@@ -82,7 +85,8 @@ export const TRADITIONAL_ACCESSORIES: AccessoryItem[] = [
     },
     price_kzt: 1200000,
     price_usd: 2700,
-    category: 'structure'
+    category: 'structure',
+    photo: '/images/accessories/kerege.jpg'
   },
   {
     id: 'esik',
@@ -103,7 +107,8 @@ export const TRADITIONAL_ACCESSORIES: AccessoryItem[] = [
     },
     price_kzt: 380000,
     price_usd: 850,
-    category: 'structure'
+    category: 'structure',
+    photo: '/images/accessories/esik.jpg'
   },
   {
     id: 'tundik',
@@ -124,7 +129,8 @@ export const TRADITIONAL_ACCESSORIES: AccessoryItem[] = [
     },
     price_kzt: 95000,
     price_usd: 210,
-    category: 'cover'
+    category: 'cover',
+    photo: '/images/accessories/tundik.jpg'
   },
   {
     id: 'uzik',
@@ -145,7 +151,8 @@ export const TRADITIONAL_ACCESSORIES: AccessoryItem[] = [
     },
     price_kzt: 520000,
     price_usd: 1150,
-    category: 'cover'
+    category: 'cover',
+    photo: '/images/accessories/uzik.jpg'
   },
   {
     id: 'tuyrlyq',
@@ -166,7 +173,8 @@ export const TRADITIONAL_ACCESSORIES: AccessoryItem[] = [
     },
     price_kzt: 680000,
     price_usd: 1500,
-    category: 'cover'
+    category: 'cover',
+    photo: '/images/accessories/tuyrlyq.jpg'
   },
   {
     id: 'tuskiyz',
@@ -187,7 +195,8 @@ export const TRADITIONAL_ACCESSORIES: AccessoryItem[] = [
     },
     price_kzt: 750000,
     price_usd: 1650,
-    category: 'decoration'
+    category: 'decoration',
+    photo: '/images/accessories/tuskiyz.jpg'
   },
   {
     id: 'ot-kilem',
@@ -208,7 +217,8 @@ export const TRADITIONAL_ACCESSORIES: AccessoryItem[] = [
     },
     price_kzt: 890000,
     price_usd: 1950,
-    category: 'decoration'
+    category: 'decoration',
+    photo: '/images/accessories/ot-kilem.jpg'
   },
   {
     id: 'ak-baskur',
@@ -229,7 +239,8 @@ export const TRADITIONAL_ACCESSORIES: AccessoryItem[] = [
     },
     price_kzt: 125000,
     price_usd: 280,
-    category: 'decoration'
+    category: 'decoration',
+    photo: '/images/accessories/ak-baskur.jpg'
   },
   {
     id: 'ak-kyzyl-baular',
@@ -250,7 +261,8 @@ export const TRADITIONAL_ACCESSORIES: AccessoryItem[] = [
     },
     price_kzt: 180000,
     price_usd: 400,
-    category: 'rope'
+    category: 'rope',
+    photo: '/images/accessories/ak-kyzyl-baular.jpg'
   },
   {
     id: 'ayir-bau',
@@ -271,7 +283,8 @@ export const TRADITIONAL_ACCESSORIES: AccessoryItem[] = [
     },
     price_kzt: 85000,
     price_usd: 190,
-    category: 'rope'
+    category: 'rope',
+    photo: '/images/accessories/ayir-bau.jpg'
   },
   {
     id: 'zhel-bau',
@@ -292,7 +305,8 @@ export const TRADITIONAL_ACCESSORIES: AccessoryItem[] = [
     },
     price_kzt: 95000,
     price_usd: 210,
-    category: 'rope'
+    category: 'rope',
+    photo: '/images/accessories/zhel-bau.jpg'
   },
   {
     id: 'shashak',
@@ -313,7 +327,8 @@ export const TRADITIONAL_ACCESSORIES: AccessoryItem[] = [
     },
     price_kzt: 65000,
     price_usd: 145,
-    category: 'decoration'
+    category: 'decoration',
+    photo: '/images/accessories/shashak.jpg'
   },
   {
     id: 'shanyrak-ashekeyi',
@@ -334,7 +349,8 @@ export const TRADITIONAL_ACCESSORIES: AccessoryItem[] = [
     },
     price_kzt: 220000,
     price_usd: 490,
-    category: 'decoration'
+    category: 'decoration',
+    photo: '/images/accessories/shanyrak-ashekeyi.jpg'
   },
   {
     id: 'chekhol',
@@ -355,7 +371,8 @@ export const TRADITIONAL_ACCESSORIES: AccessoryItem[] = [
     },
     price_kzt: 320000,
     price_usd: 710,
-    category: 'cover'
+    category: 'cover',
+    photo: '/images/accessories/chekhol.jpg'
   },
   {
     id: 'bas-bel-arkandar',
@@ -376,7 +393,8 @@ export const TRADITIONAL_ACCESSORIES: AccessoryItem[] = [
     },
     price_kzt: 145000,
     price_usd: 320,
-    category: 'rope'
+    category: 'rope',
+    photo: '/images/accessories/bas-bel-arkandar.jpg'
   },
   {
     id: 'bakan',
@@ -397,7 +415,8 @@ export const TRADITIONAL_ACCESSORIES: AccessoryItem[] = [
     },
     price_kzt: 75000,
     price_usd: 165,
-    category: 'structure'
+    category: 'structure',
+    photo: '/images/accessories/bakan.jpg'
   },
   {
     id: 'shalma-bau',
@@ -418,6 +437,7 @@ export const TRADITIONAL_ACCESSORIES: AccessoryItem[] = [
     },
     price_kzt: 105000,
     price_usd: 230,
-    category: 'rope'
+    category: 'rope',
+    photo: '/images/accessories/shalma-bau.jpg'
   }
 ];

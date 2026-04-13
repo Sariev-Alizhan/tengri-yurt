@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import Image from 'next/image';
 import { useRouter } from '@/i18n/navigation';
 import { useLocale } from 'next-intl';
 import { TRADITIONAL_ACCESSORIES } from '@/data/accessories';
@@ -112,7 +113,7 @@ export function OrderForm({ yurtId, translations }: Props) {
   }));
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-12 pb-24 md:pb-8">
+    <form onSubmit={handleSubmit} className="space-y-12 pb-32 md:pb-24">
 
       {/* ═══ SECTION 1: Interior ═══ */}
       {translations.interiorTitle && (
@@ -189,7 +190,7 @@ export function OrderForm({ yurtId, translations }: Props) {
           {grouped.map(({ key, label, items }) => (
             <div key={key}>
               <p className="font-inter text-[10px] tracking-[0.2em] uppercase text-white/30 mb-3">{label}</p>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+              <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
                 {items.map((acc) => {
                   const selected = selectedAccessories.includes(acc.id);
                   return (
@@ -197,27 +198,40 @@ export function OrderForm({ yurtId, translations }: Props) {
                       key={acc.id}
                       type="button"
                       onClick={() => toggleAccessory(acc.id)}
-                      className={`flex items-center gap-3 p-3 border rounded-lg text-left transition-all duration-200 ${
+                      className={`group text-left transition-all duration-200 rounded-lg overflow-hidden ${
                         selected
-                          ? 'border-white/25 bg-white/[0.05]'
-                          : 'border-white/6 hover:border-white/12'
+                          ? 'ring-2 ring-[#C9A86E]'
+                          : 'ring-1 ring-white/8 hover:ring-white/15'
                       }`}
                     >
-                      <div className={`w-4 h-4 rounded border flex items-center justify-center shrink-0 transition-all duration-200 ${
-                        selected ? 'border-white/50 bg-white/15' : 'border-white/15'
-                      }`}>
-                        {selected && (
-                          <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="3" strokeLinecap="round"><path d="M5 13l4 4L19 7" /></svg>
-                        )}
+                      <div className="relative aspect-[4/3] overflow-hidden">
+                        <Image
+                          src={acc.photo}
+                          alt={acc.name[localeKey] || acc.name.en}
+                          fill
+                          className="object-cover group-hover:scale-[1.03] transition-transform duration-500"
+                          sizes="(max-width: 640px) 50vw, 33vw"
+                        />
+                        <div className={`absolute top-2 right-2 w-5 h-5 rounded-full flex items-center justify-center transition-all duration-200 ${
+                          selected ? 'bg-[#C9A86E] scale-100' : 'bg-black/30 scale-0 group-hover:scale-100'
+                        }`}>
+                          {selected && (
+                            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="3" strokeLinecap="round"><path d="M5 13l4 4L19 7" /></svg>
+                          )}
+                        </div>
                       </div>
-                      <span className="font-inter text-white/80 text-sm flex-1 truncate">
-                        {acc.name[localeKey] || acc.name.en}
-                      </span>
-                      {acc.price_usd > 0 && (
-                        <span className="font-inter text-white/20 text-xs shrink-0">
-                          ${acc.price_usd.toLocaleString()}
-                        </span>
-                      )}
+                      <div className="p-2.5">
+                        <div className="flex items-start justify-between gap-1">
+                          <span className="font-inter text-white/80 text-xs leading-tight">
+                            {acc.name[localeKey] || acc.name.en}
+                          </span>
+                          {acc.price_usd > 0 && (
+                            <span className="font-inter text-[#C9A86E] text-[10px] shrink-0">
+                              ${acc.price_usd.toLocaleString()}
+                            </span>
+                          )}
+                        </div>
+                      </div>
                     </button>
                   );
                 })}
