@@ -5,6 +5,9 @@ import { getMessages, getLocale } from 'next-intl/server';
 import type { AbstractIntlMessages } from 'next-intl';
 import { NavigationProgress } from '@/components/NavigationProgress';
 import { FloatingWhatsApp } from '@/components/FloatingWhatsApp';
+import { InstallPrompt } from '@/components/InstallPrompt';
+import { Analytics } from '@vercel/analytics/next';
+import { SpeedInsights } from '@vercel/speed-insights/next';
 import './globals.css';
 
 const inter = Inter({ subsets: ['latin'], weight: ['300', '400', '500', '600'], variable: '--font-inter' });
@@ -61,7 +64,10 @@ export default async function RootLayout({
           <NavigationProgress />
           {children}
           <FloatingWhatsApp />
+          <InstallPrompt />
         </NextIntlClientProvider>
+        <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   );
