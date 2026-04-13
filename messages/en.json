@@ -611,5 +611,43 @@
     "cozyHistory": "The 8-kanat yurt has long been the choice for extended families and small celebrations on the steppe. Its proportions balance warmth in winter and airflow in summer.",
     "classicHistory": "The 12-kanat yurt is the classic format used for gatherings, ceremonies and hospitality across Central Asia.",
     "spaciousHistory": "The 16-kanat model is the pinnacle of the traditional Kazakh yurt: a grand space for weddings, festivals and corporate events."
+  },
+  "faq": {
+    "title": "Common Questions",
+    "subtitle": "Everything you need to know before ordering",
+    "items": [
+      {
+        "question": "How much does shipping cost?",
+        "answer": "Shipping is calculated based on destination and yurt size. Air freight (7-14 days) typically costs $2,000-$5,000. Sea freight (30-45 days) is $800-$2,500. We provide exact quotes after your inquiry."
+      },
+      {
+        "question": "Do you handle customs and import?",
+        "answer": "We prepare all export documentation from Kazakhstan. Import duties vary by country — we'll advise on expected costs for your destination. Our team has shipped to 10+ countries successfully."
+      },
+      {
+        "question": "What's included in the installation?",
+        "answer": "Professional installation is included. Our team of 1-3 specialists travels to your location. Setup takes 1-3 days depending on yurt size. You cover travel and accommodation costs."
+      },
+      {
+        "question": "What warranty do you offer?",
+        "answer": "All yurts come with a 2-year warranty on structural components (frame, shanyrak, door). Felt and canvas coverings are warranted for 1 year. We provide maintenance guidance for long-term durability."
+      },
+      {
+        "question": "How long does production take?",
+        "answer": "Production takes 30-60 days depending on model and customization. Each yurt is handcrafted by our team of 40+ artisans in Almaty, Kazakhstan. Rush orders may be available — ask us."
+      },
+      {
+        "question": "Can the yurt withstand extreme weather?",
+        "answer": "Yes. Our yurts handle temperatures from -40°C to +40°C. The felt insulation naturally regulates temperature. The structure withstands winds up to 80+ km/h. We've installed in deserts, mountains, and tropical climates."
+      },
+      {
+        "question": "What are the payment terms?",
+        "answer": "50% deposit to begin production, 50% before shipping. We accept bank transfer and can provide a formal invoice. For orders over $50,000, custom payment schedules are available."
+      },
+      {
+        "question": "Can I customize the interior and exterior?",
+        "answer": "Absolutely. Choose kerege color, cover material (white, silver, transparent), interior furnishings, and traditional accessories. Each yurt is made to your specifications."
+      }
+    ]
   }
 }

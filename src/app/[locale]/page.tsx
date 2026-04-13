@@ -13,6 +13,8 @@ import { GallerySection } from '@/components/GallerySection';
 import { TestimonialsSection } from '@/components/TestimonialsSection';
 import { FooterSection } from '@/components/FooterSection';
 import HammamSection from '@/components/HammamSection';
+import { FAQSection } from '@/components/FAQSection';
+import { OrganizationSchema } from '@/components/StructuredData';
 
 export default async function HomePage() {
   const locale = await getLocale();
@@ -77,12 +79,18 @@ export default async function HomePage() {
       </div>
 
       <div className="reveal">
+        <FAQSection />
+      </div>
+
+      <div className="reveal">
         <BookNowCTA
           label={tCta('label')}
           title={tCta('title')}
           subtitle={tCta('subtitle')}
         />
       </div>
+
+      <OrganizationSchema />
 
       <FooterSection
         locale={locale}

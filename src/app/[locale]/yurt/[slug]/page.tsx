@@ -7,6 +7,7 @@ import { YurtPhotoCarousel } from '@/components/YurtPhotoCarousel';
 import { YurtRentButton } from '@/components/YurtRentButton';
 import { DEFAULT_YURTS } from '@/lib/defaultCatalog';
 import { BackButton } from '@/components/BackButton';
+import { ProductSchema } from '@/components/StructuredData';
 
 export default async function YurtDetailPage({
   params,
@@ -183,6 +184,13 @@ export default async function YurtDetailPage({
         </div>
 
       </section>
+      <ProductSchema
+        name={displayName}
+        description={td.has(slug) ? td(slug) : yurt.description}
+        priceLow={yurt.price_usd}
+        priceHigh={(yurt as { price_usd_max?: number }).price_usd_max || yurt.price_usd}
+        slug={slug}
+      />
     </div>
   );
 }
