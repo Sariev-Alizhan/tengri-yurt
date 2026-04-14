@@ -36,6 +36,16 @@ export async function POST(request: Request) {
       );
     }
 
+    // Security: verify the supplierId belongs to the authenticated user
+    const { data: ownSupplier } = await authClient
+      .from('suppliers')
+      .select('id')
+      .eq('user_id', user.id)
+      .single();
+    if (!ownSupplier || (ownSupplier as { id: string }).id !== supplierId) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
+
     const supabase = createServiceRoleClient();
     const { data, error } = await (supabase as any)
       .from('yurts')

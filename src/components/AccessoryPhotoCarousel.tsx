@@ -34,7 +34,7 @@ export function AccessoryPhotoCarousel({ photos, name }: Props) {
   return (
     <div className="absolute inset-0 group select-none" onTouchStart={onTouchStart} onTouchEnd={onTouchEnd}>
       {photos.map((url, i) => (
-        <div key={url} className="absolute inset-0 transition-opacity duration-700"
+        <div key={`photo-${i}`} className="absolute inset-0 transition-opacity duration-700"
           style={{ opacity: i === current ? 1 : 0, zIndex: i === current ? 1 : 0 }}>
           <Image src={url} alt={`${name} ${i + 1}`} fill className="object-cover"
             priority={i === 0} sizes="100vw" />
