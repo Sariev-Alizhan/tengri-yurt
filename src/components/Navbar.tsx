@@ -354,6 +354,30 @@ function PublicNavbar() {
             )}
             {isDesktop && !isOrderFlow && (
               <Link
+                href="/calculator"
+                style={{
+                  fontFamily: 'Inter, sans-serif',
+                  fontSize: '11px',
+                  fontWeight: 500,
+                  letterSpacing: '0.12em',
+                  textTransform: 'uppercase',
+                  color: 'rgba(201,168,110,0.5)',
+                  textDecoration: 'none',
+                  padding: '8px 0',
+                  minHeight: '40px',
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  marginLeft: '12px',
+                  transition: 'color 0.2s',
+                }}
+                onMouseEnter={e => { e.currentTarget.style.color = 'rgba(201,168,110,0.9)' }}
+                onMouseLeave={e => { e.currentTarget.style.color = 'rgba(201,168,110,0.5)' }}
+              >
+                Calculator
+              </Link>
+            )}
+            {isDesktop && !isOrderFlow && (
+              <Link
                 href="/contact"
                 style={{
                   fontFamily: 'Inter, sans-serif',
@@ -670,6 +694,24 @@ function PublicNavbar() {
             gap: '8px',
           }}>
           ◈ Hammam
+        </Link>
+
+        <Link href="/calculator"
+          onClick={() => setMenuOpen(false)}
+          style={{
+            fontFamily: 'Inter, sans-serif',
+            fontSize: 'clamp(11px, 2.5vw, 12px)',
+            color: 'rgba(201,168,110,0.6)',
+            textDecoration: 'none',
+            letterSpacing: '0.15em',
+            textTransform: 'uppercase',
+            padding: 'clamp(12px, 3vw, 16px)',
+            minHeight: '44px',
+            display: 'inline-flex',
+            alignItems: 'center',
+            gap: '8px',
+          }}>
+          Calculator
         </Link>
 
         <Link href="/contact"

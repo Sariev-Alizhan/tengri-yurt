@@ -33,7 +33,7 @@ const TAG_TEXT: Record<string, string> = {
 
 async function getNews(): Promise<NewsItem[]> {
   try {
-    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3001'
+    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000'
     const res = await fetch(`${baseUrl}/api/news`, {
       next: { revalidate: 3600 },
     })

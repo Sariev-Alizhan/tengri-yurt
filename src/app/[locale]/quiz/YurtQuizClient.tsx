@@ -66,7 +66,7 @@ export function YurtQuizClient({ locale }: { locale: string }) {
 
   const getRecommendedYurt = () => {
     const pct = total ? (score / total) * 100 : 0
-    if (pct >= 90) return { slug: 'grand', name: 'Grand', diameter: '9m', kanat: '12-kanat', desc: 'For true connoisseurs of nomadic culture' }
+    if (pct >= 90) return { slug: 'spacious', name: 'Grand', diameter: '9m', kanat: '12-kanat', desc: 'For true connoisseurs of nomadic culture' }
     if (pct >= 70) return { slug: 'spacious', name: 'Spacious', diameter: '7m', kanat: '8-kanat', desc: 'Perfect for families and events' }
     if (pct >= 50) return { slug: 'classic', name: 'Classic', diameter: '6m', kanat: '6-kanat', desc: 'The timeless choice for any setting' }
     return { slug: 'cozy', name: 'Cozy', diameter: '5m', kanat: '4-kanat', desc: 'Intimate and warm — ideal for beginners' }
