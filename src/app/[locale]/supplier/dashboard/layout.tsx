@@ -1,5 +1,6 @@
 import { createClient } from '@/utils/supabase/server'
 import { SupplierSidebar } from '@/components/supplier/SupplierSidebar'
+import { SupplierThemeEnforcer } from '@/components/supplier/SupplierThemeEnforcer'
 
 export const dynamic = 'force-dynamic'
 
@@ -33,6 +34,7 @@ export default async function SupplierDashboardLayout({
       background: 'var(--sp-bg)',
       paddingTop: 'max(56px, env(safe-area-inset-top))',
     }}>
+      <SupplierThemeEnforcer />
       <SupplierSidebar supplierName={supplierName} isLoggedIn={!!user} />
       <main
         className="supplier-dashboard-main"
