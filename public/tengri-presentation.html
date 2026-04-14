@@ -1,0 +1,1218 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Tengri Yurt — Presentation 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<style>
+/* ═══════════════════════════════════════════════════
+   RESET & BASE
+═══════════════════════════════════════════════════ */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html,body{width:100%;height:100%;overflow:hidden;background:#080604;color:#f0ebe3;font-family:'Inter',sans-serif;cursor:none}
+::selection{background:rgba(201,168,110,.25);color:#f0ebe3}
+
+/* ═══════════════════════════════════════════════════
+   CUSTOM CURSOR
+═══════════════════════════════════════════════════ */
+#cur-dot{position:fixed;width:6px;height:6px;border-radius:50%;background:#c9a86e;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:transform .1s,width .25s,height .25s,background .25s}
+#cur-ring{position:fixed;width:36px;height:36px;border-radius:50%;border:1px solid rgba(201,168,110,.5);pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:width .4s cubic-bezier(.23,1,.32,1),height .4s cubic-bezier(.23,1,.32,1),opacity .3s,border-color .3s}
+body:has(a:hover) #cur-ring,body:has(button:hover) #cur-ring{width:56px;height:56px;border-color:rgba(201,168,110,.9)}
+body:has(a:hover) #cur-dot,body:has(button:hover) #cur-dot{width:4px;height:4px}
+
+/* ═══════════════════════════════════════════════════
+   CANVAS GRAIN
+═══════════════════════════════════════════════════ */
+#grain{position:fixed;inset:0;z-index:9990;pointer-events:none;opacity:.035}
+
+/* ═══════════════════════════════════════════════════
+   LOADING SCREEN
+═══════════════════════════════════════════════════ */
+#loader{position:fixed;inset:0;z-index:9900;background:#080604;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:28px}
+#loader-text{font-family:'EB Garamond';font-size:clamp(40px,6vw,72px);letter-spacing:.06em;color:#f0ebe3;opacity:0}
+#loader-sub{font-family:'Inter';font-size:11px;letter-spacing:.35em;text-transform:uppercase;color:rgba(201,168,110,.6);opacity:0}
+#loader-bar-wrap{width:200px;height:1px;background:rgba(201,168,110,.12)}
+#loader-bar{width:0;height:100%;background:linear-gradient(90deg,rgba(201,168,110,.3),#c9a86e,rgba(201,168,110,.3))}
+
+/* ═══════════════════════════════════════════════════
+   SLIDE ENGINE
+═══════════════════════════════════════════════════ */
+#deck{position:fixed;inset:0;overflow:hidden}
+.slide{
+  position:absolute;inset:0;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  padding:clamp(48px,7vh,80px) clamp(40px,7vw,100px);
+  opacity:0;visibility:hidden;
+  will-change:transform,opacity;
+  overflow:hidden;
+}
+.slide.active{opacity:1;visibility:visible}
+.slide-bg{position:absolute;inset:0;z-index:0}
+.slide > *:not(.slide-bg){position:relative;z-index:1}
+
+/* Slide themes */
+.s-void    .slide-bg{background:radial-gradient(ellipse 80% 60% at 50% 0%,rgba(201,168,110,.04) 0%,transparent 70%),#080604}
+.s-warm    .slide-bg{background:radial-gradient(ellipse 70% 70% at 20% 80%,rgba(201,168,110,.07) 0%,transparent 65%),#0d0b07}
+.s-split   .slide-bg{background:linear-gradient(135deg,#080604 55%,#0e0c08 100%)}
+.s-grid    .slide-bg{background:#060503}
+.s-accent  .slide-bg{background:radial-gradient(ellipse 90% 50% at 50% 100%,rgba(201,168,110,.06) 0%,transparent 60%),#0a0806}
+
+/* ═══════════════════════════════════════════════════
+   PROGRESS & NAVIGATION
+═══════════════════════════════════════════════════ */
+#top-bar{position:fixed;top:0;left:0;right:0;height:2px;z-index:8000;background:rgba(201,168,110,.08)}
+#top-fill{height:100%;width:0%;background:linear-gradient(90deg,rgba(201,168,110,.4),#c9a86e);transition:width .6s cubic-bezier(.23,1,.32,1);position:relative}
+#top-fill::after{content:'';position:absolute;right:0;top:-3px;width:8px;height:8px;border-radius:50%;background:#c9a86e;box-shadow:0 0 12px rgba(201,168,110,.8)}
+
+#nav-dots{position:fixed;right:28px;top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:10px;z-index:8000}
+.nd{width:4px;height:4px;border-radius:50%;background:rgba(255,255,255,.2);cursor:pointer;transition:all .3s;position:relative}
+.nd.on{background:#c9a86e;transform:scale(1.8)}
+.nd::after{content:attr(data-label);position:absolute;right:16px;top:50%;transform:translateY(-50%);white-space:nowrap;font-family:'Inter';font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.0);transition:color .2s;pointer-events:none}
+.nd:hover::after{color:rgba(201,168,110,.7)}
+
+#slide-num{position:fixed;bottom:32px;right:32px;font-family:'EB Garamond';font-style:italic;font-size:13px;color:rgba(255,255,255,.2);z-index:8000;letter-spacing:.05em}
+
+#nav-btns{position:fixed;bottom:28px;left:50%;transform:translateX(-50%);display:flex;gap:16px;z-index:8000;align-items:center}
+.nbtn{width:40px;height:40px;border-radius:50%;border:1px solid rgba(201,168,110,.2);background:transparent;color:rgba(201,168,110,.5);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:16px;transition:all .25s}
+.nbtn:hover{border-color:rgba(201,168,110,.6);color:#c9a86e;background:rgba(201,168,110,.06)}
+#nav-count{font-family:'Inter';font-size:10px;letter-spacing:.2em;color:rgba(255,255,255,.2)}
+
+/* ═══════════════════════════════════════════════════
+   TYPOGRAPHY SYSTEM
+═══════════════════════════════════════════════════ */
+.eyebrow{font-family:'Inter';font-size:10px;font-weight:500;letter-spacing:.35em;text-transform:uppercase;color:rgba(201,168,110,.65);margin-bottom:clamp(12px,2vh,20px);display:block}
+
+.hero-title{font-family:'EB Garamond';font-size:clamp(64px,10vw,130px);font-weight:400;line-height:.95;letter-spacing:-.02em;color:#f0ebe3;overflow:hidden}
+.hero-title .line{display:block;overflow:hidden}
+.hero-title .word{display:inline-block;transform:translateY(110%)}
+
+h2.section-title{font-family:'EB Garamond';font-size:clamp(36px,5.5vw,64px);font-weight:400;line-height:1.05;color:#f0ebe3}
+h3.card-title{font-family:'EB Garamond';font-size:clamp(18px,2vw,24px);font-weight:400;color:#f0ebe3;margin-bottom:8px}
+.body-text{font-size:clamp(13px,1.2vw,15px);line-height:1.8;color:rgba(255,255,255,.5);font-weight:300}
+.gold{color:#c9a86e}
+.italic{font-style:italic}
+
+.big-num{font-family:'EB Garamond';font-style:italic;font-size:clamp(52px,8vw,96px);line-height:1;color:#c9a86e}
+.big-num-label{font-family:'Inter';font-size:9px;font-weight:500;letter-spacing:.22em;text-transform:uppercase;color:rgba(255,255,255,.25);margin-top:8px}
+
+/* ═══════════════════════════════════════════════════
+   DIVIDER
+═══════════════════════════════════════════════════ */
+.line-h{height:1px;background:linear-gradient(90deg,rgba(201,168,110,.4),rgba(201,168,110,.1),transparent);width:80px;margin:clamp(16px,2.5vh,28px) 0}
+.line-h.center{margin-left:auto;margin-right:auto;background:linear-gradient(90deg,transparent,rgba(201,168,110,.5),transparent);width:120px}
+.line-h.full{width:100%;background:rgba(201,168,110,.1)}
+
+/* ═══════════════════════════════════════════════════
+   CARDS
+═══════════════════════════════════════════════════ */
+.card{background:rgba(255,255,255,.025);border:1px solid rgba(201,168,110,.1);padding:clamp(18px,2.5vh,28px) clamp(20px,2vw,28px);transition:border-color .3s,background .3s}
+.card:hover{border-color:rgba(201,168,110,.25);background:rgba(201,168,110,.03)}
+.card .ctag{font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:rgba(201,168,110,.55);border:1px solid rgba(201,168,110,.18);padding:3px 9px;display:inline-block;margin-bottom:12px}
+.card .cicon{font-size:20px;margin-bottom:10px;display:block}
+
+/* ═══════════════════════════════════════════════════
+   PILL / BADGE
+═══════════════════════════════════════════════════ */
+.pill{font-size:11px;padding:5px 14px;border:1px solid rgba(255,255,255,.1);color:rgba(255,255,255,.45);display:inline-block}
+.pill.g{border-color:rgba(201,168,110,.35);color:rgba(201,168,110,.8)}
+.badge{font-size:10px;padding:5px 12px;background:rgba(201,168,110,.07);border:1px solid rgba(201,168,110,.15);color:rgba(201,168,110,.8);letter-spacing:.05em}
+
+/* ═══════════════════════════════════════════════════
+   GRIDS
+═══════════════════════════════════════════════════ */
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:clamp(16px,2vw,28px)}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:clamp(12px,1.5vw,20px)}
+.g4{display:grid;grid-template-columns:repeat(4,1fr);gap:clamp(10px,1.2vw,16px)}
+.gcols{display:grid;grid-template-columns:1fr 1.6fr;gap:clamp(40px,5vw,80px);align-items:start}
+.gcols-r{display:grid;grid-template-columns:1.6fr 1fr;gap:clamp(40px,5vw,80px);align-items:start}
+
+/* ═══════════════════════════════════════════════════
+   DECORATIVE
+═══════════════════════════════════════════════════ */
+.corner-tl{position:absolute;top:clamp(20px,4vh,40px);left:clamp(20px,4vw,40px);width:32px;height:32px;border-top:1px solid rgba(201,168,110,.3);border-left:1px solid rgba(201,168,110,.3);z-index:1}
+.corner-br{position:absolute;bottom:clamp(20px,4vh,40px);right:clamp(20px,4vw,40px);width:32px;height:32px;border-bottom:1px solid rgba(201,168,110,.3);border-right:1px solid rgba(201,168,110,.3);z-index:1}
+.vline{position:absolute;top:0;bottom:0;width:1px;background:linear-gradient(to bottom,transparent 0%,rgba(201,168,110,.12) 20%,rgba(201,168,110,.12) 80%,transparent 100%)}
+
+/* ═══════════════════════════════════════════════════
+   SLIDE 1 — COVER
+═══════════════════════════════════════════════════ */
+#s1{text-align:center}
+#s1 .cover-eyebrow{font-family:'Inter';font-size:10px;letter-spacing:.4em;text-transform:uppercase;color:rgba(201,168,110,.5);opacity:0;transform:translateY(16px)}
+#s1 .cover-h1{font-family:'EB Garamond';font-size:clamp(80px,13vw,170px);font-weight:400;line-height:.9;letter-spacing:-.03em;color:#f0ebe3;margin:clamp(12px,2vh,24px) 0}
+#s1 .cover-sub{font-family:'EB Garamond';font-style:italic;font-size:clamp(16px,2.2vw,26px);color:rgba(201,168,110,.7);opacity:0;transform:translateY(16px)}
+#s1 .cover-meta{margin-top:clamp(28px,5vh,52px);display:flex;align-items:center;justify-content:center;gap:28px;opacity:0}
+#s1 .cm-dot{width:4px;height:4px;border-radius:50%;background:rgba(201,168,110,.35)}
+#s1 .cm-text{font-family:'Inter';font-size:10px;letter-spacing:.25em;text-transform:uppercase;color:rgba(255,255,255,.2)}
+#s1 .shimmer-wrap{display:flex;justify-content:center;overflow:hidden}
+.shimmer-gold{
+  font-family:'EB Garamond';font-size:clamp(80px,13vw,170px);font-weight:400;line-height:.9;letter-spacing:-.03em;
+  background:linear-gradient(90deg,#6b4f28 0%,#c9a86e 30%,#e8d4a8 50%,#c9a86e 70%,#6b4f28 100%);
+  background-size:300% 100%;
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+  animation:shimmerMove 4s linear infinite;
+}
+@keyframes shimmerMove{0%{background-position:100% 0}100%{background-position:-100% 0}}
+#s1 .cover-line{width:0;height:1px;background:linear-gradient(90deg,transparent,#c9a86e,transparent);margin:clamp(20px,3.5vh,36px) auto}
+
+/* ═══════════════════════════════════════════════════
+   SLIDE 2 — MISSION
+═══════════════════════════════════════════════════ */
+#s2 .big-quote{font-family:'EB Garamond';font-style:italic;font-size:clamp(24px,3.5vw,44px);line-height:1.3;color:#f0ebe3;max-width:720px;margin:0 auto;text-align:center}
+#s2 .quote-dash{width:40px;height:1px;background:rgba(201,168,110,.4);margin:clamp(20px,3vh,32px) auto}
+#s2 .pillars{display:flex;gap:clamp(24px,4vw,56px);justify-content:center;margin-top:clamp(24px,4vh,48px);flex-wrap:wrap}
+#s2 .pillar{text-align:center;max-width:180px}
+#s2 .pillar-icon{font-size:clamp(24px,3vw,36px);margin-bottom:10px}
+#s2 .pillar-title{font-family:'EB Garamond';font-size:clamp(15px,1.6vw,18px);color:#f0ebe3;margin-bottom:6px}
+#s2 .pillar-text{font-size:11px;color:rgba(255,255,255,.35);line-height:1.7;letter-spacing:.02em}
+#s2 .live-badge{display:inline-flex;align-items:center;gap:8px;font-family:'Inter';font-size:10px;letter-spacing:.15em;color:rgba(201,168,110,.6);border:1px solid rgba(201,168,110,.2);padding:6px 16px;margin-bottom:clamp(20px,3vh,36px)}
+#s2 .live-dot{width:6px;height:6px;border-radius:50%;background:#4ade80;animation:pulse 2s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.6;transform:scale(.8)}}
+
+/* ═══════════════════════════════════════════════════
+   SLIDE 3 — NUMBERS
+═══════════════════════════════════════════════════ */
+#s3{text-align:center}
+#s3 .nums-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:clamp(16px,3vw,48px);width:100%;max-width:900px;margin-top:clamp(28px,5vh,52px)}
+#s3 .num-item{border-top:1px solid rgba(201,168,110,.12);padding-top:clamp(20px,3vh,32px)}
+#s3 .num-val{font-family:'EB Garamond';font-style:italic;font-size:clamp(56px,8vw,96px);line-height:1;color:#c9a86e}
+#s3 .num-suffix{font-family:'EB Garamond';font-size:.5em;vertical-align:top;margin-top:.3em;display:inline-block;color:rgba(201,168,110,.6)}
+#s3 .num-label{font-family:'Inter';font-size:9px;font-weight:500;letter-spacing:.22em;text-transform:uppercase;color:rgba(255,255,255,.22);margin-top:10px}
+#s3 .num-sub{font-size:11px;color:rgba(255,255,255,.3);margin-top:4px;line-height:1.5}
+
+/* ═══════════════════════════════════════════════════
+   SLIDE 4 — PAGES
+═══════════════════════════════════════════════════ */
+#s4 .pages-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:rgba(201,168,110,.08);width:100%;max-width:1100px;margin-top:clamp(20px,3.5vh,40px)}
+#s4 .pg-item{background:#080604;padding:clamp(14px,2vh,22px) clamp(14px,1.5vw,20px);transition:background .25s;cursor:default}
+#s4 .pg-item:hover{background:rgba(201,168,110,.04)}
+#s4 .pg-path{font-family:'Inter';font-size:9px;letter-spacing:.12em;color:rgba(201,168,110,.45);margin-bottom:5px}
+#s4 .pg-name{font-family:'EB Garamond';font-size:clamp(14px,1.4vw,17px);color:#f0ebe3;margin-bottom:3px}
+#s4 .pg-desc{font-size:10px;color:rgba(255,255,255,.25);line-height:1.5}
+
+/* ═══════════════════════════════════════════════════
+   SLIDE 5 — PRODUCTS
+═══════════════════════════════════════════════════ */
+#s5 .prod-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:clamp(8px,1vw,14px);width:100%;max-width:1100px;margin-top:clamp(20px,3.5vh,40px)}
+#s5 .prod-card{border:1px solid rgba(201,168,110,.1);padding:clamp(18px,2.5vh,28px) clamp(16px,1.8vw,24px);position:relative;overflow:hidden;transition:border-color .3s}
+#s5 .prod-card:hover{border-color:rgba(201,168,110,.35)}
+#s5 .prod-card::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(201,168,110,.04) 0%,transparent 60%);opacity:0;transition:opacity .3s}
+#s5 .prod-card:hover::before{opacity:1}
+#s5 .prod-card.featured{border-color:rgba(201,168,110,.3);background:rgba(201,168,110,.03)}
+#s5 .prod-tag{font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:rgba(201,168,110,.55);margin-bottom:clamp(8px,1.5vh,14px)}
+#s5 .prod-name{font-family:'EB Garamond';font-size:clamp(18px,2vw,24px);color:#f0ebe3;margin-bottom:4px}
+#s5 .prod-dim{font-size:11px;color:rgba(255,255,255,.3);margin-bottom:clamp(12px,2vh,20px)}
+#s5 .prod-price{font-family:'EB Garamond';font-style:italic;font-size:clamp(24px,2.8vw,36px);color:#c9a86e;line-height:1}
+#s5 .prod-max{font-size:11px;color:rgba(255,255,255,.25);margin-top:4px}
+#s5 .prod-cap{font-size:10px;color:rgba(201,168,110,.4);margin-top:clamp(10px,1.5vh,16px);letter-spacing:.05em}
+#s5 .featured-star{position:absolute;top:16px;right:16px;font-size:10px;letter-spacing:.15em;color:rgba(201,168,110,.6);text-transform:uppercase}
+
+/* ═══════════════════════════════════════════════════
+   SLIDE 6 — HAMMAM
+═══════════════════════════════════════════════════ */
+#s6 .hammam-title{font-family:'EB Garamond';font-size:clamp(40px,6vw,76px);line-height:.95;color:#f0ebe3}
+#s6 .hammam-sub{font-family:'EB Garamond';font-style:italic;font-size:clamp(16px,1.8vw,22px);color:rgba(201,168,110,.7);margin-top:8px}
+#s6 .specs-row{display:grid;grid-template-columns:repeat(4,1fr);gap:clamp(8px,1vw,14px);margin-top:clamp(20px,3.5vh,40px)}
+#s6 .spec{border:1px solid rgba(201,168,110,.1);padding:clamp(14px,2vh,22px) clamp(12px,1.5vw,18px);text-align:center}
+#s6 .spec-val{font-family:'EB Garamond';font-style:italic;font-size:clamp(20px,2.5vw,30px);color:#c9a86e;line-height:1}
+#s6 .spec-key{font-family:'Inter';font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.2);margin-top:6px}
+#s6 .ritual-row{display:flex;gap:clamp(12px,2vw,24px);margin-top:clamp(16px,3vh,32px)}
+#s6 .ritual-step{flex:1;padding:clamp(12px,1.8vh,18px);border-top:1px solid rgba(201,168,110,.15);position:relative}
+#s6 .ritual-n{font-family:'EB Garamond';font-style:italic;font-size:28px;color:rgba(201,168,110,.2);line-height:1;margin-bottom:6px}
+#s6 .ritual-title{font-size:clamp(11px,1.2vw,13px);color:rgba(255,255,255,.7);margin-bottom:4px;font-weight:500}
+#s6 .ritual-text{font-size:10px;color:rgba(255,255,255,.3);line-height:1.6}
+
+/* ═══════════════════════════════════════════════════
+   SLIDE 7 — PROCESS
+═══════════════════════════════════════════════════ */
+#s7 .steps-row{display:flex;width:100%;max-width:1100px;margin-top:clamp(24px,4vh,48px)}
+#s7 .step{flex:1;padding:clamp(18px,2.5vh,28px) clamp(12px,1.5vw,18px);border:1px solid rgba(201,168,110,.08);border-right:none;position:relative;transition:background .3s}
+#s7 .step:last-child{border-right:1px solid rgba(201,168,110,.08)}
+#s7 .step:hover{background:rgba(201,168,110,.03)}
+#s7 .step-n{font-family:'EB Garamond';font-style:italic;font-size:clamp(36px,5vw,56px);color:rgba(201,168,110,.15);line-height:1;margin-bottom:clamp(10px,1.5vh,16px)}
+#s7 .step-title{font-family:'EB Garamond';font-size:clamp(14px,1.5vw,18px);color:#f0ebe3;margin-bottom:8px}
+#s7 .step-text{font-size:10px;color:rgba(255,255,255,.3);line-height:1.6}
+#s7 .step-bar{position:absolute;bottom:0;left:0;width:0;height:2px;background:rgba(201,168,110,.5);transition:width .6s ease}
+#s7 .step:hover .step-bar{width:100%}
+
+/* ═══════════════════════════════════════════════════
+   SLIDE 8 — LANGUAGES
+═══════════════════════════════════════════════════ */
+#s8{text-align:center}
+#s8 .lang-row{display:flex;justify-content:center;gap:clamp(10px,2vw,20px);margin-top:clamp(24px,4.5vh,48px);flex-wrap:wrap}
+#s8 .lang-card{padding:clamp(20px,3vh,32px) clamp(20px,2.5vw,32px);border:1px solid rgba(201,168,110,.12);min-width:clamp(90px,12vw,130px);transition:all .3s;cursor:default}
+#s8 .lang-card:hover{border-color:rgba(201,168,110,.4);background:rgba(201,168,110,.04);transform:translateY(-4px)}
+#s8 .lang-flag{font-size:clamp(28px,4vw,44px);margin-bottom:10px}
+#s8 .lang-name{font-family:'EB Garamond';font-size:clamp(16px,1.8vw,20px);color:#f0ebe3;margin-bottom:4px}
+#s8 .lang-code{font-family:'Inter';font-size:9px;letter-spacing:.2em;color:rgba(201,168,110,.4)}
+#s8 .rtl-note{margin-top:4px;font-size:9px;color:rgba(201,168,110,.35);letter-spacing:.05em}
+#s8 .tech-note{max-width:600px;margin:clamp(24px,4vh,40px) auto 0;padding:clamp(16px,2.5vh,24px) clamp(20px,3vw,32px);border:1px solid rgba(255,255,255,.06);background:rgba(255,255,255,.02)}
+#s8 .tech-note p{font-size:13px;color:rgba(255,255,255,.4);line-height:1.7}
+
+/* ═══════════════════════════════════════════════════
+   SLIDE 9 — FEATURES
+═══════════════════════════════════════════════════ */
+#s9 .feat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(10px,1.2vw,16px);width:100%;max-width:1100px;margin-top:clamp(16px,3vh,32px)}
+#s9 .feat-card{border:1px solid rgba(201,168,110,.08);padding:clamp(16px,2vh,22px) clamp(16px,1.8vw,22px);transition:all .3s;cursor:default}
+#s9 .feat-card:hover{border-color:rgba(201,168,110,.22);background:rgba(201,168,110,.03)}
+#s9 .feat-icon{font-size:clamp(18px,2vw,24px);margin-bottom:8px;display:block}
+#s9 .feat-tag{font-size:8px;letter-spacing:.18em;text-transform:uppercase;color:rgba(201,168,110,.45);margin-bottom:6px}
+#s9 .feat-name{font-family:'EB Garamond';font-size:clamp(15px,1.6vw,19px);color:#f0ebe3;margin-bottom:6px}
+#s9 .feat-desc{font-size:clamp(10px,1vw,12px);color:rgba(255,255,255,.3);line-height:1.65}
+
+/* ═══════════════════════════════════════════════════
+   SLIDE 10 — SUPPLIER / CRM
+═══════════════════════════════════════════════════ */
+#s10 .crm-metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(10px,1.2vw,14px);margin-top:clamp(20px,3vh,32px)}
+#s10 .met{border:1px solid rgba(201,168,110,.1);padding:clamp(14px,2vh,20px);text-align:center}
+#s10 .met-icon{font-size:18px;margin-bottom:6px}
+#s10 .met-label{font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.25)}
+#s10 .sub-pages{display:flex;flex-wrap:wrap;gap:8px;margin-top:clamp(16px,2.5vh,28px)}
+
+/* ═══════════════════════════════════════════════════
+   SLIDE 11 — DESIGN
+═══════════════════════════════════════════════════ */
+#s11 .color-row{display:flex;gap:8px;flex-wrap:wrap;margin:clamp(16px,2.5vh,28px) 0}
+#s11 .sw{display:flex;flex-direction:column;align-items:center;gap:6px}
+#s11 .sw-color{width:clamp(40px,5vw,56px);height:clamp(40px,5vw,56px);border:1px solid rgba(255,255,255,.08)}
+#s11 .sw-hex{font-family:'Inter';font-size:9px;color:rgba(255,255,255,.25);letter-spacing:.05em}
+#s11 .font-demo-g{font-family:'EB Garamond';font-size:clamp(28px,4vw,52px);color:#f0ebe3;line-height:1}
+#s11 .font-demo-i{font-family:'Inter';font-size:clamp(16px,2vw,22px);font-weight:300;color:rgba(255,255,255,.5);line-height:1;margin-top:8px}
+#s11 .design-principle{padding:clamp(12px,1.8vh,18px);border-left:2px solid rgba(201,168,110,.25);margin-bottom:10px}
+#s11 .dp-title{font-size:12px;color:rgba(255,255,255,.7);font-weight:500;margin-bottom:3px}
+#s11 .dp-text{font-size:11px;color:rgba(255,255,255,.3);line-height:1.5}
+
+/* ═══════════════════════════════════════════════════
+   SLIDE 12 — TECH STACK
+═══════════════════════════════════════════════════ */
+#s12 .tech-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(10px,1.2vw,16px);width:100%;max-width:1000px;margin-top:clamp(20px,3.5vh,40px)}
+#s12 .tech-card{border:1px solid rgba(201,168,110,.08);padding:clamp(18px,2.5vh,26px) clamp(16px,2vw,22px);transition:border-color .3s}
+#s12 .tech-card:hover{border-color:rgba(201,168,110,.25);background:rgba(201,168,110,.025)}
+#s12 .tc-tag{font-size:8px;letter-spacing:.2em;text-transform:uppercase;color:rgba(201,168,110,.45);margin-bottom:8px}
+#s12 .tc-name{font-family:'EB Garamond';font-size:clamp(18px,2vw,24px);color:#f0ebe3;margin-bottom:6px}
+#s12 .tc-desc{font-size:11px;color:rgba(255,255,255,.3);line-height:1.6;margin-bottom:12px}
+#s12 .tc-tags{display:flex;flex-wrap:wrap;gap:6px}
+
+/* ═══════════════════════════════════════════════════
+   SLIDE 13 — TIMELINE
+═══════════════════════════════════════════════════ */
+#s13 .tl-wrap{width:100%;max-width:1000px;margin-top:clamp(20px,3.5vh,40px);position:relative}
+#s13 .tl-line{position:absolute;top:clamp(18px,2.5vh,24px);left:0;right:0;height:1px;background:rgba(201,168,110,.1)}
+#s13 .tl-active{position:absolute;top:clamp(18px,2.5vh,24px);left:0;height:1px;background:rgba(201,168,110,.4);width:0;transition:width 1.5s ease}
+#s13 .tl-items{display:flex;gap:0;position:relative;z-index:1}
+#s13 .tl-item{flex:1;padding-top:clamp(28px,5vh,48px);padding-right:clamp(8px,1vw,14px)}
+#s13 .tl-dot{width:clamp(10px,1.2vw,14px);height:clamp(10px,1.2vw,14px);border-radius:50%;border:2px solid rgba(201,168,110,.25);background:#080604;position:absolute;top:clamp(12px,1.8vh,17px);left:0;transition:border-color .3s,background .3s}
+#s13 .tl-item.active .tl-dot{border-color:#c9a86e;background:#c9a86e}
+#s13 .tl-item.highlight .tl-dot{border-color:#c9a86e;background:rgba(201,168,110,.2);box-shadow:0 0 16px rgba(201,168,110,.4)}
+#s13 .tl-year{font-family:'EB Garamond';font-style:italic;font-size:clamp(18px,2.2vw,26px);color:rgba(201,168,110,.7);margin-bottom:6px}
+#s13 .tl-item.highlight .tl-year{color:#c9a86e}
+#s13 .tl-text{font-size:clamp(10px,1vw,12px);color:rgba(255,255,255,.3);line-height:1.6}
+
+/* ═══════════════════════════════════════════════════
+   SLIDE 14 — FINALE
+═══════════════════════════════════════════════════ */
+#s14{text-align:center}
+#s14 .finale-quote{font-family:'EB Garamond';font-style:italic;font-size:clamp(22px,3.2vw,42px);line-height:1.35;color:#f0ebe3;max-width:760px;margin:0 auto}
+#s14 .finale-stats{display:flex;gap:clamp(24px,5vw,64px);justify-content:center;margin-top:clamp(24px,4.5vh,48px);flex-wrap:wrap}
+#s14 .fs-item{text-align:center}
+#s14 .fs-num{font-family:'EB Garamond';font-style:italic;font-size:clamp(36px,5vw,60px);color:#c9a86e;line-height:1}
+#s14 .fs-label{font-family:'Inter';font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.2);margin-top:6px}
+#s14 .finale-contact{margin-top:clamp(28px,5vh,52px);padding:clamp(16px,2.5vh,24px) clamp(24px,4vw,40px);border:1px solid rgba(201,168,110,.18);display:inline-flex;flex-direction:column;gap:8px;align-items:center}
+#s14 .fc-url{font-family:'EB Garamond';font-size:clamp(16px,2vw,22px);color:rgba(201,168,110,.9)}
+#s14 .fc-email{font-family:'Inter';font-size:11px;letter-spacing:.15em;color:rgba(255,255,255,.25)}
+
+/* ═══════════════════════════════════════════════════
+   CLIP CURTAIN (transition overlay)
+═══════════════════════════════════════════════════ */
+#curtain{position:fixed;inset:0;z-index:500;background:#080604;clip-path:inset(0 0 100% 0);pointer-events:none}
+
+/* ═══════════════════════════════════════════════════
+   SCROLLBAR HIDDEN
+═══════════════════════════════════════════════════ */
+::-webkit-scrollbar{display:none}
+
+/* ═══════════════════════════════════════════════════
+   ANIMATE HELPERS
+═══════════════════════════════════════════════════ */
+.reveal{opacity:0;transform:translateY(28px)}
+.reveal-l{opacity:0;transform:translateX(-24px)}
+.reveal-r{opacity:0;transform:translateX(24px)}
+</style>
+</head>
+<body>
+
+<!-- GRAIN -->
+<canvas id="grain"></canvas>
+
+<!-- CURSOR -->
+<div id="cur-dot"></div>
+<div id="cur-ring"></div>
+
+<!-- TOP PROGRESS -->
+<div id="top-bar"><div id="top-fill"></div></div>
+
+<!-- LOADING SCREEN -->
+<div id="loader">
+  <div id="loader-text">Tengri Yurt</div>
+  <div id="loader-bar-wrap"><div id="loader-bar"></div></div>
+  <div id="loader-sub">Presentation 2026</div>
+</div>
+
+<!-- TRANSITION CURTAIN -->
+<div id="curtain"></div>
+
+<!-- NAVIGATION DOTS -->
+<div id="nav-dots">
+  <div class="nd on" data-label="Cover"></div>
+  <div class="nd" data-label="Mission"></div>
+  <div class="nd" data-label="Numbers"></div>
+  <div class="nd" data-label="Pages"></div>
+  <div class="nd" data-label="Products"></div>
+  <div class="nd" data-label="Hammam"></div>
+  <div class="nd" data-label="Process"></div>
+  <div class="nd" data-label="Languages"></div>
+  <div class="nd" data-label="Features"></div>
+  <div class="nd" data-label="Supplier"></div>
+  <div class="nd" data-label="Design"></div>
+  <div class="nd" data-label="Tech Stack"></div>
+  <div class="nd" data-label="History"></div>
+  <div class="nd" data-label="Finale"></div>
+</div>
+
+<div id="slide-num">01 / 14</div>
+
+<div id="nav-btns">
+  <button class="nbtn" id="btnPrev">&#8592;</button>
+  <span id="nav-count">01 / 14</span>
+  <button class="nbtn" id="btnNext">&#8594;</button>
+</div>
+
+<!-- ═══════════════════════════ DECK ═══════════════════════════ -->
+<div id="deck">
+
+<!-- ════ SLIDE 1 — COVER ════ -->
+<div class="slide s-void active" id="s1">
+  <div class="slide-bg"></div>
+  <div class="corner-tl"></div>
+  <div class="corner-br"></div>
+  <div class="vline" style="left:clamp(40px,7vw,100px)"></div>
+  <div class="vline" style="right:clamp(40px,7vw,100px)"></div>
+
+  <div class="cover-eyebrow">Tengri Camp · Almaty, Kazakhstan · Est. 2010</div>
+  <div class="shimmer-wrap">
+    <div class="shimmer-gold cover-h1" id="cover-h1">Tengri Yurt</div>
+  </div>
+  <div class="cover-line" id="cover-line"></div>
+  <div class="cover-sub" id="cover-sub">Традиционные казахские юрты ручной работы</div>
+  <div class="cover-meta" id="cover-meta">
+    <div class="cm-text">tengri-camp.kz</div>
+    <div class="cm-dot"></div>
+    <div class="cm-text">42 страны</div>
+    <div class="cm-dot"></div>
+    <div class="cm-text">200+ юрт</div>
+    <div class="cm-dot"></div>
+    <div class="cm-text">Presentation 2026</div>
+  </div>
+</div>
+
+<!-- ════ SLIDE 2 — MISSION ════ -->
+<div class="slide s-warm" id="s2">
+  <div class="slide-bg"></div>
+  <div class="corner-tl"></div>
+  <div class="corner-br"></div>
+
+  <div class="live-badge reveal">
+    <span class="live-dot"></span>
+    Сайт онлайн · tengri-camp.kz
+  </div>
+  <div class="big-quote reveal">
+    "Не просто продажа юрт — <span class="gold">сохранение кочевого наследия</span>, признанного ЮНЕСКО, и связь глобальной аудитории с аутентичным казахским мастерством"
+  </div>
+  <div class="quote-dash reveal"></div>
+  <div class="pillars">
+    <div class="pillar reveal">
+      <div class="pillar-icon">🛕</div>
+      <div class="pillar-title">Продажи B2C</div>
+      <div class="pillar-text">Частные клиенты, глэмпинг, фестивали, свадьбы по всему миру</div>
+    </div>
+    <div class="pillar reveal">
+      <div class="pillar-icon">🏨</div>
+      <div class="pillar-title">Бизнес B2B</div>
+      <div class="pillar-text">Отели, курорты, эко-фермы — пакетные поставки и CRM портал</div>
+    </div>
+    <div class="pillar reveal">
+      <div class="pillar-icon">🧑‍🎨</div>
+      <div class="pillar-title">Мастера</div>
+      <div class="pillar-text">40+ ремесленников с доступом к дашборду, аналитикой и заказами</div>
+    </div>
+  </div>
+</div>
+
+<!-- ════ SLIDE 3 — NUMBERS ════ -->
+<div class="slide s-grid" id="s3">
+  <div class="slide-bg"></div>
+  <div class="corner-tl"></div>
+  <div class="corner-br"></div>
+
+  <span class="eyebrow reveal">Ключевые показатели</span>
+  <h2 class="section-title reveal">В цифрах</h2>
+  <div class="nums-grid">
+    <div class="num-item reveal">
+      <div class="num-val"><span class="count" data-target="200">0</span><span class="num-suffix">+</span></div>
+      <div class="num-label">Юрт построено</div>
+      <div class="num-sub">С 2010 года по всему миру</div>
+    </div>
+    <div class="num-item reveal">
+      <div class="num-val"><span class="count" data-target="42">0</span></div>
+      <div class="num-label">Стран присутствия</div>
+      <div class="num-sub">Глобальная доставка и установка</div>
+    </div>
+    <div class="num-item reveal">
+      <div class="num-val"><span class="count" data-target="40">0</span><span class="num-suffix">+</span></div>
+      <div class="num-label">Мастеров-ремесленников</div>
+      <div class="num-sub">Традиционные техники ЮНЕСКО</div>
+    </div>
+    <div class="num-item reveal">
+      <div class="num-val"><span class="count" data-target="15">0</span><span class="num-suffix">+</span></div>
+      <div class="num-label">Лет опыта</div>
+      <div class="num-sub">Основана в Алматы в 2010 г.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ════ SLIDE 4 — PAGES ════ -->
+<div class="slide s-void" id="s4">
+  <div class="slide-bg"></div>
+  <div class="corner-tl"></div>
+  <div class="corner-br"></div>
+
+  <span class="eyebrow reveal">Структура сайта</span>
+  <h2 class="section-title reveal">14 страниц · Полная экосистема</h2>
+  <div class="pages-grid">
+    <div class="pg-item reveal"><div class="pg-path">/[locale]/</div><div class="pg-name">🏠 Главная</div><div class="pg-desc">Hero, процесс, галерея, хаммам, FAQ, CTA</div></div>
+    <div class="pg-item reveal"><div class="pg-path">/catalog</div><div class="pg-name">🛕 Каталог юрт</div><div class="pg-desc">4 модели, аксессуары, фильтрация</div></div>
+    <div class="pg-item reveal"><div class="pg-path">/order/[id]</div><div class="pg-name">📋 Форма заказа</div><div class="pg-desc">Конструктор: цвет, аксессуары, доставка</div></div>
+    <div class="pg-item reveal"><div class="pg-path">/about</div><div class="pg-name">📖 О компании</div><div class="pg-desc">История, ЮНЕСКО, материалы, команда</div></div>
+    <div class="pg-item reveal"><div class="pg-path">/hammam</div><div class="pg-name">♨️ Юрта-Хаммам</div><div class="pg-desc">Первая кочевая спа, specs, ритуалы</div></div>
+    <div class="pg-item reveal"><div class="pg-path">/calculator</div><div class="pg-name">🧮 Калькулятор</div><div class="pg-desc">Интерактивный расчёт стоимости</div></div>
+    <div class="pg-item reveal"><div class="pg-path">/contact</div><div class="pg-name">✉️ Контакты</div><div class="pg-desc">Форма, WhatsApp, адрес, режим работы</div></div>
+    <div class="pg-item reveal"><div class="pg-path">/news</div><div class="pg-name">📰 Пресса</div><div class="pg-desc">6 историй: Milestone, Event, Launch</div></div>
+    <div class="pg-item reveal"><div class="pg-path">/quiz</div><div class="pg-name">🎯 Квиз</div><div class="pg-desc">Интерактивный тест о юртах</div></div>
+    <div class="pg-item reveal"><div class="pg-path">/cart</div><div class="pg-name">🛒 Корзина</div><div class="pg-desc">Мультитоварная корзина + оформление</div></div>
+    <div class="pg-item reveal"><div class="pg-path">/supplier/dashboard</div><div class="pg-name">📊 Портал</div><div class="pg-desc">CRM, аналитика, управление заказами</div></div>
+    <div class="pg-item reveal"><div class="pg-path">/inquiry</div><div class="pg-name">💬 Inquiry Wizard</div><div class="pg-desc">4-шаговый мастер квалификации лида</div></div>
+  </div>
+</div>
+
+<!-- ════ SLIDE 5 — PRODUCTS ════ -->
+<div class="slide s-accent" id="s5">
+  <div class="slide-bg"></div>
+  <div class="corner-tl"></div>
+  <div class="corner-br"></div>
+
+  <span class="eyebrow reveal">Продуктовая линейка</span>
+  <h2 class="section-title reveal">4 модели юрт · Ценовой диапазон</h2>
+  <div class="prod-grid">
+    <div class="prod-card reveal">
+      <div class="prod-tag">6-канатная · Intimate</div>
+      <div class="prod-name">Казахская 6</div>
+      <div class="prod-dim">⌀ 5 м · 15–20 чел. · 30–45 дней</div>
+      <div class="prod-price">$5,000</div>
+      <div class="prod-max">до $8,000</div>
+      <div class="prod-cap">Аренда: $1,000/день</div>
+    </div>
+    <div class="prod-card reveal">
+      <div class="prod-tag">8-канатная · Cozy</div>
+      <div class="prod-name">Казахская 8</div>
+      <div class="prod-dim">⌀ 6 м · 25–30 чел. · 35–50 дней</div>
+      <div class="prod-price">$6,000</div>
+      <div class="prod-max">до $10,000</div>
+      <div class="prod-cap">Аренда: $1,000/день</div>
+    </div>
+    <div class="prod-card featured reveal">
+      <div class="featured-star">★ popular</div>
+      <div class="prod-tag" style="color:#c9a86e">12-канатная · Classic</div>
+      <div class="prod-name">Казахская 12</div>
+      <div class="prod-dim">⌀ 8 м · 35–55 чел. · 40–55 дней</div>
+      <div class="prod-price">$14,000</div>
+      <div class="prod-max">до $20,000</div>
+      <div class="prod-cap">Аренда: $1,500/день</div>
+    </div>
+    <div class="prod-card reveal">
+      <div class="prod-tag">16-канатная · Spacious</div>
+      <div class="prod-name">Казахская 16</div>
+      <div class="prod-dim">⌀ 9 м · 60–80 чел. · 45–60 дней</div>
+      <div class="prod-price">$17,000</div>
+      <div class="prod-max">до $25,000</div>
+      <div class="prod-cap">Аренда: $2,000/день</div>
+    </div>
+  </div>
+  <div style="margin-top:clamp(14px,2.5vh,24px);display:flex;gap:10px;flex-wrap:wrap;justify-content:center" class="reveal">
+    <div class="pill g">Кошма — $450</div>
+    <div class="pill g">Низкий стол — $380</div>
+    <div class="pill g">Табуреты ×4 — $320</div>
+    <div class="pill g">Мебель комплект — $1,200</div>
+    <div class="pill">Белый / Серебряный / Прозрачный тент — под заказ</div>
+  </div>
+</div>
+
+<!-- ════ SLIDE 6 — HAMMAM ════ -->
+<div class="slide s-warm" id="s6">
+  <div class="slide-bg"></div>
+  <div class="corner-tl"></div>
+  <div class="corner-br"></div>
+
+  <div class="gcols" style="width:100%;max-width:1100px">
+    <div>
+      <span class="eyebrow reveal">Специальный продукт</span>
+      <div class="hammam-title reveal">Юрта<br><span class="gold">Хаммам</span></div>
+      <div class="hammam-sub reveal">Первая в мире кочевая спа</div>
+      <div class="line-h reveal"></div>
+      <p class="body-text reveal" style="max-width:400px">Традиционный паровой хаммам внутри казахской юрты. Горячий и холодный плунж под открытым небом. Древний ритуал оздоровления в новом формате.</p>
+      <div style="margin-top:clamp(14px,2.5vh,24px);display:flex;flex-wrap:wrap;gap:8px" class="reveal">
+        <div class="badge">6 м ⌀</div>
+        <div class="badge">8-канатная</div>
+        <div class="badge">380В / 20кВт</div>
+        <div class="badge">3–4 дня установка</div>
+        <div class="badge">45–60 дней производство</div>
+      </div>
+    </div>
+    <div>
+      <div class="specs-row">
+        <div class="spec reveal"><div class="spec-val">80–100°</div><div class="spec-key">Пар</div></div>
+        <div class="spec reveal"><div class="spec-val">38–42°</div><div class="spec-key">Горячий плунж</div></div>
+        <div class="spec reveal"><div class="spec-val">8–14°</div><div class="spec-key">Холодный плунж</div></div>
+        <div class="spec reveal"><div class="spec-val">6–10</div><div class="spec-key">Человек</div></div>
+      </div>
+      <div class="ritual-row" style="margin-top:clamp(12px,2vh,20px)">
+        <div class="ritual-step reveal">
+          <div class="ritual-n">01</div>
+          <div class="ritual-title">🌡️ Разогрев</div>
+          <div class="ritual-text">Постепенное вхождение в паровой зал</div>
+        </div>
+        <div class="ritual-step reveal">
+          <div class="ritual-n">02</div>
+          <div class="ritual-title">🍃 Кесе</div>
+          <div class="ritual-text">Ритуальный массаж травяным пучком</div>
+        </div>
+        <div class="ritual-step reveal">
+          <div class="ritual-n">03</div>
+          <div class="ritual-title">❄️ Закалка</div>
+          <div class="ritual-text">Контрастный холодный плунж</div>
+        </div>
+        <div class="ritual-step reveal">
+          <div class="ritual-n">04</div>
+          <div class="ritual-title">☕ Чай</div>
+          <div class="ritual-text">Казахский чай с угощениями</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════ SLIDE 7 — PROCESS ════ -->
+<div class="slide s-void" id="s7">
+  <div class="slide-bg"></div>
+  <div class="corner-tl"></div>
+  <div class="corner-br"></div>
+
+  <span class="eyebrow reveal">Производство</span>
+  <h2 class="section-title reveal">6 шагов создания юрты</h2>
+  <div class="steps-row">
+    <div class="step reveal">
+      <div class="step-n">01</div>
+      <div class="step-title">Дизайн & Консультация</div>
+      <div class="step-text">Определение размера, стиля, цвета, аксессуаров и сроков доставки</div>
+      <div class="step-bar"></div>
+    </div>
+    <div class="step reveal">
+      <div class="step-n">02</div>
+      <div class="step-title">Выбор материалов</div>
+      <div class="step-text">Натуральная шерсть, дерево, войлок — местные казахстанские поставщики</div>
+      <div class="step-bar"></div>
+    </div>
+    <div class="step reveal">
+      <div class="step-n">03</div>
+      <div class="step-title">Создание каркаса</div>
+      <div class="step-text">Кереге (решётки) и уық (жерди) — ручная обработка и роспись мастерами</div>
+      <div class="step-bar"></div>
+    </div>
+    <div class="step reveal">
+      <div class="step-n">04</div>
+      <div class="step-title">Изготовление войлока</div>
+      <div class="step-text">Традиционный киіз — валяние, окрашивание, сушка под открытым небом</div>
+      <div class="step-bar"></div>
+    </div>
+    <div class="step reveal">
+      <div class="step-n">05</div>
+      <div class="step-title">Сборка & Декор</div>
+      <div class="step-text">Роспись шаңырақа, нанесение орнаментов, финальная сборка</div>
+      <div class="step-bar"></div>
+    </div>
+    <div class="step reveal">
+      <div class="step-n">06</div>
+      <div class="step-title">Глобальная установка</div>
+      <div class="step-text">Доставка в 42+ страны, установка мастерами Tengri за 3–5 дней</div>
+      <div class="step-bar"></div>
+    </div>
+  </div>
+  <div style="margin-top:clamp(16px,3vh,32px);display:flex;gap:clamp(16px,3vw,40px);flex-wrap:wrap" class="reveal">
+    <div><span class="gold" style="font-family:'EB Garamond';font-size:14px">Шаңырақ</span> <span class="body-text" style="font-size:12px">— Купол</span></div>
+    <div><span class="gold" style="font-family:'EB Garamond';font-size:14px">Кереге</span> <span class="body-text" style="font-size:12px">— Стены</span></div>
+    <div><span class="gold" style="font-family:'EB Garamond';font-size:14px">Уық</span> <span class="body-text" style="font-size:12px">— Жерди</span></div>
+    <div><span class="gold" style="font-family:'EB Garamond';font-size:14px">Киіз</span> <span class="body-text" style="font-size:12px">— Войлок</span></div>
+    <div class="line-h" style="display:none"></div>
+    <div class="badge" style="align-self:center">ЮНЕСКО 2018</div>
+  </div>
+</div>
+
+<!-- ════ SLIDE 8 — LANGUAGES ════ -->
+<div class="slide s-grid" id="s8">
+  <div class="slide-bg"></div>
+  <div class="corner-tl"></div>
+  <div class="corner-br"></div>
+
+  <span class="eyebrow reveal">Интернационализация</span>
+  <h2 class="section-title reveal">5 языков · Глобальный охват</h2>
+  <div class="lang-row">
+    <div class="lang-card reveal">
+      <div class="lang-flag">🇬🇧</div>
+      <div class="lang-name">English</div>
+      <div class="lang-code">/en/</div>
+    </div>
+    <div class="lang-card reveal">
+      <div class="lang-flag">🇷🇺</div>
+      <div class="lang-name">Русский</div>
+      <div class="lang-code">/ru/</div>
+    </div>
+    <div class="lang-card reveal">
+      <div class="lang-flag">🇰🇿</div>
+      <div class="lang-name">Қазақша</div>
+      <div class="lang-code">/kk/</div>
+    </div>
+    <div class="lang-card reveal">
+      <div class="lang-flag">🇨🇳</div>
+      <div class="lang-name">中文</div>
+      <div class="lang-code">/zh/</div>
+    </div>
+    <div class="lang-card reveal">
+      <div class="lang-flag">🇸🇦</div>
+      <div class="lang-name">العربية</div>
+      <div class="lang-code">/ar/</div>
+      <div class="rtl-note">RTL ←</div>
+    </div>
+  </div>
+  <div class="tech-note reveal">
+    <p>Реализовано через <strong style="color:rgba(201,168,110,.8)">next-intl 3.22</strong> — middleware-based роутинг, ICU-формат для интерполяции, 500+ переведённых ключей. Арабский поддерживает полное зеркалирование вёрстки (<code style="color:rgba(201,168,110,.6);font-size:11px">dir="rtl"</code>). Переключение без перезагрузки страницы.</p>
+  </div>
+</div>
+
+<!-- ════ SLIDE 9 — FEATURES ════ -->
+<div class="slide s-accent" id="s9">
+  <div class="slide-bg"></div>
+  <div class="corner-tl"></div>
+  <div class="corner-br"></div>
+
+  <span class="eyebrow reveal">Функциональность</span>
+  <h2 class="section-title reveal">Ключевые возможности</h2>
+  <div class="feat-grid">
+    <div class="feat-card reveal">
+      <span class="feat-icon">🤖</span>
+      <div class="feat-tag">AI · Claude</div>
+      <div class="feat-name">AI Гид Tengri</div>
+      <div class="feat-desc">Стриминговый чат на базе Anthropic Claude. Prompt caching, 5 языков, история диалога. Отвечает на вопросы о юртах 24/7.</div>
+    </div>
+    <div class="feat-card reveal">
+      <span class="feat-icon">💬</span>
+      <div class="feat-tag">Мессенджер</div>
+      <div class="feat-name">WhatsApp интеграция</div>
+      <div class="feat-desc">Умные pre-filled сообщения по контексту страницы. На мобильных — плавающая кнопка. Десктоп — в навбаре.</div>
+    </div>
+    <div class="feat-card reveal">
+      <span class="feat-icon">🎵</span>
+      <div class="feat-tag">Опыт</div>
+      <div class="feat-name">Музыкальный плеер</div>
+      <div class="feat-desc">"Адай — Күрмаңғазы" — традиционный казахский күй. В меню на мобилках, кнопка-эквалайзер в навбаре на десктопе.</div>
+    </div>
+    <div class="feat-card reveal">
+      <span class="feat-icon">🛒</span>
+      <div class="feat-tag">E-Commerce</div>
+      <div class="feat-name">Корзина & Заказы</div>
+      <div class="feat-desc">CartContext, мультитоварная корзина, выбор аксессуаров, типов доставки, цвета интерьера. PDF подтверждение.</div>
+    </div>
+    <div class="feat-card reveal">
+      <span class="feat-icon">🗺️</span>
+      <div class="feat-tag">Карта</div>
+      <div class="feat-name">Карта доставки</div>
+      <div class="feat-desc">Leaflet-карта с покрытием 42+ стран. Визуализация глобального присутствия в форме заказа.</div>
+    </div>
+    <div class="feat-card reveal">
+      <span class="feat-icon">💱</span>
+      <div class="feat-tag">Финансы</div>
+      <div class="feat-name">USD / KZT конвертер</div>
+      <div class="feat-desc">ExchangeRateContext — живые курсы. Двойное отображение цен по всему сайту. Актуально для казахстанского рынка.</div>
+    </div>
+    <div class="feat-card reveal">
+      <span class="feat-icon">📄</span>
+      <div class="feat-tag">Документы</div>
+      <div class="feat-name">PDF генерация</div>
+      <div class="feat-desc">pdf-lib — спецификации юрт и подтверждения заказов прямо в браузере без серверного рендеринга.</div>
+    </div>
+    <div class="feat-card reveal">
+      <span class="feat-icon">📊</span>
+      <div class="feat-tag">Аналитика</div>
+      <div class="feat-name">Vercel Analytics</div>
+      <div class="feat-desc">Speed Insights + Traffic Analytics. Cookie Consent GDPR. Schema.org structured data для SEO.</div>
+    </div>
+    <div class="feat-card reveal">
+      <span class="feat-icon">🎯</span>
+      <div class="feat-tag">Лидогенерация</div>
+      <div class="feat-name">Inquiry Wizard</div>
+      <div class="feat-desc">4-шаговый мастер: цель → размер → контакты → требования. Квалификация лида до попадания в CRM.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ════ SLIDE 10 — SUPPLIER / CRM ════ -->
+<div class="slide s-warm" id="s10">
+  <div class="slide-bg"></div>
+  <div class="corner-tl"></div>
+  <div class="corner-br"></div>
+
+  <div class="gcols" style="width:100%;max-width:1100px">
+    <div>
+      <span class="eyebrow reveal">B2B платформа</span>
+      <h2 class="section-title reveal">Портал<br><span class="gold">Поставщика</span></h2>
+      <div class="line-h reveal"></div>
+      <p class="body-text reveal">Полноценный CRM-дашборд для мастеров. Тёплая бежевая тема, отдельная от публичного сайта. Авторизация через Supabase Auth.</p>
+
+      <div class="crm-metrics reveal">
+        <div class="met"><div class="met-icon">💰</div><div class="met-label">Total Revenue</div></div>
+        <div class="met"><div class="met-icon">✅</div><div class="met-label">Paid Revenue</div></div>
+        <div class="met"><div class="met-icon">📋</div><div class="met-label">Total Orders</div></div>
+        <div class="met"><div class="met-icon">📅</div><div class="met-label">This Month</div></div>
+        <div class="met"><div class="met-icon">📈</div><div class="met-label">Avg Order Value</div></div>
+        <div class="met"><div class="met-icon">⏳</div><div class="met-label">Pending Count</div></div>
+      </div>
+
+      <div class="sub-pages reveal">
+        <div class="pill g">Dashboard</div>
+        <div class="pill g">Yurts</div>
+        <div class="pill g">Accessories</div>
+        <div class="pill g">Orders</div>
+        <div class="pill g">Rentals</div>
+        <div class="pill g">Settings</div>
+      </div>
+    </div>
+    <div>
+      <div class="reveal" style="display:flex;flex-direction:column;gap:clamp(12px,1.8vh,18px)">
+        <div class="card">
+          <div class="ctag">Аналитика</div>
+          <h3 class="card-title">Monthly Revenue Chart</h3>
+          <p class="body-text" style="font-size:12px">Bar chart за 6 месяцев — Orders + Revenue в одном графике. Тренды, сезонность, динамика роста.</p>
+        </div>
+        <div class="card">
+          <div class="ctag">География</div>
+          <h3 class="card-title">Top Countries Table</h3>
+          <p class="body-text" style="font-size:12px">Топ направлений доставки по количеству заказов и выручке. 42 страны в реальном времени.</p>
+        </div>
+        <div class="card">
+          <div class="ctag">Продукты</div>
+          <h3 class="card-title">Top Products Ranking</h3>
+          <p class="body-text" style="font-size:12px">Какие модели продаются лучше. Full order details со статусами и историей платежей.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════ SLIDE 11 — DESIGN ════ -->
+<div class="slide s-void" id="s11">
+  <div class="slide-bg"></div>
+  <div class="corner-tl"></div>
+  <div class="corner-br"></div>
+
+  <div class="gcols" style="width:100%;max-width:1100px">
+    <div>
+      <span class="eyebrow reveal">Дизайн-система</span>
+      <h2 class="section-title reveal">Визуальный<br>язык</h2>
+      <div class="line-h reveal"></div>
+
+      <div style="margin-bottom:clamp(16px,2.5vh,24px)" class="reveal">
+        <div class="eyebrow" style="font-size:8px;margin-bottom:10px">Цветовая палитра</div>
+        <div class="color-row">
+          <div class="sw"><div class="sw-color" style="background:#080604"></div><div class="sw-hex">#080604</div></div>
+          <div class="sw"><div class="sw-color" style="background:#1a1510"></div><div class="sw-hex">#1A1510</div></div>
+          <div class="sw"><div class="sw-color" style="background:#c9a86e"></div><div class="sw-hex">Gold</div></div>
+          <div class="sw"><div class="sw-color" style="background:rgba(201,168,110,.35)"></div><div class="sw-hex">Gold 35%</div></div>
+          <div class="sw"><div class="sw-color" style="background:rgba(255,255,255,.55)"></div><div class="sw-hex">White 55%</div></div>
+          <div class="sw"><div class="sw-color" style="background:#25D366"></div><div class="sw-hex">WA Green</div></div>
+          <div class="sw"><div class="sw-color" style="background:#f5f0e8"></div><div class="sw-hex">Beige</div></div>
+        </div>
+      </div>
+
+      <div class="reveal">
+        <div class="eyebrow" style="font-size:8px;margin-bottom:10px">Типографика</div>
+        <div class="font-demo-g">EB Garamond</div>
+        <div style="font-size:10px;color:rgba(255,255,255,.25);margin-bottom:12px;letter-spacing:.05em">Заголовки · Цифры · Display · Italic</div>
+        <div class="font-demo-i">Inter Light / Regular</div>
+        <div style="font-size:10px;color:rgba(255,255,255,.25);letter-spacing:.05em">Тело · Кнопки · Навигация · Caps</div>
+      </div>
+    </div>
+    <div>
+      <div class="design-principle reveal">
+        <div class="dp-title">Luxury Nomadic Minimalism</div>
+        <div class="dp-text">Тёмная earth-тема как основа. Золото — единственный яркий акцент. Высокий контраст, читаемость на любом экране.</div>
+      </div>
+      <div class="design-principle reveal">
+        <div class="dp-title">Sharp Corners · Max 2–4px</div>
+        <div class="dp-text">Нет закруглений в карточках и кнопках — острый, премиальный характер. Радиус только в круглых элементах.</div>
+      </div>
+      <div class="design-principle reveal">
+        <div class="dp-title">Grain Texture Overlay</div>
+        <div class="dp-text">Canvas-шум 3–4% opacity поверх всего. Добавляет тактильность и аналоговый характер плёнки.</div>
+      </div>
+      <div class="design-principle reveal">
+        <div class="dp-title">Scroll Reveal + Parallax</div>
+        <div class="dp-text">Fade-in + slide-up при входе в viewport. Parallax на hero-секциях. Кинематографичный темп повествования.</div>
+      </div>
+      <div style="margin-top:clamp(16px,2.5vh,24px);display:flex;gap:10px;flex-wrap:wrap" class="reveal">
+        <div style="padding:10px 22px;border:1px solid rgba(255,255,255,.5);font-size:11px;letter-spacing:.15em;color:#f0ebe3">Book Now</div>
+        <div style="padding:10px 22px;border:1px solid rgba(201,168,110,.4);font-size:11px;letter-spacing:.15em;color:#c9a86e">Catalog</div>
+        <div style="width:36px;height:36px;border-radius:50%;border:1px solid rgba(37,211,102,.4);display:flex;align-items:center;justify-content:center;color:#25D366;font-size:15px">✉</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════ SLIDE 12 — TECH STACK ════ -->
+<div class="slide s-grid" id="s12">
+  <div class="slide-bg"></div>
+  <div class="corner-tl"></div>
+  <div class="corner-br"></div>
+
+  <span class="eyebrow reveal">Технологии</span>
+  <h2 class="section-title reveal">Технический стек</h2>
+  <div class="tech-grid">
+    <div class="tech-card reveal">
+      <div class="tc-tag">Frontend</div>
+      <div class="tc-name">Next.js 14</div>
+      <div class="tc-desc">App Router, Server Components, React 18, TypeScript 5.6</div>
+      <div class="tc-tags"><div class="badge">Next.js 14.2</div><div class="badge">React 18</div><div class="badge">TS 5.6</div><div class="badge">Tailwind 3.4</div></div>
+    </div>
+    <div class="tech-card reveal">
+      <div class="tc-tag">Database · Auth</div>
+      <div class="tc-name">Supabase</div>
+      <div class="tc-desc">PostgreSQL + Auth + Storage. RLS политики. Таблицы: yurts, orders, suppliers, accessories</div>
+      <div class="tc-tags"><div class="badge">Supabase 2.45</div><div class="badge">PostgreSQL</div><div class="badge">Storage</div></div>
+    </div>
+    <div class="tech-card reveal">
+      <div class="tc-tag">AI</div>
+      <div class="tc-name">Claude AI</div>
+      <div class="tc-desc">@anthropic-ai/sdk 0.88. Streaming, prompt caching. AI-гид для консультаций по юртам.</div>
+      <div class="tc-tags"><div class="badge">Anthropic SDK</div><div class="badge">Streaming</div><div class="badge">Caching</div></div>
+    </div>
+    <div class="tech-card reveal">
+      <div class="tc-tag">Деплой</div>
+      <div class="tc-name">Vercel</div>
+      <div class="tc-desc">Edge Functions, автодеплой, Analytics + Speed Insights встроены. Staging + Production.</div>
+      <div class="tc-tags"><div class="badge">Vercel</div><div class="badge">Analytics</div><div class="badge">Edge</div></div>
+    </div>
+    <div class="tech-card reveal">
+      <div class="tc-tag">Email · Maps</div>
+      <div class="tc-name">Resend + Leaflet</div>
+      <div class="tc-desc">Resend 4.0 для транзакционных писем. Leaflet 1.9 для интерактивных карт доставки.</div>
+      <div class="tc-tags"><div class="badge">Resend 4.0</div><div class="badge">Leaflet 1.9</div><div class="badge">WhatsApp</div></div>
+    </div>
+    <div class="tech-card reveal">
+      <div class="tc-tag">i18n · PDF · Utils</div>
+      <div class="tc-name">next-intl + pdf-lib</div>
+      <div class="tc-desc">next-intl 3.22 — 5 языков, RTL. pdf-lib 1.17 — генерация спецификаций без сервера.</div>
+      <div class="tc-tags"><div class="badge">next-intl</div><div class="badge">pdf-lib</div><div class="badge">5 langs</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ════ SLIDE 13 — HISTORY ════ -->
+<div class="slide s-accent" id="s13">
+  <div class="slide-bg"></div>
+  <div class="corner-tl"></div>
+  <div class="corner-br"></div>
+
+  <span class="eyebrow reveal">История компании</span>
+  <h2 class="section-title reveal">Путь <span class="gold italic">Tengri Yurt</span></h2>
+  <div class="tl-wrap">
+    <div class="tl-line"></div>
+    <div class="tl-active" id="tl-active"></div>
+    <div class="tl-items">
+      <div class="tl-item active reveal" style="position:relative">
+        <div class="tl-dot"></div>
+        <div class="tl-year">2010</div>
+        <div class="tl-text">Основание в Алматы. Первые юрты ручной работы для местного рынка.</div>
+      </div>
+      <div class="tl-item active reveal" style="position:relative">
+        <div class="tl-dot"></div>
+        <div class="tl-year">2014</div>
+        <div class="tl-text">Первые международные поставки. Выход на рынки СНГ и Европы.</div>
+      </div>
+      <div class="tl-item active reveal" style="position:relative">
+        <div class="tl-dot"></div>
+        <div class="tl-year">2018</div>
+        <div class="tl-text" style="color:rgba(201,168,110,.8)">🏛️ ЮНЕСКО — юртоделие включено в список нематериального культурного наследия.</div>
+      </div>
+      <div class="tl-item active reveal" style="position:relative">
+        <div class="tl-dot"></div>
+        <div class="tl-year">2021</div>
+        <div class="tl-text">10+ стран, первые крупные проекты для глэмпинг-курортов.</div>
+      </div>
+      <div class="tl-item active reveal" style="position:relative">
+        <div class="tl-dot"></div>
+        <div class="tl-year">2023</div>
+        <div class="tl-text">Burning Man, Dubai, Miami Art Week. Мировое медиавнимание. 200+ юрт.</div>
+      </div>
+      <div class="tl-item highlight reveal" style="position:relative">
+        <div class="tl-dot"></div>
+        <div class="tl-year">2024</div>
+        <div class="tl-text">Запуск Юрты-Хаммам. Новая Зеландия. Цифровая платформа v2.</div>
+      </div>
+      <div class="tl-item highlight reveal" style="position:relative">
+        <div class="tl-dot"></div>
+        <div class="tl-year" style="color:#c9a86e">2026</div>
+        <div class="tl-text" style="color:rgba(201,168,110,.7)">Новый сайт. AI-гид. 5 языков. 42 страны. Полный B2B/B2C портал.</div>
+      </div>
+    </div>
+  </div>
+  <div style="margin-top:clamp(20px,3.5vh,40px);display:flex;gap:clamp(16px,3vw,32px);flex-wrap:wrap" class="reveal">
+    <div class="card" style="padding:clamp(10px,1.5vh,16px) clamp(14px,2vw,20px);display:flex;gap:12px;align-items:center;flex:1;min-width:200px">
+      <div style="font-size:18px">🇳🇿</div>
+      <div><div style="font-size:12px;color:#f0ebe3">Новая Зеландия — Ноябрь 2024</div><div style="font-size:10px;color:rgba(255,255,255,.25)">Milestone</div></div>
+    </div>
+    <div class="card" style="padding:clamp(10px,1.5vh,16px) clamp(14px,2vw,20px);display:flex;gap:12px;align-items:center;flex:1;min-width:200px">
+      <div style="font-size:18px">🔥</div>
+      <div><div style="font-size:12px;color:#f0ebe3">Burning Man 2024 — Black Rock</div><div style="font-size:10px;color:rgba(255,255,255,.25)">Event</div></div>
+    </div>
+    <div class="card" style="padding:clamp(10px,1.5vh,16px) clamp(14px,2vw,20px);display:flex;gap:12px;align-items:center;flex:1;min-width:200px">
+      <div style="font-size:18px">🇦🇪</div>
+      <div><div style="font-size:12px;color:#f0ebe3">Dubai Project 2023</div><div style="font-size:10px;color:rgba(255,255,255,.25)">From the Steppe</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ════ SLIDE 14 — FINALE ════ -->
+<div class="slide s-void" id="s14">
+  <div class="slide-bg"></div>
+  <div class="corner-tl"></div>
+  <div class="corner-br"></div>
+  <div class="vline" style="left:clamp(40px,7vw,100px)"></div>
+  <div class="vline" style="right:clamp(40px,7vw,100px)"></div>
+
+  <div class="finale-quote reveal">
+    "Не просто продажа юрт — <span class="gold">сохранение кочевого наследия</span>, признанного ЮНЕСКО, и соединение мира с аутентичным казахским мастерством"
+  </div>
+
+  <div class="line-h center reveal" style="margin-top:clamp(20px,3.5vh,36px)"></div>
+
+  <div class="finale-stats">
+    <div class="fs-item reveal"><div class="fs-num">14</div><div class="fs-label">Страниц сайта</div></div>
+    <div class="fs-item reveal"><div class="fs-num">5</div><div class="fs-label">Языков</div></div>
+    <div class="fs-item reveal"><div class="fs-num">42</div><div class="fs-label">Страны</div></div>
+    <div class="fs-item reveal"><div class="fs-num">$25K</div><div class="fs-label">Макс. стоимость</div></div>
+    <div class="fs-item reveal"><div class="fs-num">200+</div><div class="fs-label">Юрт в мире</div></div>
+  </div>
+
+  <div class="finale-contact reveal">
+    <div class="fc-url">tengri-camp.kz</div>
+    <div class="fc-email">info@tengri-camp.kz &nbsp;·&nbsp; +7 747 777 78 88 &nbsp;·&nbsp; Almaty, Kazakhstan</div>
+  </div>
+</div>
+
+</div><!-- /deck -->
+
+<script>
+/* ═══════════════════════════════════════════════════
+   GRAIN CANVAS
+═══════════════════════════════════════════════════ */
+(function(){
+  const c = document.getElementById('grain')
+  const ctx = c.getContext('2d')
+  let frame = 0
+  function resize(){c.width=window.innerWidth;c.height=window.innerHeight}
+  function draw(){
+    const w=c.width,h=c.height
+    const d=ctx.createImageData(w,h)
+    const buf=d.data
+    for(let i=0;i<buf.length;i+=4){
+      const v=Math.random()*255|0
+      buf[i]=buf[i+1]=buf[i+2]=v;buf[i+3]=255
+    }
+    ctx.putImageData(d,0,0)
+  }
+  function loop(){
+    if(frame%3===0)draw()
+    frame++
+    requestAnimationFrame(loop)
+  }
+  resize()
+  window.addEventListener('resize',resize)
+  loop()
+})()
+
+/* ═══════════════════════════════════════════════════
+   CURSOR
+═══════════════════════════════════════════════════ */
+const dot = document.getElementById('cur-dot')
+const ring = document.getElementById('cur-ring')
+let mx=0,my=0,rx=0,ry=0
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY})
+;(function animCursor(){
+  rx+=(mx-rx)*0.18; ry+=(my-ry)*0.18
+  dot.style.left=mx+'px'; dot.style.top=my+'px'
+  ring.style.left=rx+'px'; ring.style.top=ry+'px'
+  requestAnimationFrame(animCursor)
+})()
+
+/* ═══════════════════════════════════════════════════
+   LOADER
+═══════════════════════════════════════════════════ */
+const tl = gsap.timeline({onComplete:()=>{
+  gsap.to('#loader',{opacity:0,duration:.6,ease:'power2.in',onComplete:()=>{
+    document.getElementById('loader').style.display='none'
+    initSlide(0)
+  }})
+}})
+tl.to('#loader-text',{opacity:1,y:0,duration:.8,ease:'power3.out'},0.3)
+tl.to('#loader-bar',{width:'100%',duration:1.2,ease:'power2.inOut'},0.6)
+tl.to('#loader-sub',{opacity:1,duration:.6,ease:'power2.out'},1.2)
+tl.to({},{duration:.4})
+
+/* ═══════════════════════════════════════════════════
+   SLIDE ENGINE
+═══════════════════════════════════════════════════ */
+const slides = Array.from(document.querySelectorAll('.slide'))
+const ndots  = Array.from(document.querySelectorAll('.nd'))
+const total  = slides.length
+let cur = 0, animating = false
+
+function updateUI(n){
+  ndots.forEach((d,i)=>d.classList.toggle('on',i===n))
+  document.getElementById('top-fill').style.width=((n+1)/total*100)+'%'
+  const s=(n+1).toString().padStart(2,'0')
+  document.getElementById('slide-num').textContent=s+' / '+total.toString().padStart(2,'0')
+  document.getElementById('nav-count').textContent=s+' / '+total.toString().padStart(2,'0')
+}
+
+function initSlide(n){
+  slides.forEach(s=>s.classList.remove('active'))
+  slides[n].classList.add('active')
+  updateUI(n)
+  animateIn(n)
+}
+
+function animateIn(n){
+  const slide = slides[n]
+  const reveals = slide.querySelectorAll('.reveal,.reveal-l,.reveal-r')
+
+  // Reset
+  reveals.forEach(el=>{
+    const isL = el.classList.contains('reveal-l')
+    const isR = el.classList.contains('reveal-r')
+    gsap.set(el,{opacity:0,x:isL?-24:isR?24:0,y:isL||isR?0:28})
+  })
+
+  // Slide-specific animations
+  if(n===0){
+    // Cover
+    gsap.set('#cover-h1',{opacity:0,scale:1.05})
+    gsap.to('#cover-h1',{opacity:1,scale:1,duration:1.2,ease:'power3.out',delay:.1})
+    gsap.to('#cover-line',{width:'200px',duration:1,ease:'power3.inOut',delay:.5})
+    gsap.to('#cover-sub',{opacity:1,y:0,duration:.8,ease:'power2.out',delay:.7})
+    gsap.to('#cover-meta',{opacity:1,duration:.8,delay:1})
+    const ey = slide.querySelector('.cover-eyebrow')
+    gsap.to(ey,{opacity:1,y:0,duration:.7,ease:'power2.out',delay:.2})
+  } else if(n===2){
+    // Numbers — animate counters
+    slide.querySelectorAll('.count').forEach(el=>{
+      const target=+el.dataset.target
+      gsap.fromTo(el,{textContent:0},{textContent:target,duration:1.8,ease:'power2.out',delay:.4,snap:{textContent:1},onUpdate:function(){el.textContent=Math.round(+el.textContent)}})
+    })
+  } else if(n===12){
+    // Timeline
+    setTimeout(()=>{ gsap.to('#tl-active',{width:'100%',duration:1.5,ease:'power2.inOut',delay:.3}) },100)
+  }
+
+  // Stagger reveals
+  gsap.to(reveals,{
+    opacity:1,x:0,y:0,
+    duration:.7,
+    stagger:.06,
+    ease:'power2.out',
+    delay: n===0?0:.15
+  })
+}
+
+function goTo(n){
+  if(n<0||n>=total||animating||n===cur) return
+  animating=true
+
+  const prev=cur; cur=n
+  const dir=n>prev?1:-1
+
+  // Curtain wipe
+  const curtain=document.getElementById('curtain')
+  gsap.set(curtain,{clipPath:'inset(0 0 100% 0)'})
+  gsap.to(curtain,{
+    clipPath:'inset(0 0 0% 0)',
+    duration:.35,ease:'power2.in',
+    onComplete:()=>{
+      slides[prev].classList.remove('active')
+      slides[cur].classList.add('active')
+      updateUI(cur)
+      gsap.to(curtain,{
+        clipPath:'inset(100% 0 0% 0)',
+        duration:.4,ease:'power2.out',
+        onComplete:()=>{
+          gsap.set(curtain,{clipPath:'inset(0 0 100% 0)'})
+          animateIn(cur)
+          animating=false
+        }
+      })
+    }
+  })
+}
+
+/* ═══════════════════════════════════════════════════
+   CONTROLS
+═══════════════════════════════════════════════════ */
+document.getElementById('btnNext').addEventListener('click',()=>goTo(cur+1))
+document.getElementById('btnPrev').addEventListener('click',()=>goTo(cur-1))
+ndots.forEach((d,i)=>d.addEventListener('click',()=>goTo(i)))
+
+document.addEventListener('keydown',e=>{
+  if(['ArrowRight','ArrowDown',' '].includes(e.key)){e.preventDefault();goTo(cur+1)}
+  if(['ArrowLeft','ArrowUp'].includes(e.key)){e.preventDefault();goTo(cur-1)}
+  if(e.key==='Home')goTo(0)
+  if(e.key==='End')goTo(total-1)
+})
+
+// Touch
+let tx=0
+document.addEventListener('touchstart',e=>{tx=e.touches[0].clientX},{passive:true})
+document.addEventListener('touchend',e=>{
+  const dx=e.changedTouches[0].clientX-tx
+  if(Math.abs(dx)>60){goTo(dx<0?cur+1:cur-1)}
+},{passive:true})
+
+// Wheel
+let wheelTimer
+document.addEventListener('wheel',e=>{
+  clearTimeout(wheelTimer)
+  wheelTimer=setTimeout(()=>{
+    if(e.deltaY>30)goTo(cur+1)
+    else if(e.deltaY<-30)goTo(cur-1)
+  },50)
+},{passive:true})
+</script>
+</body>
+</html>
