@@ -158,7 +158,7 @@ export function FooterSection({
                       rel="noopener noreferrer"
                       className="font-inter text-white/60 hover:text-white transition-colors text-sm"
                     >
-                      {locale === 'ru' || locale === 'kk' ? 'Сариев Алижан' : 'Alizhan Sariyev'}
+                      {locale === 'ru' || locale === 'kk' ? 'Сариев Алижан Сабитулы' : 'Sariyev Alizhan Sabituly'}
                     </a>
                   </div>
                 </div>
