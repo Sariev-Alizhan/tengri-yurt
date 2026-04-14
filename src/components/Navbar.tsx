@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import Image from 'next/image'
 import { useTranslations } from 'next-intl'
 import { usePathname } from '@/i18n/navigation'
 import { Link } from '@/i18n/navigation'
@@ -72,9 +73,10 @@ function SupplierNavbar() {
           minWidth: '44px',
         }}
       >
-        <img
+        <Image
           src="/images/logo_white.png"
           alt="Tengri Yurt"
+          width={120} height={40}
           style={{ height: 'clamp(32px, 6vw, 40px)', width: 'auto' }}
         />
         <div style={{ minWidth: 0 }}>
@@ -408,9 +410,10 @@ function PublicNavbar() {
           </div>
 
           <Link href="/">
-            <img
+            <Image
               src="/images/logo_white.png"
               alt="Tengri Yurt"
+              width={160} height={56}
               style={{
                 height: 'clamp(36px, 6vw, 56px)',
                 width: 'auto',

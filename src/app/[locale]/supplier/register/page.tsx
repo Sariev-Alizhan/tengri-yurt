@@ -1,3 +1,4 @@
+import Image from 'next/image'
 import { getTranslations, getLocale } from 'next-intl/server'
 import { redirect } from 'next/navigation'
 import { Link } from '@/i18n/navigation'
@@ -49,7 +50,8 @@ export default async function SupplierRegisterPage() {
           padding: 'clamp(32px, 5vw, 56px)',
         }}>
           <div style={{ textAlign: 'center', marginBottom: '32px', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-            <img src="/images/logo_white.png" alt="Tengri Yurt"
+            <Image src="/images/logo_white.png" alt="Tengri Yurt"
+              width={150} height={56}
               style={{ height: '56px', width: 'auto', marginBottom: '12px', display: 'block', marginLeft: 'auto', marginRight: 'auto' }} />
             <p style={{
               fontFamily: 'Inter, sans-serif',

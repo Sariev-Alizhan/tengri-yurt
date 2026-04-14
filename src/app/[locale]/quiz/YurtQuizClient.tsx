@@ -64,6 +64,14 @@ export function YurtQuizClient({ locale }: { locale: string }) {
     return 'Keep exploring'
   }
 
+  const getRecommendedYurt = () => {
+    const pct = total ? (score / total) * 100 : 0
+    if (pct >= 90) return { slug: 'grand', name: 'Grand', diameter: '9m', kanat: '12-kanat', desc: 'For true connoisseurs of nomadic culture' }
+    if (pct >= 70) return { slug: 'spacious', name: 'Spacious', diameter: '7m', kanat: '8-kanat', desc: 'Perfect for families and events' }
+    if (pct >= 50) return { slug: 'classic', name: 'Classic', diameter: '6m', kanat: '6-kanat', desc: 'The timeless choice for any setting' }
+    return { slug: 'cozy', name: 'Cozy', diameter: '5m', kanat: '4-kanat', desc: 'Intimate and warm — ideal for beginners' }
+  }
+
   if (step === 'intro') {
     return (
       <div style={{
@@ -179,6 +187,7 @@ export function YurtQuizClient({ locale }: { locale: string }) {
 
   if (step === 'result') {
     const pct = total ? Math.round((score / total) * 100) : 0
+    const rec = getRecommendedYurt()
     return (
       <div style={{
         minHeight: '100vh',
@@ -187,7 +196,7 @@ export function YurtQuizClient({ locale }: { locale: string }) {
         padding: 'clamp(100px, 15vw, 140px) 24px clamp(60px, 10vw, 100px)',
         background: 'var(--bg-main)',
       }}>
-        <div style={{ textAlign: 'center', maxWidth: '480px', width: '100%' }}>
+        <div style={{ textAlign: 'center', maxWidth: '520px', width: '100%' }}>
           {/* Score ring */}
           <div style={{
             width: '100px', height: '100px',
@@ -236,6 +245,59 @@ export function YurtQuizClient({ locale }: { locale: string }) {
           }}>
             {getResultMessage()}
           </p>
+
+          {/* Recommended yurt card */}
+          <Link
+            href={`/yurt/${rec.slug}`}
+            style={{ textDecoration: 'none', display: 'block', marginBottom: '32px' }}
+          >
+            <div style={{
+              background: 'rgba(201,168,110,0.06)',
+              border: '1px solid rgba(201,168,110,0.2)',
+              borderRadius: '4px',
+              padding: '20px 24px',
+              textAlign: 'left',
+              display: 'flex', alignItems: 'center', gap: '20px',
+              transition: 'border-color 0.2s',
+            }}>
+              <div style={{
+                width: '56px', height: '56px', flexShrink: 0,
+                border: '1px solid rgba(201,168,110,0.3)',
+                borderRadius: '50%',
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                background: 'rgba(201,168,110,0.08)',
+              }}>
+                <svg width="22" height="18" viewBox="0 0 22 18" fill="none">
+                  <path d="M11 1L1 8h2v9h16V8h2L11 1Z" stroke="rgba(201,168,110,0.8)" strokeWidth="1.2" fill="none" strokeLinejoin="round"/>
+                  <circle cx="11" cy="5" r="1.5" fill="rgba(201,168,110,0.6)"/>
+                </svg>
+              </div>
+              <div style={{ minWidth: 0, flex: 1 }}>
+                <p style={{
+                  fontFamily: 'Inter, sans-serif', fontSize: '10px', fontWeight: 600,
+                  letterSpacing: '0.25em', textTransform: 'uppercase',
+                  color: 'rgba(201,168,110,0.7)', marginBottom: '4px',
+                }}>
+                  Recommended for you
+                </p>
+                <p style={{
+                  fontFamily: 'EB Garamond, serif', fontSize: '22px',
+                  color: 'rgba(255,255,255,0.9)', margin: '0 0 4px', fontWeight: 400,
+                }}>
+                  {rec.name} · {rec.diameter}
+                </p>
+                <p style={{
+                  fontFamily: 'Inter, sans-serif', fontSize: '12px',
+                  color: 'rgba(255,255,255,0.4)', margin: 0,
+                }}>
+                  {rec.kanat} · {rec.desc}
+                </p>
+              </div>
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" style={{ flexShrink: 0, color: 'rgba(201,168,110,0.5)' }}>
+                <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+            </div>
+          </Link>
 
           <div style={{ display: 'flex', gap: '12px', justifyContent: 'center', flexWrap: 'wrap' }}>
             <button

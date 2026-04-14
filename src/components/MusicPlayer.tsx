@@ -64,7 +64,21 @@ export function MusicPlayer() {
     const audio = getAudio()
     if (!audio) return
     if (audio.paused) {
-      audio.play().then(() => setPlaying(true)).catch(() => {})
+      audio.play().then(() => {
+        setPlaying(true)
+        if ('mediaSession' in navigator) {
+          navigator.mediaSession.metadata = new MediaMetadata({
+            title: 'Адай — Күрмаңғазы',
+            artist: 'Traditional Kazakh Kuy',
+            album: 'Tengri Yurt Ambient',
+            artwork: [
+              { src: '/images/logo_white.png', sizes: '512x512', type: 'image/png' },
+            ],
+          })
+          navigator.mediaSession.setActionHandler('play', () => { audio.play(); setPlaying(true) })
+          navigator.mediaSession.setActionHandler('pause', () => { audio.pause(); setPlaying(false) })
+        }
+      }).catch(() => {})
     } else {
       audio.pause()
       setPlaying(false)

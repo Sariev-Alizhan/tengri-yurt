@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect, useCallback } from 'react'
+import Image from 'next/image'
 import { useTranslations } from 'next-intl'
 import {
   getRecommendationForSlug,
@@ -240,7 +241,7 @@ export function AddYurtModal({ yurt, locale, onConfirm, onClose }: Props) {
           {/* Yurt photo */}
           <div className="flex-1 min-h-[160px] relative shrink-0">
             {yurt.photo ? (
-              <img src={yurt.photo} alt={yurt.name} className="absolute inset-0 w-full h-full object-cover opacity-80" />
+              <Image src={yurt.photo} alt={yurt.name} fill className="object-cover opacity-80" sizes="340px" />
             ) : (
               <div className="absolute inset-0 bg-gradient-to-b from-[#2d2825] to-[#1a1714]" />
             )}
@@ -494,7 +495,7 @@ function MobileFormBody({
                     {/* Photo */}
                     <div className="relative aspect-square bg-[#ede8e0]">
                       {photo ? (
-                        <img src={photo} alt={acc.name} className="w-full h-full object-cover" loading="lazy" />
+                        <Image src={photo} alt={acc.name} fill className="object-cover" sizes="80px" />
                       ) : (
                         <div className="w-full h-full flex items-center justify-center text-[#a89578]">
                           <svg className="w-8 h-8 opacity-40" fill="none" stroke="currentColor" viewBox="0 0 24 24">

@@ -5,6 +5,19 @@ import { usePathname } from 'next/navigation';
 
 const WHATSAPP_NUMBER = '77477777888';
 
+function getWhatsAppText(pathname: string): string {
+  if (pathname.includes('/hammam')) return 'Hi, I\'d like to learn more about the Yurt Hammam';
+  if (pathname.includes('/yurt/')) {
+    const slug = pathname.split('/yurt/')[1]?.split('/')[0] ?? '';
+    const name = slug ? `the ${slug.charAt(0).toUpperCase() + slug.slice(1)} yurt` : 'a yurt';
+    return `Hi, I\'m interested in ${name}`;
+  }
+  if (pathname.includes('/catalog')) return 'Hi, I\'d like to see the yurt catalog and pricing';
+  if (pathname.includes('/quiz')) return 'Hi, I\'ve completed the quiz and would like a recommendation';
+  if (pathname.includes('/about')) return 'Hi, I\'d like to know more about Tengri Yurt';
+  return 'Hello, I\'m interested in Tengri Yurt products';
+}
+
 export function FloatingWhatsApp() {
   const [visible, setVisible] = useState(false);
   const pathname = usePathname();
@@ -19,9 +32,11 @@ export function FloatingWhatsApp() {
 
   if (hidden || !visible) return null;
 
+  const waText = getWhatsAppText(pathname);
+
   return (
     <a
-      href={`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent('Hello, I\'m interested in Tengri Yurt products')}`}
+      href={`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(waText)}`}
       target="_blank"
       rel="noopener noreferrer"
       aria-label="Contact via WhatsApp"

@@ -197,6 +197,11 @@ export function OrderForm({ yurtId, yurtName, yurtPrice, translations }: Props) 
   const [quantity, setQuantity] = useState(1);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [showConfirm, setShowConfirm] = useState(false);
+  const [pendingData, setPendingData] = useState<{
+    name: string; email: string; phone: string;
+    country: string; city: string; address: string | null; msg: string; qty: number;
+  } | null>(null);
   const [keregeColor, setKeregeColor] = useState<KeregeColor>('natural');
   const [exclusiveCustom, setExclusiveCustom] = useState(false);
   const [coverCustom, setCoverCustom] = useState(false);
@@ -219,7 +224,7 @@ export function OrderForm({ yurtId, yurtName, yurtPrice, translations }: Props) 
   const accTotal = selectedAccItems.reduce((s, a) => s + a.price_usd, 0);
   const estimatedTotal = yurtPrice * quantity + accTotal;
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setError(null);
     const fd = new FormData(e.currentTarget);
@@ -237,9 +242,17 @@ export function OrderForm({ yurtId, yurtName, yurtPrice, translations }: Props) 
       return;
     }
 
+    setPendingData({ name, email, phone, country, city, address, msg, qty });
+    setShowConfirm(true);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const handleConfirm = async () => {
+    if (!pendingData) return;
+    const { name, email, phone, country, city, address, msg, qty } = pendingData;
     setFormSnapshot({ name, email, phone, country, city });
     setLoading(true);
-
+    setError(null);
     try {
       const res = await fetch('/api/orders', {
         method: 'POST',
@@ -255,6 +268,7 @@ export function OrderForm({ yurtId, yurtName, yurtPrice, translations }: Props) 
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || 'Submission failed');
       setOrderResult({ orderNumber: data.orderNumber, buyerName: name, buyerEmail: email, date: new Date().toLocaleDateString() });
+      setShowConfirm(false);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Submission failed');
     } finally {
@@ -294,6 +308,112 @@ export function OrderForm({ yurtId, yurtName, yurtPrice, translations }: Props) 
   const GOLD_BG = 'rgba(201,168,110,0.10)';
   const GOLD_BG_ACTIVE = 'rgba(201,168,110,0.15)';
   const GOLD_BORDER = 'rgba(201,168,110,0.40)';
+
+  // ── Confirmation step ──────────────────────────────────────────────────
+  if (showConfirm && pendingData) {
+    return (
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', paddingBottom: '48px' }}>
+        <OFCard style={{ borderColor: 'rgba(201,168,110,0.3)' }}>
+          <div style={{ marginBottom: '24px' }}>
+            <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '9px', letterSpacing: '0.28em', textTransform: 'uppercase', color: 'rgba(201,168,110,0.55)', marginBottom: '8px' }}>Review your order</p>
+            <h3 style={{ fontFamily: 'EB Garamond, serif', fontSize: 'clamp(22px, 4vw, 30px)', fontWeight: 400, color: 'var(--of-text-1)', margin: 0 }}>Confirm your inquiry</h3>
+            <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '12px', color: 'var(--of-text-3)', margin: '6px 0 0' }}>Please review the details below before submitting</p>
+          </div>
+
+          {/* Yurt + options */}
+          <div style={{ padding: '16px', background: 'rgba(201,168,110,0.05)', border: '1px solid rgba(201,168,110,0.15)', borderRadius: '8px', marginBottom: '16px' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '12px' }}>
+              <div>
+                <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '9px', letterSpacing: '0.15em', textTransform: 'uppercase', color: 'rgba(201,168,110,0.55)', margin: '0 0 4px' }}>Yurt</p>
+                <p style={{ fontFamily: 'EB Garamond, serif', fontSize: '20px', color: 'var(--of-text-1)', margin: 0 }}>{yurtName} × {pendingData.qty}</p>
+              </div>
+              <span style={{ fontFamily: 'EB Garamond, serif', fontSize: '22px', color: 'rgba(201,168,110,0.95)' }}>${estimatedTotal.toLocaleString()}+</span>
+            </div>
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
+              <ConfirmTag label={`Kerege: ${translations[`kerege_${keregeColor}`] ?? keregeColor}`} />
+              <ConfirmTag label={shippingMethod === 'air' ? '✈ Air freight' : '🚢 Sea freight'} />
+              {exclusiveCustom && <ConfirmTag label="Exclusive interior" />}
+              {coverCustom && <ConfirmTag label="Custom cover" />}
+            </div>
+          </div>
+
+          {/* Accessories */}
+          {selectedAccItems.length > 0 && (
+            <div style={{ padding: '14px 16px', background: 'var(--of-surface)', border: '1px solid var(--of-border-soft)', borderRadius: '8px', marginBottom: '16px' }}>
+              <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '9px', letterSpacing: '0.15em', textTransform: 'uppercase', color: 'var(--of-text-4)', margin: '0 0 10px' }}>
+                Accessories ({selectedAccItems.length}) — ${accTotal.toLocaleString()}
+              </p>
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px' }}>
+                {selectedAccItems.map(a => (
+                  <span key={a.id} style={{ fontFamily: 'Inter, sans-serif', fontSize: '11px', padding: '4px 12px', background: 'rgba(201,168,110,0.08)', border: '1px solid rgba(201,168,110,0.2)', borderRadius: '20px', color: GOLD }}>
+                    {a.name[localeKey as 'en' | 'ru' | 'kk'] ?? a.name.en}
+                  </span>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Customer */}
+          <div style={{ padding: '14px 16px', background: 'var(--of-surface)', border: '1px solid var(--of-border-soft)', borderRadius: '8px', marginBottom: '24px' }}>
+            <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '9px', letterSpacing: '0.15em', textTransform: 'uppercase', color: 'var(--of-text-4)', margin: '0 0 12px' }}>Your details</p>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(160px,1fr))', gap: '12px' }}>
+              {[
+                { label: 'Name', value: pendingData.name },
+                { label: 'Email', value: pendingData.email },
+                { label: 'Phone', value: pendingData.phone },
+                { label: 'Delivery', value: `${pendingData.city}, ${pendingData.country}` },
+              ].map(({ label, value }) => (
+                <div key={label}>
+                  <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '9px', letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--of-text-4)', margin: '0 0 3px' }}>{label}</p>
+                  <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '13px', color: 'var(--of-text-1)', margin: 0, fontWeight: 500 }}>{value}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {error && (
+            <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '13px', color: 'rgba(220,80,80,0.85)', marginBottom: '16px' }}>
+              {error}
+            </p>
+          )}
+
+          <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
+            <button
+              type="button"
+              onClick={handleConfirm}
+              disabled={loading}
+              style={{
+                height: '50px', padding: '0 40px',
+                border: 'none', borderRadius: '12px',
+                background: '#c9a86e', color: '#1e1408',
+                fontFamily: 'Inter, sans-serif', fontSize: '11px', fontWeight: 700,
+                letterSpacing: '0.18em', textTransform: 'uppercase',
+                cursor: loading ? 'wait' : 'pointer',
+                display: 'flex', alignItems: 'center', gap: '8px',
+                transition: 'opacity 0.2s',
+              }}
+            >
+              {loading ? <Spinner /> : 'Confirm & Submit'}
+            </button>
+            <button
+              type="button"
+              onClick={() => { setShowConfirm(false); setError(null); }}
+              style={{
+                height: '50px', padding: '0 24px',
+                border: '1px solid var(--of-border)', borderRadius: '12px',
+                background: 'transparent', color: 'var(--of-text-3)',
+                fontFamily: 'Inter, sans-serif', fontSize: '11px', fontWeight: 500,
+                letterSpacing: '0.12em', textTransform: 'uppercase',
+                cursor: 'pointer', transition: 'all 0.2s',
+              }}
+            >
+              ← Edit
+            </button>
+          </div>
+        </OFCard>
+      </div>
+    );
+  }
 
   // ── Success state ───────────────────────────────────────────────────────
   if (orderResult) {
@@ -836,6 +956,19 @@ export function OrderForm({ yurtId, yurtName, yurtPrice, translations }: Props) 
 }
 
 // ── Sub-components ──────────────────────────────────────────────────────────
+
+function ConfirmTag({ label }: { label: string }) {
+  return (
+    <span style={{
+      fontFamily: 'Inter, sans-serif', fontSize: '11px',
+      padding: '4px 12px',
+      background: 'rgba(201,168,110,0.08)',
+      border: '1px solid rgba(201,168,110,0.2)',
+      borderRadius: '20px',
+      color: 'rgba(201,168,110,0.85)',
+    }}>{label}</span>
+  );
+}
 
 function OFCard({ children, style }: { children: React.ReactNode; style?: React.CSSProperties }) {
   return (

@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import Image from 'next/image'
 import { getLocale, getTranslations } from 'next-intl/server'
 import Navbar from '@/components/Navbar'
 import { FooterSection } from '@/components/FooterSection'
@@ -360,10 +361,11 @@ export default async function AboutPage() {
             borderRadius: '2px', overflow: 'hidden',
             aspectRatio: '4/3',
           }}>
-            <img
+            <Image
               src="/images/picture/in_the_yurt.jpeg"
               alt="Tengri Yurt artisans at work"
-              style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+              fill
+              style={{ objectFit: 'cover' }}
             />
             <div style={{
               position: 'absolute', bottom: '16px', left: '16px',

@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import Image from 'next/image'
 import { useParams } from 'next/navigation'
 import { useTranslations } from 'next-intl'
 import { Link } from '@/i18n/navigation'
@@ -108,9 +109,10 @@ export default function SupplierLoginPage() {
           width: '100%',
           textAlign: 'center',
         }}>
-          <img
+          <Image
             src="/images/logo_white.png"
             alt="Tengri Yurt"
+            width={140} height={52}
             style={{
               height: '52px',
               width: 'auto',

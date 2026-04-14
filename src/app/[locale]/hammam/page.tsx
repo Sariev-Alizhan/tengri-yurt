@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import Image from 'next/image'
 import { getTranslations, getLocale } from 'next-intl/server'
 import Navbar from '@/components/Navbar'
 import { FooterSection } from '@/components/FooterSection'
@@ -255,10 +256,12 @@ export default async function HammamPage() {
                 overflow: 'hidden',
                 gridColumn: i === 0 ? 'span 2' : undefined,
               }}>
-                <img
+                <Image
                   src={img.src}
                   alt={img.caption}
-                  style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+                  fill
+                  style={{ objectFit: 'cover' }}
+                  sizes="(max-width: 768px) 100vw, 50vw"
                 />
                 <div style={{
                   position: 'absolute', bottom: 0, left: 0, right: 0,

@@ -1,3 +1,4 @@
+import type { Metadata } from 'next';
 import { getTranslations } from 'next-intl/server';
 import { notFound } from 'next/navigation';
 import { Link } from '@/i18n/navigation';
@@ -10,6 +11,45 @@ import { ProductSchema } from '@/components/StructuredData';
 import Navbar from '@/components/Navbar';
 import { FooterSection } from '@/components/FooterSection';
 import { getLocale } from 'next-intl/server';
+
+const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL ?? 'https://tengri-camp.kz'
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string; slug: string }>;
+}): Promise<Metadata> {
+  const { slug } = await params
+  const supabase = await createClient()
+  const { data } = await supabase
+    .from('yurts')
+    .select('name, description, price_usd, photos')
+    .eq('slug', slug)
+    .eq('is_available', true)
+    .single()
+
+  const name = data?.name ?? slug
+  const price = data?.price_usd ? `From $${data.price_usd.toLocaleString()}` : ''
+  const desc = data?.description ?? 'Traditional Kazakh yurt handcrafted for the modern world'
+  const photo = Array.isArray(data?.photos) ? data.photos[0] : null
+
+  const ogUrl = `${BASE_URL}/api/og?title=${encodeURIComponent(name)}&sub=${encodeURIComponent(desc.slice(0, 80))}&price=${encodeURIComponent(price)}`
+
+  return {
+    title: `${name} — Tengri Yurt`,
+    description: desc,
+    openGraph: {
+      title: `${name} — Tengri Yurt`,
+      description: desc,
+      images: [photo ? { url: photo, width: 1200, height: 630 } : { url: ogUrl, width: 1200, height: 630 }],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: `${name} — Tengri Yurt`,
+      images: [photo ?? ogUrl],
+    },
+  }
+}
 
 export default async function YurtDetailPage({
   params,

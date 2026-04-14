@@ -219,12 +219,13 @@ export function AccessoryModal({ isOpen, onClose, onProceed, locale }: Accessory
                       className="mt-1 w-5 h-5 accent-white/80 cursor-pointer transition-transform duration-200 hover:scale-110"
                     />
                     {photo && (
-                      <div className="shrink-0 w-20 h-20 md:w-24 md:h-24 rounded-md overflow-hidden">
-                        <img
+                      <div className="shrink-0 w-20 h-20 md:w-24 md:h-24 rounded-md overflow-hidden relative">
+                        <Image
                           src={photo}
                           alt={accessory.name}
-                          className="w-full h-full object-cover"
-                          loading="lazy"
+                          fill
+                          className="object-cover"
+                          sizes="96px"
                         />
                       </div>
                     )}

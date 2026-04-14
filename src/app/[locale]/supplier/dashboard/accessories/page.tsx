@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import { getTranslations, getLocale } from 'next-intl/server';
 import { createClient } from '@/utils/supabase/server';
 import { redirect } from 'next/navigation';
@@ -63,8 +64,8 @@ export default async function SupplierAccessoriesPage() {
               display: 'flex', flexDirection: 'column',
             }}>
               {acc.photos?.[0] ? (
-                <div style={{ aspectRatio: '4/3', overflow: 'hidden' }}>
-                  <img src={acc.photos[0]} alt={acc.name} style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
+                <div style={{ aspectRatio: '4/3', overflow: 'hidden', position: 'relative' }}>
+                  <Image src={acc.photos[0]} alt={acc.name} fill style={{ objectFit: 'cover' }} sizes="200px" />
                 </div>
               ) : (
                 <div style={{ aspectRatio: '4/3', background: 'var(--sp-surface-2)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>

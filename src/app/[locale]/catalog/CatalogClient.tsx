@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useMemo } from 'react'
+import Image from 'next/image'
 import { useTranslations } from 'next-intl'
 import { Link } from '@/i18n/navigation'
 import { formatPrice } from '@/utils/formatPrice'
@@ -576,15 +577,12 @@ function YurtCard({
         paddingBottom: '72%',
         overflow: 'hidden',
       }}>
-        <img
+        <Image
           src={photo}
           alt={yurt.name}
-          loading="lazy"
+          fill
+          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           style={{
-            position: 'absolute',
-            inset: 0,
-            width: '100%',
-            height: '100%',
             objectFit: 'cover',
             transform: isHovered ? 'scale(1.06)' : 'scale(1)',
             transition: 'transform 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94)',
@@ -826,15 +824,12 @@ function AccessoryCard({
         paddingBottom: '72%',
         overflow: 'hidden',
       }}>
-        <img
+        <Image
           src={photo}
           alt={accessory.name}
-          loading="lazy"
+          fill
+          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           style={{
-            position: 'absolute',
-            inset: 0,
-            width: '100%',
-            height: '100%',
             objectFit: 'cover',
             transform: isHovered ? 'scale(1.06)' : 'scale(1)',
             transition: 'transform 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94)',
