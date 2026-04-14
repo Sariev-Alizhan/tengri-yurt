@@ -8,6 +8,7 @@ import { Link } from '@/i18n/navigation'
 import { LanguageSwitcher } from './LanguageSwitcher'
 import { ThemeToggle } from './ThemeToggle'
 import { useCart } from './CartContext'
+import { getAudio, dispatchMusicState } from '@/lib/musicAudio'
 
 export default function Navbar() {
   const pathname = usePathname()
@@ -230,6 +231,7 @@ function PublicNavbar() {
   const { totalItems } = useCart()
   const [menuOpen, setMenuOpen] = useState(false)
   const [isDesktop, setIsDesktop] = useState(false)
+  const [musicPlaying, setMusicPlaying] = useState(false)
   const isOrderFlow = pathname?.includes('/order') || pathname?.includes('/cart') || pathname?.includes('/checkout') || pathname?.includes('/quiz') || pathname?.includes('/inquiry')
 
   useEffect(() => {
@@ -256,6 +258,18 @@ function PublicNavbar() {
     window.addEventListener('keydown', onKey)
     return () => window.removeEventListener('keydown', onKey)
   }, [menuOpen])
+
+  useEffect(() => {
+    // Sync initial audio state
+    const audio = getAudio()
+    if (audio) setMusicPlaying(!audio.paused)
+    // Listen for state changes from MusicPlayer
+    const handler = (e: Event) => {
+      setMusicPlaying((e as CustomEvent<{ playing: boolean }>).detail.playing)
+    }
+    window.addEventListener('music-state', handler)
+    return () => window.removeEventListener('music-state', handler)
+  }, [])
 
   return (
     <>
@@ -430,6 +444,69 @@ function PublicNavbar() {
               >
                 Supplier Portal
               </Link>
+            )}
+            {isDesktop && !isOrderFlow && (
+              <button
+                type="button"
+                onClick={() => {
+                  const audio = getAudio()
+                  if (!audio) return
+                  if (audio.paused) {
+                    audio.play().then(() => {
+                      if ('mediaSession' in navigator) {
+                        navigator.mediaSession.metadata = new MediaMetadata({
+                          title: 'Адай — Күрмаңғазы',
+                          artist: 'Traditional Kazakh Kuy',
+                          album: 'Tengri Yurt Ambient',
+                          artwork: [{ src: '/images/logo_white.png', sizes: '512x512', type: 'image/png' }],
+                        })
+                        navigator.mediaSession.setActionHandler('play',  () => { audio.play();  setMusicPlaying(true);  dispatchMusicState(true) })
+                        navigator.mediaSession.setActionHandler('pause', () => { audio.pause(); setMusicPlaying(false); dispatchMusicState(false) })
+                      }
+                      setMusicPlaying(true)
+                      dispatchMusicState(true)
+                    }).catch(() => {})
+                  } else {
+                    audio.pause()
+                    setMusicPlaying(false)
+                    dispatchMusicState(false)
+                  }
+                }}
+                aria-label={musicPlaying ? 'Pause music' : 'Play music'}
+                style={{
+                  background: 'none',
+                  border: 'none',
+                  cursor: 'pointer',
+                  padding: '8px 0',
+                  minHeight: '40px',
+                  marginLeft: '12px',
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '6px',
+                  color: musicPlaying ? 'rgba(168,149,120,0.9)' : 'rgba(255,255,255,0.4)',
+                  transition: 'color 0.2s',
+                }}
+                onMouseEnter={e => { e.currentTarget.style.color = musicPlaying ? 'rgba(168,149,120,1)' : 'rgba(255,255,255,0.75)' }}
+                onMouseLeave={e => { e.currentTarget.style.color = musicPlaying ? 'rgba(168,149,120,0.9)' : 'rgba(255,255,255,0.4)' }}
+              >
+                {musicPlaying ? (
+                  <span style={{ display: 'flex', alignItems: 'flex-end', gap: '2px', height: '12px' }}>
+                    {[0.35, 0.65, 0.5, 0.8, 0.45].map((h, i) => (
+                      <span key={i} style={{
+                        display: 'block', width: '2px', borderRadius: '1px',
+                        background: 'rgba(168,149,120,0.9)',
+                        height: `${Math.max(4, h * 12)}px`,
+                        animation: `tkNavBar${i} ${0.7 + i * 0.12}s ease-in-out infinite alternate`,
+                      }} />
+                    ))}
+                  </span>
+                ) : (
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" aria-hidden>
+                    <path d="M9 17H5a2 2 0 1 0 2 2V7l11-2v10" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                    <circle cx="16" cy="17" r="2" stroke="currentColor" strokeWidth="1.5"/>
+                  </svg>
+                )}
+              </button>
             )}
           </div>
 
@@ -750,6 +827,64 @@ function PublicNavbar() {
           Supplier Portal
         </Link>
 
+        {/* Music button */}
+        {!isOrderFlow && (
+          <button
+            type="button"
+            onClick={() => {
+              const audio = getAudio()
+              if (!audio) return
+              if (audio.paused) {
+                audio.play().then(() => {
+                  setMusicPlaying(true)
+                  dispatchMusicState(true)
+                }).catch(() => {})
+              } else {
+                audio.pause()
+                setMusicPlaying(false)
+                dispatchMusicState(false)
+              }
+            }}
+            style={{
+              background: 'none',
+              border: 'none',
+              cursor: 'pointer',
+              padding: 'clamp(12px, 3vw, 16px)',
+              minHeight: '44px',
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '10px',
+              fontFamily: 'Inter, sans-serif',
+              fontSize: 'clamp(11px, 2.5vw, 12px)',
+              letterSpacing: '0.15em',
+              textTransform: 'uppercase',
+              color: musicPlaying ? 'rgba(168,149,120,0.9)' : 'rgba(255,255,255,0.45)',
+              transition: 'color 0.2s',
+            }}
+            aria-label={musicPlaying ? 'Pause music' : 'Play music'}
+          >
+            {musicPlaying ? (
+              /* Equalizer bars */
+              <span style={{ display: 'flex', alignItems: 'flex-end', gap: '2px', height: '14px' }}>
+                {[0.35, 0.65, 0.5, 0.8, 0.45].map((h, i) => (
+                  <span key={i} style={{
+                    display: 'block', width: '2px', borderRadius: '1px',
+                    background: 'rgba(168,149,120,0.85)',
+                    height: `${Math.max(5, h * 14)}px`,
+                    animation: `tkNavBar${i} ${0.7 + i * 0.12}s ease-in-out infinite alternate`,
+                  }} />
+                ))}
+              </span>
+            ) : (
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden>
+                <path d="M9 17H5a2 2 0 1 0 2 2V7l11-2v10" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                <circle cx="16" cy="17" r="2" stroke="currentColor" strokeWidth="1.5"/>
+              </svg>
+            )}
+            {musicPlaying ? 'Адай — Күрмаңғазы' : 'Music'}
+          </button>
+        )}
+
         <div
           style={{
             marginTop: 'clamp(20px, 5vw, 32px)',
@@ -783,6 +918,14 @@ function PublicNavbar() {
             </>
           )}
         </div>
+
+        <style dangerouslySetInnerHTML={{ __html: `
+          @keyframes tkNavBar0 { from { height: 5px } to { height: 12px } }
+          @keyframes tkNavBar1 { from { height: 9px } to { height: 5px } }
+          @keyframes tkNavBar2 { from { height: 7px } to { height: 3px } }
+          @keyframes tkNavBar3 { from { height: 11px } to { height: 7px } }
+          @keyframes tkNavBar4 { from { height: 5px } to { height: 10px } }
+        `}} />
       </div>
     </>
   )

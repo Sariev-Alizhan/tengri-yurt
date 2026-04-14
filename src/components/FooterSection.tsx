@@ -127,14 +127,43 @@ export function FooterSection({
             <p className="font-inter text-white/40 text-xs uppercase tracking-wider mb-4">
               {followLabel}
             </p>
-            <a
-              href="https://www.instagram.com/tengri_camp/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="font-inter text-white/60 hover:text-white transition-colors text-sm"
-            >
-              @tengri_camp
-            </a>
+            <div className="flex flex-col gap-3">
+              <a
+                href="https://www.instagram.com/tengri_camp/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="font-inter text-white/60 hover:text-white transition-colors text-sm"
+              >
+                @tengri_camp
+              </a>
+              <div className="border-t border-white/10 pt-3 mt-1">
+                <p className="font-inter text-white/40 text-xs uppercase tracking-wider mb-3">Team</p>
+                <div className="flex flex-col gap-2.5">
+                  <div>
+                    <p className="font-inter text-white/35 text-[10px] uppercase tracking-wider mb-0.5">Founder</p>
+                    <a
+                      href="https://www.instagram.com/askhat_murat_page/"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="font-inter text-white/60 hover:text-white transition-colors text-sm"
+                    >
+                      {locale === 'ru' || locale === 'kk' ? 'Асхат Мурат' : 'Askhat Murat'}
+                    </a>
+                  </div>
+                  <div>
+                    <p className="font-inter text-white/35 text-[10px] uppercase tracking-wider mb-0.5">Co-Founder & CTO</p>
+                    <a
+                      href="https://www.instagram.com/zhanmate_zhan/"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="font-inter text-white/60 hover:text-white transition-colors text-sm"
+                    >
+                      {locale === 'ru' || locale === 'kk' ? 'Сариев Алижан' : 'Alizhan Sariyev'}
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
 
         </div>

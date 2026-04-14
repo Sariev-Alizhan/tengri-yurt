@@ -384,6 +384,98 @@ export default async function AboutPage() {
           </div>
         </div>
 
+        {/* Founding Team */}
+        <div style={{
+          maxWidth: '1100px', margin: '0 auto',
+          padding: '0 clamp(24px, 6vw, 48px) clamp(64px, 10vw, 120px)',
+        }}>
+          <p style={{
+            fontFamily: 'Inter, sans-serif', fontSize: '11px', fontWeight: 500,
+            letterSpacing: '0.3em', textTransform: 'uppercase',
+            color: 'rgba(201,168,110,0.7)', marginBottom: '48px',
+          }}>
+            {locale === 'ru' || locale === 'kk' ? 'Основатели' : 'Founding Team'}
+          </p>
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(min(300px, 100%), 1fr))',
+            gap: '2px',
+          }}>
+            {[
+              {
+                role: locale === 'ru' || locale === 'kk' ? 'Основатель' : 'Founder',
+                name: locale === 'ru' || locale === 'kk' ? 'Асхат Мурат' : 'Askhat Murat',
+                instagram: 'https://www.instagram.com/askhat_murat_page/',
+                handle: '@askhat_murat_page',
+              },
+              {
+                role: locale === 'ru' || locale === 'kk' ? 'Со-основатель и CTO' : 'Co-Founder & CTO',
+                name: locale === 'ru' || locale === 'kk' ? 'Сариев Алижан Сабитулы' : 'Sariyev Alizhan Sabituly',
+                instagram: 'https://www.instagram.com/zhanmate_zhan/',
+                handle: '@zhanmate_zhan',
+              },
+            ].map(person => (
+              <div key={person.handle} style={{
+                padding: '40px 36px',
+                background: 'rgba(255,255,255,0.03)',
+                border: '1px solid rgba(255,255,255,0.07)',
+                display: 'flex', flexDirection: 'column', gap: '12px',
+              }}>
+                {/* Decorative monogram */}
+                <div style={{
+                  width: '52px', height: '52px', borderRadius: '50%',
+                  border: '1px solid rgba(201,168,110,0.25)',
+                  display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  marginBottom: '8px',
+                }}>
+                  <span style={{
+                    fontFamily: 'EB Garamond, serif', fontSize: '22px',
+                    color: 'rgba(201,168,110,0.7)', lineHeight: 1,
+                  }}>
+                    {person.name.charAt(0)}
+                  </span>
+                </div>
+                <p style={{
+                  fontFamily: 'Inter, sans-serif', fontSize: '10px', fontWeight: 500,
+                  letterSpacing: '0.2em', textTransform: 'uppercase',
+                  color: 'rgba(201,168,110,0.55)', margin: 0,
+                }}>
+                  {person.role}
+                </p>
+                <h3 style={{
+                  fontFamily: 'EB Garamond, serif',
+                  fontSize: 'clamp(22px, 3vw, 28px)',
+                  color: 'rgba(255,255,255,0.92)',
+                  fontWeight: 400, margin: 0, lineHeight: 1.2,
+                }}>
+                  {person.name}
+                </h3>
+                <a
+                  href={person.instagram}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{
+                    display: 'inline-flex', alignItems: 'center', gap: '7px',
+                    fontFamily: 'Inter, sans-serif', fontSize: '12px',
+                    color: 'rgba(255,255,255,0.4)',
+                    textDecoration: 'none', marginTop: '4px',
+                    transition: 'color 0.2s',
+                  }}
+                  onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = 'rgba(201,168,110,0.8)' }}
+                  onMouseLeave={e => { (e.currentTarget as HTMLElement).style.color = 'rgba(255,255,255,0.4)' }}
+                >
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+                    <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+                    <circle cx="12" cy="12" r="4"/>
+                    <circle cx="17.5" cy="6.5" r="1.2" fill="currentColor" stroke="none"/>
+                  </svg>
+                  {person.handle}
+                </a>
+              </div>
+            ))}
+          </div>
+        </div>
+
         {/* CTA row */}
         <div style={{
           display: 'flex', flexWrap: 'wrap', gap: '16px',

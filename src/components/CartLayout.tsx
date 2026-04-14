@@ -7,7 +7,6 @@ import { CartProvider } from '@/components/CartContext'
 import { ExchangeRateProvider } from '@/components/ExchangeRateContext'
 import { CookieConsent } from '@/components/CookieConsent'
 import { BackgroundEffects } from '@/components/BackgroundEffects'
-import { MusicPlayer } from '@/components/MusicPlayer'
 import { SiteMain } from '@/components/SiteMain'
 
 export function CartLayout({
@@ -28,7 +27,6 @@ export function CartLayout({
             <Navbar />
             <SiteMain>{children}</SiteMain>
           </div>
-          <MusicPlayer />
         </NextIntlClientProvider>
       </ExchangeRateProvider>
     </CartProvider>

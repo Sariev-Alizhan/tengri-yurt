@@ -20,17 +20,25 @@ function getWhatsAppText(pathname: string): string {
 
 export function FloatingWhatsApp() {
   const [visible, setVisible] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
   const pathname = usePathname();
 
   // Hide on supplier pages and order form (has its own WhatsApp CTA)
   const hidden = pathname.includes('/supplier') || pathname.includes('/order/');
 
   useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth < 1024);
+    check();
+    window.addEventListener('resize', check);
+    return () => window.removeEventListener('resize', check);
+  }, []);
+
+  useEffect(() => {
     const timer = setTimeout(() => setVisible(true), 2000);
     return () => clearTimeout(timer);
   }, []);
 
-  if (hidden || !visible) return null;
+  if (hidden || !visible || !isMobile) return null;
 
   const waText = getWhatsAppText(pathname);
 
@@ -42,7 +50,7 @@ export function FloatingWhatsApp() {
       aria-label="Contact via WhatsApp"
       style={{
         position: 'fixed',
-        bottom: 'calc(var(--music-foundation-height, 0px) + 16px)',
+        bottom: '16px',
         right: '20px',
         zIndex: 40,
         width: '56px',
