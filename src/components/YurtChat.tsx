@@ -148,7 +148,7 @@ export function YurtChat() {
         aria-label="Tengri AI Guide"
         style={{
           position: 'fixed',
-          bottom: 'calc(max(24px, env(safe-area-inset-bottom, 24px)) + 72px)',
+          bottom: 'calc(var(--music-foundation-height, 0px) + 72px)',
           left: 'max(16px, env(safe-area-inset-left, 16px))',
           zIndex: 50,
           width: 'min(360px, calc(100vw - 32px))',
@@ -372,8 +372,8 @@ export function YurtChat() {
         aria-label={open ? 'Close chat' : 'Open AI guide'}
         style={{
           position: 'fixed',
-          bottom: 'max(24px, env(safe-area-inset-bottom, 24px))',
-          left: 'max(24px, env(safe-area-inset-left, 24px))',
+          bottom: 'calc(var(--music-foundation-height, 0px) + 16px)',
+          left: 'max(20px, env(safe-area-inset-left, 20px))',
           zIndex: 50,
           width: '52px', height: '52px',
           borderRadius: '50%',

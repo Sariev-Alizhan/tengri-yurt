@@ -27,8 +27,8 @@ export function FloatingWhatsApp() {
       aria-label="Contact via WhatsApp"
       style={{
         position: 'fixed',
-        bottom: 'max(24px, env(safe-area-inset-bottom, 24px))',
-        right: '24px',
+        bottom: 'calc(var(--music-foundation-height, 0px) + 16px)',
+        right: '20px',
         zIndex: 40,
         width: '56px',
         height: '56px',
