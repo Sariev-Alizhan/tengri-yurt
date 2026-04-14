@@ -12,7 +12,7 @@ function FAQCard({ item, index }: { item: FAQItem; index: number }) {
   return (
     <div
       style={{
-        borderBottom: '1px solid rgba(255,255,255,0.08)',
+        borderBottom: '1px solid var(--border)',
         transition: 'background 0.3s ease',
       }}
     >
@@ -35,7 +35,7 @@ function FAQCard({ item, index }: { item: FAQItem; index: number }) {
           className="font-garamond"
           style={{
             fontSize: 'clamp(16px, 2.5vw, 20px)',
-            color: 'rgba(255,255,255,0.9)',
+            color: 'var(--text-1)',
             fontWeight: 400,
             lineHeight: 1.4,
           }}
@@ -65,7 +65,7 @@ function FAQCard({ item, index }: { item: FAQItem; index: number }) {
           className="font-inter"
           style={{
             fontSize: 'clamp(13px, 1.6vw, 15px)',
-            color: 'rgba(255,255,255,0.55)',
+            color: 'var(--text-3)',
             lineHeight: 1.8,
             fontWeight: 300,
             paddingBottom: 'clamp(16px, 3vw, 24px)',
@@ -96,7 +96,7 @@ export function FAQSection() {
     <section
       ref={ref}
       className="py-16 md:py-20 lg:py-24 px-6 md:px-10"
-      style={{ background: '#a89578' }}
+      style={{ background: 'var(--bg-main)' }}
     >
       <div className="max-w-3xl mx-auto" style={revealStyle(visible)}>
         <div style={{ textAlign: 'center', marginBottom: 'clamp(40px, 6vw, 64px)' }}>
@@ -106,7 +106,7 @@ export function FAQSection() {
               fontSize: '11px',
               letterSpacing: '0.3em',
               textTransform: 'uppercase',
-              color: 'rgba(255,255,255,0.6)',
+              color: 'var(--accent)',
               marginBottom: '16px',
             }}
           >
@@ -116,7 +116,7 @@ export function FAQSection() {
             className="font-garamond"
             style={{
               fontSize: 'clamp(32px, 6vw, 56px)',
-              color: 'rgba(255,255,255,1)',
+              color: 'var(--text-1)',
               fontWeight: 300,
               lineHeight: 1.1,
             }}

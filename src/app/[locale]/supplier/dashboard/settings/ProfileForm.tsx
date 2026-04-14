@@ -67,15 +67,20 @@ export function ProfileForm({
         justifyContent: 'space-between',
         marginBottom: '48px',
       }}>
-        <h1 style={{
-          fontFamily: 'EB Garamond, serif',
-          fontSize: 'clamp(32px, 5vw, 48px)',
-          color: 'rgba(255,255,255,0.95)',
-          fontWeight: 400,
-          margin: 0,
-        }}>
-          Профиль
-        </h1>
+        <div>
+          <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '11px', fontWeight: 500, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--sp-text-3)', marginBottom: '6px' }}>
+            Account
+          </p>
+          <h1 style={{
+            fontFamily: 'EB Garamond, serif',
+            fontSize: 'clamp(26px, 4vw, 36px)',
+            color: 'var(--sp-text-1)',
+            fontWeight: 400,
+            margin: 0,
+          }}>
+            {labels.save === 'Save' ? 'Settings' : 'Настройки'}
+          </h1>
+        </div>
 
         {!isEditing ? (
           <button
@@ -85,20 +90,13 @@ export function ProfileForm({
               fontSize: '11px',
               letterSpacing: '0.15em',
               textTransform: 'uppercase',
-              color: 'rgba(255,255,255,0.9)',
-              background: 'rgba(168,149,120,0.15)',
-              border: '1px solid rgba(168,149,120,0.4)',
+              color: '#0a0806',
+              background: 'var(--sp-gold)',
+              border: 'none',
               padding: '10px 20px',
+              borderRadius: '6px',
               cursor: 'pointer',
-              transition: 'all 0.2s ease',
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.background = 'rgba(168,149,120,0.25)';
-              e.currentTarget.style.borderColor = 'rgba(168,149,120,0.6)';
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.background = 'rgba(168,149,120,0.15)';
-              e.currentTarget.style.borderColor = 'rgba(168,149,120,0.4)';
+              transition: 'opacity 0.15s',
             }}
           >
             {labels.edit}
@@ -113,9 +111,10 @@ export function ProfileForm({
                 fontSize: '11px',
                 letterSpacing: '0.15em',
                 textTransform: 'uppercase',
-                color: 'rgba(255,255,255,0.6)',
-                background: 'transparent',
-                border: '1px solid rgba(255,255,255,0.2)',
+                color: 'var(--sp-text-2)',
+                background: 'var(--sp-surface-2)',
+                border: '1px solid var(--sp-border)',
+                borderRadius: '6px',
                 padding: '10px 20px',
                 cursor: isSaving ? 'not-allowed' : 'pointer',
                 opacity: isSaving ? 0.5 : 1,
@@ -131,9 +130,10 @@ export function ProfileForm({
                 fontSize: '11px',
                 letterSpacing: '0.15em',
                 textTransform: 'uppercase',
-                color: 'rgba(255,255,255,0.9)',
-                background: 'rgba(168,149,120,0.25)',
-                border: '1px solid rgba(168,149,120,0.6)',
+                color: '#0a0806',
+                background: 'var(--sp-gold)',
+                border: 'none',
+                borderRadius: '6px',
                 padding: '10px 20px',
                 cursor: isSaving ? 'not-allowed' : 'pointer',
                 opacity: isSaving ? 0.7 : 1,
@@ -175,13 +175,13 @@ export function ProfileForm({
             fontSize: '12px',
             letterSpacing: '0.25em',
             textTransform: 'uppercase',
-            color: 'rgba(168,149,120,0.75)',
+            color: 'var(--sp-text-3)',
             marginBottom: '12px',
           }}>
             {labels.companyName}
           </p>
           <div style={{
-            borderBottom: '1px solid rgba(168,149,120,0.2)',
+            borderBottom: '1px solid var(--sp-border)',
             paddingBottom: '16px',
           }}>
             {isEditing ? (
@@ -192,10 +192,10 @@ export function ProfileForm({
                 style={{
                   fontFamily: 'EB Garamond, serif',
                   fontSize: '36px',
-                  color: 'rgba(255,255,255,0.95)',
+                  color: 'var(--sp-text-1)',
                   fontWeight: 400,
-                  background: 'rgba(168,149,120,0.05)',
-                  border: '1px solid rgba(168,149,120,0.3)',
+                  background: 'var(--sp-surface-2)',
+                  border: '1px solid var(--sp-border-2)',
                   padding: '8px 12px',
                   width: '100%',
                   outline: 'none',
@@ -206,7 +206,7 @@ export function ProfileForm({
               <p style={{
                 fontFamily: 'EB Garamond, serif',
                 fontSize: '36px',
-                color: 'rgba(255,255,255,0.95)',
+                color: 'var(--sp-text-1)',
                 fontWeight: 400,
                 margin: 0,
                 lineHeight: 1.2,
@@ -224,19 +224,19 @@ export function ProfileForm({
             fontSize: '12px',
             letterSpacing: '0.25em',
             textTransform: 'uppercase',
-            color: 'rgba(168,149,120,0.75)',
+            color: 'var(--sp-text-3)',
             marginBottom: '12px',
           }}>
             {labels.email}
           </p>
           <div style={{
-            borderBottom: '1px solid rgba(168,149,120,0.2)',
+            borderBottom: '1px solid var(--sp-border)',
             paddingBottom: '16px',
           }}>
             <p style={{
               fontFamily: 'Inter, sans-serif',
               fontSize: '18px',
-              color: 'rgba(255,255,255,0.9)',
+              color: 'var(--sp-text-1)',
               margin: 0,
               wordBreak: 'break-word',
             }}>
@@ -252,13 +252,13 @@ export function ProfileForm({
             fontSize: '12px',
             letterSpacing: '0.25em',
             textTransform: 'uppercase',
-            color: 'rgba(168,149,120,0.75)',
+            color: 'var(--sp-text-3)',
             marginBottom: '12px',
           }}>
             {labels.description}
           </p>
           <div style={{
-            borderBottom: '1px solid rgba(168,149,120,0.2)',
+            borderBottom: '1px solid var(--sp-border)',
             paddingBottom: '16px',
           }}>
             {isEditing ? (
@@ -269,9 +269,9 @@ export function ProfileForm({
                 style={{
                   fontFamily: 'Inter, sans-serif',
                   fontSize: '16px',
-                  color: 'rgba(255,255,255,0.85)',
-                  background: 'rgba(168,149,120,0.05)',
-                  border: '1px solid rgba(168,149,120,0.3)',
+                  color: 'var(--sp-text-2)',
+                  background: 'var(--sp-surface-2)',
+                  border: '1px solid var(--sp-border-2)',
                   padding: '12px',
                   width: '100%',
                   outline: 'none',
@@ -283,7 +283,7 @@ export function ProfileForm({
               <p style={{
                 fontFamily: 'Inter, sans-serif',
                 fontSize: '16px',
-                color: 'rgba(255,255,255,0.85)',
+                color: 'var(--sp-text-2)',
                 lineHeight: 1.8,
                 margin: 0,
               }}>

@@ -1,6 +1,7 @@
 'use client'
 
 import Image from 'next/image'
+import { Link } from '@/i18n/navigation'
 import { useTranslations } from 'next-intl'
 
 const HAMMAM_GALLERY = [
@@ -31,7 +32,7 @@ export default function HammamSection() {
             className="text-[11px] tracking-[0.3em] uppercase mb-4"
             style={{ color: 'rgba(168,149,120,0.7)' }}
           >
-            Innovation — Yurt Hammam
+            World First · Nomadic Wellness
           </p>
           <h2
             className="font-garamond text-4xl md:text-6xl font-normal leading-[1.1] mb-5"
@@ -53,7 +54,7 @@ export default function HammamSection() {
       </div>
 
       {/* Gallery strip */}
-      <div className="py-16 md:py-24" style={{ background: '#a89578' }}>
+      <div className="py-16 md:py-24" style={{ background: 'var(--bg-alt)' }}>
         <div className="flex gap-3 md:gap-4 overflow-x-auto snap-x snap-mandatory px-6 md:px-16 pb-4 scrollbar-hide">
           {HAMMAM_GALLERY.map((photo, i) => (
             <div
@@ -104,15 +105,37 @@ export default function HammamSection() {
             ))}
           </div>
 
-          <div className="text-center">
+          <div className="text-center" style={{ display: 'flex', gap: '16px', justifyContent: 'center', flexWrap: 'wrap' }}>
+            <Link
+              href="/hammam"
+              style={{
+                display: 'inline-flex', alignItems: 'center', gap: '8px',
+                padding: '13px 28px',
+                background: 'rgba(201,168,110,0.1)',
+                border: '1px solid rgba(201,168,110,0.45)',
+                color: 'rgba(201,168,110,0.95)',
+                fontFamily: 'Inter, sans-serif', fontSize: '11px', fontWeight: 600,
+                letterSpacing: '0.18em', textTransform: 'uppercase',
+                textDecoration: 'none', borderRadius: '3px',
+              }}
+            >
+              Full Hammam page →
+            </Link>
             <a
               href="https://wa.me/77477777888?text=Hello%2C%20I%27m%20interested%20in%20the%20Yurt%20Hammam"
               target="_blank"
               rel="noopener noreferrer"
-              className="btn-book"
-              style={{ borderColor: 'rgba(168,149,120,0.5)', color: 'rgba(255,255,255,0.9)' }}
+              style={{
+                display: 'inline-flex', alignItems: 'center', gap: '8px',
+                padding: '13px 28px',
+                border: '1px solid rgba(255,255,255,0.18)',
+                color: 'rgba(255,255,255,0.6)',
+                fontFamily: 'Inter, sans-serif', fontSize: '11px', fontWeight: 500,
+                letterSpacing: '0.15em', textTransform: 'uppercase',
+                textDecoration: 'none', borderRadius: '3px',
+              }}
             >
-              Inquire About Hammam
+              Inquire via WhatsApp
             </a>
           </div>
         </div>

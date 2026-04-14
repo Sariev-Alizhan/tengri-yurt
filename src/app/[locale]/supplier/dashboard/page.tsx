@@ -1,3 +1,4 @@
+import type React from 'react'
 import { createClient } from '@/utils/supabase/server'
 import { getTranslations } from 'next-intl/server'
 import { redirect } from 'next/navigation'
@@ -18,15 +19,23 @@ export default async function DashboardPage({
 
   if (!user) {
     return (
-      <>
+      <div style={{ maxWidth: '480px' }}>
         <header style={{ marginBottom: '40px' }}>
-          <p className="sp-breadcrumb" style={{ marginBottom: '8px' }}>
+          <p style={{
+            fontFamily: 'Inter, sans-serif',
+            fontSize: '11px',
+            fontWeight: 500,
+            letterSpacing: '0.12em',
+            textTransform: 'uppercase',
+            color: 'var(--sp-text-3)',
+            marginBottom: '10px',
+          }}>
             {t('portalBreadcrumb')}
           </p>
           <h1 style={{
             fontFamily: 'EB Garamond, serif',
-            fontSize: 'clamp(28px, 5vw, 48px)',
-            color: 'rgba(255,255,255,0.88)',
+            fontSize: 'clamp(28px, 5vw, 44px)',
+            color: 'var(--sp-text-1)',
             fontWeight: 400,
             margin: 0,
           }}>
@@ -34,40 +43,44 @@ export default async function DashboardPage({
           </h1>
         </header>
         <div style={{
-          padding: '48px 32px',
+          padding: '40px 32px',
           textAlign: 'center',
-          border: '1px solid rgba(168,149,120,0.2)',
-          background: 'rgba(168,149,120,0.06)',
-          borderRadius: '8px',
+          border: '1px solid var(--sp-border)',
+          background: 'var(--sp-surface)',
+          borderRadius: '12px',
         }}>
           <p style={{
             fontFamily: 'Inter, sans-serif',
-            fontSize: '16px',
-            color: 'rgba(255,255,255,0.8)',
+            fontSize: '15px',
+            color: 'var(--sp-text-2)',
             marginBottom: '24px',
+            lineHeight: 1.6,
           }}>
             {t('signInToAccessDashboard')}
           </p>
           <Link
             href="/supplier/login"
             style={{
-              display: 'inline-block',
-              padding: '14px 28px',
-              border: '1px solid rgba(168,149,120,0.6)',
-              color: 'rgba(255,255,255,0.95)',
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '8px',
+              padding: '10px 20px',
+              background: 'var(--sp-gold)',
+              color: '#0a0806',
               fontFamily: 'Inter, sans-serif',
-              fontSize: '11px',
+              fontSize: '12px',
               fontWeight: 600,
-              letterSpacing: '0.15em',
+              letterSpacing: '0.08em',
               textTransform: 'uppercase',
               textDecoration: 'none',
-              transition: 'all 0.2s',
+              borderRadius: '6px',
+              transition: 'opacity 0.15s',
             }}
           >
             {t('signIn')}
           </Link>
         </div>
-      </>
+      </div>
     )
   }
 
@@ -77,7 +90,6 @@ export default async function DashboardPage({
     .eq('user_id', user.id)
     .single()
 
-  // Пользователь есть, но запись поставщика не создана — ведём на регистрацию поставщика, а не на логин
   if (!supplier) redirect(`/${locale}/supplier/register`)
 
   const supplierId = (supplier as { id: string }).id
@@ -140,213 +152,417 @@ export default async function DashboardPage({
     cancelled: t('statusCancelled'),
   }
 
-  return (
-    <>
-        <header style={{ marginBottom: '40px' }}>
-          <p className="sp-breadcrumb" style={{ marginBottom: '8px' }}>
-            {t('portalBreadcrumb')}
-          </p>
-          <h1 style={{
-            fontFamily: 'EB Garamond, serif',
-            fontSize: 'clamp(28px, 5vw, 48px)',
-            color: 'rgba(255,255,255,0.88)',
-            fontWeight: 400,
-            margin: 0,
-          }}>
-            {t('welcomeBack')}
-          </h1>
-        </header>
+  const firstName = supplierName.split(' ')[0] || supplierName
 
-        {!(supplier as { is_approved?: boolean }).is_approved && (
-          <div style={{
-            padding: '16px 20px',
-            marginBottom: '24px',
-            background: 'rgba(255,180,80,0.08)',
-            border: '1px solid rgba(255,180,80,0.25)',
-            borderRadius: '12px',
+  return (
+    <div style={{ maxWidth: '960px' }}>
+
+      {/* ─── Header ─── */}
+      <header style={{ marginBottom: '40px' }}>
+        <p style={{
+          fontFamily: 'Inter, sans-serif',
+          fontSize: '11px',
+          fontWeight: 500,
+          letterSpacing: '0.12em',
+          textTransform: 'uppercase',
+          color: 'var(--sp-text-3)',
+          marginBottom: '8px',
+        }}>
+          {t('portalBreadcrumb')}
+        </p>
+        <h1 style={{
+          fontFamily: 'EB Garamond, serif',
+          fontSize: 'clamp(26px, 4vw, 40px)',
+          color: 'var(--sp-text-1)',
+          fontWeight: 400,
+          margin: 0,
+        }}>
+          {t('welcomeBack')}{firstName ? `, ${firstName}` : ''}
+        </h1>
+      </header>
+
+      {/* ─── Pending approval banner ─── */}
+      {!(supplier as { is_approved?: boolean }).is_approved && (
+        <div style={{
+          display: 'flex',
+          alignItems: 'center',
+          gap: '12px',
+          padding: '14px 18px',
+          marginBottom: '28px',
+          background: 'rgba(255,180,60,0.07)',
+          border: '1px solid rgba(255,180,60,0.2)',
+          borderRadius: '10px',
+        }}>
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" style={{ flexShrink: 0 }}>
+            <path d="M8 1.5a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13ZM7.25 5.25a.75.75 0 0 1 1.5 0v3.5a.75.75 0 0 1-1.5 0v-3.5Zm.75 6.5a.75.75 0 1 1 0-1.5.75.75 0 0 1 0 1.5Z" fill="rgba(255,180,60,0.85)"/>
+          </svg>
+          <p style={{
             fontFamily: 'Inter, sans-serif',
-            fontSize: '14px',
-            color: 'rgba(255,255,255,0.85)',
+            fontSize: '13px',
+            color: 'rgba(255,180,60,0.85)',
+            margin: 0,
+            lineHeight: 1.5,
           }}>
             {t('pendingApproval')}
+          </p>
+        </div>
+      )}
+
+      {/* ─── Stat cards ─── */}
+      <div style={{
+        display: 'grid',
+        gridTemplateColumns: 'repeat(3, 1fr)',
+        gap: '12px',
+        marginBottom: '40px',
+      }}
+      className="sp-stat-grid"
+      >
+        <StatCard
+          icon={
+            <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+              <path d="M9 1L1.5 7v9h5v-5h5v5h5V7L9 1Z" stroke="currentColor" strokeWidth="1.25" strokeLinejoin="round" fill="none"/>
+            </svg>
+          }
+          value={totalYurts}
+          label={t('activeYurts')}
+        />
+        <StatCard
+          icon={
+            <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+              <rect x="2" y="3" width="14" height="12" rx="2" stroke="currentColor" strokeWidth="1.25" fill="none"/>
+              <path d="M6 7h6M6 10h4" stroke="currentColor" strokeWidth="1.25" strokeLinecap="round"/>
+            </svg>
+          }
+          value={totalOrders}
+          label={t('totalOrdersLabel')}
+        />
+        <StatCard
+          icon={
+            <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+              <circle cx="9" cy="9" r="7" stroke="currentColor" strokeWidth="1.25" fill="none"/>
+              <path d="M9 5v4l2.5 2.5" stroke="currentColor" strokeWidth="1.25" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
+          }
+          value={pendingOrders}
+          label={t('pendingLabel')}
+          highlight={pendingOrders > 0}
+        />
+      </div>
+
+      {/* ─── Recent orders ─── */}
+      <section style={{ marginBottom: '40px' }}>
+        <div style={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          marginBottom: '16px',
+        }}>
+          <h2 style={{
+            fontFamily: 'Inter, sans-serif',
+            fontSize: '13px',
+            fontWeight: 600,
+            letterSpacing: '0.06em',
+            textTransform: 'uppercase',
+            color: 'var(--sp-text-3)',
+            margin: 0,
+          }}>
+            {t('recentOrders')}
+          </h2>
+          <Link href="/supplier/dashboard/orders" style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: '4px',
+            fontFamily: 'Inter, sans-serif',
+            fontSize: '12px',
+            fontWeight: 500,
+            color: 'var(--sp-gold)',
+            textDecoration: 'none',
+            opacity: 0.8,
+          }}>
+            {t('viewAll')}
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+              <path d="M4.5 2.5 8 6l-3.5 3.5" stroke="currentColor" strokeWidth="1.25" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
+          </Link>
+        </div>
+
+        {recentOrders && recentOrders.length > 0 ? (
+          <>
+            {/* Desktop table */}
+            <div className="supplier-orders-desktop" style={{
+              border: '1px solid var(--sp-border)',
+              borderRadius: '10px',
+              overflow: 'hidden',
+              background: 'var(--sp-surface)',
+            }}>
+              {/* Table header */}
+              <div style={{
+                display: 'grid',
+                gridTemplateColumns: '2fr 2fr 1.5fr 1fr 1fr',
+                gap: '16px',
+                padding: '10px 16px',
+                borderBottom: '1px solid var(--sp-border)',
+              }}>
+                {['Order', 'Product', 'Status', 'Date', 'Qty'].map(h => (
+                  <p key={h} style={{
+                    fontFamily: 'Inter, sans-serif',
+                    fontSize: '10px',
+                    fontWeight: 600,
+                    letterSpacing: '0.1em',
+                    textTransform: 'uppercase',
+                    color: 'var(--sp-text-3)',
+                    margin: 0,
+                  }}>{h}</p>
+                ))}
+              </div>
+              {recentOrders.map((order, i) => (
+                <div key={`d-${order.id}`} className="sp-order-row" style={{
+                  display: 'grid',
+                  gridTemplateColumns: '2fr 2fr 1.5fr 1fr 1fr',
+                  gap: '16px',
+                  padding: '13px 16px',
+                  borderBottom: i < recentOrders.length - 1 ? '1px solid var(--sp-border)' : 'none',
+                  alignItems: 'center',
+                }}>
+                  <div>
+                    <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '13px', color: 'var(--sp-text-1)', fontWeight: 510, marginBottom: '2px', margin: '0 0 2px' }}>
+                      #{order.order_number}
+                    </p>
+                    <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '11px', color: 'var(--sp-text-3)', margin: 0 }}>
+                      {order.buyer_name}
+                    </p>
+                  </div>
+                  <div>
+                    <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '12px', color: 'var(--sp-text-2)', margin: '0 0 2px' }}>
+                      {order.yurt?.name ?? '—'}
+                    </p>
+                    <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '11px', color: 'var(--sp-text-3)', margin: 0 }}>
+                      {order.delivery_country}
+                    </p>
+                  </div>
+                  <StatusBadge label={statusLabels[order.status] || order.status} status={order.status} />
+                  <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '11px', color: 'var(--sp-text-3)', margin: 0 }}>
+                    {new Date(order.created_at).toLocaleDateString()}
+                  </p>
+                  <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '12px', color: 'var(--sp-text-2)', margin: 0, fontWeight: 510 }}>
+                    {order.quantity}
+                  </p>
+                </div>
+              ))}
+            </div>
+
+            {/* Mobile cards */}
+            <div className="supplier-orders-mobile" style={{ display: 'none', flexDirection: 'column', gap: '8px' }}>
+              {recentOrders.map((order) => (
+                <Link key={`m-${order.id}`} href="/supplier/dashboard/orders" style={{ textDecoration: 'none', color: 'inherit', display: 'block' }}>
+                  <div style={{
+                    padding: '14px 16px',
+                    background: 'var(--sp-surface)',
+                    border: '1px solid var(--sp-border)',
+                    borderRadius: '10px',
+                  }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '8px' }}>
+                      <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '13px', fontWeight: 600, color: 'var(--sp-text-1)', margin: 0 }}>
+                        #{order.order_number}
+                      </p>
+                      <StatusBadge label={statusLabels[order.status] || order.status} status={order.status} />
+                    </div>
+                    <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '12px', color: 'var(--sp-gold)', margin: '0 0 3px', opacity: 0.8 }}>
+                      {order.buyer_name}
+                    </p>
+                    <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '12px', color: 'var(--sp-text-2)', margin: '0 0 4px' }}>
+                      {order.yurt?.name ?? '—'}
+                    </p>
+                    <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '11px', color: 'var(--sp-text-3)', margin: 0 }}>
+                      {order.delivery_country} · {t('qty')} {order.quantity} · {new Date(order.created_at).toLocaleDateString()}
+                    </p>
+                  </div>
+                </Link>
+              ))}
+            </div>
+          </>
+        ) : (
+          <div style={{
+            padding: '48px',
+            textAlign: 'center',
+            border: '1px solid var(--sp-border)',
+            borderRadius: '10px',
+            background: 'var(--sp-surface)',
+          }}>
+            <svg width="32" height="32" viewBox="0 0 32 32" fill="none" style={{ margin: '0 auto 16px', display: 'block', opacity: 0.2 }}>
+              <rect x="4" y="6" width="24" height="20" rx="3" stroke="var(--sp-gold)" strokeWidth="1.5" fill="none"/>
+              <path d="M10 12h12M10 17h8" stroke="var(--sp-gold)" strokeWidth="1.5" strokeLinecap="round"/>
+            </svg>
+            <p style={{ fontFamily: 'EB Garamond, serif', fontSize: '18px', color: 'var(--sp-text-3)', margin: 0 }}>
+              {t('noOrdersYet')}
+            </p>
           </div>
         )}
+      </section>
 
-        <div
-          className="supplier-stat-grid"
-          style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(min(160px, 100%), 1fr))',
-            gap: '12px',
-            marginBottom: '48px',
-          }}
-        >
-          {[
-            { label: t('activeYurts'), value: totalYurts, icon: '⌂' },
-            { label: t('totalOrdersLabel'), value: totalOrders, icon: '◎' },
-            { label: t('pendingLabel'), value: pendingOrders, icon: '◐', highlight: pendingOrders > 0 },
-          ].map(stat => (
-            <div
-              key={stat.label}
-              className="supplier-stat-card"
-              style={{
-                background: 'rgba(26,21,16,0.9)',
-                padding: 'clamp(20px, 3vw, 28px)',
-                border: '1px solid rgba(168,149,120,0.08)',
-                borderRadius: '16px',
-              }}
-            >
-              <p style={{
-                fontFamily: 'monospace',
-                fontSize: '20px',
-                color: stat.highlight ? 'rgba(255,180,80,0.85)' : 'rgba(168,149,120,0.6)',
-                marginBottom: '10px',
-              }}>
-                {stat.icon}
-              </p>
-              <p style={{
-                fontFamily: 'EB Garamond, serif',
-                fontSize: 'clamp(28px, 5vw, 48px)',
-                color: stat.highlight ? 'rgba(255,180,80,0.95)' : 'rgba(255,255,255,0.9)',
-                fontWeight: 500,
-                lineHeight: 1,
-                marginBottom: '8px',
-              }}>
-                {stat.value}
-              </p>
-              <p className="sp-label" style={{ fontWeight: 500 }}>
-                {stat.label}
-              </p>
-            </div>
-          ))}
-        </div>
-
-        <div style={{ marginBottom: '48px' }}>
-          <div style={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            marginBottom: '20px',
-          }}>
-            <h2 style={{
-              fontFamily: 'EB Garamond, serif',
-              fontSize: 'clamp(20px, 3vw, 28px)',
-              color: 'rgba(255,255,255,0.75)',
-              fontWeight: 400,
-              margin: 0,
-            }}>
-              {t('recentOrders')}
-            </h2>
-            <Link href="/supplier/dashboard/orders" style={{
-              fontFamily: 'Inter, sans-serif',
-              fontSize: '12px',
-              color: 'rgba(168,149,120,0.7)',
-              letterSpacing: '0.12em',
-              textTransform: 'uppercase',
-              textDecoration: 'none',
-              borderBottom: '1px solid rgba(168,149,120,0.3)',
-            }}>
-              {t('viewAll')}
-            </Link>
-          </div>
-
-          {recentOrders && recentOrders.length > 0 ? (
-            <>
-              <div className="supplier-orders-desktop" style={{ border: '1px solid rgba(168,149,120,0.1)', borderRadius: '12px', overflow: 'hidden' }}>
-                {recentOrders.map((order, i) => (
-                  <div key={`d-${order.id}`} style={{
-                    display: 'grid',
-                    gridTemplateColumns: '1fr 1fr auto auto',
-                    gap: '16px',
-                    padding: '16px 20px',
-                    borderBottom: i < recentOrders.length - 1 ? '1px solid rgba(168,149,120,0.06)' : 'none',
-                    alignItems: 'center',
-                  }}>
-                    <div>
-                      <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '13px', color: 'rgba(255,255,255,0.85)', fontWeight: 500, marginBottom: '3px' }}>#{order.order_number}</p>
-                      <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '12px', color: 'rgba(168,149,120,0.65)' }}>{order.buyer_name}</p>
-                    </div>
-                    <div>
-                      <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '12px', color: 'rgba(255,255,255,0.65)' }}>{order.yurt?.name ?? '—'}</p>
-                      <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '11px', color: 'rgba(168,149,120,0.55)' }}>{order.delivery_country} · {t('qty')} {order.quantity}</p>
-                    </div>
-                    <StatusBadge label={statusLabels[order.status] || order.status} status={order.status} />
-                    <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '11px', color: 'rgba(168,149,120,0.6)', whiteSpace: 'nowrap' }}>{new Date(order.created_at).toLocaleDateString()}</p>
-                  </div>
-                ))}
-              </div>
-              <div className="supplier-orders-mobile" style={{ display: 'none' }}>
-                {recentOrders.map((order) => (
-                  <Link key={`m-${order.id}`} href="/supplier/dashboard/orders" style={{ textDecoration: 'none', color: 'inherit', display: 'block' }}>
-                    <div className="supplier-order-card" style={{ background: 'rgba(26,21,16,0.8)' }}>
-                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '8px' }}>
-                        <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '13px', fontWeight: 600, color: 'rgba(255,255,255,0.9)', margin: 0 }}>#{order.order_number}</p>
-                        <StatusBadge label={statusLabels[order.status] || order.status} status={order.status} />
-                      </div>
-                      <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '13px', color: 'rgba(168,149,120,0.75)', margin: '0 0 4px' }}>{order.buyer_name}</p>
-                      <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '12px', color: 'rgba(255,255,255,0.65)', margin: '0 0 3px' }}>{order.yurt?.name ?? '—'}</p>
-                      <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '11px', color: 'rgba(168,149,120,0.6)', margin: 0 }}>{order.delivery_country} · {t('qty')} {order.quantity} · {new Date(order.created_at).toLocaleDateString()}</p>
-                    </div>
-                  </Link>
-                ))}
-              </div>
-            </>
-          ) : (
-            <>
-              <div className="supplier-orders-desktop" style={{ border: '1px solid rgba(168,149,120,0.1)', borderRadius: '12px', padding: '48px', textAlign: 'center' }}>
-                <p style={{ fontFamily: 'EB Garamond, serif', fontSize: '20px', color: 'rgba(168,149,120,0.3)', margin: 0 }}>{t('noOrdersYet')}</p>
-              </div>
-              <div className="supplier-orders-mobile" style={{ display: 'none', border: '1px solid rgba(168,149,120,0.1)', borderRadius: '14px', padding: '32px', textAlign: 'center' }}>
-                <p style={{ fontFamily: 'EB Garamond, serif', fontSize: '18px', color: 'rgba(168,149,120,0.35)', margin: 0 }}>{t('noOrdersYet')}</p>
-              </div>
-            </>
-          )}
-        </div>
-
+      {/* ─── Quick actions ─── */}
+      <section style={{ marginBottom: '40px' }}>
+        <h2 style={{
+          fontFamily: 'Inter, sans-serif',
+          fontSize: '13px',
+          fontWeight: 600,
+          letterSpacing: '0.06em',
+          textTransform: 'uppercase',
+          color: 'var(--sp-text-3)',
+          marginBottom: '12px',
+          marginTop: 0,
+        }}>
+          Quick Actions
+        </h2>
         <div style={{
           display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(min(180px, 100%), 1fr))',
-          gap: '12px',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(min(160px, 100%), 1fr))',
+          gap: '10px',
         }}>
-          {[
-            { label: t('addNewYurt'), href: '/supplier/dashboard/yurts/new', icon: '+' },
-            { label: t('viewAllOrders'), href: '/supplier/dashboard/orders', icon: '◎' },
-            { label: t('editProfile'), href: '/supplier/dashboard/settings', icon: '◉' },
-          ].map(action => (
-            <ActionLink
-              key={action.href}
-              href={action.href}
-              icon={action.icon}
-              label={action.label}
-            />
-          ))}
+          <ActionLink href="/supplier/dashboard/yurts/new" icon="+" label={t('addNewYurt')} />
+          <ActionLink href="/supplier/dashboard/orders" icon="◎" label={t('viewAllOrders')} />
+          <ActionLink href="/supplier/dashboard/settings" icon="◉" label={t('editProfile')} />
         </div>
+      </section>
 
-        {/* Помощник / Quick guide */}
-        <section className="supplier-helper-card" style={{
-          marginTop: '48px',
-          padding: '24px 28px',
-          background: 'rgba(168,149,120,0.06)',
-          border: '1px solid rgba(168,149,120,0.12)',
-        }}>
-          <h2 className="sp-label" style={{ margin: '0 0 16px' }}>
+      {/* ─── Getting started guide ─── */}
+      <section style={{
+        padding: '24px 28px',
+        background: 'var(--sp-surface)',
+        border: '1px solid var(--sp-border)',
+        borderRadius: '12px',
+      }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '16px' }}>
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+            <circle cx="8" cy="8" r="6.5" stroke="var(--sp-gold)" strokeWidth="1.25" fill="none" opacity="0.6"/>
+            <path d="M8 5v3.5l2 2" stroke="var(--sp-gold)" strokeWidth="1.25" strokeLinecap="round" strokeLinejoin="round" opacity="0.6"/>
+          </svg>
+          <h2 style={{
+            fontFamily: 'Inter, sans-serif',
+            fontSize: '12px',
+            fontWeight: 600,
+            letterSpacing: '0.1em',
+            textTransform: 'uppercase',
+            color: 'var(--sp-text-3)',
+            margin: 0,
+          }}>
             {t('helperTitle')}
           </h2>
-          <ul style={{
-            margin: 0,
-            paddingLeft: '20px',
-            fontFamily: 'Inter, sans-serif',
-            fontSize: '14px',
-            lineHeight: 1.8,
-            color: 'rgba(255,255,255,0.7)',
-          }}>
-            <li style={{ marginBottom: '8px' }}>{t('helperTip1')}</li>
-            <li style={{ marginBottom: '8px' }}>{t('helperTip2')}</li>
-            <li>{t('helperTip3')}</li>
-          </ul>
-        </section>
+        </div>
+        <ul style={{
+          margin: 0,
+          paddingLeft: '0',
+          listStyle: 'none',
+          display: 'flex',
+          flexDirection: 'column',
+          gap: '10px',
+        }}>
+          {[t('helperTip1'), t('helperTip2'), t('helperTip3')].map((tip, i) => (
+            <li key={i} style={{ display: 'flex', gap: '10px', alignItems: 'flex-start' }}>
+              <span style={{
+                flexShrink: 0,
+                width: '18px',
+                height: '18px',
+                borderRadius: '50%',
+                background: 'rgba(201,168,110,0.1)',
+                border: '1px solid rgba(201,168,110,0.2)',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                fontFamily: 'Inter, sans-serif',
+                fontSize: '10px',
+                fontWeight: 600,
+                color: 'var(--sp-gold)',
+                marginTop: '1px',
+              }}>
+                {i + 1}
+              </span>
+              <p style={{
+                fontFamily: 'Inter, sans-serif',
+                fontSize: '13px',
+                lineHeight: 1.6,
+                color: 'var(--sp-text-2)',
+                margin: 0,
+              }}>
+                {tip}
+              </p>
+            </li>
+          ))}
+        </ul>
+      </section>
 
-    </>
+      {/* Responsive fixes */}
+      <style dangerouslySetInnerHTML={{ __html: `
+        .sp-order-row:hover { background: var(--sp-surface-2) !important; }
+        @media (max-width: 767px) {
+          .sp-stat-grid { grid-template-columns: 1fr 1fr !important; }
+          .supplier-orders-desktop { display: none !important; }
+          .supplier-orders-mobile { display: flex !important; }
+        }
+      `}} />
+
+    </div>
+  )
+}
+
+function StatCard({
+  icon,
+  value,
+  label,
+  highlight = false,
+}: {
+  icon: React.ReactNode
+  value: number
+  label: string
+  highlight?: boolean
+}) {
+  return (
+    <div style={{
+      padding: 'clamp(16px, 3vw, 24px)',
+      background: 'var(--sp-surface)',
+      border: `1px solid ${highlight ? 'rgba(255,180,60,0.25)' : 'var(--sp-border)'}`,
+      borderRadius: '12px',
+      position: 'relative',
+      overflow: 'hidden',
+    }}>
+      {highlight && (
+        <div style={{
+          position: 'absolute',
+          top: 0, left: 0, right: 0,
+          height: '2px',
+          background: 'linear-gradient(90deg, rgba(255,180,60,0.6), rgba(255,180,60,0))',
+        }} />
+      )}
+      <div style={{
+        color: highlight ? 'rgba(255,180,60,0.7)' : 'var(--sp-gold)',
+        opacity: highlight ? 1 : 0.5,
+        marginBottom: '14px',
+        display: 'flex',
+      }}>
+        {icon}
+      </div>
+      <p style={{
+        fontFamily: 'EB Garamond, serif',
+        fontSize: 'clamp(32px, 5vw, 44px)',
+        fontWeight: 400,
+        color: highlight ? 'rgba(255,180,60,0.95)' : 'var(--sp-text-1)',
+        lineHeight: 1,
+        margin: '0 0 6px',
+      }}>
+        {value}
+      </p>
+      <p style={{
+        fontFamily: 'Inter, sans-serif',
+        fontSize: '11px',
+        fontWeight: 500,
+        letterSpacing: '0.08em',
+        textTransform: 'uppercase',
+        color: 'var(--sp-text-3)',
+        margin: 0,
+      }}>
+        {label}
+      </p>
+    </div>
   )
 }
 

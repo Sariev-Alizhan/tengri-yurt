@@ -23,6 +23,7 @@ export function YurtQuizClient({ locale }: { locale: string }) {
   const total = questions.length
   const current = questions[index]
   const isLast = index === total - 1
+  const progress = total ? ((index + (showExplain ? 1 : 0)) / total) * 100 : 0
 
   const handleStart = () => {
     setStep('play')
@@ -56,139 +57,359 @@ export function YurtQuizClient({ locale }: { locale: string }) {
     return t('resultLearn')
   }
 
+  const getResultLabel = () => {
+    const pct = total ? (score / total) * 100 : 0
+    if (pct >= 90) return 'Master of the steppe'
+    if (pct >= 60) return 'Nomadic scholar'
+    return 'Keep exploring'
+  }
+
   if (step === 'intro') {
     return (
-      <div
-        className="min-h-screen flex flex-col items-center justify-center px-4"
-        style={{
-          paddingTop: 'clamp(100px, 15vw, 140px)',
-          paddingBottom: 'clamp(60px, 10vw, 100px)',
-          background: 'linear-gradient(180deg, rgba(15,13,10,0.97) 0%, rgba(40,32,24,0.98) 100%)',
-        }}
-      >
-        <p className="font-inter text-amber-500/80 text-xs uppercase tracking-[0.3em] mb-4">
-          Discover & play
-        </p>
-        <h1 className="font-garamond text-white text-4xl md:text-6xl text-center mb-4">
-          {t('title')}
-        </h1>
-        <p className="font-inter text-white/70 text-center max-w-md mb-10">
-          {t('subtitle')}
-        </p>
-        <button
-          type="button"
-          onClick={handleStart}
-          className="border-2 border-amber-500/70 text-amber-400 px-8 py-4 font-inter text-sm uppercase tracking-widest hover:bg-amber-500/15 transition-colors"
-        >
-          {t('start')}
-        </button>
-        <Link
-          href="/"
-          className="mt-8 font-inter text-white/50 text-sm hover:text-white/80 transition-colors"
-        >
-          ← Back to home
-        </Link>
+      <div style={{
+        minHeight: '100vh',
+        display: 'flex', flexDirection: 'column',
+        alignItems: 'center', justifyContent: 'center',
+        padding: 'clamp(100px, 15vw, 140px) 24px clamp(60px, 10vw, 100px)',
+        background: 'var(--bg-main)',
+        position: 'relative', overflow: 'hidden',
+      }}>
+        {/* Decorative background */}
+        <div style={{
+          position: 'absolute', inset: 0,
+          backgroundImage: 'url(/images/picture/yurt_shanyraq.jpeg)',
+          backgroundSize: 'cover', backgroundPosition: 'center',
+          opacity: 0.08,
+        }} />
+        <div style={{
+          position: 'relative', zIndex: 2,
+          textAlign: 'center', maxWidth: '560px',
+        }}>
+          <p style={{
+            fontFamily: 'Inter, sans-serif', fontSize: '11px', fontWeight: 500,
+            letterSpacing: '0.3em', textTransform: 'uppercase',
+            color: 'rgba(201,168,110,0.7)', marginBottom: '20px',
+          }}>
+            Discover & play
+          </p>
+          <h1 style={{
+            fontFamily: 'EB Garamond, serif',
+            fontSize: 'clamp(36px, 7vw, 64px)',
+            color: 'rgba(255,255,255,0.93)',
+            fontWeight: 400, lineHeight: 1.1, margin: '0 0 20px',
+          }}>
+            {t('title')}
+          </h1>
+          <p style={{
+            fontFamily: 'Inter, sans-serif', fontSize: '15px',
+            color: 'rgba(255,255,255,0.5)', lineHeight: 1.7,
+            fontWeight: 300, margin: '0 0 48px',
+          }}>
+            {t('subtitle')}
+          </p>
+
+          <div style={{
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+            gap: '12px', marginBottom: '24px',
+          }}>
+            <div style={{
+              padding: '8px 16px',
+              background: 'rgba(255,255,255,0.04)',
+              border: '1px solid rgba(255,255,255,0.1)',
+              borderRadius: '4px',
+            }}>
+              <span style={{
+                fontFamily: 'Inter, sans-serif', fontSize: '11px',
+                color: 'rgba(255,255,255,0.45)', letterSpacing: '0.1em',
+              }}>
+                {total} questions
+              </span>
+            </div>
+            <div style={{
+              padding: '8px 16px',
+              background: 'rgba(255,255,255,0.04)',
+              border: '1px solid rgba(255,255,255,0.1)',
+              borderRadius: '4px',
+            }}>
+              <span style={{
+                fontFamily: 'Inter, sans-serif', fontSize: '11px',
+                color: 'rgba(255,255,255,0.45)', letterSpacing: '0.1em',
+              }}>
+                ~5 min
+              </span>
+            </div>
+          </div>
+
+          <button
+            type="button"
+            onClick={handleStart}
+            style={{
+              display: 'inline-flex', alignItems: 'center', gap: '10px',
+              padding: '15px 44px',
+              background: 'rgba(201,168,110,0.12)',
+              border: '1px solid rgba(201,168,110,0.5)',
+              color: 'rgba(201,168,110,0.95)',
+              fontFamily: 'Inter, sans-serif', fontSize: '11px', fontWeight: 600,
+              letterSpacing: '0.2em', textTransform: 'uppercase',
+              cursor: 'pointer', borderRadius: '4px',
+              marginBottom: '32px',
+            }}
+          >
+            {t('start')}
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+              <path d="M2 6h8M6 2l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
+          </button>
+
+          <br />
+          <Link
+            href="/"
+            style={{
+              fontFamily: 'Inter, sans-serif', fontSize: '12px',
+              color: 'rgba(255,255,255,0.35)', textDecoration: 'none',
+              letterSpacing: '0.05em',
+            }}
+          >
+            ← Back to home
+          </Link>
+        </div>
       </div>
     )
   }
 
   if (step === 'result') {
+    const pct = total ? Math.round((score / total) * 100) : 0
     return (
-      <div
-        className="min-h-screen flex flex-col items-center justify-center px-4"
-        style={{
-          paddingTop: 'clamp(100px, 15vw, 140px)',
-          paddingBottom: 'clamp(60px, 10vw, 100px)',
-          background: 'linear-gradient(180deg, rgba(15,13,10,0.97) 0%, rgba(40,32,24,0.98) 100%)',
-        }}
-      >
-        <h2 className="font-garamond text-white text-3xl md:text-4xl mb-2">
-          {t('score')}: {score} / {total}
-        </h2>
-        <p className="font-inter text-white/80 text-center max-w-lg mb-10 leading-relaxed">
-          {getResultMessage()}
-        </p>
-        <button
-          type="button"
-          onClick={handleStart}
-          className="border-2 border-amber-500/70 text-amber-400 px-8 py-4 font-inter text-sm uppercase tracking-widest hover:bg-amber-500/15 transition-colors mb-6"
-        >
-          {t('playAgain')}
-        </button>
-        <Link
-          href="/catalog"
-          className="font-inter text-white/60 text-sm hover:text-white transition-colors"
-        >
-          Browse yurts →
-        </Link>
+      <div style={{
+        minHeight: '100vh',
+        display: 'flex', flexDirection: 'column',
+        alignItems: 'center', justifyContent: 'center',
+        padding: 'clamp(100px, 15vw, 140px) 24px clamp(60px, 10vw, 100px)',
+        background: 'var(--bg-main)',
+      }}>
+        <div style={{ textAlign: 'center', maxWidth: '480px', width: '100%' }}>
+          {/* Score ring */}
+          <div style={{
+            width: '100px', height: '100px',
+            border: '1px solid rgba(201,168,110,0.3)',
+            borderRadius: '50%',
+            display: 'flex', flexDirection: 'column',
+            alignItems: 'center', justifyContent: 'center',
+            margin: '0 auto 32px',
+            background: 'rgba(201,168,110,0.06)',
+          }}>
+            <span style={{
+              fontFamily: 'EB Garamond, serif', fontSize: '32px',
+              color: 'rgba(201,168,110,0.95)', lineHeight: 1,
+            }}>
+              {score}
+            </span>
+            <span style={{
+              fontFamily: 'Inter, sans-serif', fontSize: '10px',
+              color: 'rgba(255,255,255,0.4)', letterSpacing: '0.1em',
+            }}>
+              / {total}
+            </span>
+          </div>
+
+          <p style={{
+            fontFamily: 'Inter, sans-serif', fontSize: '11px', fontWeight: 500,
+            letterSpacing: '0.25em', textTransform: 'uppercase',
+            color: 'rgba(201,168,110,0.7)', marginBottom: '12px',
+          }}>
+            {getResultLabel()}
+          </p>
+
+          <h2 style={{
+            fontFamily: 'EB Garamond, serif',
+            fontSize: 'clamp(28px, 5vw, 42px)',
+            color: 'rgba(255,255,255,0.93)',
+            fontWeight: 400, margin: '0 0 16px',
+          }}>
+            {t('score')}: {pct}%
+          </h2>
+
+          <p style={{
+            fontFamily: 'Inter, sans-serif', fontSize: '14px',
+            color: 'rgba(255,255,255,0.5)', lineHeight: 1.75,
+            fontWeight: 300, margin: '0 0 40px',
+          }}>
+            {getResultMessage()}
+          </p>
+
+          <div style={{ display: 'flex', gap: '12px', justifyContent: 'center', flexWrap: 'wrap' }}>
+            <button
+              type="button"
+              onClick={handleStart}
+              style={{
+                padding: '13px 28px',
+                background: 'rgba(201,168,110,0.1)',
+                border: '1px solid rgba(201,168,110,0.4)',
+                color: 'rgba(201,168,110,0.9)',
+                fontFamily: 'Inter, sans-serif', fontSize: '11px', fontWeight: 500,
+                letterSpacing: '0.15em', textTransform: 'uppercase',
+                cursor: 'pointer', borderRadius: '4px',
+              }}
+            >
+              {t('playAgain')}
+            </button>
+            <Link
+              href="/catalog"
+              style={{
+                display: 'inline-block', padding: '13px 28px',
+                border: '1px solid rgba(255,255,255,0.15)',
+                color: 'rgba(255,255,255,0.55)',
+                fontFamily: 'Inter, sans-serif', fontSize: '11px', fontWeight: 500,
+                letterSpacing: '0.15em', textTransform: 'uppercase',
+                textDecoration: 'none', borderRadius: '4px',
+              }}
+            >
+              Browse yurts →
+            </Link>
+          </div>
+        </div>
       </div>
     )
   }
 
   if (!current) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <p className="font-inter text-white/70">No questions loaded.</p>
+      <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'var(--bg-main)' }}>
+        <p style={{ fontFamily: 'Inter, sans-serif', color: 'rgba(255,255,255,0.5)', fontSize: '14px' }}>No questions loaded.</p>
       </div>
     )
   }
 
   return (
-    <div
-      className="min-h-screen flex flex-col px-4"
-      style={{
-        paddingTop: 'clamp(100px, 15vw, 140px)',
-        paddingBottom: 'clamp(60px, 10vw, 100px)',
-        background: 'linear-gradient(180deg, rgba(15,13,10,0.97) 0%, rgba(40,32,24,0.98) 100%)',
-      }}
-    >
-      <div className="max-w-xl mx-auto w-full">
-        <div className="flex justify-between items-center mb-8">
-          <span className="font-inter text-white/50 text-xs uppercase tracking-wider">
-            Question {index + 1} of {total}
+    <div style={{
+      minHeight: '100vh',
+      background: 'var(--bg-main)',
+      padding: 'clamp(100px, 15vw, 140px) 24px clamp(60px, 10vw, 100px)',
+      display: 'flex', flexDirection: 'column',
+    }}>
+      <div style={{ maxWidth: '640px', margin: '0 auto', width: '100%', flex: 1 }}>
+
+        {/* Progress bar */}
+        <div style={{
+          height: '2px',
+          background: 'rgba(255,255,255,0.08)',
+          borderRadius: '1px',
+          marginBottom: '32px',
+          overflow: 'hidden',
+        }}>
+          <div style={{
+            height: '100%',
+            width: `${progress}%`,
+            background: 'rgba(201,168,110,0.7)',
+            borderRadius: '1px',
+            transition: 'width 0.4s ease',
+          }} />
+        </div>
+
+        {/* Header */}
+        <div style={{
+          display: 'flex', justifyContent: 'space-between', alignItems: 'center',
+          marginBottom: '40px',
+        }}>
+          <span style={{
+            fontFamily: 'Inter, sans-serif', fontSize: '11px',
+            color: 'rgba(255,255,255,0.4)', letterSpacing: '0.1em',
+            textTransform: 'uppercase',
+          }}>
+            {index + 1} / {total}
           </span>
-          <span className="font-inter text-amber-400/90 text-sm">
+          <span style={{
+            fontFamily: 'Inter, sans-serif', fontSize: '13px',
+            color: 'rgba(201,168,110,0.85)', letterSpacing: '0.05em',
+          }}>
             Score: {score}
           </span>
         </div>
 
-        <h2 className="font-garamond text-white text-2xl md:text-3xl mb-8 leading-snug">
+        {/* Question */}
+        <h2 style={{
+          fontFamily: 'EB Garamond, serif',
+          fontSize: 'clamp(22px, 4vw, 30px)',
+          color: 'rgba(255,255,255,0.92)',
+          fontWeight: 400, lineHeight: 1.4,
+          margin: '0 0 32px',
+        }}>
           {current.q}
         </h2>
 
-        <ul className="space-y-3">
+        {/* Options */}
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
           {current.options.map((option, i) => {
             const isChosen = selected === i
             const isCorrect = i === current.correct
             const showRight = showExplain && isCorrect
             const showWrong = showExplain && isChosen && !isCorrect
+
+            let bg = 'rgba(255,255,255,0.04)'
+            let border = 'rgba(255,255,255,0.12)'
+            let color = 'rgba(255,255,255,0.8)'
+
+            if (showRight) {
+              bg = 'rgba(100,200,120,0.1)'
+              border = 'rgba(100,200,120,0.5)'
+              color = 'rgba(150,230,160,0.9)'
+            } else if (showWrong) {
+              bg = 'rgba(220,80,80,0.1)'
+              border = 'rgba(220,80,80,0.4)'
+              color = 'rgba(255,130,130,0.9)'
+            } else if (isChosen) {
+              bg = 'rgba(201,168,110,0.08)'
+              border = 'rgba(201,168,110,0.4)'
+              color = 'rgba(201,168,110,0.9)'
+            }
+
             return (
-              <li key={i}>
-                <button
-                  type="button"
-                  onClick={() => handleAnswer(i)}
-                  disabled={selected !== null}
-                  className={`w-full text-left font-inter py-4 px-5 border-2 transition-all min-h-[52px] ${
-                    showRight
-                      ? 'border-emerald-500/70 bg-emerald-500/10 text-emerald-200'
-                      : showWrong
-                        ? 'border-red-400/50 bg-red-500/10 text-red-200'
-                        : isChosen
-                          ? 'border-amber-500/50 bg-amber-500/10 text-amber-200'
-                          : 'border-white/20 bg-white/5 text-white/90 hover:border-white/40 hover:bg-white/10'
-                  } ${selected !== null ? 'cursor-default' : 'cursor-pointer'}`}
-                >
-                  <span className="inline-block mr-2 opacity-70">{String.fromCharCode(65 + i)}.</span>
-                  {option}
-                </button>
-              </li>
+              <button
+                key={i}
+                type="button"
+                onClick={() => handleAnswer(i)}
+                disabled={selected !== null}
+                style={{
+                  width: '100%', textAlign: 'left',
+                  padding: '16px 20px',
+                  background: bg,
+                  border: `1px solid ${border}`,
+                  color,
+                  fontFamily: 'Inter, sans-serif', fontSize: '14px',
+                  lineHeight: 1.5, fontWeight: 400,
+                  cursor: selected !== null ? 'default' : 'pointer',
+                  borderRadius: '4px',
+                  transition: 'background 0.2s, border-color 0.2s',
+                  display: 'flex', alignItems: 'flex-start', gap: '12px',
+                  minHeight: '52px',
+                }}
+              >
+                <span style={{
+                  fontFamily: 'EB Garamond, serif', fontSize: '16px',
+                  color: 'rgba(255,255,255,0.3)', flexShrink: 0, lineHeight: 1.5,
+                }}>
+                  {String.fromCharCode(65 + i)}.
+                </span>
+                {option}
+              </button>
             )
           })}
-        </ul>
+        </div>
 
+        {/* Explanation */}
         {showExplain && (
-          <div className="mt-6 p-4 border border-amber-500/30 bg-amber-500/5">
-            <p className="font-inter text-white/80 text-sm leading-relaxed">
+          <div style={{
+            marginTop: '20px',
+            padding: '16px 20px',
+            background: 'rgba(201,168,110,0.05)',
+            border: '1px solid rgba(201,168,110,0.2)',
+            borderRadius: '4px',
+          }}>
+            <p style={{
+              fontFamily: 'Inter, sans-serif', fontSize: '13px',
+              color: 'rgba(255,255,255,0.65)', lineHeight: 1.75,
+              fontWeight: 300, margin: 0,
+            }}>
               {current.explain}
             </p>
           </div>
@@ -198,15 +419,29 @@ export function YurtQuizClient({ locale }: { locale: string }) {
           <button
             type="button"
             onClick={handleNext}
-            className="mt-8 w-full border-2 border-amber-500/70 text-amber-400 py-3 font-inter text-sm uppercase tracking-widest hover:bg-amber-500/15 transition-colors"
+            style={{
+              marginTop: '24px', width: '100%',
+              padding: '14px',
+              background: 'rgba(201,168,110,0.1)',
+              border: '1px solid rgba(201,168,110,0.4)',
+              color: 'rgba(201,168,110,0.9)',
+              fontFamily: 'Inter, sans-serif', fontSize: '11px', fontWeight: 600,
+              letterSpacing: '0.2em', textTransform: 'uppercase',
+              cursor: 'pointer', borderRadius: '4px',
+            }}
           >
-            {isLast ? t('seeResults') : t('next')}
+            {isLast ? t('seeResults') : t('next')} →
           </button>
         )}
 
         <Link
           href="/"
-          className="block mt-6 text-center font-inter text-white/50 text-sm hover:text-white/80"
+          style={{
+            display: 'block', marginTop: '32px', textAlign: 'center',
+            fontFamily: 'Inter, sans-serif', fontSize: '12px',
+            color: 'rgba(255,255,255,0.3)', textDecoration: 'none',
+            letterSpacing: '0.05em',
+          }}
         >
           ← Back to home
         </Link>

@@ -35,10 +35,10 @@ function TestimonialCard({
       className="relative transition-[border-color,background] duration-300"
       style={{
         padding: 'clamp(20px, 5vw, 40px)',
-        border: '1px solid rgba(255,255,255,0.1)',
-        background: hover ? 'rgba(255,255,255,0.06)' : 'rgba(255,255,255,0.03)',
+        border: `1px solid ${hover ? 'rgba(255,255,255,0.35)' : 'rgba(255,255,255,0.18)'}`,
+        background: hover ? 'rgba(255,255,255,0.12)' : 'rgba(255,255,255,0.06)',
         backdropFilter: 'blur(8px)',
-        borderColor: hover ? 'rgba(255,255,255,0.2)' : 'rgba(255,255,255,0.1)',
+        WebkitBackdropFilter: 'blur(8px)',
         ...revealStyle(visible, index * 0.15),
       }}
       onMouseEnter={() => setHover(true)}
@@ -49,7 +49,7 @@ function TestimonialCard({
         style={{
           fontSize: 'clamp(40px, 10vw, 80px)',
           lineHeight: 0.8,
-          color: 'rgba(255,255,255,0.06)',
+          color: 'rgba(255,255,255,0.15)',
           marginBottom: '20px',
           fontStyle: 'normal',
         }}
@@ -62,7 +62,7 @@ function TestimonialCard({
         style={{
           fontSize: 'clamp(14px, 2.5vw, 18px)',
           fontStyle: 'italic',
-          color: 'rgba(255,255,255,0.7)',
+          color: 'var(--text-2)',
           lineHeight: 1.8,
           marginBottom: '32px',
         }}
@@ -73,7 +73,7 @@ function TestimonialCard({
         style={{
           width: '32px',
           height: '1px',
-          background: 'rgba(255,255,255,0.2)',
+          background: 'var(--border)',
           marginBottom: '20px',
         }}
       />
@@ -84,7 +84,7 @@ function TestimonialCard({
           fontWeight: 600,
           letterSpacing: '0.2em',
           textTransform: 'uppercase',
-          color: 'rgba(255,255,255,0.6)',
+          color: 'var(--text-3)',
           marginBottom: '4px',
         }}
       >
@@ -94,7 +94,7 @@ function TestimonialCard({
         className=""
         style={{
           fontSize: '11px',
-          color: 'rgba(255,255,255,0.3)',
+          color: 'var(--text-4)',
           letterSpacing: '0.05em',
         }}
       >
@@ -113,14 +113,14 @@ export function TestimonialsSection() {
     <section
       ref={ref}
       className="py-16 md:py-20 lg:py-24 px-6 md:px-10"
-      style={{ background: '#1A1510' }}
+      style={{ background: 'var(--bg-alt)' }}
     >
       <div className="max-w-6xl mx-auto text-center">
         <p
           className="text-xs uppercase mb-2"
           style={{
             letterSpacing: '0.15em',
-            color: 'rgba(255,255,255,0.7)',
+            color: 'var(--text-2)',
             ...revealStyle(visible),
           }}
         >
@@ -130,7 +130,7 @@ export function TestimonialsSection() {
           className="font-garamond mb-12 md:mb-16"
           style={{
             fontSize: 'clamp(36px, 6vw, 60px)',
-            color: 'rgba(255,255,255,0.95)',
+            color: 'var(--text-1)',
             ...revealStyle(visible, 0.1),
           }}
         >

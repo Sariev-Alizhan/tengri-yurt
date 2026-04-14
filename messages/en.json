@@ -649,5 +649,103 @@
         "answer": "Absolutely. Choose kerege color, cover material (white, silver, transparent), interior furnishings, and traditional accessories. Each yurt is made to your specifications."
       }
     ]
+  },
+  "aboutPage": {
+    "heroEyebrow": "Our Story",
+    "heroTitle": "From the steppe\nto every continent",
+    "heroSubtitle": "Tengri Yurt was born in Almaty in 2010 with one belief: that the most sophisticated portable dwelling ever invented deserves a global audience. Fourteen years later, our yurts stand on every inhabited continent.",
+    "statsLabels": ["Founded in Almaty", "Countries reached", "Yurts built", "Master artisans", "Continents", "Kazakh yurt exporter"],
+    "quote": "The Kazakh yurt is the world's most sophisticated portable dwelling — three thousand years of engineering in felt and wood. Our job is to bring it to people who have never seen the steppe.",
+    "quoteAuthor": "— Founder, Tengri Yurt",
+    "timelineEyebrow": "Timeline",
+    "timeline": [
+      {"title": "Founded in Almaty", "body": "Tengri Yurt is established by a team of craftspeople and entrepreneurs with a single goal: bring the traditional Kazakh yurt to the world without compromising its soul."},
+      {"title": "First export to Europe", "body": "A 6-kanat yurt is installed in Switzerland — the first Kazakh-made yurt in Central Europe. Word spreads through glamping and festival communities."},
+      {"title": "UNESCO heritage recognition", "body": "The art of Kazakh yurt-making is inscribed on UNESCO's Representative List of the Intangible Cultural Heritage of Humanity. Tengri Yurt becomes its commercial ambassador."},
+      {"title": "Yurt Hammam launch", "body": "We introduce the world's first traditional Kazakh yurt converted into a full spa: steam chamber, hot and cold plunge pools, cedar benches. A new category is born."},
+      {"title": "Miami Art Week", "body": "A Tengri yurt serves as a cultural pavilion at the Miami Art Fair. Over 3,000 visitors experience Kazakh interior craft. North America opens."},
+      {"title": "42 countries, 6 continents", "body": "A 12-kanat yurt installed on New Zealand's South Island marks our 42nd country and our first in Oceania. Every inhabited continent reached."}
+    ],
+    "photoBreakText": "Hand-built. No factory. No shortcuts.",
+    "anatomyEyebrow": "Anatomy of a yurt",
+    "anatomyTitle": "Five elements. Three thousand years.",
+    "materials": [
+      {"name": "Tundyk — the crown", "desc": "The circular opening at the apex of the yurt. A symbol of the sun, the universe, and the connection between earth and sky. Hand-bent from steam-treated wood."},
+      {"name": "Kerege — the lattice", "desc": "Folding willow lattice walls. A single kerege section can expand from 40 cm to 2.5 m. Woven without nails using traditional lashing techniques."},
+      {"name": "Uyk — the roof poles", "desc": "Curved wooden ribs connecting the crown to the walls. Their arc is calculated by eye — a skill that takes years to master."},
+      {"name": "Koshma — the felt", "desc": "Hand-rolled sheep's wool felt. Three layers insulate against −40°C winters and +40°C summers. No synthetic materials, no adhesives."}
+    ],
+    "artisanEyebrow": "The ustalar — master artisans",
+    "artisanTitle": "40+ craftspeople.\nAll from Kazakhstan.",
+    "artisanP1": "Every Tengri yurt is built by Kazakh master craftspeople — ustalar — who learned the trade from their parents, who learned from theirs. The knowledge is oral, tactile, and irreplaceable.",
+    "artisanP2": "In 2018, UNESCO inscribed yurt-making on its Representative List of the Intangible Cultural Heritage of Humanity. Tengri Yurt is the only company to commercialize this heritage at scale while keeping every step of production in Kazakhstan.",
+    "ctaEyebrow": "Ready to own a piece of it?",
+    "ctaTitle": "See the collection",
+    "ctaExplore": "Explore yurts",
+    "ctaPress": "Press & stories",
+    "ctaContact": "Get in touch"
+  },
+  "contactPage": {
+    "eyebrow": "Contact",
+    "title": "Let's talk yurts",
+    "subtitle": "Whether you're ordering a single yurt for your garden or sourcing twenty for a glamping resort — we want to hear from you. We typically reply within 24 hours.",
+    "faqEyebrow": "Common questions",
+    "faq": [
+      {"q": "How long does production take?", "a": "A standard yurt takes 30–60 days depending on the model. Custom requests may add 1–2 weeks."},
+      {"q": "Do you ship worldwide?", "a": "Yes. We have delivered to 42 countries across all 6 inhabited continents. Shipping cost is calculated per order based on destination."},
+      {"q": "Is installation included?", "a": "Our team installs within Kazakhstan and Central Asia. For international orders, we provide video guides and can connect you with local assembly partners."},
+      {"q": "Can I customize the interior?", "a": "Yes. We offer full customization: cover colour, felt patterns, furniture, lighting, heating. Describe your vision and we will advise."},
+      {"q": "Do you rent yurts?", "a": "Yes, short-term rental is available for events and festivals. Contact us with your dates and location."}
+    ],
+    "whatsappLabel": "Fastest reply",
+    "whatsappTitle": "WhatsApp us directly",
+    "onlineText": "We're online. Average reply time: under 24 hours",
+    "formNameLabel": "Full name",
+    "formEmailLabel": "Email",
+    "formSubjectLabel": "Subject",
+    "formCountryLabel": "Country",
+    "formMessageLabel": "Message",
+    "formSend": "Send message",
+    "formSending": "Sending…",
+    "formError": "Something went wrong. Please try WhatsApp or email us directly.",
+    "formSuccessTitle": "Message sent",
+    "formSuccessText": "Thank you, {name}. We'll get back to you at {email} within 24 hours.",
+    "namePlaceholder": "Your name",
+    "emailPlaceholder": "your@email.com",
+    "countryPlaceholder": "Where are you?",
+    "messagePlaceholder": "Tell us what you have in mind — model, size, delivery location, timeline...",
+    "subjects": ["Ordering a yurt", "Custom / large order", "Yurt Hammam", "Event / glamping rental", "Supplier / partnership", "Press inquiry", "Other"]
+  },
+  "hammamPage": {
+    "heroEyebrow": "World First · Nomadic Wellness",
+    "heroTitle": "Yurt Hammam",
+    "heroSubtitle": "Steam. Silence. Stone. The world's first traditional Kazakh yurt converted into a full spa experience — hot plunge, cold plunge, and steam chamber under an open sky.",
+    "heroInquire": "Inquire now",
+    "heroAllYurts": "All yurts",
+    "specsLabels": ["Diameter", "Steam chamber", "Hot plunge pool", "Cold plunge pool", "Capacity", "Installation", "Power required", "Production time"],
+    "experienceEyebrow": "The experience",
+    "experienceTitle": "Wellness born on the steppe",
+    "features": [
+      {"title": "Ancient ritual", "body": "Three thousand years of nomadic wellness wisdom. The steam ritual — banya on horseback — adapted for the modern world without losing its soul."},
+      {"title": "Contrast therapy", "body": "Hot steam followed by cold plunge. The contrast activates circulation, reduces inflammation, and grounds the nervous system."},
+      {"title": "Natural materials only", "body": "Cedar interior, hand-forged copper fixtures, felt insulation, kanat lattice walls. Nothing artificial, nothing out of place."},
+      {"title": "Anywhere on earth", "body": "Installed in 42 countries. Mountains, desert, lakeside, rooftop. The yurt hammam goes where a fixed spa cannot."}
+    ],
+    "galleryEyebrow": "Gallery",
+    "galleryCaptions": ["Hot plunge pool at dusk", "Steam chamber interior", "Hot & cold contrast pools", "Hand-carved cedar benches", "Mountain backdrop, Almaty region", "Charyn Canyon installation"],
+    "ritualEyebrow": "The ritual",
+    "ritualTitle": "Three thousand years of heat",
+    "ritualP1": "Kazakh nomads have used steam bathing since antiquity. The mobile steam tent — carried on horseback across the steppe — was both hygiene and ritual. Tengri Yurt is the first company to bring this ancient practice into a permanent, exportable form.",
+    "ritualP2": "Every Yurt Hammam is built by the same ustalar — master artisans — who make our traditional yurts. The steam chamber, plunge pools, and kanat lattice walls are all hand-assembled on-site.",
+    "ritualSteps": [
+      {"title": "Enter & breathe", "body": "Take your place in the steam chamber. 80°C cedar air, the kanat filtering soft light."},
+      {"title": "Heat cycle", "body": "15–20 minutes in dry heat. Sweat deeply. The felt walls hold warmth like no other material."},
+      {"title": "Cold plunge", "body": "Step into 10°C water. The shock is sharp and clean. Hold 1–3 minutes."},
+      {"title": "Rest", "body": "Return to the open air. Lie on the cedar bench. Let the sky do the rest."}
+    ],
+    "ctaEyebrow": "Commission yours",
+    "ctaTitle": "Bring it to your land",
+    "ctaSubtitle": "Each Yurt Hammam is built to order. Production takes 45–60 days, installation 3–4 days. Worldwide delivery included.",
+    "ctaButton": "Inquire via WhatsApp"
   }
 }

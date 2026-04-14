@@ -21,8 +21,11 @@ export default async function NewYurtPage() {
   }
 
   return (
-    <div className="max-w-2xl">
-      <h1 className="font-garamond text-3xl text-white mb-8">{t('addYurt')}</h1>
+    <div style={{ maxWidth: '640px' }}>
+      <div style={{ marginBottom: '32px' }}>
+        <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '11px', fontWeight: 500, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--sp-text-3)', marginBottom: '6px' }}>Catalogue</p>
+        <h1 style={{ fontFamily: 'EB Garamond, serif', fontSize: 'clamp(26px, 4vw, 36px)', color: 'var(--sp-text-1)', fontWeight: 400, margin: 0 }}>{t('addYurt')}</h1>
+      </div>
       <AddYurtForm
         supplierId={(supplier as { id: string }).id}
         translations={{

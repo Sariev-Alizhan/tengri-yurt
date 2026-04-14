@@ -146,6 +146,25 @@ export function HeroSection({ heroTitle, since, heroSubtitle, statement }: Props
           {heroSubtitle}
         </p>
 
+        {/* Statement quote */}
+        {statement && (
+          <p
+            style={{
+              marginTop: 'clamp(16px, 2.5vw, 24px)',
+              fontSize: 'clamp(11px, 1.4vw, 13px)',
+              letterSpacing: '0.25em',
+              textTransform: 'uppercase',
+              color: 'rgba(168,149,120,0.7)',
+              textShadow: '0 1px 8px rgba(0,0,0,0.5)',
+              opacity: loaded ? 1 : 0,
+              transform: loaded ? 'translateY(0)' : 'translateY(10px)',
+              transition: 'all 0.8s cubic-bezier(0.16, 1, 0.3, 1) 1.4s',
+            }}
+          >
+            {statement}
+          </p>
+        )}
+
         {/* CTA Button */}
         <Link
           href="/catalog"

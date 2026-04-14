@@ -49,7 +49,7 @@ export function HistoryModal({ isOpen, onClose }: { isOpen: boolean; onClose: ()
         onClick={onClose}
         onKeyDown={(e) => e.key === 'Enter' && onClose()}
         className="absolute inset-0"
-        style={{ background: 'rgba(30, 25, 18, 0.85)', backdropFilter: 'blur(12px)' }}
+        style={{ background: 'rgba(30, 25, 18, 0.85)', backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)' }}
         aria-label="Close"
       />
       <div

@@ -92,8 +92,15 @@ export default async function SupplierOrdersPage() {
   };
 
   return (
-    <div className="max-w-6xl">
-      <h1 className="font-garamond text-3xl text-white mb-8">{t('orders')}</h1>
+    <div style={{ maxWidth: '960px' }}>
+      <div style={{ marginBottom: '32px' }}>
+        <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '11px', fontWeight: 500, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--sp-text-3)', marginBottom: '6px' }}>
+          Sales
+        </p>
+        <h1 style={{ fontFamily: 'EB Garamond, serif', fontSize: 'clamp(26px, 4vw, 36px)', color: 'var(--sp-text-1)', fontWeight: 400, margin: 0 }}>
+          {t('orders')}
+        </h1>
+      </div>
       <OrdersList
         orders={orders ?? []}
         statusLabels={statusLabels}

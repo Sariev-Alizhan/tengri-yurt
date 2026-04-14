@@ -39,7 +39,7 @@ function ProcessStep({
           style={{
             fontFamily: 'EB Garamond, serif',
             fontSize: 'clamp(14px, 3vw, 20px)',
-            color: 'rgba(255,255,255,0.7)',
+            color: 'var(--text-2)',
             fontWeight: 400,
             lineHeight: 1,
             paddingTop: '4px',
@@ -58,7 +58,7 @@ function ProcessStep({
                 top: '16px',
                 bottom: '-48px',
                 width: '1px',
-                background: 'rgba(255,255,255,0.2)',
+                background: 'var(--border)',
                 transform: 'translateX(-50%)',
               }}
             />
@@ -69,12 +69,12 @@ function ProcessStep({
               width: '12px',
               height: '12px',
               borderRadius: '50%',
-              background: hover ? 'rgba(255,255,255,0.95)' : 'rgba(255,255,255,0.7)',
+              background: hover ? 'var(--text-1)' : 'var(--text-2)',
               marginTop: '6px',
               position: 'relative',
               zIndex: 1,
               transition: 'all 0.3s ease',
-              border: '2px solid #1A1510',
+              border: '2px solid var(--bg-main)',
             }}
           />
         </div>
@@ -88,7 +88,7 @@ function ProcessStep({
             fontSize: 'clamp(20px, 3vw, 28px)',
             letterSpacing: '0.08em',
             textTransform: 'uppercase',
-            color: 'rgba(255,255,255,0.95)',
+            color: 'var(--text-1)',
             marginBottom: '16px',
             fontWeight: 400,
             lineHeight: 1.3,
@@ -100,7 +100,7 @@ function ProcessStep({
           style={{
             fontFamily: 'Inter, sans-serif',
             fontSize: 'clamp(14px, 1.8vw, 16px)',
-            color: 'rgba(255,255,255,0.65)',
+            color: 'var(--text-2)',
             lineHeight: 1.8,
             fontWeight: 300,
           }}
@@ -117,14 +117,14 @@ export function ProcessSection() {
   const steps = (t.raw('steps') as Step[]) || []
 
   return (
-    <section className="py-16 md:py-20 lg:py-24 px-6 md:px-10" style={{ background: '#1A1510' }}>
+    <section className="py-16 md:py-20 lg:py-24 px-6 md:px-10" style={{ background: 'var(--bg-main)' }}>
       <div className="max-w-6xl mx-auto">
         <div className="mb-12 md:mb-20 lg:mb-[80px] text-center">
           <h2
             className="font-garamond font-normal mb-4"
             style={{
               fontSize: 'clamp(40px, 8vw, 96px)',
-              color: 'rgba(255,255,255,0.9)',
+              color: 'var(--text-1)',
               lineHeight: 1,
             }}
           >
@@ -135,7 +135,7 @@ export function ProcessSection() {
             style={{
               fontSize: '11px',
               letterSpacing: '0.25em',
-              color: 'rgba(255,255,255,0.4)',
+              color: 'var(--text-3)',
             }}
           >
             {t('subtitle')}

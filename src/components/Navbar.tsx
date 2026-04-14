@@ -5,6 +5,7 @@ import { useTranslations } from 'next-intl'
 import { usePathname } from '@/i18n/navigation'
 import { Link } from '@/i18n/navigation'
 import { LanguageSwitcher } from './LanguageSwitcher'
+import { ThemeToggle } from './ThemeToggle'
 import { useCart } from './CartContext'
 
 export default function Navbar() {
@@ -223,13 +224,10 @@ function PublicNavbar() {
   const t = useTranslations('nav')
   const pathname = usePathname()
   const isCatalog = pathname?.includes('/catalog') ?? false
-  // Корзина только для аксессуаров и корзины — юрты продаются через inquiry, не через cart
   const isBookNowFlow = (pathname?.match(/\/(cart|accessory\/)/)) != null
   const { totalItems } = useCart()
   const [menuOpen, setMenuOpen] = useState(false)
   const [isDesktop, setIsDesktop] = useState(false)
-  const [scrolled, setScrolled] = useState(false)
-  const isLanding = !pathname || pathname === '/'
   const isOrderFlow = pathname?.includes('/order') || pathname?.includes('/cart') || pathname?.includes('/checkout') || pathname?.includes('/quiz') || pathname?.includes('/inquiry')
 
   useEffect(() => {
@@ -241,13 +239,6 @@ function PublicNavbar() {
     check()
     window.addEventListener('resize', check)
     return () => window.removeEventListener('resize', check)
-  }, [])
-
-  useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 40)
-    onScroll()
-    window.addEventListener('scroll', onScroll, { passive: true })
-    return () => window.removeEventListener('scroll', onScroll)
   }, [])
 
   useEffect(() => {
@@ -270,11 +261,7 @@ function PublicNavbar() {
         position: 'fixed', top: 0, left: 0, right: 0,
         zIndex: 100,
         background: 'transparent',
-        backdropFilter: 'none',
-        WebkitBackdropFilter: 'none',
-        boxShadow: 'none',
         borderBottom: 'none',
-        transition: 'background 0.3s ease, backdrop-filter 0.3s ease, box-shadow 0.3s ease',
         paddingTop: 'calc(clamp(8px, 2vw, 14px) + env(safe-area-inset-top, 0px))',
         paddingBottom: 'clamp(8px, 2vw, 14px)',
         paddingLeft: 'max(clamp(16px, 5vw, 48px), env(safe-area-inset-left, 0px))',
@@ -286,10 +273,138 @@ function PublicNavbar() {
           alignItems: 'center'
         }}>
 
-          <div style={{ justifySelf: 'start' }}>
-            <div style={{ display: isDesktop && !isOrderFlow ? 'block' : 'none' }}>
-              <LanguageSwitcher />
+          <div style={{ justifySelf: 'start', display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <div style={{ display: isDesktop && !isOrderFlow ? 'flex' : 'none', alignItems: 'center', gap: '8px' }}>
+              <LanguageSwitcher theme="dark" />
+              <ThemeToggle />
             </div>
+            {isDesktop && !isOrderFlow && (
+              <Link
+                href="/news"
+                style={{
+                  fontFamily: 'Inter, sans-serif',
+                  fontSize: '11px',
+                  fontWeight: 500,
+                  letterSpacing: '0.12em',
+                  textTransform: 'uppercase',
+                  color: 'rgba(255,255,255,0.5)',
+                  textDecoration: 'none',
+                  padding: '8px 0',
+                  minHeight: '40px',
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  marginLeft: '12px',
+                  transition: 'color 0.2s',
+                }}
+                onMouseEnter={e => { e.currentTarget.style.color = 'rgba(255,255,255,0.9)' }}
+                onMouseLeave={e => { e.currentTarget.style.color = 'rgba(255,255,255,0.5)' }}
+              >
+                Press
+              </Link>
+            )}
+            {isDesktop && !isOrderFlow && (
+              <Link
+                href="/about"
+                style={{
+                  fontFamily: 'Inter, sans-serif',
+                  fontSize: '11px',
+                  fontWeight: 500,
+                  letterSpacing: '0.12em',
+                  textTransform: 'uppercase',
+                  color: 'rgba(255,255,255,0.5)',
+                  textDecoration: 'none',
+                  padding: '8px 0',
+                  minHeight: '40px',
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  marginLeft: '12px',
+                  transition: 'color 0.2s',
+                }}
+                onMouseEnter={e => { e.currentTarget.style.color = 'rgba(255,255,255,0.9)' }}
+                onMouseLeave={e => { e.currentTarget.style.color = 'rgba(255,255,255,0.5)' }}
+              >
+                About
+              </Link>
+            )}
+            {isDesktop && !isOrderFlow && (
+              <Link
+                href="/hammam"
+                style={{
+                  fontFamily: 'Inter, sans-serif',
+                  fontSize: '11px',
+                  fontWeight: 500,
+                  letterSpacing: '0.12em',
+                  textTransform: 'uppercase',
+                  color: 'rgba(201,168,110,0.6)',
+                  textDecoration: 'none',
+                  padding: '8px 0',
+                  minHeight: '40px',
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  marginLeft: '12px',
+                  transition: 'color 0.2s',
+                }}
+                onMouseEnter={e => { e.currentTarget.style.color = 'rgba(201,168,110,1)' }}
+                onMouseLeave={e => { e.currentTarget.style.color = 'rgba(201,168,110,0.6)' }}
+              >
+                Hammam
+              </Link>
+            )}
+            {isDesktop && !isOrderFlow && (
+              <Link
+                href="/contact"
+                style={{
+                  fontFamily: 'Inter, sans-serif',
+                  fontSize: '11px',
+                  fontWeight: 500,
+                  letterSpacing: '0.12em',
+                  textTransform: 'uppercase',
+                  color: 'rgba(255,255,255,0.45)',
+                  textDecoration: 'none',
+                  padding: '8px 0',
+                  minHeight: '40px',
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  marginLeft: '12px',
+                  transition: 'color 0.2s',
+                }}
+                onMouseEnter={e => { e.currentTarget.style.color = 'rgba(255,255,255,0.9)' }}
+                onMouseLeave={e => { e.currentTarget.style.color = 'rgba(255,255,255,0.45)' }}
+              >
+                Contact
+              </Link>
+            )}
+            {isDesktop && !isOrderFlow && (
+              <Link
+                href="/supplier/dashboard"
+                style={{
+                  fontFamily: 'Inter, sans-serif',
+                  fontSize: '11px',
+                  fontWeight: 500,
+                  letterSpacing: '0.12em',
+                  textTransform: 'uppercase',
+                  color: 'rgba(255,255,255,0.55)',
+                  textDecoration: 'none',
+                  padding: '8px 0',
+                  minHeight: '40px',
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  borderBottom: '1px solid transparent',
+                  transition: 'color 0.2s, border-color 0.2s',
+                  marginLeft: '12px',
+                }}
+                onMouseEnter={e => {
+                  e.currentTarget.style.color = 'rgba(255,255,255,0.9)'
+                  e.currentTarget.style.borderBottomColor = 'rgba(255,255,255,0.4)'
+                }}
+                onMouseLeave={e => {
+                  e.currentTarget.style.color = 'rgba(255,255,255,0.55)'
+                  e.currentTarget.style.borderBottomColor = 'transparent'
+                }}
+              >
+                Supplier Portal
+              </Link>
+            )}
           </div>
 
           <Link href="/">
@@ -299,7 +414,7 @@ function PublicNavbar() {
               style={{
                 height: 'clamp(36px, 6vw, 56px)',
                 width: 'auto',
-                display: 'block'
+                display: 'block',
               }}
             />
           </Link>
@@ -311,102 +426,97 @@ function PublicNavbar() {
               height: '14px',
               background: 'rgba(255,255,255,0.15)',
             }} />
-            {isBookNowFlow && (
-              <Link
-                href="/cart"
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  position: 'relative',
-                  minWidth: '44px',
-                  minHeight: '44px',
-                  padding: '0 12px',
-                  border: '1px solid rgba(255,255,255,0.35)',
-                  color: 'rgba(255,255,255,0.9)',
-                  fontFamily: 'Inter, sans-serif',
-                  fontSize: '11px',
-                  fontWeight: 500,
-                  letterSpacing: '0.1em',
-                  textTransform: 'uppercase',
-                  textDecoration: 'none',
-                  transition: 'all 0.2s',
-                }}
-              >
-                {t('cart')}
-                {totalItems > 0 && (
-                  <span style={{
-                    position: 'absolute',
-                    top: '-4px',
-                    right: '-4px',
-                    minWidth: '18px',
-                    height: '18px',
-                    borderRadius: '50%',
-                    background: 'rgba(168,149,120,0.9)',
-                    color: '#0f0d0a',
-                    fontSize: '10px',
-                    fontWeight: 600,
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    padding: '0 4px',
-                  }}>
-                    {totalItems > 99 ? '99+' : totalItems}
-                  </span>
-                )}
-              </Link>
-            )}
+            <Link
+              href="/cart"
+              style={{
+                display: isBookNowFlow ? 'flex' : 'none',
+                alignItems: 'center',
+                justifyContent: 'center',
+                position: 'relative',
+                minWidth: '44px',
+                minHeight: '44px',
+                padding: '0 12px',
+                border: '1px solid rgba(255,255,255,0.35)',
+                color: 'rgba(255,255,255,0.9)',
+                fontFamily: 'Inter, sans-serif',
+                fontSize: '11px',
+                fontWeight: 500,
+                letterSpacing: '0.1em',
+                textTransform: 'uppercase',
+                textDecoration: 'none',
+                transition: 'all 0.2s',
+              }}
+            >
+              {t('cart')}
+              <span style={{
+                position: 'absolute',
+                top: '-4px',
+                right: '-4px',
+                minWidth: '18px',
+                height: '18px',
+                borderRadius: '50%',
+                background: 'rgba(168,149,120,0.9)',
+                color: '#0f0d0a',
+                fontSize: '10px',
+                fontWeight: 600,
+                display: totalItems > 0 ? 'flex' : 'none',
+                alignItems: 'center',
+                justifyContent: 'center',
+                padding: '0 4px',
+              }}>
+                {totalItems > 99 ? '99+' : totalItems}
+              </span>
+            </Link>
             <span style={{
               display: isDesktop ? 'inline-block' : 'none',
               width: '1px',
               height: '14px',
               background: 'rgba(255,255,255,0.15)',
             }} />
-            {isCatalog ? (
-              <Link
-                href="/"
-                style={{
-                  display: isDesktop ? 'inline-flex' : 'none',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  border: '1px solid rgba(255,255,255,0.6)',
-                  color: 'rgba(255,255,255,0.9)',
-                  padding: '10px 28px',
-                  fontFamily: 'Inter, sans-serif',
-                  fontSize: '11px',
-                  fontWeight: 500,
-                  letterSpacing: '0.15em',
-                  textTransform: 'uppercase',
-                  textDecoration: 'none',
-                  whiteSpace: 'nowrap',
-                  lineHeight: 1,
-                }}
-              >
-                {t('home')}
-              </Link>
-            ) : (
-              <Link
-                href="/catalog"
-                style={{
-                  display: isDesktop ? 'inline-flex' : 'none',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  border: '1px solid rgba(255,255,255,0.6)',
-                  color: 'rgba(255,255,255,0.9)',
-                  padding: '10px 28px',
-                  fontFamily: 'Inter, sans-serif',
-                  fontSize: '11px',
-                  fontWeight: 500,
-                  letterSpacing: '0.15em',
-                  textTransform: 'uppercase',
-                  textDecoration: 'none',
-                  whiteSpace: 'nowrap',
-                  lineHeight: 1,
-                }}
-              >
-                {t('bookNow')}
-              </Link>
-            )}
+            <Link
+              href="/"
+              style={{
+                display: isDesktop && isCatalog ? 'inline-flex' : 'none',
+                alignItems: 'center',
+                justifyContent: 'center',
+                border: '1px solid rgba(255,255,255,0.6)',
+                color: 'rgba(255,255,255,0.9)',
+                padding: '10px 28px',
+                fontFamily: 'Inter, sans-serif',
+                fontSize: '11px',
+                fontWeight: 500,
+                letterSpacing: '0.15em',
+                textTransform: 'uppercase',
+                textDecoration: 'none',
+                whiteSpace: 'nowrap',
+                lineHeight: 1,
+                transition: 'background 0.2s, color 0.2s',
+              }}
+            >
+              {t('home')}
+            </Link>
+            <Link
+              href="/catalog"
+              style={{
+                display: isDesktop && !isCatalog ? 'inline-flex' : 'none',
+                alignItems: 'center',
+                justifyContent: 'center',
+                border: '1px solid rgba(255,255,255,0.6)',
+                color: 'rgba(255,255,255,0.9)',
+                padding: '10px 28px',
+                fontFamily: 'Inter, sans-serif',
+                fontSize: '11px',
+                fontWeight: 500,
+                letterSpacing: '0.15em',
+                textTransform: 'uppercase',
+                textDecoration: 'none',
+                whiteSpace: 'nowrap',
+                lineHeight: 1,
+                transition: 'background 0.2s, color 0.2s',
+              }}
+            >
+              {t('bookNow')}
+            </Link>
             <button
               type="button"
               onClick={() => setMenuOpen(!menuOpen)}
@@ -474,25 +584,23 @@ function PublicNavbar() {
           pointerEvents: menuOpen ? 'all' : 'none',
           transition: 'opacity 0.3s ease',
         }}>
-        {isBookNowFlow && (
-          <Link href="/cart"
-            onClick={() => setMenuOpen(false)}
-            style={{
-              fontFamily: 'Inter, sans-serif',
-              fontSize: 'clamp(12px, 2.5vw, 14px)',
-              color: 'rgba(255,255,255,0.9)',
-              textDecoration: 'none',
-              letterSpacing: '0.12em',
-              textTransform: 'uppercase',
-              padding: 'clamp(12px, 3vw, 16px)',
-              minHeight: '44px',
-              display: 'inline-flex',
-              alignItems: 'center',
-            }}
-          >
-            {t('cart')} {totalItems > 0 ? `(${totalItems})` : ''}
-          </Link>
-        )}
+        <Link href="/cart"
+          onClick={() => setMenuOpen(false)}
+          style={{
+            fontFamily: 'Inter, sans-serif',
+            fontSize: 'clamp(12px, 2.5vw, 14px)',
+            color: 'rgba(255,255,255,0.9)',
+            textDecoration: 'none',
+            letterSpacing: '0.12em',
+            textTransform: 'uppercase',
+            padding: 'clamp(12px, 3vw, 16px)',
+            minHeight: '44px',
+            display: isBookNowFlow ? 'inline-flex' : 'none',
+            alignItems: 'center',
+          }}
+        >
+          {t('cart')} {totalItems > 0 ? `(${totalItems})` : ''}
+        </Link>
         <Link href="/catalog"
           onClick={() => setMenuOpen(false)}
           style={{
@@ -526,6 +634,77 @@ function PublicNavbar() {
           {t('home')}
         </Link>
 
+        <Link href="/about"
+          onClick={() => setMenuOpen(false)}
+          style={{
+            fontFamily: 'Inter, sans-serif',
+            fontSize: 'clamp(11px, 2.5vw, 12px)',
+            color: 'rgba(255,255,255,0.55)',
+            textDecoration: 'none',
+            letterSpacing: '0.15em',
+            textTransform: 'uppercase',
+            padding: 'clamp(12px, 3vw, 16px)',
+            minHeight: '44px',
+            display: 'inline-flex',
+            alignItems: 'center',
+          }}>
+          About
+        </Link>
+
+        <Link href="/hammam"
+          onClick={() => setMenuOpen(false)}
+          style={{
+            fontFamily: 'Inter, sans-serif',
+            fontSize: 'clamp(11px, 2.5vw, 12px)',
+            color: 'rgba(201,168,110,0.7)',
+            textDecoration: 'none',
+            letterSpacing: '0.15em',
+            textTransform: 'uppercase',
+            padding: 'clamp(12px, 3vw, 16px)',
+            minHeight: '44px',
+            display: 'inline-flex',
+            alignItems: 'center',
+            gap: '8px',
+          }}>
+          ◈ Hammam
+        </Link>
+
+        <Link href="/contact"
+          onClick={() => setMenuOpen(false)}
+          style={{
+            fontFamily: 'Inter, sans-serif',
+            fontSize: 'clamp(11px, 2.5vw, 12px)',
+            color: 'rgba(255,255,255,0.55)',
+            textDecoration: 'none',
+            letterSpacing: '0.15em',
+            textTransform: 'uppercase',
+            padding: 'clamp(12px, 3vw, 16px)',
+            minHeight: '44px',
+            display: 'inline-flex',
+            alignItems: 'center',
+          }}>
+          Contact
+        </Link>
+
+        <Link href="/supplier/dashboard"
+          onClick={() => setMenuOpen(false)}
+          style={{
+            fontFamily: 'Inter, sans-serif',
+            fontSize: 'clamp(11px, 2.5vw, 12px)',
+            color: 'rgba(168,149,120,0.7)',
+            textDecoration: 'none',
+            letterSpacing: '0.15em',
+            textTransform: 'uppercase',
+            padding: 'clamp(12px, 3vw, 16px)',
+            minHeight: '44px',
+            display: 'inline-flex',
+            alignItems: 'center',
+            gap: '8px',
+          }}>
+          <span style={{ fontSize: '14px' }}>◉</span>
+          Supplier Portal
+        </Link>
+
         <div
           style={{
             marginTop: 'clamp(20px, 5vw, 32px)',
@@ -552,7 +731,10 @@ function PublicNavbar() {
               >
                 {t('language')}
               </span>
-              <LanguageSwitcher onNavigate={() => setMenuOpen(false)} />
+              <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                <LanguageSwitcher onNavigate={() => setMenuOpen(false)} theme="dark" />
+                <ThemeToggle />
+              </div>
             </>
           )}
         </div>

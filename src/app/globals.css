@@ -14,16 +14,104 @@
 :root {
   /* Высота музыкального футера; уточняется MusicPlayer (ResizeObserver) */
   --music-foundation-height: 72px;
+
+  /* ── Site-wide beige palette (matching "Our Projects" gallery) ── */
+  --bg-main:    #a89578;   /* основной — как секция Our Projects */
+  --bg-alt:     #9d8a6e;   /* чуть темнее для разнообразия */
+  --bg-accent:  #a89578;
+  --bg-dark:    #1e140a;
+
+  --text-1: rgba(255, 255, 255, 0.95);
+  --text-2: rgba(255, 255, 255, 0.75);
+  --text-3: rgba(255, 255, 255, 0.55);
+  --text-4: rgba(255, 255, 255, 0.30);
+
+  --accent:       #c9a86e;   /* ярче для акцентов */
+  --accent-dark:  #a89578;
+  --border:       rgba(255, 255, 255, 0.1);
+  --border-soft:  rgba(255, 255, 255, 0.06);
+
+  /* ── Supplier Portal — day/light mode ── */
+  --sp-bg:           #f5f0e8;
+  --sp-sidebar:      #ede5d4;
+  --sp-surface:      #e8dece;
+  --sp-surface-2:    #dfd5c2;
+  --sp-surface-3:    #d5c9b4;
+  --sp-gold:         #c9a86e;
+  --sp-gold-bright:  #e8c07a;
+  --sp-text-1:       rgba(26, 21, 16, 0.92);
+  --sp-text-2:       rgba(80, 55, 25, 0.80);
+  --sp-text-3:       rgba(100, 75, 45, 0.65);
+  --sp-border:       rgba(0, 0, 0, 0.08);
+  --sp-border-2:     rgba(0, 0, 0, 0.15);
+
+  /* ── Order Form — day/light mode ── */
+  --of-bg:           #f2e8d9;
+  --of-card:         #ffffff;
+  --of-card-2:       #fdf9f4;
+  --of-surface:      rgba(140, 100, 50, 0.06);
+  --of-surface-2:    rgba(140, 100, 50, 0.10);
+  --of-border:       rgba(140, 100, 50, 0.18);
+  --of-border-soft:  rgba(140, 100, 50, 0.10);
+  --of-text-1:       #1e1408;
+  --of-text-2:       rgba(45, 30, 10, 0.68);
+  --of-text-3:       rgba(45, 30, 10, 0.44);
+  --of-text-4:       rgba(45, 30, 10, 0.28);
+  --of-shadow:       0 2px 12px rgba(120, 80, 20, 0.08), 0 1px 3px rgba(120, 80, 20, 0.05);
+
+  /* ── Night / dark theme override ── */
+  /* apply via: document.documentElement.setAttribute('data-theme','night') */
+}
+
+html[data-theme="night"] {
+  --bg-main:    #1a1510;
+  --bg-alt:     #12100d;
+  --bg-accent:  #1a1510;
+  --bg-dark:    #0a0806;
+
+  --text-1: rgba(255, 255, 255, 0.92);
+  --text-2: rgba(200, 175, 140, 0.85);
+  --text-3: rgba(168, 149, 120, 0.70);
+  --text-4: rgba(168, 149, 120, 0.35);
+
+  --accent:       #c9a86e;
+  --accent-dark:  #a89578;
+  --border:       rgba(168, 149, 120, 0.12);
+  --border-soft:  rgba(168, 149, 120, 0.06);
+
+  /* ── Supplier Portal — night/dark mode ── */
+  --sp-bg:           #0a0806;
+  --sp-sidebar:      #0f0b07;
+  --sp-surface:      #171108;
+  --sp-surface-2:    #1e160c;
+  --sp-surface-3:    #261c10;
+  --sp-text-1:       rgba(240, 232, 216, 0.95);
+  --sp-text-2:       rgba(196, 168, 130, 0.9);
+  --sp-text-3:       rgba(138, 112, 85, 0.85);
+  --sp-border:       rgba(201, 168, 110, 0.1);
+  --sp-border-2:     rgba(201, 168, 110, 0.18);
+
+  /* ── Order Form — night/dark mode ── */
+  --of-bg:           #100e0b;
+  --of-card:         rgba(255, 255, 255, 0.055);
+  --of-card-2:       rgba(255, 255, 255, 0.03);
+  --of-surface:      rgba(255, 255, 255, 0.055);
+  --of-surface-2:    rgba(255, 255, 255, 0.08);
+  --of-border:       rgba(201, 168, 110, 0.18);
+  --of-border-soft:  rgba(255, 255, 255, 0.08);
+  --of-text-1:       rgba(240, 228, 210, 0.96);
+  --of-text-2:       rgba(210, 185, 150, 0.78);
+  --of-text-3:       rgba(175, 155, 125, 0.58);
+  --of-text-4:       rgba(155, 135, 105, 0.36);
+  --of-shadow:       0 2px 16px rgba(0, 0, 0, 0.30), 0 1px 4px rgba(0, 0, 0, 0.20);
+}
+
+:root {
+  /* legacy aliases kept for compatibility */
   --beige: #a89578;
   --beige-dark: #9a8568;
   --beige-light: #b8a588;
   --beige-deep: #7a6a54;
-  --white-90: rgba(255, 255, 255, 0.9);
-  --white-70: rgba(255, 255, 255, 0.7);
-  --white-50: rgba(255, 255, 255, 0.5);
-  --white-20: rgba(255, 255, 255, 0.2);
-  --white-10: rgba(255, 255, 255, 0.1);
-  --white-05: rgba(255, 255, 255, 0.05);
   --beige-darker: #8a7560;
   --beige-deep-bg: #7a6a54;
   --dark-section: #1a1510;
@@ -48,8 +136,8 @@ img {
 }
 
 body {
-  background-color: var(--beige);
-  color: rgba(255, 255, 255, 0.85);
+  background-color: var(--bg-main);
+  color: var(--text-1);  /* white on beige */
   font-family: var(--font-garamond), 'EB Garamond', Georgia, serif;
   font-weight: 300;
   -webkit-font-smoothing: antialiased;
@@ -82,7 +170,7 @@ button {
 }
 
 h1, h2, h3, h4, h5, h6 {
-  color: rgba(255, 255, 255, 0.95);
+  color: var(--text-1);
   font-family: var(--font-garamond), 'EB Garamond', serif;
 }
 
@@ -94,20 +182,20 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 p, span, li, label {
-  color: rgba(255, 255, 255, 0.8);
+  color: var(--text-2);
 }
 
 a {
-  color: rgba(255, 255, 255, 0.8);
+  color: var(--text-2);
   text-decoration: none;
 }
 
 a:hover {
-  color: rgba(255, 255, 255, 1);
+  color: var(--text-1);
 }
 
 input, textarea, select {
-  color: rgba(255, 255, 255, 0.85);
+  color: var(--text-1);
 }
 
 ::placeholder {
@@ -136,8 +224,8 @@ a.btn {
 .btn-book {
   display: inline-block;
   text-align: center;
-  border: 1px solid rgba(255, 255, 255, 0.4);
-  color: rgba(255, 255, 255, 0.85);
+  border: 1px solid rgba(255, 255, 255, 0.45);
+  color: rgba(255, 255, 255, 0.9);
   background: transparent;
   padding: 16px 48px;
   font-family: var(--font-garamond), 'EB Garamond', serif;
@@ -150,7 +238,7 @@ a.btn {
 }
 .btn-book:hover {
   background: rgba(255, 255, 255, 0.9);
-  color: var(--beige-deep);
+  color: #7a6a54;
   border-color: transparent;
 }
 @media (max-width: 640px) {
@@ -287,82 +375,57 @@ a.btn {
   }
 }
 
-/* ——— Supplier portal: design tokens ——— */
-:root {
-  --sp-text-primary: rgba(255, 255, 255, 0.9);
-  --sp-text-secondary: rgba(255, 255, 255, 0.7);
-  --sp-text-muted: rgba(255, 255, 255, 0.55);
-  --sp-text-label: rgba(168, 149, 120, 0.75);
-  --sp-border: rgba(168, 149, 120, 0.12);
-  --sp-border-subtle: rgba(168, 149, 120, 0.06);
-}
+/* ——— Supplier portal: Linear-inspired warm dark design system ——— */
 
+/* Portal utility classes */
 .sp-label {
-  font-family: var(--font-inter), Inter, sans-serif;
-  font-size: 12px;
-  font-weight: 600;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--sp-text-label);
-}
-
-.sp-breadcrumb {
-  font-family: var(--font-inter), Inter, sans-serif;
-  font-size: 12px;
-  font-weight: 500;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color: rgba(168, 149, 120, 0.65);
-}
-
-/* Status badges */
-.sp-badge {
-  display: inline-block;
   font-family: var(--font-inter), Inter, sans-serif;
   font-size: 11px;
   font-weight: 600;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
-  padding: 4px 10px;
-  border-radius: 4px;
+  color: var(--sp-text-3);
+}
+.sp-breadcrumb {
+  font-family: var(--font-inter), Inter, sans-serif;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--sp-text-3);
+}
+
+/* Status badges — pill style */
+.sp-badge {
+  display: inline-flex;
+  align-items: center;
+  font-family: var(--font-inter), Inter, sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 3px 10px;
+  border-radius: 9999px;
   white-space: nowrap;
   line-height: 1.4;
+  gap: 5px;
 }
-.sp-badge-pending {
-  color: #fbbf24;
-  background: rgba(251, 191, 36, 0.12);
-  border: 1px solid rgba(251, 191, 36, 0.3);
+.sp-badge::before {
+  content: '';
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: currentColor;
+  flex-shrink: 0;
 }
-.sp-badge-confirmed {
-  color: #2dd4bf;
-  background: rgba(45, 212, 191, 0.12);
-  border: 1px solid rgba(45, 212, 191, 0.3);
-}
-.sp-badge-in_production {
-  color: #c084fc;
-  background: rgba(192, 132, 252, 0.12);
-  border: 1px solid rgba(192, 132, 252, 0.3);
-}
-.sp-badge-ready {
-  color: #4ade80;
-  background: rgba(74, 222, 128, 0.12);
-  border: 1px solid rgba(74, 222, 128, 0.3);
-}
-.sp-badge-shipped {
-  color: #60a5fa;
-  background: rgba(96, 165, 250, 0.12);
-  border: 1px solid rgba(96, 165, 250, 0.3);
-}
-.sp-badge-delivered {
-  color: #34d399;
-  background: rgba(52, 211, 153, 0.12);
-  border: 1px solid rgba(52, 211, 153, 0.3);
-}
-.sp-badge-cancelled {
-  color: #f87171;
-  background: rgba(248, 113, 113, 0.12);
-  border: 1px solid rgba(248, 113, 113, 0.3);
-}
+.sp-badge-pending      { color: #f59e0b; background: rgba(245,158,11,0.1);  border: 1px solid rgba(245,158,11,0.2); }
+.sp-badge-confirmed    { color: #14b8a6; background: rgba(20,184,166,0.1);  border: 1px solid rgba(20,184,166,0.2); }
+.sp-badge-in_production{ color: #a855f7; background: rgba(168,85,247,0.1);  border: 1px solid rgba(168,85,247,0.2); }
+.sp-badge-ready        { color: #22c55e; background: rgba(34,197,94,0.1);   border: 1px solid rgba(34,197,94,0.2); }
+.sp-badge-shipped      { color: #3b82f6; background: rgba(59,130,246,0.1);  border: 1px solid rgba(59,130,246,0.2); }
+.sp-badge-delivered    { color: #10b981; background: rgba(16,185,129,0.1);  border: 1px solid rgba(16,185,129,0.2); }
+.sp-badge-cancelled    { color: #ef4444; background: rgba(239,68,68,0.1);   border: 1px solid rgba(239,68,68,0.2); }
 
 /* ——— Портала поставщика: современный мобильный дизайн ——— */
 .supplier-navbar {
@@ -416,68 +479,122 @@ a.btn {
   background: rgba(168,149,120,0.35);
 }
 
-/* Карточки дашборда поставщика */
+/* ——— Supplier portal dashboard ——— */
 .supplier-dashboard-main {
-  padding-left: max(16px, env(safe-area-inset-left)) !important;
-  padding-right: max(16px, env(safe-area-inset-right)) !important;
+  background: var(--sp-bg) !important;
+  padding-left:  max(24px, env(safe-area-inset-left))  !important;
+  padding-right: max(24px, env(safe-area-inset-right)) !important;
 }
+
+/* Stat cards */
 .supplier-stat-card {
-  border-radius: 16px;
-  border: 1px solid rgba(168,149,120,0.08);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  background: var(--sp-surface);
+  border: 1px solid var(--sp-border);
+  border-radius: 12px;
+  transition: border-color 0.2s, box-shadow 0.2s;
 }
-.supplier-stat-card:active {
-  transform: scale(0.98);
+.supplier-stat-card:hover {
+  border-color: var(--sp-border-2);
+  box-shadow: 0 0 0 1px var(--sp-border);
 }
 @media (max-width: 767px) {
-  .supplier-stat-grid {
-    grid-template-columns: 1fr !important;
-    gap: 12px !important;
-    margin-bottom: 32px !important;
-  }
-  .supplier-stat-card {
-    padding: 20px 20px !important;
-  }
+  .supplier-stat-grid { grid-template-columns: 1fr !important; gap: 10px !important; }
+  .supplier-stat-card { padding: 18px !important; }
 }
+
+/* Order cards */
 .supplier-order-card {
-  border-radius: 14px;
-  border: 1px solid rgba(168,149,120,0.08);
+  background: var(--sp-surface);
+  border: 1px solid var(--sp-border);
+  border-radius: 10px;
   padding: 16px !important;
-  margin-bottom: 10px;
-  transition: background 0.2s;
+  margin-bottom: 8px;
+  transition: border-color 0.15s, background 0.15s;
 }
+.supplier-order-card:hover { border-color: var(--sp-border-2); }
 .supplier-order-card:last-child { margin-bottom: 0; }
+
 @media (min-width: 768px) {
   .supplier-orders-desktop { display: block !important; }
-  .supplier-orders-mobile { display: none !important; }
+  .supplier-orders-mobile  { display: none  !important; }
 }
 @media (max-width: 767px) {
-  .supplier-orders-desktop { display: none !important; }
-  .supplier-orders-mobile { display: block !important; }
+  .supplier-orders-desktop { display: none  !important; }
+  .supplier-orders-mobile  { display: block !important; }
 }
+
+/* Action cards */
 .supplier-action-card {
-  border-radius: 14px;
-  border: 1px solid rgba(168,149,120,0.12);
+  background: var(--sp-surface);
+  border: 1px solid var(--sp-border);
+  border-radius: 10px;
   padding: 18px 20px !important;
   min-height: 56px;
-  transition: background 0.2s, transform 0.15s, border-color 0.2s;
+  transition: background 0.15s, border-color 0.15s, transform 0.1s;
 }
-.supplier-action-card:hover {
-  background: rgba(168,149,120,0.06) !important;
-  border-color: rgba(168,149,120,0.2) !important;
-}
-.supplier-action-card:active {
-  transform: scale(0.98);
-}
+.supplier-action-card:hover  { background: var(--sp-surface-2) !important; border-color: var(--sp-border-2) !important; }
+.supplier-action-card:active { transform: scale(0.98); }
+
+/* Helper card */
 .supplier-helper-card {
-  border-radius: 16px;
-  border: 1px solid rgba(168,149,120,0.1);
+  background: var(--sp-surface);
+  border: 1px solid var(--sp-border);
+  border-radius: 12px;
 }
 @media (max-width: 767px) {
-  .supplier-helper-card {
-    margin-top: 32px !important;
-    padding: 20px 20px !important;
-  }
+  .supplier-helper-card { margin-top: 28px !important; padding: 18px !important; }
+}
+
+/* ——— Supplier form fields (overrides Tailwind utility classes) ——— */
+.supplier-dashboard-main input[type="text"],
+.supplier-dashboard-main input[type="number"],
+.supplier-dashboard-main input[type="email"],
+.supplier-dashboard-main input[type="password"],
+.supplier-dashboard-main input[type="url"],
+.supplier-dashboard-main textarea,
+.supplier-dashboard-main select {
+  background: var(--sp-surface-2) !important;
+  border: 1px solid var(--sp-border) !important;
+  border-radius: 6px;
+  color: var(--sp-text-1) !important;
+  font-family: Inter, sans-serif;
+  font-size: 14px;
+  padding: 10px 14px;
+  outline: none;
+  transition: border-color 0.15s;
+  width: 100%;
+  box-sizing: border-box;
+}
+.supplier-dashboard-main input:focus,
+.supplier-dashboard-main textarea:focus,
+.supplier-dashboard-main select:focus {
+  border-color: var(--sp-border-2) !important;
+  box-shadow: 0 0 0 2px rgba(201,168,110,0.08);
+}
+.supplier-dashboard-main input::placeholder,
+.supplier-dashboard-main textarea::placeholder { color: var(--sp-text-3) !important; opacity: 1; }
+.supplier-dashboard-main label {
+  color: var(--sp-text-3) !important;
+  font-family: Inter, sans-serif;
+}
+/* Submit / action buttons inside forms */
+.supplier-dashboard-main button[type="submit"] {
+  background: var(--sp-gold) !important;
+  border: none !important;
+  color: #0a0806 !important;
+  font-family: Inter, sans-serif;
+  font-weight: 600;
+  border-radius: 6px !important;
+  padding: 11px 24px !important;
+  cursor: pointer;
+  transition: opacity 0.15s;
+}
+.supplier-dashboard-main button[type="submit"]:hover { opacity: 0.88; }
+.supplier-dashboard-main button[type="submit"]:disabled { opacity: 0.5; cursor: not-allowed; }
+/* Page-level h1 in forms */
+.supplier-dashboard-main h1.font-garamond {
+  font-family: 'EB Garamond', serif !important;
+  color: var(--sp-text-1) !important;
 }
 
 /* ——— Фоновые эффекты: свечение и декоративные линии ——— */
@@ -557,3 +674,54 @@ a.btn {
   from { transform: translateX(-100%); }
   to   { transform: translateX(100%); }
 }
+
+/* ═══════════════════════════════════════════════
+   GLOBAL RESPONSIVENESS
+   ═══════════════════════════════════════════════ */
+
+/* Prevent horizontal overflow */
+body, main { overflow-x: hidden; max-width: 100vw; }
+
+/* Touch targets — min 44px on mobile */
+@media (max-width: 767px) {
+  a, button { min-height: 44px; }
+  /* Section padding on small screens */
+  section { overflow-x: hidden; }
+  /* Gallery scroll — don't let images overflow */
+  .scrollbar-hide { -webkit-overflow-scrolling: touch; }
+}
+
+/* Tablet breakpoint tweaks */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .sp-stat-grid { grid-template-columns: repeat(3, 1fr) !important; }
+}
+
+/* Fix: hero text doesn't overlap on very small screens */
+@media (max-width: 380px) {
+  .hero-content h1 { font-size: 28px !important; }
+  .hero-content p  { font-size: 13px !important; }
+}
+
+/* Supplier portal — mobile bottom nav z-index above WhatsApp */
+@media (max-width: 767px) {
+  .supplier-bottom-nav { z-index: 60 !important; }
+}
+
+/* News grid — single column on mobile */
+@media (max-width: 640px) {
+  .news-grid { grid-template-columns: 1fr !important; }
+}
+
+/* Scrollbar hide utility */
+.scrollbar-hide {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.scrollbar-hide::-webkit-scrollbar { display: none; }
+
+/* Smooth theme transition — only background/border, not position/transform/opacity */
+html { transition: background-color 0.3s ease; }
+section, div, main, nav, footer, header, aside {
+  transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+

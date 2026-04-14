@@ -22,7 +22,7 @@ export function AboutSection({
         ref={ref}
         style={{
           padding: 'clamp(80px, 14vw, 160px) clamp(24px, 6vw, 64px)',
-          background: '#a89578',
+          background: 'var(--bg-main)',
           position: 'relative',
         }}
       >
@@ -45,7 +45,7 @@ export function AboutSection({
             fontSize: '11px',
             letterSpacing: '0.3em',
             textTransform: 'uppercase',
-            color: 'rgba(255,255,255,0.4)',
+            color: 'var(--accent)',
             marginBottom: '24px',
           }}>
             Heritage
@@ -53,7 +53,7 @@ export function AboutSection({
 
           <h2 className="font-garamond" style={{
             fontSize: 'clamp(36px, 7vw, 72px)',
-            color: 'rgba(255,255,255,0.95)',
+            color: 'var(--text-1)',
             fontWeight: 300,
             lineHeight: 1.1,
             letterSpacing: '-0.01em',
@@ -70,7 +70,7 @@ export function AboutSection({
 
           <p className="font-garamond" style={{
             fontSize: 'clamp(16px, 2.2vw, 19px)',
-            color: 'rgba(255,255,255,0.55)',
+            color: 'var(--text-3)',
             lineHeight: 1.8,
             maxWidth: '600px',
             margin: '0 auto 48px',

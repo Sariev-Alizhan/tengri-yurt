@@ -21,8 +21,11 @@ export default async function NewAccessoryPage() {
   }
 
   return (
-    <div className="max-w-2xl">
-      <h1 className="font-garamond text-3xl text-white mb-8">{t('addAccessory')}</h1>
+    <div style={{ maxWidth: "640px" }}>
+      <div style={{ marginBottom: '32px' }}>
+        <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '11px', fontWeight: 500, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--sp-text-3)', marginBottom: '6px' }}>Catalogue</p>
+        <h1 style={{ fontFamily: 'EB Garamond, serif', fontSize: 'clamp(26px, 4vw, 36px)', color: 'var(--sp-text-1)', fontWeight: 400, margin: 0 }}>{t('addAccessory')}</h1>
+      </div>
       <AddAccessoryForm
         supplierId={(supplier as { id: string }).id}
         translations={{

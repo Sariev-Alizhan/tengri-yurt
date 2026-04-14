@@ -57,63 +57,112 @@ export function FooterSection({
           {tagline}
         </p>
         <div className="border-t border-white/15 pt-8 mb-12 md:mb-16" />
-        <div
-          className="flex flex-col lg:flex-row gap-12 lg:gap-16 mb-12 md:mb-16"
-        >
-          <div className="flex flex-col sm:flex-row gap-12 sm:gap-16">
-            <div>
-              <p className="font-inter text-white/60 text-xs uppercase tracking-wider mb-3">
-                {contactLabel}
-              </p>
-              <a href="mailto:info@tengri-camp.kz" className="block font-inter text-white/70 hover:text-white transition-colors">info@tengri-camp.kz</a>
-              <a href="tel:+77477777888" className="font-inter text-white/70 hover:text-white transition-colors">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-10 md:gap-8 mb-12 md:mb-16">
+
+          {/* Explore */}
+          <div>
+            <p className="font-inter text-white/40 text-xs uppercase tracking-wider mb-4">Explore</p>
+            <div className="flex flex-col gap-3">
+              {[
+                { href: '/catalog', label: 'Yurt Catalog' },
+                { href: '/hammam', label: 'Yurt Hammam' },
+                { href: '/quiz', label: 'Knowledge Quiz' },
+                { href: '/news', label: 'Press & Stories' },
+              ].map(l => (
+                <Link key={l.href} href={l.href as any}
+                  className="font-inter text-white/60 hover:text-white transition-colors text-sm">
+                  {l.label}
+                </Link>
+              ))}
+            </div>
+          </div>
+
+          {/* Company */}
+          <div>
+            <p className="font-inter text-white/40 text-xs uppercase tracking-wider mb-4">Company</p>
+            <div className="flex flex-col gap-3">
+              {[
+                { href: '/about', label: 'Our Story' },
+                { href: '/contact', label: 'Contact' },
+                { href: '/supplier/dashboard', label: 'Supplier Portal' },
+              ].map(l => (
+                <Link key={l.href} href={l.href as any}
+                  className="font-inter text-white/60 hover:text-white transition-colors text-sm">
+                  {l.label}
+                </Link>
+              ))}
+            </div>
+          </div>
+
+          {/* Contact */}
+          <div>
+            <p className="font-inter text-white/40 text-xs uppercase tracking-wider mb-4">
+              {contactLabel}
+            </p>
+            <div className="flex flex-col gap-2">
+              <a href="mailto:info@tengri-camp.kz"
+                className="font-inter text-white/60 hover:text-white transition-colors text-sm">
+                info@tengri-camp.kz
+              </a>
+              <a href="tel:+77477777888"
+                className="font-inter text-white/60 hover:text-white transition-colors text-sm">
                 +7 747 777 78 88
               </a>
-              <p className="font-inter text-white/70">{address}</p>
+              <p className="font-inter text-white/40 text-sm">{address}</p>
               {contactWhatsApp && (
                 <a
                   href={`https://wa.me/${WHATSAPP_NUMBER}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center mt-2 font-inter text-white/70 hover:text-white border border-white/30 hover:border-white/50 px-4 py-3 min-h-[44px] text-xs uppercase tracking-wider transition-all"
+                  className="inline-flex items-center mt-1 font-inter text-white/60 hover:text-white border border-white/20 hover:border-white/40 px-3 py-2 min-h-[40px] text-xs uppercase tracking-wider transition-all w-fit"
                 >
                   {contactWhatsApp}
                 </a>
               )}
             </div>
-            <div>
-              <p className="font-inter text-white/60 text-xs uppercase tracking-wider mb-3">
-                {followLabel}
-              </p>
-              <a
-                href="https://www.instagram.com/tengri_camp/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="font-inter text-white/70 hover:text-white hover:underline transition-all duration-200"
-              >
-                @tengri_camp
-              </a>
-            </div>
           </div>
+
+          {/* Follow */}
+          <div>
+            <p className="font-inter text-white/40 text-xs uppercase tracking-wider mb-4">
+              {followLabel}
+            </p>
+            <a
+              href="https://www.instagram.com/tengri_camp/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="font-inter text-white/60 hover:text-white transition-colors text-sm"
+            >
+              @tengri_camp
+            </a>
+          </div>
+
         </div>
         {trustBadges && (
-          <p className="font-inter text-white/40 text-xs text-center uppercase tracking-widest mb-8">
+          <p className="font-inter text-white/35 text-xs text-center uppercase tracking-widest mb-8">
             {trustBadges}
           </p>
         )}
-        {locale && quizLink && (
-          <p className="font-inter text-center mb-6">
-            <Link
-              href="/quiz"
-              className="text-beige-light hover:text-white border border-beige/40 hover:border-beige-light/50 px-4 py-3 min-h-[44px] text-xs uppercase tracking-wider transition-colors inline-flex items-center"
-            >
-              {quizLink}
-            </Link>
+        <div className="border-t border-white/15 pt-8 flex flex-wrap items-center justify-between gap-4">
+          <p className="font-inter text-white/50 text-sm">
+            {copyright}
           </p>
-        )}
-        <p className="font-inter text-white/50 text-sm border-t border-white/15 pt-8">
-          {copyright}
-        </p>
+          <span
+            title="Tengri Yurt platform version"
+            style={{
+              fontFamily: 'Inter, sans-serif',
+              fontSize: '10px',
+              letterSpacing: '0.12em',
+              color: 'rgba(201,168,110,0.4)',
+              border: '1px solid rgba(201,168,110,0.15)',
+              padding: '3px 8px',
+              borderRadius: '3px',
+              userSelect: 'none',
+            }}
+          >
+            v2.8
+          </span>
+        </div>
       </div>
     </footer>
   );

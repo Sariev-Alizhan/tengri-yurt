@@ -30,7 +30,7 @@ export default async function SupplierDashboardLayout({
     <div style={{
       width: '100%',
       minHeight: '100vh',
-      background: '#0f0d0a',
+      background: 'var(--sp-bg)',
       paddingTop: 'max(56px, env(safe-area-inset-top))',
     }}>
       <SupplierSidebar supplierName={supplierName} isLoggedIn={!!user} />
@@ -39,9 +39,9 @@ export default async function SupplierDashboardLayout({
         style={{
           minHeight: 'calc(100vh - 56px)',
           overflowY: 'auto',
-          padding: 'clamp(20px, 4vw, 48px)',
+          padding: 'clamp(24px, 4vw, 48px)',
           paddingBottom: '88px',
-          background: '#12100d',
+          background: 'var(--sp-bg)',
           transition: 'margin-left 0.3s ease',
         }}
       >
@@ -50,10 +50,10 @@ export default async function SupplierDashboardLayout({
       <style dangerouslySetInnerHTML={{__html: `
         @media (min-width: 768px) {
           .supplier-dashboard-main {
-            margin-left: 240px;
+            margin-left: 220px;
           }
           body.sidebar-collapsed .supplier-dashboard-main {
-            margin-left: 64px;
+            margin-left: 60px;
           }
         }
         @media (max-width: 767px) {

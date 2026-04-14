@@ -1,10 +1,11 @@
 'use client'
 
 const MARQUEE_ITEMS = [
-  'Traditional Craftsmanship', '·', 'Master Artisans', '·', 'Kazakhstan', '·',
-  'Since 2010', '·', 'Global Delivery', '·', 'Premium Materials', '·',
-  'Traditional Craftsmanship', '·', 'Master Artisans', '·', 'Kazakhstan', '·',
-  'Since 2010', '·', 'Global Delivery', '·', 'Premium Materials',
+  '42 Countries', '·', 'UNESCO Heritage 2018', '·', '200+ Yurts Delivered', '·',
+  'Founded Almaty 2010', '·', '14-Year Warranty', '·', '40+ Master Ustalar', '·',
+  '6 Continents', '·', 'Hand-built. No Factory.', '·', 'Worldwide Assembly', '·',
+  '42 Countries', '·', 'UNESCO Heritage 2018', '·', '200+ Yurts Delivered', '·',
+  'Founded Almaty 2010', '·', '14-Year Warranty', '·', '40+ Master Ustalar',
 ]
 
 export function MarqueeSection() {
@@ -13,8 +14,9 @@ export function MarqueeSection() {
       style={{
         overflow: 'hidden',
         padding: '20px 0',
-        borderTop: '1px solid rgba(255,255,255,0.08)',
-        borderBottom: '1px solid rgba(255,255,255,0.08)',
+        background: '#1a1510',
+        borderTop: '1px solid rgba(168,149,120,0.12)',
+        borderBottom: '1px solid rgba(168,149,120,0.12)',
         marginBottom: '80px',
       }}
     >
@@ -33,7 +35,7 @@ export function MarqueeSection() {
               fontFamily: 'EB Garamond, serif',
               fontSize: 'clamp(14px, 2.5vw, 20px)',
               fontStyle: item === '·' ? 'normal' : 'italic',
-              color: item === '·' ? 'rgba(255,255,255,0.2)' : 'rgba(255,255,255,0.6)',
+              color: item === '·' ? 'rgba(168,149,120,0.35)' : 'rgba(200,175,140,0.85)',
               whiteSpace: 'nowrap',
             }}
           >

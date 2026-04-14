@@ -24,7 +24,7 @@ function WhyCard({ item, index }: { item: WhyItem; index: number }) {
       ref={ref}
       style={{
         padding: 'clamp(28px, 5vw, 48px)',
-        borderBottom: '1px solid rgba(255,255,255,0.08)',
+        borderBottom: '1px solid var(--border-soft)',
         display: 'flex',
         gap: 'clamp(16px, 3vw, 32px)',
         alignItems: 'flex-start',
@@ -46,7 +46,7 @@ function WhyCard({ item, index }: { item: WhyItem; index: number }) {
       <div>
         <h3 className="font-garamond" style={{
           fontSize: 'clamp(20px, 3vw, 28px)',
-          color: 'rgba(255,255,255,0.9)',
+          color: 'var(--text-1)',
           fontWeight: 400,
           marginBottom: '8px',
           lineHeight: 1.2,
@@ -55,7 +55,7 @@ function WhyCard({ item, index }: { item: WhyItem; index: number }) {
         </h3>
         <p style={{
           fontSize: 'clamp(14px, 1.6vw, 15px)',
-          color: 'rgba(255,255,255,0.75)',
+          color: 'var(--text-2)',
           lineHeight: 1.7,
           fontWeight: 300,
         }}>
@@ -75,7 +75,7 @@ export function WhySection() {
     <section
       ref={ref}
       style={{
-        background: '#a89578',
+        background: 'var(--bg-alt)',
         padding: 'clamp(80px, 12vw, 140px) 0',
       }}
     >
@@ -86,14 +86,14 @@ export function WhySection() {
             fontSize: '11px',
             letterSpacing: '0.3em',
             textTransform: 'uppercase',
-            color: 'rgba(255,255,255,0.6)',
+            color: 'var(--accent)',
             marginBottom: '20px',
           }}>
             Why Tengri Yurt
           </p>
           <h2 className="font-garamond" style={{
             fontSize: 'clamp(40px, 8vw, 80px)',
-            color: 'rgba(255,255,255,0.92)',
+            color: 'var(--text-1)',
             lineHeight: 1,
             fontWeight: 300,
             letterSpacing: '-0.02em',
@@ -108,8 +108,8 @@ export function WhySection() {
           justifyContent: 'center',
           gap: 'clamp(40px, 8vw, 80px)',
           padding: 'clamp(32px, 6vw, 48px) 0',
-          borderTop: '1px solid rgba(255,255,255,0.1)',
-          borderBottom: '1px solid rgba(255,255,255,0.1)',
+          borderTop: '1px solid var(--border)',
+          borderBottom: '1px solid var(--border)',
           marginBottom: 'clamp(40px, 8vw, 64px)',
           flexWrap: 'wrap',
           ...revealStyle(visible, 0.15),
@@ -123,7 +123,7 @@ export function WhySection() {
             <div key={stat.label} style={{ textAlign: 'center' }}>
               <p className="font-garamond" style={{
                 fontSize: 'clamp(36px, 6vw, 56px)',
-                color: 'rgba(255,255,255,0.85)',
+                color: 'var(--text-1)',
                 fontWeight: 300,
                 letterSpacing: '-0.02em',
                 lineHeight: 1,
@@ -135,7 +135,7 @@ export function WhySection() {
                 fontSize: '11px',
                 letterSpacing: '0.15em',
                 textTransform: 'uppercase',
-                color: 'rgba(255,255,255,0.6)',
+                color: 'var(--text-3)',
               }}>
                 {stat.label}
               </p>

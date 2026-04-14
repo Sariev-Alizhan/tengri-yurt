@@ -123,7 +123,7 @@ export function GallerySection({ label, title, subtitle }: Props) {
     <section
       ref={sectionRef}
       className="py-16 md:py-20 lg:py-24"
-      style={{ background: '#a89578' }}
+      style={{ background: 'var(--bg-main)' }}
     >
       <div className="max-w-6xl mx-auto mb-8 md:mb-10 px-6 md:px-10 text-center">
         <p
@@ -166,7 +166,7 @@ export function GallerySection({ label, title, subtitle }: Props) {
         <div
           className="absolute left-0 top-0 bottom-4 w-8 md:w-16 z-[5] pointer-events-none"
           style={{
-            background: 'linear-gradient(to right, #a89578, transparent)',
+            background: 'linear-gradient(to right, var(--bg-main), transparent)',
             opacity: canScrollLeft ? 1 : 0,
             transition: 'opacity 0.3s',
           }}
@@ -174,7 +174,7 @@ export function GallerySection({ label, title, subtitle }: Props) {
         <div
           className="absolute right-0 top-0 bottom-4 w-8 md:w-16 z-[5] pointer-events-none"
           style={{
-            background: 'linear-gradient(to left, #a89578, transparent)',
+            background: 'linear-gradient(to left, var(--bg-main), transparent)',
             opacity: canScrollRight ? 1 : 0,
             transition: 'opacity 0.3s',
           }}
@@ -189,6 +189,7 @@ export function GallerySection({ label, title, subtitle }: Props) {
             background: 'rgba(255,255,255,0.1)',
             border: '1px solid rgba(255,255,255,0.3)',
             backdropFilter: 'blur(8px)',
+            WebkitBackdropFilter: 'blur(8px)',
             color: 'rgba(255,255,255,0.95)',
             opacity: arrowsVisible && canScrollLeft ? 0.9 : 0,
             pointerEvents: canScrollLeft ? 'auto' : 'none',
@@ -206,6 +207,7 @@ export function GallerySection({ label, title, subtitle }: Props) {
             background: 'rgba(255,255,255,0.1)',
             border: '1px solid rgba(255,255,255,0.3)',
             backdropFilter: 'blur(8px)',
+            WebkitBackdropFilter: 'blur(8px)',
             color: 'rgba(255,255,255,0.95)',
             opacity: arrowsVisible && canScrollRight ? 0.9 : 0,
             pointerEvents: canScrollRight ? 'auto' : 'none',
