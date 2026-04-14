@@ -578,6 +578,39 @@ function PublicNavbar() {
               background: 'rgba(255,255,255,0.15)',
             }} />
             {isDesktop && !isOrderFlow && (
+              <Link
+                href="/supplier/dashboard"
+                aria-label="Supplier Portal"
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  width: '36px',
+                  height: '36px',
+                  borderRadius: '50%',
+                  border: '1px solid rgba(201,168,110,0.25)',
+                  color: 'rgba(201,168,110,0.55)',
+                  transition: 'border-color 0.2s, color 0.2s, background 0.2s',
+                  flexShrink: 0,
+                }}
+                onMouseEnter={e => {
+                  e.currentTarget.style.borderColor = 'rgba(201,168,110,0.6)'
+                  e.currentTarget.style.color = 'rgba(201,168,110,1)'
+                  e.currentTarget.style.background = 'rgba(201,168,110,0.07)'
+                }}
+                onMouseLeave={e => {
+                  e.currentTarget.style.borderColor = 'rgba(201,168,110,0.25)'
+                  e.currentTarget.style.color = 'rgba(201,168,110,0.55)'
+                  e.currentTarget.style.background = 'transparent'
+                }}
+              >
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden>
+                  <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                  <circle cx="12" cy="7" r="4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
+              </Link>
+            )}
+            {isDesktop && !isOrderFlow && (
               <a
                 href="https://wa.me/77477777888"
                 target="_blank"
