@@ -415,37 +415,6 @@ function PublicNavbar() {
               </Link>
             )}
             {isDesktop && !isOrderFlow && (
-              <Link
-                href="/supplier/dashboard"
-                style={{
-                  fontFamily: 'Inter, sans-serif',
-                  fontSize: '11px',
-                  fontWeight: 500,
-                  letterSpacing: '0.12em',
-                  textTransform: 'uppercase',
-                  color: 'rgba(255,255,255,0.55)',
-                  textDecoration: 'none',
-                  padding: '8px 0',
-                  minHeight: '40px',
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  borderBottom: '1px solid transparent',
-                  transition: 'color 0.2s, border-color 0.2s',
-                  marginLeft: '12px',
-                }}
-                onMouseEnter={e => {
-                  e.currentTarget.style.color = 'rgba(255,255,255,0.9)'
-                  e.currentTarget.style.borderBottomColor = 'rgba(255,255,255,0.4)'
-                }}
-                onMouseLeave={e => {
-                  e.currentTarget.style.color = 'rgba(255,255,255,0.55)'
-                  e.currentTarget.style.borderBottomColor = 'transparent'
-                }}
-              >
-                Supplier Portal
-              </Link>
-            )}
-            {isDesktop && !isOrderFlow && (
               <button
                 type="button"
                 onClick={() => {
