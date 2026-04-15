@@ -162,14 +162,17 @@ export function SupplierSidebar({ supplierName, isLoggedIn = true }: { supplierN
         className="mobile-nav"
         style={{
           position: 'fixed', bottom: 0, left: 0, right: 0, zIndex: 100,
-          background: 'rgba(10,8,6,0.96)',
-          backdropFilter: 'blur(16px)',
-          WebkitBackdropFilter: 'blur(16px)',
+          background: 'rgba(10,8,6,0.97)',
+          backdropFilter: 'blur(20px)',
+          WebkitBackdropFilter: 'blur(20px)',
           borderTop: `1px solid ${sp.border}`,
           display: 'none',
           justifyContent: 'space-around',
-          alignItems: 'stretch',
-          padding: `8px 4px max(12px, env(safe-area-inset-bottom))`,
+          alignItems: 'flex-start',
+          paddingTop: '8px',
+          paddingLeft: '4px',
+          paddingRight: '4px',
+          paddingBottom: `max(16px, env(safe-area-inset-bottom))`,
         }}
       >
         {mobileItems.map(item => {
@@ -180,21 +183,29 @@ export function SupplierSidebar({ supplierName, isLoggedIn = true }: { supplierN
               href={item.href}
               style={{
                 display: 'flex', flexDirection: 'column', alignItems: 'center',
-                justifyContent: 'center', gap: '5px',
-                padding: '8px 4px', minHeight: '52px', flex: '1 1 0',
-                maxWidth: '72px', textDecoration: 'none',
+                justifyContent: 'center', gap: '4px',
+                padding: '6px 4px', minHeight: '48px', flex: '1 1 0',
+                maxWidth: '80px', textDecoration: 'none',
                 color: active ? sp.goldBr : sp.t3,
                 borderRadius: '10px',
-                background: active ? `rgba(201,168,110,0.1)` : 'transparent',
+                background: active ? `rgba(201,168,110,0.12)` : 'transparent',
                 transition: 'color 0.15s, background 0.15s',
+                position: 'relative',
               }}
             >
-              <span style={{ width: '18px', height: '18px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              {active && (
+                <span style={{
+                  position: 'absolute', top: 0, left: '20%', right: '20%',
+                  height: '2px', borderRadius: '1px',
+                  background: `rgba(201,168,110,0.8)`,
+                }} />
+              )}
+              <span style={{ width: '20px', height: '20px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                 {item.icon}
               </span>
               <span style={{
-                fontFamily: 'Inter, sans-serif', fontSize: '10px',
-                fontWeight: active ? 600 : 400, letterSpacing: '0.04em',
+                fontFamily: 'Inter, sans-serif', fontSize: '9px',
+                fontWeight: active ? 600 : 400, letterSpacing: '0.05em',
                 textTransform: 'uppercase', lineHeight: 1,
               }}>
                 {item.label}

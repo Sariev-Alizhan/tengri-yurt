@@ -110,7 +110,7 @@ export function CartCheckoutClient({
         <p className="font-inter text-white/70 mb-8">{translations.emptyCart}</p>
         <Link
           href="/cart"
-          className="inline-block border border-white/70 text-white py-3 px-8 uppercase font-inter text-sm font-medium tracking-widest hover:bg-white hover:text-[#7a6a54] transition-all min-h-[44px] flex items-center justify-center"
+          className="border border-white/70 text-white py-3 px-8 uppercase font-inter text-sm font-medium tracking-widest hover:bg-white hover:text-[#7a6a54] transition-all min-h-[44px] flex items-center justify-center"
         >
           {translations.backToCart}
         </Link>

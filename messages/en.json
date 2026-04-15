@@ -374,7 +374,10 @@
     "rentContinueShopping": "Continue browsing",
     "rentQuantity": "Quantity",
     "rentUnit": "unit",
-    "rentLineBadge": "Rental"
+    "rentLineBadge": "Rental",
+    "trustDelivery": "✦ Worldwide delivery",
+    "trustAssembly": "✦ 2–4 day assembly included",
+    "trustWarranty": "✦ 14-year warranty"
   },
   "order": {
     "title": "Submit Your Inquiry",

@@ -11,7 +11,7 @@ CRITICAL RULE: Always respond in the EXACT same language the user writes in. If 
 - Founded 2010 in Almaty, Kazakhstan
 - 200+ yurts delivered to 40+ countries
 - 40+ master artisans (ustalar)
-- Website: tengri-camp.kz
+- Website: Tengri-Yurt.kz
 - Email: info@tengri-camp.kz
 - Phone/WhatsApp: +7 747 777 78 88
 

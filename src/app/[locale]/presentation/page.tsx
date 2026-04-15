@@ -1,10 +1,20 @@
 'use client'
 
 import { useState } from 'react'
-import Link from 'next/link'
+import { useLocale } from 'next-intl'
+import { Link } from '@/i18n/navigation'
 import Image from 'next/image'
 
+const SUBTITLES: Record<string, string> = {
+  en: 'Full Platform Presentation',
+  ru: 'Полная презентация платформы',
+  kk: 'Платформаның толық презентациясы',
+  zh: '完整平台演示',
+  ar: 'عرض تقديمي كامل للمنصة',
+}
+
 export default function PresentationPage() {
+  const locale = useLocale()
   const [entered, setEntered] = useState(false)
 
   if (entered) {
@@ -89,7 +99,7 @@ export default function PresentationPage() {
         display: 'flex', alignItems: 'center', gap: '6px',
         transition: 'color 0.2s',
       }}>
-        ← tengri-camp.kz
+        ← Tengri-Yurt.kz
       </Link>
 
       {/* Main content */}
@@ -99,7 +109,7 @@ export default function PresentationPage() {
           letterSpacing: '0.38em', textTransform: 'uppercase',
           color: 'rgba(201,168,110,0.6)', marginBottom: 'clamp(16px, 3vh, 28px)',
         }}>
-          Tengri Camp · 2026
+          Tengri-Yurt.kz · 2026
         </p>
 
         <h1 style={{
@@ -124,7 +134,7 @@ export default function PresentationPage() {
           color: 'rgba(255,255,255,0.4)',
           marginBottom: 'clamp(24px, 5vh, 52px)',
         }}>
-          Полная презентация платформы
+          {SUBTITLES[locale] ?? SUBTITLES.en}
         </p>
 
         {/* Divider */}
@@ -141,10 +151,10 @@ export default function PresentationPage() {
           marginBottom: 'clamp(28px, 6vh, 56px)',
         }}>
           {[
-            { n: '14', label: 'Слайдов' },
-            { n: '42', label: 'Страны' },
-            { n: '200+', label: 'Юрт' },
-            { n: '5', label: 'Языков' },
+            { n: '14', label: 'Slides' },
+            { n: '42', label: 'Countries' },
+            { n: '200+', label: 'Yurts Built' },
+            { n: '5', label: 'Languages' },
           ].map(s => (
             <div key={s.n} style={{ textAlign: 'center' }}>
               <div style={{ fontFamily: 'EB Garamond, serif', fontStyle: 'italic', fontSize: 'clamp(28px, 4vw, 44px)', color: 'rgba(201,168,110,0.85)', lineHeight: 1 }}>{s.n}</div>
@@ -178,7 +188,7 @@ export default function PresentationPage() {
             e.currentTarget.style.background = 'transparent'
           }}
         >
-          Открыть презентацию
+          View Presentation
         </button>
 
         <p style={{
@@ -186,7 +196,7 @@ export default function PresentationPage() {
           color: 'rgba(255,255,255,0.15)', marginTop: '20px',
           letterSpacing: '0.08em',
         }}>
-          ← → навигация · скролл · свайп
+          ← → navigate · scroll · swipe
         </p>
       </div>
 

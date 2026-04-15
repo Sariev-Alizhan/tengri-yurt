@@ -66,9 +66,8 @@ export function FooterSection({
               {[
                 { href: '/catalog', label: 'Yurt Catalog' },
                 { href: '/hammam', label: 'Yurt Hammam' },
-                { href: '/quiz', label: 'Knowledge Quiz' },
+                { href: '/quiz', label: quizLink ?? 'Knowledge Quiz' },
                 { href: '/news', label: 'Press & Stories' },
-                { href: '/presentation', label: 'Presentation' },
               ].map(l => (
                 <Link key={l.href} href={l.href as any}
                   className="font-inter text-white/60 hover:text-white transition-colors text-sm">

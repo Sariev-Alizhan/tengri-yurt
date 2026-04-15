@@ -374,7 +374,10 @@
     "rentContinueShopping": "واصل التصفّح",
     "rentQuantity": "الكمية",
     "rentUnit": "وحدة",
-    "rentLineBadge": "إيجار"
+    "rentLineBadge": "إيجار",
+    "trustDelivery": "✦ توصيل عالمي",
+    "trustAssembly": "✦ التركيب 2–4 أيام مشمول",
+    "trustWarranty": "✦ ضمان 14 سنة"
   },
   "order": {
     "title": "أرسل استفسارك",

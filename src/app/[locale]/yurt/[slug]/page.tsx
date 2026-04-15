@@ -426,9 +426,9 @@ export default async function YurtDetailPage({
                 display: 'flex', flexDirection: 'column', gap: '8px',
               }}>
                 {[
-                  '✦ Worldwide delivery',
-                  '✦ 2–4 day assembly included',
-                  '✦ 14-year warranty',
+                  t('trustDelivery'),
+                  t('trustAssembly'),
+                  t('trustWarranty'),
                 ].map(s => (
                   <p key={s} style={{
                     fontFamily: 'Inter, sans-serif', fontSize: '11px',
@@ -466,6 +466,9 @@ export default async function YurtDetailPage({
         followLabel={tFooter('follow')}
         address={tFooter('address')}
         copyright={tFooter('copyright')}
+        contactWhatsApp={tFooter('contactWhatsApp')}
+        trustBadges={tFooter('trustBadges')}
+        quizLink={tFooter('quizLink')}
       />
     </>
   );

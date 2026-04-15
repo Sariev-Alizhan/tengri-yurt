@@ -176,7 +176,7 @@ function generatePDF(params: {
 
   <div class="divider"></div>
   <div class="footer">
-    tengri-camp.kz · info@tengri-camp.kz · +7 747 777 78 88 · Almaty, Kazakhstan
+    Tengri-Yurt.kz · info@tengri-camp.kz · +7 747 777 78 88 · Almaty, Kazakhstan
   </div>
 </body>
 </html>`;

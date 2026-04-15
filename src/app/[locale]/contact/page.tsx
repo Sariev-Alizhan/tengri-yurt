@@ -258,6 +258,9 @@ export default async function ContactPage() {
         followLabel={tFooter('follow')}
         address={tFooter('address')}
         copyright={tFooter('copyright')}
+        contactWhatsApp={tFooter('contactWhatsApp')}
+        trustBadges={tFooter('trustBadges')}
+        quizLink={tFooter('quizLink')}
       />
     </>
   )

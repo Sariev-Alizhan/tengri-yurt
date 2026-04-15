@@ -136,7 +136,7 @@ export function CartPageClient({
             </p>
             <Link
               href="/cart/checkout"
-              className="w-full sm:w-auto inline-block border border-white/80 text-white py-3 px-6 sm:px-8 uppercase font-inter text-sm font-medium tracking-widest hover:bg-white hover:text-[#7a6a54] transition-all min-h-[48px] flex items-center justify-center touch-manipulation "
+              className="w-full sm:w-auto border border-white/80 text-white py-3 px-6 sm:px-8 uppercase font-inter text-sm font-medium tracking-widest hover:bg-white hover:text-[#7a6a54] transition-all min-h-[48px] flex items-center justify-center touch-manipulation"
             >
               {translations.checkout}
             </Link>

@@ -119,7 +119,7 @@ export async function GET(req: NextRequest) {
           letterSpacing: '0.15em',
           display: 'flex',
         }}>
-          tengri-camp.kz
+          Tengri-Yurt.kz
         </div>
       </div>
     ),

@@ -374,7 +374,10 @@
     "rentContinueShopping": "Продолжить выбор",
     "rentQuantity": "Количество",
     "rentUnit": "шт.",
-    "rentLineBadge": "Аренда"
+    "rentLineBadge": "Аренда",
+    "trustDelivery": "✦ Доставка по всему миру",
+    "trustAssembly": "✦ Монтаж 2–4 дня включён",
+    "trustWarranty": "✦ Гарантия 14 лет"
   },
   "order": {
     "title": "Оставить заявку",

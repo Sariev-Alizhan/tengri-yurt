@@ -51,7 +51,7 @@ Total:         ~${d.total_days} days from confirmation
 
 Thank you for your interest.
 
-Tengri Yurt | tengri-camp.kz
+Tengri Yurt | Tengri-Yurt.kz
 `.trim(),
   },
   ru: {
@@ -75,7 +75,7 @@ Tengri Yurt | tengri-camp.kz
 
 Спасибо за ваш интерес.
 
-Tengri Yurt | tengri-camp.kz
+Tengri Yurt | Tengri-Yurt.kz
 `.trim(),
   },
   kk: {
@@ -99,7 +99,7 @@ ${d.delivery_country} жеткізу: ${d.estimated_delivery_days} күн
 
 Қызығушылығыңызға рахмет.
 
-Tengri Yurt | tengri-camp.kz
+Tengri Yurt | Tengri-Yurt.kz
 `.trim(),
   },
   zh: {
@@ -123,7 +123,7 @@ ${d.buyer_name}，您好！
 
 感谢您的关注。
 
-Tengri Yurt | tengri-camp.kz
+Tengri Yurt | Tengri-Yurt.kz
 `.trim(),
   },
 };
@@ -217,7 +217,7 @@ ${data.old_status} → ${data.new_status}
   body += `
 Track your order: ${data.order_tracking_url}
 
-Tengri Yurt
+Tengri Yurt | Tengri-Yurt.kz
 `;
 
   if (!canSend()) return;

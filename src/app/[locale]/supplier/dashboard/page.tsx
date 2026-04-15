@@ -50,6 +50,7 @@ export default async function DashboardPage({
   const supplierId = (supplier as { id: string }).id
   const supplierName = (supplier as { company_name: string }).company_name || user.email || 'Supplier'
   const isApproved = !!(supplier as { is_approved?: boolean }).is_approved
+  const isAdmin = user.email === 'admin@tengri-yurt.kz'
 
   // ── Fetch all orders (for analytics) ──────────────────────────────────────
   type RawOrder = {
@@ -186,6 +187,7 @@ export default async function DashboardPage({
       isApproved={isApproved}
       totalYurts={totalYurts}
       locale={locale}
+      isAdmin={isAdmin}
     />
   )
 }

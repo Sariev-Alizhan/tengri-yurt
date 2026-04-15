@@ -374,7 +374,10 @@
     "rentContinueShopping": "Таңдауды жалғастыру",
     "rentQuantity": "Саны",
     "rentUnit": "дана",
-    "rentLineBadge": "Жалға алу"
+    "rentLineBadge": "Жалға алу",
+    "trustDelivery": "✦ Дүниежүзілік жеткізу",
+    "trustAssembly": "✦ 2–4 күндік монтаж кіреді",
+    "trustWarranty": "✦ 14 жылдық кепілдік"
   },
   "order": {
     "title": "Өтінім қалдыру",

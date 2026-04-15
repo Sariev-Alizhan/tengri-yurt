@@ -862,25 +862,6 @@ function PublicNavbar() {
           Press
         </Link>
 
-        <Link href="/presentation"
-          onClick={() => setMenuOpen(false)}
-          style={{
-            fontFamily: 'Inter, sans-serif',
-            fontSize: 'clamp(11px, 2.5vw, 12px)',
-            color: 'rgba(201,168,110,0.75)',
-            textDecoration: 'none',
-            letterSpacing: '0.15em',
-            textTransform: 'uppercase',
-            padding: 'clamp(12px, 3vw, 16px)',
-            minHeight: '44px',
-            display: 'inline-flex',
-            alignItems: 'center',
-            gap: '8px',
-          }}>
-          <span style={{ fontSize: '12px' }}>▶</span>
-          Presentation
-        </Link>
-
         <Link href="/supplier/dashboard"
           onClick={() => setMenuOpen(false)}
           style={{

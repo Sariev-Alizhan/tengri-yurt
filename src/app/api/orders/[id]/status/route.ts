@@ -29,19 +29,43 @@ export async function PATCH(
     return NextResponse.json({ error: 'Invalid status' }, { status: 400 });
   }
   const supabase = createServiceRoleClient();
+
+  // Fetch existing order to capture old status and verify supplier ownership
+  const { data: existing, error: fetchErr } = await (supabase as any)
+    .from('orders')
+    .select('id, order_number, buyer_email, buyer_name, status, supplier_id')
+    .eq('id', id)
+    .single();
+
+  if (fetchErr || !existing) {
+    return NextResponse.json({ error: 'Order not found' }, { status: 404 });
+  }
+
+  // Security: verify the authenticated user owns this supplier
+  const { data: ownSupplier } = await authClient
+    .from('suppliers')
+    .select('id')
+    .eq('user_id', user.id)
+    .single();
+
+  if (!ownSupplier || (ownSupplier as { id: string }).id !== (existing as any).supplier_id) {
+    return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+  }
+
+  const oldStatus = (existing as any).status as OrderStatus;
+
   const { data, error } = await (supabase as any)
     .from('orders')
     .update({ status: newStatus })
     .eq('id', id)
-    .select('id, order_number, buyer_email, buyer_name, status')
+    .select('id')
     .single();
 
   if (error || !data) {
-    return NextResponse.json({ error: error?.message ?? 'Order not found' }, { status: 404 });
+    return NextResponse.json({ error: error?.message ?? 'Update failed' }, { status: 500 });
   }
-  
-  const order = data as any;
-  const oldStatus = order.status as OrderStatus;
+
+  const order = existing as any;
   const orderTrackingUrl = `${BASE_URL}/account/orders`;
   let deliveryDate: string | undefined;
   if (newStatus === 'shipped') {

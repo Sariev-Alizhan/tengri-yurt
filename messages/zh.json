@@ -374,7 +374,10 @@
     "rentContinueShopping": "继续浏览",
     "rentQuantity": "数量",
     "rentUnit": "顶",
-    "rentLineBadge": "租赁"
+    "rentLineBadge": "租赁",
+    "trustDelivery": "✦ 全球配送",
+    "trustAssembly": "✦ 含2–4天安装服务",
+    "trustWarranty": "✦ 14年质保"
   },
   "order": {
     "title": "提交询价",

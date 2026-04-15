@@ -58,7 +58,6 @@ export async function POST(request: Request) {
     const accessoryItems = items.filter(
       (i): i is Extract<CartItem, { type: 'accessory' }> => i.type === 'accessory'
     )
-    const usedAccessoryIds = new Set<string>()
 
     for (const yurtItem of yurtItems) {
       const yurtId = (yurtItem as { yurtId?: string }).yurtId ?? yurtItem.id
@@ -227,17 +226,16 @@ export async function POST(request: Request) {
       }
     }
 
-    const remainingAccessories = accessoryItems.filter((a) => !usedAccessoryIds.has(a.id))
-    if (remainingAccessories.length > 0) {
+    if (accessoryItems.length > 0) {
       const orderNumber = await getNextOrderNumber()
-      const totalUsd = remainingAccessories.reduce(
+      const totalUsd = accessoryItems.reduce(
         (s, a) => s + (a.price_usd ?? 0) * a.quantity,
         0
       )
-      const firstSupplierId = remainingAccessories[0].supplier_id
+      const firstSupplierId = accessoryItems[0].supplier_id
       const accOrderOptions: Record<string, unknown> = {
         logistics: { method: 'air' },
-        selectedAccessories: remainingAccessories.map((a) => a.name),
+        selectedAccessories: accessoryItems.map((a) => a.name),
       }
       if (deliveryAddress || deliveryPostalCode || deliveryNotes) {
         accOrderOptions.delivery = {
@@ -259,7 +257,7 @@ export async function POST(request: Request) {
           delivery_country: deliveryCountry,
           delivery_city: deliveryCity ?? null,
           delivery_address: deliveryAddress ?? null,
-          quantity: remainingAccessories.reduce((s, a) => s + a.quantity, 0),
+          quantity: accessoryItems.reduce((s, a) => s + a.quantity, 0),
           message: message || null,
           order_options: accOrderOptions,
           unit_price_usd: totalUsd,
@@ -276,7 +274,7 @@ export async function POST(request: Request) {
         .single()
 
       if (!accOrderErr && order) {
-        for (const a of remainingAccessories) {
+        for (const a of accessoryItems) {
           await (supabase as any).from('order_items').insert({
             order_id: order.id,
             item_type: 'accessory',

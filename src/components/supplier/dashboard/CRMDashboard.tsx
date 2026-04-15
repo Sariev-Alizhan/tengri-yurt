@@ -61,6 +61,7 @@ interface Props {
   isApproved: boolean
   totalYurts: number
   locale: string
+  isAdmin?: boolean
 }
 
 // ── Helpers ──────────────────────────────────────────────────────────────────
@@ -182,7 +183,7 @@ function MiniDonut({ slices }: { slices: { value: number; color: string }[] }) {
 
 function Card({ children, style }: { children: React.ReactNode; style?: React.CSSProperties }) {
   return (
-    <div style={{
+    <div className="crm-card" style={{
       background: 'var(--sp-surface)',
       border: '1px solid var(--sp-border)',
       borderRadius: '12px',
@@ -210,7 +211,7 @@ function CardTitle({ children }: { children: React.ReactNode }) {
 
 export function CRMDashboard({
   orders, stats, monthly, countries, products,
-  supplierName, isApproved, totalYurts,
+  supplierName, isApproved, totalYurts, isAdmin,
 }: Props) {
   const [activeChart, setActiveChart] = useState<'revenue' | 'orders'>('revenue')
   const [statusFilter, setStatusFilter] = useState<string>('all')
@@ -532,7 +533,7 @@ export function CRMDashboard({
       </Card>
 
       {/* ── Quick Actions ── */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '10px', marginBottom: '8px' }} className="crm-actions-grid">
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '10px', marginBottom: '16px' }} className="crm-actions-grid">
         {[
           { href: '/supplier/dashboard/yurts/new', label: 'Add Yurt', icon: '+' },
           { href: '/supplier/dashboard/orders', label: 'All Orders', icon: '◎' },
@@ -553,6 +554,77 @@ export function CRMDashboard({
         ))}
       </div>
 
+      {/* ── Admin: Presentation Card ── */}
+      {isAdmin && (
+        <div style={{
+          position: 'relative', overflow: 'hidden',
+          borderRadius: '12px', marginBottom: '8px',
+          border: '1px solid rgba(201,168,110,0.25)',
+          background: 'linear-gradient(135deg, rgba(201,168,110,0.07) 0%, rgba(160,130,80,0.04) 50%, rgba(26,21,16,0.8) 100%)',
+        }}>
+          {/* Decorative top accent */}
+          <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '1px', background: 'linear-gradient(90deg, transparent, rgba(201,168,110,0.6), transparent)' }} />
+          {/* Decorative glow */}
+          <div style={{ position: 'absolute', top: '-40px', right: '-40px', width: '120px', height: '120px', background: 'radial-gradient(circle, rgba(201,168,110,0.08) 0%, transparent 70%)', pointerEvents: 'none' }} />
+
+          <div style={{ padding: '24px 28px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '20px', flexWrap: 'wrap' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '16px', flex: 1, minWidth: '200px' }}>
+              {/* Icon */}
+              <div style={{
+                width: '44px', height: '44px', borderRadius: '10px', flexShrink: 0,
+                background: 'rgba(201,168,110,0.1)', border: '1px solid rgba(201,168,110,0.2)',
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+              }}>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="rgba(201,168,110,0.85)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                  <rect x="2" y="3" width="20" height="14" rx="2"/>
+                  <path d="M8 21h8M12 17v4"/>
+                </svg>
+              </div>
+              <div>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '3px' }}>
+                  <p style={{ fontFamily: 'EB Garamond, serif', fontSize: '18px', color: 'rgba(201,168,110,0.95)', margin: 0, fontWeight: 400 }}>
+                    Platform Presentation
+                  </p>
+                  <span style={{
+                    fontFamily: 'Inter, sans-serif', fontSize: '8px', fontWeight: 700,
+                    letterSpacing: '0.12em', textTransform: 'uppercase',
+                    padding: '2px 6px', borderRadius: '3px',
+                    background: 'rgba(201,168,110,0.12)', color: 'rgba(201,168,110,0.7)',
+                    border: '1px solid rgba(201,168,110,0.2)',
+                  }}>
+                    Admin
+                  </span>
+                </div>
+                <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '11px', color: 'var(--sp-text-3)', margin: 0, lineHeight: 1.5 }}>
+                  Full overview of Tengri Yurt platform — share with partners & investors
+                </p>
+              </div>
+            </div>
+            <Link href="/presentation" style={{
+              display: 'inline-flex', alignItems: 'center', gap: '8px',
+              padding: '9px 20px',
+              background: 'rgba(201,168,110,0.12)',
+              border: '1px solid rgba(201,168,110,0.3)',
+              borderRadius: '6px',
+              fontFamily: 'Inter, sans-serif', fontSize: '11px', fontWeight: 600,
+              letterSpacing: '0.08em', textTransform: 'uppercase',
+              color: 'rgba(201,168,110,0.9)',
+              textDecoration: 'none',
+              transition: 'all 0.15s',
+              whiteSpace: 'nowrap', flexShrink: 0,
+            }}
+              onMouseEnter={e => { e.currentTarget.style.background = 'rgba(201,168,110,0.2)'; e.currentTarget.style.borderColor = 'rgba(201,168,110,0.5)' }}
+              onMouseLeave={e => { e.currentTarget.style.background = 'rgba(201,168,110,0.12)'; e.currentTarget.style.borderColor = 'rgba(201,168,110,0.3)' }}
+            >
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+                <polygon points="3,2 10,6 3,10" fill="currentColor"/>
+              </svg>
+              Open Presentation
+            </Link>
+          </div>
+        </div>
+      )}
+
       <style dangerouslySetInnerHTML={{ __html: `
         .crm-order-row:hover td { background: rgba(255,255,255,0.025); }
         @media (max-width: 900px) {
@@ -560,12 +632,19 @@ export function CRMDashboard({
         }
         @media (max-width: 700px) {
           .crm-two-col { grid-template-columns: 1fr !important; }
-          .crm-actions-grid { grid-template-columns: 1fr !important; }
+          .crm-actions-grid { grid-template-columns: repeat(3, 1fr) !important; }
           .crm-orders-desktop { display: none !important; }
           .crm-orders-mobile { display: flex !important; }
         }
-        @media (max-width: 480px) {
-          .crm-kpi-grid { grid-template-columns: 1fr 1fr !important; }
+        @media (max-width: 520px) {
+          .crm-kpi-grid { grid-template-columns: 1fr 1fr !important; gap: 8px !important; }
+          .crm-actions-grid { grid-template-columns: 1fr !important; }
+          .crm-card { padding: 16px !important; }
+        }
+        @media (max-width: 393px) {
+          .crm-kpi-grid { grid-template-columns: 1fr 1fr !important; gap: 6px !important; }
+          .crm-kpi-card { padding: 12px 14px !important; }
+          .crm-kpi-value { font-size: 20px !important; }
         }
       `}} />
     </div>
@@ -576,15 +655,15 @@ export function CRMDashboard({
 
 function KPICard({ label, value, sub, color, highlight }: { label: string; value: string; sub: string; color: string; highlight?: boolean }) {
   return (
-    <div style={{
+    <div className="crm-kpi-card" style={{
       padding: '16px 18px', background: 'var(--sp-surface)',
       border: `1px solid ${highlight ? 'rgba(255,180,60,0.25)' : 'var(--sp-border)'}`,
       borderRadius: '10px', position: 'relative', overflow: 'hidden',
     }}>
       {highlight && <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '2px', background: 'linear-gradient(90deg, rgba(255,180,60,0.7), transparent)' }} />}
       <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '9px', fontWeight: 600, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--sp-text-3)', margin: '0 0 8px' }}>{label}</p>
-      <p style={{ fontFamily: 'EB Garamond, serif', fontSize: 'clamp(22px, 3.5vw, 30px)', color, fontWeight: 400, lineHeight: 1, margin: '0 0 5px' }}>{value}</p>
-      <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '10px', color: 'var(--sp-text-3)', margin: 0 }}>{sub}</p>
+      <p className="crm-kpi-value" style={{ fontFamily: 'EB Garamond, serif', fontSize: 'clamp(20px, 3.5vw, 30px)', color, fontWeight: 400, lineHeight: 1, margin: '0 0 5px' }}>{value}</p>
+      <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '10px', color: 'var(--sp-text-3)', margin: 0, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{sub}</p>
     </div>
   )
 }

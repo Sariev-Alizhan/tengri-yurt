@@ -41,7 +41,7 @@ export default async function SupplierDashboardLayout({
         style={{
           minHeight: 'calc(100vh - 56px)',
           overflowY: 'auto',
-          padding: 'clamp(24px, 4vw, 48px)',
+          padding: 'clamp(20px, 4vw, 48px)',
           paddingBottom: '88px',
           background: 'var(--sp-bg)',
           transition: 'margin-left 0.3s ease',
@@ -60,8 +60,15 @@ export default async function SupplierDashboardLayout({
         }
         @media (max-width: 767px) {
           .supplier-dashboard-main {
-            margin-left: 0;
-            padding-bottom: max(80px, env(safe-area-inset-bottom) + 70px) !important;
+            margin-left: 0 !important;
+            padding: 16px !important;
+            padding-bottom: calc(max(70px, env(safe-area-inset-bottom)) + 70px) !important;
+          }
+        }
+        @media (max-width: 393px) {
+          .supplier-dashboard-main {
+            padding: 12px !important;
+            padding-bottom: calc(max(70px, env(safe-area-inset-bottom)) + 70px) !important;
           }
         }
       `}} />
